@@ -1,0 +1,4 @@
+firstName,lastName,identifier,email,phone,employeeId,qualification,departmentId
+Hassan,Abdullahi,TCH/001,hassanabdullahi@greenfield.edu.ng,+2348012345680,TCH/001,B.Sc Mathematics,
+Edet,Bassey,TCH/002,edetbassey@greenfield.edu.ng,+2348012345681,TCH/002,B.Ed English,
+Aderibigbe,Ajayi,TCH/003,aderibigbeajayi@greenfield.edu.ng,+2348012345682,TCH/003,B.Sc Chemistry,
