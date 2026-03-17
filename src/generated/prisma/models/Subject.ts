@@ -29,6 +29,7 @@ export type SubjectMinAggregateOutputType = {
   tenantId: string | null
   name: string | null
   code: string | null
+  title: string | null
   description: string | null
   departmentId: string | null
 }
@@ -38,6 +39,7 @@ export type SubjectMaxAggregateOutputType = {
   tenantId: string | null
   name: string | null
   code: string | null
+  title: string | null
   description: string | null
   departmentId: string | null
 }
@@ -47,6 +49,7 @@ export type SubjectCountAggregateOutputType = {
   tenantId: number
   name: number
   code: number
+  title: number
   description: number
   departmentId: number
   _all: number
@@ -58,6 +61,7 @@ export type SubjectMinAggregateInputType = {
   tenantId?: true
   name?: true
   code?: true
+  title?: true
   description?: true
   departmentId?: true
 }
@@ -67,6 +71,7 @@ export type SubjectMaxAggregateInputType = {
   tenantId?: true
   name?: true
   code?: true
+  title?: true
   description?: true
   departmentId?: true
 }
@@ -76,6 +81,7 @@ export type SubjectCountAggregateInputType = {
   tenantId?: true
   name?: true
   code?: true
+  title?: true
   description?: true
   departmentId?: true
   _all?: true
@@ -157,7 +163,8 @@ export type SubjectGroupByOutputType = {
   id: string
   tenantId: string
   name: string
-  code: string | null
+  code: string
+  title: string
   description: string | null
   departmentId: string | null
   _count: SubjectCountAggregateOutputType | null
@@ -187,7 +194,8 @@ export type SubjectWhereInput = {
   id?: Prisma.StringFilter<"Subject"> | string
   tenantId?: Prisma.StringFilter<"Subject"> | string
   name?: Prisma.StringFilter<"Subject"> | string
-  code?: Prisma.StringNullableFilter<"Subject"> | string | null
+  code?: Prisma.StringFilter<"Subject"> | string
+  title?: Prisma.StringFilter<"Subject"> | string
   description?: Prisma.StringNullableFilter<"Subject"> | string | null
   departmentId?: Prisma.StringNullableFilter<"Subject"> | string | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
@@ -199,7 +207,8 @@ export type SubjectOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  code?: Prisma.SortOrderInput | Prisma.SortOrder
+  code?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
@@ -209,25 +218,27 @@ export type SubjectOrderByWithRelationInput = {
 
 export type SubjectWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  tenantId_code?: Prisma.SubjectTenantIdCodeCompoundUniqueInput
+  tenantId_code_departmentId?: Prisma.SubjectTenantIdCodeDepartmentIdCompoundUniqueInput
   AND?: Prisma.SubjectWhereInput | Prisma.SubjectWhereInput[]
   OR?: Prisma.SubjectWhereInput[]
   NOT?: Prisma.SubjectWhereInput | Prisma.SubjectWhereInput[]
   tenantId?: Prisma.StringFilter<"Subject"> | string
   name?: Prisma.StringFilter<"Subject"> | string
-  code?: Prisma.StringNullableFilter<"Subject"> | string | null
+  code?: Prisma.StringFilter<"Subject"> | string
+  title?: Prisma.StringFilter<"Subject"> | string
   description?: Prisma.StringNullableFilter<"Subject"> | string | null
   departmentId?: Prisma.StringNullableFilter<"Subject"> | string | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   department?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.DepartmentWhereInput> | null
   classSubjects?: Prisma.ClassSubjectListRelationFilter
-}, "id" | "tenantId_code">
+}, "id" | "tenantId_code_departmentId">
 
 export type SubjectOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  code?: Prisma.SortOrderInput | Prisma.SortOrder
+  code?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SubjectCountOrderByAggregateInput
@@ -242,7 +253,8 @@ export type SubjectScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Subject"> | string
   tenantId?: Prisma.StringWithAggregatesFilter<"Subject"> | string
   name?: Prisma.StringWithAggregatesFilter<"Subject"> | string
-  code?: Prisma.StringNullableWithAggregatesFilter<"Subject"> | string | null
+  code?: Prisma.StringWithAggregatesFilter<"Subject"> | string
+  title?: Prisma.StringWithAggregatesFilter<"Subject"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Subject"> | string | null
   departmentId?: Prisma.StringNullableWithAggregatesFilter<"Subject"> | string | null
 }
@@ -250,7 +262,8 @@ export type SubjectScalarWhereWithAggregatesInput = {
 export type SubjectCreateInput = {
   id?: string
   name: string
-  code?: string | null
+  code: string
+  title: string
   description?: string | null
   tenant: Prisma.TenantCreateNestedOneWithoutSubjectsInput
   department?: Prisma.DepartmentCreateNestedOneWithoutSubjectsInput
@@ -261,7 +274,8 @@ export type SubjectUncheckedCreateInput = {
   id?: string
   tenantId: string
   name: string
-  code?: string | null
+  code: string
+  title: string
   description?: string | null
   departmentId?: string | null
   classSubjects?: Prisma.ClassSubjectUncheckedCreateNestedManyWithoutSubjectInput
@@ -270,7 +284,8 @@ export type SubjectUncheckedCreateInput = {
 export type SubjectUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutSubjectsNestedInput
   department?: Prisma.DepartmentUpdateOneWithoutSubjectsNestedInput
@@ -281,7 +296,8 @@ export type SubjectUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   classSubjects?: Prisma.ClassSubjectUncheckedUpdateManyWithoutSubjectNestedInput
@@ -291,7 +307,8 @@ export type SubjectCreateManyInput = {
   id?: string
   tenantId: string
   name: string
-  code?: string | null
+  code: string
+  title: string
   description?: string | null
   departmentId?: string | null
 }
@@ -299,7 +316,8 @@ export type SubjectCreateManyInput = {
 export type SubjectUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -307,7 +325,8 @@ export type SubjectUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -322,9 +341,10 @@ export type SubjectOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type SubjectTenantIdCodeCompoundUniqueInput = {
+export type SubjectTenantIdCodeDepartmentIdCompoundUniqueInput = {
   tenantId: string
   code: string
+  departmentId: string
 }
 
 export type SubjectCountOrderByAggregateInput = {
@@ -332,6 +352,7 @@ export type SubjectCountOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   code?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   departmentId?: Prisma.SortOrder
 }
@@ -341,6 +362,7 @@ export type SubjectMaxOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   code?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   departmentId?: Prisma.SortOrder
 }
@@ -350,6 +372,7 @@ export type SubjectMinOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   code?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   departmentId?: Prisma.SortOrder
 }
@@ -460,7 +483,8 @@ export type SubjectUpdateOneRequiredWithoutClassSubjectsNestedInput = {
 export type SubjectCreateWithoutTenantInput = {
   id?: string
   name: string
-  code?: string | null
+  code: string
+  title: string
   description?: string | null
   department?: Prisma.DepartmentCreateNestedOneWithoutSubjectsInput
   classSubjects?: Prisma.ClassSubjectCreateNestedManyWithoutSubjectInput
@@ -469,7 +493,8 @@ export type SubjectCreateWithoutTenantInput = {
 export type SubjectUncheckedCreateWithoutTenantInput = {
   id?: string
   name: string
-  code?: string | null
+  code: string
+  title: string
   description?: string | null
   departmentId?: string | null
   classSubjects?: Prisma.ClassSubjectUncheckedCreateNestedManyWithoutSubjectInput
@@ -508,7 +533,8 @@ export type SubjectScalarWhereInput = {
   id?: Prisma.StringFilter<"Subject"> | string
   tenantId?: Prisma.StringFilter<"Subject"> | string
   name?: Prisma.StringFilter<"Subject"> | string
-  code?: Prisma.StringNullableFilter<"Subject"> | string | null
+  code?: Prisma.StringFilter<"Subject"> | string
+  title?: Prisma.StringFilter<"Subject"> | string
   description?: Prisma.StringNullableFilter<"Subject"> | string | null
   departmentId?: Prisma.StringNullableFilter<"Subject"> | string | null
 }
@@ -516,7 +542,8 @@ export type SubjectScalarWhereInput = {
 export type SubjectCreateWithoutDepartmentInput = {
   id?: string
   name: string
-  code?: string | null
+  code: string
+  title: string
   description?: string | null
   tenant: Prisma.TenantCreateNestedOneWithoutSubjectsInput
   classSubjects?: Prisma.ClassSubjectCreateNestedManyWithoutSubjectInput
@@ -526,7 +553,8 @@ export type SubjectUncheckedCreateWithoutDepartmentInput = {
   id?: string
   tenantId: string
   name: string
-  code?: string | null
+  code: string
+  title: string
   description?: string | null
   classSubjects?: Prisma.ClassSubjectUncheckedCreateNestedManyWithoutSubjectInput
 }
@@ -560,7 +588,8 @@ export type SubjectUpdateManyWithWhereWithoutDepartmentInput = {
 export type SubjectCreateWithoutClassSubjectsInput = {
   id?: string
   name: string
-  code?: string | null
+  code: string
+  title: string
   description?: string | null
   tenant: Prisma.TenantCreateNestedOneWithoutSubjectsInput
   department?: Prisma.DepartmentCreateNestedOneWithoutSubjectsInput
@@ -570,7 +599,8 @@ export type SubjectUncheckedCreateWithoutClassSubjectsInput = {
   id?: string
   tenantId: string
   name: string
-  code?: string | null
+  code: string
+  title: string
   description?: string | null
   departmentId?: string | null
 }
@@ -594,7 +624,8 @@ export type SubjectUpdateToOneWithWhereWithoutClassSubjectsInput = {
 export type SubjectUpdateWithoutClassSubjectsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutSubjectsNestedInput
   department?: Prisma.DepartmentUpdateOneWithoutSubjectsNestedInput
@@ -604,7 +635,8 @@ export type SubjectUncheckedUpdateWithoutClassSubjectsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -612,7 +644,8 @@ export type SubjectUncheckedUpdateWithoutClassSubjectsInput = {
 export type SubjectCreateManyTenantInput = {
   id?: string
   name: string
-  code?: string | null
+  code: string
+  title: string
   description?: string | null
   departmentId?: string | null
 }
@@ -620,7 +653,8 @@ export type SubjectCreateManyTenantInput = {
 export type SubjectUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   department?: Prisma.DepartmentUpdateOneWithoutSubjectsNestedInput
   classSubjects?: Prisma.ClassSubjectUpdateManyWithoutSubjectNestedInput
@@ -629,7 +663,8 @@ export type SubjectUpdateWithoutTenantInput = {
 export type SubjectUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   classSubjects?: Prisma.ClassSubjectUncheckedUpdateManyWithoutSubjectNestedInput
@@ -638,7 +673,8 @@ export type SubjectUncheckedUpdateWithoutTenantInput = {
 export type SubjectUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -647,14 +683,16 @@ export type SubjectCreateManyDepartmentInput = {
   id?: string
   tenantId: string
   name: string
-  code?: string | null
+  code: string
+  title: string
   description?: string | null
 }
 
 export type SubjectUpdateWithoutDepartmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutSubjectsNestedInput
   classSubjects?: Prisma.ClassSubjectUpdateManyWithoutSubjectNestedInput
@@ -664,7 +702,8 @@ export type SubjectUncheckedUpdateWithoutDepartmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   classSubjects?: Prisma.ClassSubjectUncheckedUpdateManyWithoutSubjectNestedInput
 }
@@ -673,7 +712,8 @@ export type SubjectUncheckedUpdateManyWithoutDepartmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -713,6 +753,7 @@ export type SubjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   tenantId?: boolean
   name?: boolean
   code?: boolean
+  title?: boolean
   description?: boolean
   departmentId?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -726,6 +767,7 @@ export type SubjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   tenantId?: boolean
   name?: boolean
   code?: boolean
+  title?: boolean
   description?: boolean
   departmentId?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -737,6 +779,7 @@ export type SubjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   tenantId?: boolean
   name?: boolean
   code?: boolean
+  title?: boolean
   description?: boolean
   departmentId?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -748,11 +791,12 @@ export type SubjectSelectScalar = {
   tenantId?: boolean
   name?: boolean
   code?: boolean
+  title?: boolean
   description?: boolean
   departmentId?: boolean
 }
 
-export type SubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "name" | "code" | "description" | "departmentId", ExtArgs["result"]["subject"]>
+export type SubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "name" | "code" | "title" | "description" | "departmentId", ExtArgs["result"]["subject"]>
 export type SubjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   department?: boolean | Prisma.Subject$departmentArgs<ExtArgs>
@@ -779,7 +823,8 @@ export type $SubjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: string
     tenantId: string
     name: string
-    code: string | null
+    code: string
+    title: string
     description: string | null
     departmentId: string | null
   }, ExtArgs["result"]["subject"]>
@@ -1212,6 +1257,7 @@ export interface SubjectFieldRefs {
   readonly tenantId: Prisma.FieldRef<"Subject", 'String'>
   readonly name: Prisma.FieldRef<"Subject", 'String'>
   readonly code: Prisma.FieldRef<"Subject", 'String'>
+  readonly title: Prisma.FieldRef<"Subject", 'String'>
   readonly description: Prisma.FieldRef<"Subject", 'String'>
   readonly departmentId: Prisma.FieldRef<"Subject", 'String'>
 }

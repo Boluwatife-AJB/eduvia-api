@@ -2,17 +2,24 @@ import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateSubjectDto {
-  @ApiProperty({ example: 'Mathematics' })
+  @ApiProperty({ example: 'Introduction to Financial Accounting' })
+  @IsString()
+  @IsNotEmpty()
+  title: string;
+
+  @ApiProperty({ example: 'Accounting' })
   @IsString()
   @IsNotEmpty()
   name: string;
 
-  @ApiPropertyOptional({ example: 'MTS' })
+  @ApiProperty({ example: 'ACC 101' })
   @IsString()
-  @IsOptional()
-  code?: string;
+  @IsNotEmpty()
+  code: string;
 
-  @ApiPropertyOptional({ example: 'Core mathematics curriculum' })
+  @ApiPropertyOptional({
+    example: 'Covers basic principles of financial accounting',
+  })
   @IsString()
   @IsOptional()
   description?: string;
@@ -27,20 +34,25 @@ export class UpdateSubjectDto {
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-  name?: string;
+  title?: string;
 
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-  code?: string;
+  name?: string;
+
+  // @ApiPropertyOptional()
+  // @IsString()
+  // @IsOptional()
+  // code?: string;
 
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
   description?: string;
 
-  @ApiPropertyOptional()
-  @IsString()
-  @IsOptional()
-  department_id?: string;
+  // @ApiPropertyOptional()
+  // @IsString()
+  // @IsOptional()
+  // department_id?: string;
 }

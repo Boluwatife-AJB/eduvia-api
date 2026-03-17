@@ -104,3 +104,13 @@ export type Subject = Prisma.SubjectModel
  * 
  */
 export type ClassSubject = Prisma.ClassSubjectModel
+/**
+ * Model SubjectTeacher
+ * 
+ */
+export type SubjectTeacher = Prisma.SubjectTeacherModel
+/**
+ * Model StudentSubjectRegistration
+ * 
+ */
+export type StudentSubjectRegistration = Prisma.StudentSubjectRegistrationModel

@@ -63,7 +63,9 @@ export const ModelName = {
   Department: 'Department',
   Class: 'Class',
   Subject: 'Subject',
-  ClassSubject: 'ClassSubject'
+  ClassSubject: 'ClassSubject',
+  SubjectTeacher: 'SubjectTeacher',
+  StudentSubjectRegistration: 'StudentSubjectRegistration'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -157,8 +159,7 @@ export const TeacherProfileScalarFieldEnum = {
   employeeId: 'employeeId',
   departmentId: 'departmentId',
   qualification: 'qualification',
-  dateJoined: 'dateJoined',
-  subjectIds: 'subjectIds'
+  dateJoined: 'dateJoined'
 } as const
 
 export type TeacherProfileScalarFieldEnum = (typeof TeacherProfileScalarFieldEnum)[keyof typeof TeacherProfileScalarFieldEnum]
@@ -247,6 +248,7 @@ export const SubjectScalarFieldEnum = {
   tenantId: 'tenantId',
   name: 'name',
   code: 'code',
+  title: 'title',
   description: 'description',
   departmentId: 'departmentId'
 } as const
@@ -259,10 +261,32 @@ export const ClassSubjectScalarFieldEnum = {
   tenantId: 'tenantId',
   classId: 'classId',
   subjectId: 'subjectId',
-  teacherId: 'teacherId'
+  subjectType: 'subjectType'
 } as const
 
 export type ClassSubjectScalarFieldEnum = (typeof ClassSubjectScalarFieldEnum)[keyof typeof ClassSubjectScalarFieldEnum]
+
+
+export const SubjectTeacherScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  classSubjectId: 'classSubjectId',
+  teacherId: 'teacherId'
+} as const
+
+export type SubjectTeacherScalarFieldEnum = (typeof SubjectTeacherScalarFieldEnum)[keyof typeof SubjectTeacherScalarFieldEnum]
+
+
+export const StudentSubjectRegistrationScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  studentId: 'studentId',
+  classSubjectId: 'classSubjectId',
+  termId: 'termId',
+  registrationDate: 'registrationDate'
+} as const
+
+export type StudentSubjectRegistrationScalarFieldEnum = (typeof StudentSubjectRegistrationScalarFieldEnum)[keyof typeof StudentSubjectRegistrationScalarFieldEnum]
 
 
 export const SortOrder = {

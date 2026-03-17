@@ -52,7 +52,6 @@ export type TeacherProfileCountAggregateOutputType = {
   departmentId: number
   qualification: number
   dateJoined: number
-  subjectIds: number
   _all: number
 }
 
@@ -85,7 +84,6 @@ export type TeacherProfileCountAggregateInputType = {
   departmentId?: true
   qualification?: true
   dateJoined?: true
-  subjectIds?: true
   _all?: true
 }
 
@@ -169,7 +167,6 @@ export type TeacherProfileGroupByOutputType = {
   departmentId: string | null
   qualification: string | null
   dateJoined: Date | null
-  subjectIds: string[]
   _count: TeacherProfileCountAggregateOutputType | null
   _min: TeacherProfileMinAggregateOutputType | null
   _max: TeacherProfileMaxAggregateOutputType | null
@@ -201,7 +198,6 @@ export type TeacherProfileWhereInput = {
   departmentId?: Prisma.StringNullableFilter<"TeacherProfile"> | string | null
   qualification?: Prisma.StringNullableFilter<"TeacherProfile"> | string | null
   dateJoined?: Prisma.DateTimeNullableFilter<"TeacherProfile"> | Date | string | null
-  subjectIds?: Prisma.StringNullableListFilter<"TeacherProfile">
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -213,7 +209,6 @@ export type TeacherProfileOrderByWithRelationInput = {
   departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   qualification?: Prisma.SortOrderInput | Prisma.SortOrder
   dateJoined?: Prisma.SortOrderInput | Prisma.SortOrder
-  subjectIds?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -228,7 +223,6 @@ export type TeacherProfileWhereUniqueInput = Prisma.AtLeast<{
   departmentId?: Prisma.StringNullableFilter<"TeacherProfile"> | string | null
   qualification?: Prisma.StringNullableFilter<"TeacherProfile"> | string | null
   dateJoined?: Prisma.DateTimeNullableFilter<"TeacherProfile"> | Date | string | null
-  subjectIds?: Prisma.StringNullableListFilter<"TeacherProfile">
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "userId" | "employeeId">
 
@@ -240,7 +234,6 @@ export type TeacherProfileOrderByWithAggregationInput = {
   departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   qualification?: Prisma.SortOrderInput | Prisma.SortOrder
   dateJoined?: Prisma.SortOrderInput | Prisma.SortOrder
-  subjectIds?: Prisma.SortOrder
   _count?: Prisma.TeacherProfileCountOrderByAggregateInput
   _max?: Prisma.TeacherProfileMaxOrderByAggregateInput
   _min?: Prisma.TeacherProfileMinOrderByAggregateInput
@@ -257,7 +250,6 @@ export type TeacherProfileScalarWhereWithAggregatesInput = {
   departmentId?: Prisma.StringNullableWithAggregatesFilter<"TeacherProfile"> | string | null
   qualification?: Prisma.StringNullableWithAggregatesFilter<"TeacherProfile"> | string | null
   dateJoined?: Prisma.DateTimeNullableWithAggregatesFilter<"TeacherProfile"> | Date | string | null
-  subjectIds?: Prisma.StringNullableListFilter<"TeacherProfile">
 }
 
 export type TeacherProfileCreateInput = {
@@ -267,7 +259,6 @@ export type TeacherProfileCreateInput = {
   departmentId?: string | null
   qualification?: string | null
   dateJoined?: Date | string | null
-  subjectIds?: Prisma.TeacherProfileCreatesubjectIdsInput | string[]
   user: Prisma.UserCreateNestedOneWithoutTeacherProfileInput
 }
 
@@ -279,7 +270,6 @@ export type TeacherProfileUncheckedCreateInput = {
   departmentId?: string | null
   qualification?: string | null
   dateJoined?: Date | string | null
-  subjectIds?: Prisma.TeacherProfileCreatesubjectIdsInput | string[]
 }
 
 export type TeacherProfileUpdateInput = {
@@ -289,7 +279,6 @@ export type TeacherProfileUpdateInput = {
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subjectIds?: Prisma.TeacherProfileUpdatesubjectIdsInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutTeacherProfileNestedInput
 }
 
@@ -301,7 +290,6 @@ export type TeacherProfileUncheckedUpdateInput = {
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subjectIds?: Prisma.TeacherProfileUpdatesubjectIdsInput | string[]
 }
 
 export type TeacherProfileCreateManyInput = {
@@ -312,7 +300,6 @@ export type TeacherProfileCreateManyInput = {
   departmentId?: string | null
   qualification?: string | null
   dateJoined?: Date | string | null
-  subjectIds?: Prisma.TeacherProfileCreatesubjectIdsInput | string[]
 }
 
 export type TeacherProfileUpdateManyMutationInput = {
@@ -322,7 +309,6 @@ export type TeacherProfileUpdateManyMutationInput = {
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subjectIds?: Prisma.TeacherProfileUpdatesubjectIdsInput | string[]
 }
 
 export type TeacherProfileUncheckedUpdateManyInput = {
@@ -333,7 +319,6 @@ export type TeacherProfileUncheckedUpdateManyInput = {
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subjectIds?: Prisma.TeacherProfileUpdatesubjectIdsInput | string[]
 }
 
 export type TeacherProfileNullableScalarRelationFilter = {
@@ -349,7 +334,6 @@ export type TeacherProfileCountOrderByAggregateInput = {
   departmentId?: Prisma.SortOrder
   qualification?: Prisma.SortOrder
   dateJoined?: Prisma.SortOrder
-  subjectIds?: Prisma.SortOrder
 }
 
 export type TeacherProfileMaxOrderByAggregateInput = {
@@ -404,15 +388,6 @@ export type TeacherProfileUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TeacherProfileUpdateToOneWithWhereWithoutUserInput, Prisma.TeacherProfileUpdateWithoutUserInput>, Prisma.TeacherProfileUncheckedUpdateWithoutUserInput>
 }
 
-export type TeacherProfileCreatesubjectIdsInput = {
-  set: string[]
-}
-
-export type TeacherProfileUpdatesubjectIdsInput = {
-  set?: string[]
-  push?: string | string[]
-}
-
 export type TeacherProfileCreateWithoutUserInput = {
   id?: string
   tenantId: string
@@ -420,7 +395,6 @@ export type TeacherProfileCreateWithoutUserInput = {
   departmentId?: string | null
   qualification?: string | null
   dateJoined?: Date | string | null
-  subjectIds?: Prisma.TeacherProfileCreatesubjectIdsInput | string[]
 }
 
 export type TeacherProfileUncheckedCreateWithoutUserInput = {
@@ -430,7 +404,6 @@ export type TeacherProfileUncheckedCreateWithoutUserInput = {
   departmentId?: string | null
   qualification?: string | null
   dateJoined?: Date | string | null
-  subjectIds?: Prisma.TeacherProfileCreatesubjectIdsInput | string[]
 }
 
 export type TeacherProfileCreateOrConnectWithoutUserInput = {
@@ -456,7 +429,6 @@ export type TeacherProfileUpdateWithoutUserInput = {
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subjectIds?: Prisma.TeacherProfileUpdatesubjectIdsInput | string[]
 }
 
 export type TeacherProfileUncheckedUpdateWithoutUserInput = {
@@ -466,7 +438,6 @@ export type TeacherProfileUncheckedUpdateWithoutUserInput = {
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  subjectIds?: Prisma.TeacherProfileUpdatesubjectIdsInput | string[]
 }
 
 
@@ -479,7 +450,6 @@ export type TeacherProfileSelect<ExtArgs extends runtime.Types.Extensions.Intern
   departmentId?: boolean
   qualification?: boolean
   dateJoined?: boolean
-  subjectIds?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teacherProfile"]>
 
@@ -491,7 +461,6 @@ export type TeacherProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   departmentId?: boolean
   qualification?: boolean
   dateJoined?: boolean
-  subjectIds?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teacherProfile"]>
 
@@ -503,7 +472,6 @@ export type TeacherProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   departmentId?: boolean
   qualification?: boolean
   dateJoined?: boolean
-  subjectIds?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teacherProfile"]>
 
@@ -515,10 +483,9 @@ export type TeacherProfileSelectScalar = {
   departmentId?: boolean
   qualification?: boolean
   dateJoined?: boolean
-  subjectIds?: boolean
 }
 
-export type TeacherProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tenantId" | "employeeId" | "departmentId" | "qualification" | "dateJoined" | "subjectIds", ExtArgs["result"]["teacherProfile"]>
+export type TeacherProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tenantId" | "employeeId" | "departmentId" | "qualification" | "dateJoined", ExtArgs["result"]["teacherProfile"]>
 export type TeacherProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -542,7 +509,6 @@ export type $TeacherProfilePayload<ExtArgs extends runtime.Types.Extensions.Inte
     departmentId: string | null
     qualification: string | null
     dateJoined: Date | null
-    subjectIds: string[]
   }, ExtArgs["result"]["teacherProfile"]>
   composites: {}
 }
@@ -974,7 +940,6 @@ export interface TeacherProfileFieldRefs {
   readonly departmentId: Prisma.FieldRef<"TeacherProfile", 'String'>
   readonly qualification: Prisma.FieldRef<"TeacherProfile", 'String'>
   readonly dateJoined: Prisma.FieldRef<"TeacherProfile", 'DateTime'>
-  readonly subjectIds: Prisma.FieldRef<"TeacherProfile", 'String[]'>
 }
     
 

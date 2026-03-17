@@ -125,4 +125,129 @@ export class CannotModifySelfException extends AppException {
   }
 }
 
-// TODO: School Setup Exception
+// School Setup Exception
+export class SubjectCodeTakenException extends AppException {
+  constructor(code: string) {
+    super({
+      code: ErrorCode.SUBJECT_CODE_TAKEN,
+      statusCode: HttpStatus.CONFLICT,
+      message: `A subject with code '${code}' already exists in this department.`,
+      action: 'Use a unique subject code within the department.',
+    });
+  }
+}
+
+// Teacher Wrong Department Exception
+export class TeacherWrongDepartmentException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.TEACHER_WRONG_DEPARTMENT,
+      statusCode: HttpStatus.BAD_REQUEST,
+      message:
+        'This teacher does not belong to the department this subject is assigned to.',
+      action: 'Only assign teachers from the same department as the subject.',
+    });
+  }
+}
+
+// Subject Already Assigned Exception
+export class SubjectAlreadyAssignedException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.SUBJECT_ALREADY_ASSIGNED,
+      statusCode: HttpStatus.CONFLICT,
+      message: 'This subject is already assigned to this class.',
+    });
+  }
+}
+
+// Subject Not Assigned Exception
+export class SubjectNotAssignedException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.SUBJECT_NOT_ASSIGNED,
+      statusCode: HttpStatus.NOT_FOUND,
+      message: 'This subject is not assigned to this class.',
+    });
+  }
+}
+
+// Active Term Required Exception
+export class ActiveTermRequiredException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.ACTIVE_TERM_REQUIRED,
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: 'No active term found.',
+    });
+  }
+}
+
+// Form Teacher Cannot Teach Own Class Exception
+// export class FormTeacherCannotTeachOwnClassException extends AppException {
+//   constructor() {
+//     super({
+//       code: ErrorCode.FORM_TEACHER_CANNOT_TEACH_OWN_CLASS,
+//       statusCode: HttpStatus.BAD_REQUEST,
+//       message:
+//         'A form teacher cannot be assigned to teach a subject in their own class.',
+//       action:
+//         'Assign a different teacher or assign this teacher to a subject in another class.',
+//     });
+//   }
+// }
+
+export class TeacherAlreadyAssignedToSubjectException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.TEACHER_ALREADY_ASSIGNED_TO_SUBJECT,
+      statusCode: HttpStatus.CONFLICT,
+      message:
+        'This teacher is already assigned to this subject in this class.',
+    });
+  }
+}
+
+export class CompulsorySubjectCannotDeregisterException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.COMPULSORY_SUBJECT_CANNOT_DEREGISTER,
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: 'Compulsory subjects cannot be deselected.',
+      action: 'Only elective subjects can be removed from your registration.',
+    });
+  }
+}
+
+export class SubjectRegistrationNotFoundException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.SUBJECT_REGISTRATION_NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
+      message: 'Subject registration not found.',
+    });
+  }
+}
+
+export class StudentNotInClassException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.STUDENT_NOT_IN_CLASS,
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: 'Student is not assigned to any class.',
+      action: 'Assign the student to a class before registering subjects.',
+    });
+  }
+}
+
+export class StudentAlreadyInClassException extends AppException {
+  constructor(className: string) {
+    super({
+      code: ErrorCode.STUDENT_ALREADY_IN_CLASS,
+      statusCode: HttpStatus.CONFLICT,
+      message: `Student is already assigned to class '${className}'.`,
+      action:
+        'Remove the student from their current class first, or use the transfer endpoint.',
+    });
+  }
+}

@@ -163,6 +163,7 @@ async function main() {
       tenantId: tenant.id,
       name: 'Mathematics',
       code: 'MTS',
+      title: 'Algebra',
       departmentId: sciencesDept.id,
     },
   });
@@ -175,6 +176,7 @@ async function main() {
       tenantId: tenant.id,
       name: 'English Language',
       code: 'ENG',
+      title: 'English Language',
       departmentId: artsDept.id,
     },
   });

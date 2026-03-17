@@ -54,3 +54,12 @@ export const TenantStatus = {
 } as const
 
 export type TenantStatus = (typeof TenantStatus)[keyof typeof TenantStatus]
+
+
+export const SubjectType = {
+  COMPULSORY: 'COMPULSORY',
+  ELECTIVE: 'ELECTIVE',
+  OPTIONAL: 'OPTIONAL'
+} as const
+
+export type SubjectType = (typeof SubjectType)[keyof typeof SubjectType]

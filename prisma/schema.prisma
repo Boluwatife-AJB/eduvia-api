@@ -86,8 +86,10 @@ model StudentProfile {
   admissionDate DateTime? @map("admission_date")
   dateOfBirth   DateTime? @map("date_of_birth")
   guardianIds   String[]  @default([]) @map("guardian_ids")
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  class         Class?    @relation(fields: [classId], references: [id])
+
+  user                        User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  class                       Class?                       @relation(fields: [classId], references: [id])
+  studentSubjectRegistrations StudentSubjectRegistration[]
 
   @@map("student_profiles")
 }
@@ -101,8 +103,9 @@ model TeacherProfile {
   departmentId  String?   @map("department_id")
   qualification String?   @map("qualification")
   dateJoined    DateTime? @map("date_joined")
-  subjectIds    String[]  @default([]) @map("subject_ids")
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // subjectIds    String[]  @default([]) @map("subject_ids")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("teacher_profiles")
 }
@@ -153,15 +156,16 @@ model AcademicSession {
 }
 
 model AcademicTerm {
-  id                String   @id @default(uuid())
-  tenantId          String   @map("tenant_id")
-  academicSessionId String   @map("academic_session_id")
-  name              String   @map("name")
-  startDate         DateTime @map("start_date")
-  endDate           DateTime @map("end_date")
-  isCurrent         Boolean  @default(false) @map("is_current")
-  createdAt         DateTime @default(now()) @map("created_at")
-  updatedAt         DateTime @updatedAt @map("updated_at")
+  id                   String                       @id @default(uuid())
+  tenantId             String                       @map("tenant_id")
+  academicSessionId    String                       @map("academic_session_id")
+  name                 String                       @map("name")
+  startDate            DateTime                     @map("start_date")
+  endDate              DateTime                     @map("end_date")
+  isCurrent            Boolean                      @default(false) @map("is_current")
+  createdAt            DateTime                     @default(now()) @map("created_at")
+  updatedAt            DateTime                     @updatedAt @map("updated_at")
+  subjectRegistrations StudentSubjectRegistration[]
 
   tenant          Tenant          @relation(fields: [tenantId], references: [id])
   academicSession AcademicSession @relation(fields: [academicSessionId], references: [id], onDelete: Cascade)
@@ -196,9 +200,9 @@ model Class {
   classTeacherId String? @map("class_teacher_id") // the teacher responsible for this class
 
   tenant        Tenant           @relation(fields: [tenantId], references: [id])
-  department    Department?      @relation(fields: [departmentId], references: [id])
+  department    Department?      @relation(fields: [departmentId], references: [id])  
   students      StudentProfile[]
-  classSubjects ClassSubject[] // subjects offered in this class
+  classSubjects ClassSubject[]    // subjects offered in this class
 
   @@unique([tenantId, name])
   @@map("classes")
@@ -209,7 +213,7 @@ model Subject {
   tenantId     String  @map("tenant_id")
   name         String
   code         String
-  title String
+  title        String
   description  String?
   departmentId String? @map("department_id")
 
@@ -217,24 +221,54 @@ model Subject {
   department    Department?    @relation(fields: [departmentId], references: [id])
   classSubjects ClassSubject[] // which classes offer this subject
 
-  @@unique([tenantId, code])
+  @@unique([tenantId, code, departmentId])
   @@map("subjects")
 }
 
 model ClassSubject {
-  id        String   @id @default(uuid())
-  tenantId  String   @map("tenant_id")
-  classId   String   @map("class_id")
-  subjectId String   @map("subject_id")
-  teacherId String?  @map("teacher_id")
+  id          String      @id @default(uuid())
+  tenantId    String      @map("tenant_id")
+  classId     String      @map("class_id")
+  subjectId   String      @map("subject_id")
+  subjectType SubjectType @default(COMPULSORY)
   // createdAt DateTime @default(now()) @map("created_at")
   // updatedAt DateTime @updatedAt @map("updated_at")
 
-  class   Class   @relation(fields: [classId], references: [id], onDelete: Cascade)
-  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  
+  class                       Class                        @relation(fields: [classId], references: [id], onDelete: Cascade)
+  subject                     Subject                      @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  teachers                    SubjectTeacher[]
+  studentSubjectRegistrations StudentSubjectRegistration[]
+
   @@unique([tenantId, classId, subjectId])
   @@map("class_subjects")
+}
+
+model SubjectTeacher {
+  id             String @id @default(uuid())
+  tenantId       String @map("tenant_id")
+  classSubjectId String @map("class_subject_id")
+  teacherId      String @map("teacher_id")
+
+  classSubject ClassSubject @relation(fields: [classSubjectId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, classSubjectId, teacherId])
+  @@map("subject_teachers")
+}
+
+model StudentSubjectRegistration {
+  id               String   @id @default(uuid())
+  tenantId         String   @map("tenant_id")
+  studentId        String   @map("student_id")
+  classSubjectId   String   @map("class_subject_id")
+  termId           String   @map("term_id")
+  registrationDate DateTime @default(now()) @map("registration_date")
+
+  student      StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  classSubject ClassSubject   @relation(fields: [classSubjectId], references: [id])
+  term         AcademicTerm   @relation(fields: [termId], references: [id])
+
+  @@unique([tenantId, studentId, classSubjectId, termId])
+  @@map("student_subject_registrations")
 }
 
 enum UserRole {
@@ -273,4 +307,10 @@ enum TenantStatus {
   ACTIVE
   SUSPENDED
   DELETED
+}
+
+enum SubjectType {
+  COMPULSORY
+  ELECTIVE
+  OPTIONAL
 }

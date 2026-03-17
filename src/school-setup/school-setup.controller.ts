@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import {
@@ -17,6 +18,7 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from 'src/generated/prisma/client';
 import {
@@ -25,14 +27,18 @@ import {
 } from './dto/academic-session.dto';
 import {
   AssignSubjectToClassDto,
-  AssignTeacherToClassSubjectDto,
+  AssignTeacherToSubjectDto,
   BulkAssignSubjectsDto,
+  BulkAssignTeachersDto,
+  RegisterSubjectsDto,
+  UpdateSubjectRegistrationDto,
 } from './dto/class-subject.dto';
 import { CreateClassDto, UpdateClassDto } from './dto/class.dto';
 import { CreateDepartmentDto, UpdateDepartmentDto } from './dto/department.dto';
 import { CreateSubjectDto, UpdateSubjectDto } from './dto/subject.dto';
 import { CreateTermDto, UpdateTermDto } from './dto/term.dto';
 import { SchoolSetupService } from './school-setup.service';
+import { AssignStudentToClassDto } from './dto/assign-student.dto';
 
 const ADMIN_ROLES = [
   UserRole.SCHOOL_OWNER,
@@ -47,6 +53,47 @@ const ADMIN_ROLES = [
 @Controller('school-setup')
 export class SchoolSetupController {
   constructor(private readonly service: SchoolSetupService) {}
+
+  // STUDENT SUBJECT REGISTRATION
+  @Post('subjects/register')
+  @Roles(UserRole.STUDENT)
+  @ApiOperation({
+    summary: 'Student registers their subjects for the current term',
+    description:
+      'Compulsory subjects are auto-included. Only elective IDs need to be submitted.',
+  })
+  registerSubjects(
+    @CurrentUser() user: { id: string },
+    @Body() dto: RegisterSubjectsDto,
+  ) {
+    return this.service.registerSubjectsForStudent(dto, user.id);
+  }
+
+  @Put('subjects/register')
+  @Roles(UserRole.STUDENT)
+  @ApiOperation({
+    summary: 'Update subject registration — replace elective selections',
+  })
+  updateRegistration(
+    @CurrentUser() user: { id: string },
+    @Body() dto: UpdateSubjectRegistrationDto,
+  ) {
+    return this.service.updateSubjectRegistration(dto, user.id);
+  }
+
+  @Get('subjects/register/me')
+  @Roles(UserRole.STUDENT)
+  @ApiOperation({ summary: 'View your current subject registration' })
+  getMyRegistration(@CurrentUser() user: { id: string }) {
+    return this.service.getStudentRegistration(user.id);
+  }
+
+  @Get('subjects/register/:studentId')
+  @Roles(...ADMIN_ROLES, UserRole.TEACHER)
+  @ApiOperation({ summary: 'View a specific student subject registration' })
+  getStudentRegistration(@Param('studentId') studentId: string) {
+    return this.service.getStudentRegistration(studentId);
+  }
 
   // Overview
   @Get('overview')
@@ -266,6 +313,17 @@ export class SchoolSetupController {
     return this.service.deleteClass(id);
   }
 
+  // Put student in class
+  @Post('classes/:classId/students')
+  @Roles(...ADMIN_ROLES)
+  @ApiOperation({ summary: 'Assign a single student to a class' })
+  assignStudent(
+    @Param('classId') classId: string,
+    @Body() dto: AssignStudentToClassDto,
+  ) {
+    return this.service.assignStudentToClass(classId, dto.student_user_id);
+  }
+
   // SUBJECTS
   // Create Subject
   @Post('subjects')
@@ -282,7 +340,6 @@ export class SchoolSetupController {
   @ApiOperation({
     summary: 'List all subjects, optionally filtered by department',
   })
-  @ApiQuery({ name: 'departmentId', required: false, example: '123' })
   getSubjects(@Query('departmentId') departmentId?: string) {
     return this.service.getSubjects(departmentId);
   }
@@ -301,7 +358,7 @@ export class SchoolSetupController {
   @Roles(...ADMIN_ROLES)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: 'Update a subject',
+    summary: 'Update a subject name, title, or description',
   })
   updateSubject(@Param('id') id: string, @Body() dto: UpdateSubjectDto) {
     return this.service.updateSubject(id, dto);
@@ -350,19 +407,19 @@ export class SchoolSetupController {
   }
 
   // Assign teacher to class
-  @Post('classes/:classId/teachers')
-  @Roles(...ADMIN_ROLES)
-  @HttpCode(HttpStatus.OK)
-  @ApiOperation({
-    summary: 'Assign a teacher to a subject in a specific class',
-  })
-  assignTeacherToClass(
-    @Param('classId') classId: string,
-    @Param('subjectId') subjectId: string,
-    @Body() dto: AssignTeacherToClassSubjectDto,
-  ) {
-    return this.service.assignTeacherToClassSubject(dto, classId, subjectId);
-  }
+  // @Post('classes/:classId/teachers')
+  // @Roles(...ADMIN_ROLES)
+  // @HttpCode(HttpStatus.OK)
+  // @ApiOperation({
+  //   summary: 'Assign a teacher to a subject in a specific class',
+  // })
+  // assignTeacherToClass(
+  //   @Param('classId') classId: string,
+  //   @Param('subjectId') subjectId: string,
+  //   @Body() dto: AssignTeacherToSubjectDto,
+  // ) {
+  //   return this.service.assignTeacherToClassSubject(dto, classId, subjectId);
+  // }
 
   // Remove Subject from Class
   @Delete('classes/:classId/subjects/:subjectId')
@@ -376,5 +433,58 @@ export class SchoolSetupController {
     @Param('subjectId') subjectId: string,
   ) {
     return this.service.removeSubjectFromClass(subjectId, classId);
+  }
+
+  // Assign teacher to subject
+  @Post('classes/:classId/subjects/:subjectId/teachers')
+  @Roles(...ADMIN_ROLES)
+  @ApiOperation({
+    summary: 'Assign a teacher to a subject in a specific class',
+  })
+  assignTeacher(
+    @Param('classId') classId: string,
+    @Param('subjectId') subjectId: string,
+    @Body() dto: AssignTeacherToSubjectDto,
+  ) {
+    return this.service.assignTeacherToClassSubject(
+      dto.teacher_id,
+      classId,
+      subjectId,
+    );
+  }
+
+  // Bulk assign teachers to subject
+  @Post('classes/:classId/subjects/:subjectId/teachers/bulk')
+  @Roles(...ADMIN_ROLES)
+  @ApiOperation({
+    summary: 'Bulk assign multiple teachers to a subject in a class',
+  })
+  bulkAssignTeachers(
+    @Param('classId') classId: string,
+    @Param('subjectId') subjectId: string,
+    @Body() dto: BulkAssignTeachersDto,
+  ) {
+    return this.service.bulkAssignTeachersToClassSubjects(
+      dto,
+      classId,
+      subjectId,
+    );
+  }
+
+  // Unassign teacher from subject
+  @Delete('classes/:classId/subjects/:subjectId/teachers/:teacherId')
+  @Roles(...ADMIN_ROLES)
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Remove a teacher from a subject in a class' })
+  removeTeacher(
+    @Param('classId') classId: string,
+    @Param('subjectId') subjectId: string,
+    @Param('teacherId') teacherId: string,
+  ) {
+    return this.service.removeTeacherFromClassSubject(
+      teacherId,
+      classId,
+      subjectId,
+    );
   }
 }

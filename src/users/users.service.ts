@@ -759,7 +759,6 @@ export class UsersService {
             tenantId,
             employeeId: resolved.employeeId ?? resolved.identifier,
             qualification: dto.qualification ?? null,
-            subjectIds: dto.subject_ids ?? [],
           },
         });
         break;
