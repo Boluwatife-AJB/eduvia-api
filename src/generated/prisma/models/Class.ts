@@ -36,32 +36,32 @@ export type ClassSumAggregateOutputType = {
 
 export type ClassMinAggregateOutputType = {
   id: string | null
-  tenantId: string | null
+  tenant_id: string | null
   name: string | null
   level: string | null
   capacity: number | null
-  departmentId: string | null
-  classTeacherId: string | null
+  department_id: string | null
+  class_teacher_id: string | null
 }
 
 export type ClassMaxAggregateOutputType = {
   id: string | null
-  tenantId: string | null
+  tenant_id: string | null
   name: string | null
   level: string | null
   capacity: number | null
-  departmentId: string | null
-  classTeacherId: string | null
+  department_id: string | null
+  class_teacher_id: string | null
 }
 
 export type ClassCountAggregateOutputType = {
   id: number
-  tenantId: number
+  tenant_id: number
   name: number
   level: number
   capacity: number
-  departmentId: number
-  classTeacherId: number
+  department_id: number
+  class_teacher_id: number
   _all: number
 }
 
@@ -76,32 +76,32 @@ export type ClassSumAggregateInputType = {
 
 export type ClassMinAggregateInputType = {
   id?: true
-  tenantId?: true
+  tenant_id?: true
   name?: true
   level?: true
   capacity?: true
-  departmentId?: true
-  classTeacherId?: true
+  department_id?: true
+  class_teacher_id?: true
 }
 
 export type ClassMaxAggregateInputType = {
   id?: true
-  tenantId?: true
+  tenant_id?: true
   name?: true
   level?: true
   capacity?: true
-  departmentId?: true
-  classTeacherId?: true
+  department_id?: true
+  class_teacher_id?: true
 }
 
 export type ClassCountAggregateInputType = {
   id?: true
-  tenantId?: true
+  tenant_id?: true
   name?: true
   level?: true
   capacity?: true
-  departmentId?: true
-  classTeacherId?: true
+  department_id?: true
+  class_teacher_id?: true
   _all?: true
 }
 
@@ -193,12 +193,12 @@ export type ClassGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type ClassGroupByOutputType = {
   id: string
-  tenantId: string
+  tenant_id: string
   name: string
   level: string
   capacity: number
-  departmentId: string | null
-  classTeacherId: string | null
+  department_id: string | null
+  class_teacher_id: string | null
   _count: ClassCountAggregateOutputType | null
   _avg: ClassAvgAggregateOutputType | null
   _sum: ClassSumAggregateOutputType | null
@@ -226,12 +226,12 @@ export type ClassWhereInput = {
   OR?: Prisma.ClassWhereInput[]
   NOT?: Prisma.ClassWhereInput | Prisma.ClassWhereInput[]
   id?: Prisma.StringFilter<"Class"> | string
-  tenantId?: Prisma.StringFilter<"Class"> | string
+  tenant_id?: Prisma.StringFilter<"Class"> | string
   name?: Prisma.StringFilter<"Class"> | string
   level?: Prisma.StringFilter<"Class"> | string
   capacity?: Prisma.IntFilter<"Class"> | number
-  departmentId?: Prisma.StringNullableFilter<"Class"> | string | null
-  classTeacherId?: Prisma.StringNullableFilter<"Class"> | string | null
+  department_id?: Prisma.StringNullableFilter<"Class"> | string | null
+  class_teacher_id?: Prisma.StringNullableFilter<"Class"> | string | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   department?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.DepartmentWhereInput> | null
   students?: Prisma.StudentProfileListRelationFilter
@@ -240,12 +240,12 @@ export type ClassWhereInput = {
 
 export type ClassOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   level?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
-  classTeacherId?: Prisma.SortOrderInput | Prisma.SortOrder
+  department_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  class_teacher_id?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
   department?: Prisma.DepartmentOrderByWithRelationInput
   students?: Prisma.StudentProfileOrderByRelationAggregateInput
@@ -254,30 +254,30 @@ export type ClassOrderByWithRelationInput = {
 
 export type ClassWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  tenantId_name?: Prisma.ClassTenantIdNameCompoundUniqueInput
+  tenant_id_name?: Prisma.ClassTenant_idNameCompoundUniqueInput
   AND?: Prisma.ClassWhereInput | Prisma.ClassWhereInput[]
   OR?: Prisma.ClassWhereInput[]
   NOT?: Prisma.ClassWhereInput | Prisma.ClassWhereInput[]
-  tenantId?: Prisma.StringFilter<"Class"> | string
+  tenant_id?: Prisma.StringFilter<"Class"> | string
   name?: Prisma.StringFilter<"Class"> | string
   level?: Prisma.StringFilter<"Class"> | string
   capacity?: Prisma.IntFilter<"Class"> | number
-  departmentId?: Prisma.StringNullableFilter<"Class"> | string | null
-  classTeacherId?: Prisma.StringNullableFilter<"Class"> | string | null
+  department_id?: Prisma.StringNullableFilter<"Class"> | string | null
+  class_teacher_id?: Prisma.StringNullableFilter<"Class"> | string | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   department?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.DepartmentWhereInput> | null
   students?: Prisma.StudentProfileListRelationFilter
   classSubjects?: Prisma.ClassSubjectListRelationFilter
-}, "id" | "tenantId_name">
+}, "id" | "tenant_id_name">
 
 export type ClassOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   level?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
-  classTeacherId?: Prisma.SortOrderInput | Prisma.SortOrder
+  department_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  class_teacher_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ClassCountOrderByAggregateInput
   _avg?: Prisma.ClassAvgOrderByAggregateInput
   _max?: Prisma.ClassMaxOrderByAggregateInput
@@ -290,12 +290,12 @@ export type ClassScalarWhereWithAggregatesInput = {
   OR?: Prisma.ClassScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ClassScalarWhereWithAggregatesInput | Prisma.ClassScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Class"> | string
-  tenantId?: Prisma.StringWithAggregatesFilter<"Class"> | string
+  tenant_id?: Prisma.StringWithAggregatesFilter<"Class"> | string
   name?: Prisma.StringWithAggregatesFilter<"Class"> | string
   level?: Prisma.StringWithAggregatesFilter<"Class"> | string
   capacity?: Prisma.IntWithAggregatesFilter<"Class"> | number
-  departmentId?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
-  classTeacherId?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
+  department_id?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
+  class_teacher_id?: Prisma.StringNullableWithAggregatesFilter<"Class"> | string | null
 }
 
 export type ClassCreateInput = {
@@ -303,7 +303,7 @@ export type ClassCreateInput = {
   name: string
   level: string
   capacity?: number
-  classTeacherId?: string | null
+  class_teacher_id?: string | null
   tenant: Prisma.TenantCreateNestedOneWithoutClassesInput
   department?: Prisma.DepartmentCreateNestedOneWithoutClassesInput
   students?: Prisma.StudentProfileCreateNestedManyWithoutClassInput
@@ -312,12 +312,12 @@ export type ClassCreateInput = {
 
 export type ClassUncheckedCreateInput = {
   id?: string
-  tenantId: string
+  tenant_id: string
   name: string
   level: string
   capacity?: number
-  departmentId?: string | null
-  classTeacherId?: string | null
+  department_id?: string | null
+  class_teacher_id?: string | null
   students?: Prisma.StudentProfileUncheckedCreateNestedManyWithoutClassInput
   classSubjects?: Prisma.ClassSubjectUncheckedCreateNestedManyWithoutClassInput
 }
@@ -327,7 +327,7 @@ export type ClassUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  classTeacherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutClassesNestedInput
   department?: Prisma.DepartmentUpdateOneWithoutClassesNestedInput
   students?: Prisma.StudentProfileUpdateManyWithoutClassNestedInput
@@ -336,24 +336,24 @@ export type ClassUpdateInput = {
 
 export type ClassUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  classTeacherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   students?: Prisma.StudentProfileUncheckedUpdateManyWithoutClassNestedInput
   classSubjects?: Prisma.ClassSubjectUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassCreateManyInput = {
   id?: string
-  tenantId: string
+  tenant_id: string
   name: string
   level: string
   capacity?: number
-  departmentId?: string | null
-  classTeacherId?: string | null
+  department_id?: string | null
+  class_teacher_id?: string | null
 }
 
 export type ClassUpdateManyMutationInput = {
@@ -361,17 +361,17 @@ export type ClassUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  classTeacherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ClassUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  classTeacherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ClassListRelationFilter = {
@@ -389,19 +389,19 @@ export type ClassNullableScalarRelationFilter = {
   isNot?: Prisma.ClassWhereInput | null
 }
 
-export type ClassTenantIdNameCompoundUniqueInput = {
-  tenantId: string
+export type ClassTenant_idNameCompoundUniqueInput = {
+  tenant_id: string
   name: string
 }
 
 export type ClassCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   level?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrder
-  classTeacherId?: Prisma.SortOrder
+  department_id?: Prisma.SortOrder
+  class_teacher_id?: Prisma.SortOrder
 }
 
 export type ClassAvgOrderByAggregateInput = {
@@ -410,22 +410,22 @@ export type ClassAvgOrderByAggregateInput = {
 
 export type ClassMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   level?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrder
-  classTeacherId?: Prisma.SortOrder
+  department_id?: Prisma.SortOrder
+  class_teacher_id?: Prisma.SortOrder
 }
 
 export type ClassMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   level?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrder
-  classTeacherId?: Prisma.SortOrder
+  department_id?: Prisma.SortOrder
+  class_teacher_id?: Prisma.SortOrder
 }
 
 export type ClassSumOrderByAggregateInput = {
@@ -564,7 +564,7 @@ export type ClassCreateWithoutTenantInput = {
   name: string
   level: string
   capacity?: number
-  classTeacherId?: string | null
+  class_teacher_id?: string | null
   department?: Prisma.DepartmentCreateNestedOneWithoutClassesInput
   students?: Prisma.StudentProfileCreateNestedManyWithoutClassInput
   classSubjects?: Prisma.ClassSubjectCreateNestedManyWithoutClassInput
@@ -575,8 +575,8 @@ export type ClassUncheckedCreateWithoutTenantInput = {
   name: string
   level: string
   capacity?: number
-  departmentId?: string | null
-  classTeacherId?: string | null
+  department_id?: string | null
+  class_teacher_id?: string | null
   students?: Prisma.StudentProfileUncheckedCreateNestedManyWithoutClassInput
   classSubjects?: Prisma.ClassSubjectUncheckedCreateNestedManyWithoutClassInput
 }
@@ -612,12 +612,12 @@ export type ClassScalarWhereInput = {
   OR?: Prisma.ClassScalarWhereInput[]
   NOT?: Prisma.ClassScalarWhereInput | Prisma.ClassScalarWhereInput[]
   id?: Prisma.StringFilter<"Class"> | string
-  tenantId?: Prisma.StringFilter<"Class"> | string
+  tenant_id?: Prisma.StringFilter<"Class"> | string
   name?: Prisma.StringFilter<"Class"> | string
   level?: Prisma.StringFilter<"Class"> | string
   capacity?: Prisma.IntFilter<"Class"> | number
-  departmentId?: Prisma.StringNullableFilter<"Class"> | string | null
-  classTeacherId?: Prisma.StringNullableFilter<"Class"> | string | null
+  department_id?: Prisma.StringNullableFilter<"Class"> | string | null
+  class_teacher_id?: Prisma.StringNullableFilter<"Class"> | string | null
 }
 
 export type ClassCreateWithoutStudentsInput = {
@@ -625,7 +625,7 @@ export type ClassCreateWithoutStudentsInput = {
   name: string
   level: string
   capacity?: number
-  classTeacherId?: string | null
+  class_teacher_id?: string | null
   tenant: Prisma.TenantCreateNestedOneWithoutClassesInput
   department?: Prisma.DepartmentCreateNestedOneWithoutClassesInput
   classSubjects?: Prisma.ClassSubjectCreateNestedManyWithoutClassInput
@@ -633,12 +633,12 @@ export type ClassCreateWithoutStudentsInput = {
 
 export type ClassUncheckedCreateWithoutStudentsInput = {
   id?: string
-  tenantId: string
+  tenant_id: string
   name: string
   level: string
   capacity?: number
-  departmentId?: string | null
-  classTeacherId?: string | null
+  department_id?: string | null
+  class_teacher_id?: string | null
   classSubjects?: Prisma.ClassSubjectUncheckedCreateNestedManyWithoutClassInput
 }
 
@@ -663,7 +663,7 @@ export type ClassUpdateWithoutStudentsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  classTeacherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutClassesNestedInput
   department?: Prisma.DepartmentUpdateOneWithoutClassesNestedInput
   classSubjects?: Prisma.ClassSubjectUpdateManyWithoutClassNestedInput
@@ -671,12 +671,12 @@ export type ClassUpdateWithoutStudentsInput = {
 
 export type ClassUncheckedUpdateWithoutStudentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  classTeacherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   classSubjects?: Prisma.ClassSubjectUncheckedUpdateManyWithoutClassNestedInput
 }
 
@@ -685,7 +685,7 @@ export type ClassCreateWithoutDepartmentInput = {
   name: string
   level: string
   capacity?: number
-  classTeacherId?: string | null
+  class_teacher_id?: string | null
   tenant: Prisma.TenantCreateNestedOneWithoutClassesInput
   students?: Prisma.StudentProfileCreateNestedManyWithoutClassInput
   classSubjects?: Prisma.ClassSubjectCreateNestedManyWithoutClassInput
@@ -693,11 +693,11 @@ export type ClassCreateWithoutDepartmentInput = {
 
 export type ClassUncheckedCreateWithoutDepartmentInput = {
   id?: string
-  tenantId: string
+  tenant_id: string
   name: string
   level: string
   capacity?: number
-  classTeacherId?: string | null
+  class_teacher_id?: string | null
   students?: Prisma.StudentProfileUncheckedCreateNestedManyWithoutClassInput
   classSubjects?: Prisma.ClassSubjectUncheckedCreateNestedManyWithoutClassInput
 }
@@ -733,7 +733,7 @@ export type ClassCreateWithoutClassSubjectsInput = {
   name: string
   level: string
   capacity?: number
-  classTeacherId?: string | null
+  class_teacher_id?: string | null
   tenant: Prisma.TenantCreateNestedOneWithoutClassesInput
   department?: Prisma.DepartmentCreateNestedOneWithoutClassesInput
   students?: Prisma.StudentProfileCreateNestedManyWithoutClassInput
@@ -741,12 +741,12 @@ export type ClassCreateWithoutClassSubjectsInput = {
 
 export type ClassUncheckedCreateWithoutClassSubjectsInput = {
   id?: string
-  tenantId: string
+  tenant_id: string
   name: string
   level: string
   capacity?: number
-  departmentId?: string | null
-  classTeacherId?: string | null
+  department_id?: string | null
+  class_teacher_id?: string | null
   students?: Prisma.StudentProfileUncheckedCreateNestedManyWithoutClassInput
 }
 
@@ -771,7 +771,7 @@ export type ClassUpdateWithoutClassSubjectsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  classTeacherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutClassesNestedInput
   department?: Prisma.DepartmentUpdateOneWithoutClassesNestedInput
   students?: Prisma.StudentProfileUpdateManyWithoutClassNestedInput
@@ -779,12 +779,12 @@ export type ClassUpdateWithoutClassSubjectsInput = {
 
 export type ClassUncheckedUpdateWithoutClassSubjectsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  classTeacherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   students?: Prisma.StudentProfileUncheckedUpdateManyWithoutClassNestedInput
 }
 
@@ -793,8 +793,8 @@ export type ClassCreateManyTenantInput = {
   name: string
   level: string
   capacity?: number
-  departmentId?: string | null
-  classTeacherId?: string | null
+  department_id?: string | null
+  class_teacher_id?: string | null
 }
 
 export type ClassUpdateWithoutTenantInput = {
@@ -802,7 +802,7 @@ export type ClassUpdateWithoutTenantInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  classTeacherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   department?: Prisma.DepartmentUpdateOneWithoutClassesNestedInput
   students?: Prisma.StudentProfileUpdateManyWithoutClassNestedInput
   classSubjects?: Prisma.ClassSubjectUpdateManyWithoutClassNestedInput
@@ -813,8 +813,8 @@ export type ClassUncheckedUpdateWithoutTenantInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  classTeacherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   students?: Prisma.StudentProfileUncheckedUpdateManyWithoutClassNestedInput
   classSubjects?: Prisma.ClassSubjectUncheckedUpdateManyWithoutClassNestedInput
 }
@@ -824,17 +824,17 @@ export type ClassUncheckedUpdateManyWithoutTenantInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  classTeacherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ClassCreateManyDepartmentInput = {
   id?: string
-  tenantId: string
+  tenant_id: string
   name: string
   level: string
   capacity?: number
-  classTeacherId?: string | null
+  class_teacher_id?: string | null
 }
 
 export type ClassUpdateWithoutDepartmentInput = {
@@ -842,7 +842,7 @@ export type ClassUpdateWithoutDepartmentInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  classTeacherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutClassesNestedInput
   students?: Prisma.StudentProfileUpdateManyWithoutClassNestedInput
   classSubjects?: Prisma.ClassSubjectUpdateManyWithoutClassNestedInput
@@ -850,22 +850,22 @@ export type ClassUpdateWithoutDepartmentInput = {
 
 export type ClassUncheckedUpdateWithoutDepartmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  classTeacherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   students?: Prisma.StudentProfileUncheckedUpdateManyWithoutClassNestedInput
   classSubjects?: Prisma.ClassSubjectUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateManyWithoutDepartmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  classTeacherId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_teacher_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -910,12 +910,12 @@ export type ClassCountOutputTypeCountClassSubjectsArgs<ExtArgs extends runtime.T
 
 export type ClassSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenantId?: boolean
+  tenant_id?: boolean
   name?: boolean
   level?: boolean
   capacity?: boolean
-  departmentId?: boolean
-  classTeacherId?: boolean
+  department_id?: boolean
+  class_teacher_id?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   department?: boolean | Prisma.Class$departmentArgs<ExtArgs>
   students?: boolean | Prisma.Class$studentsArgs<ExtArgs>
@@ -925,39 +925,39 @@ export type ClassSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 
 export type ClassSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenantId?: boolean
+  tenant_id?: boolean
   name?: boolean
   level?: boolean
   capacity?: boolean
-  departmentId?: boolean
-  classTeacherId?: boolean
+  department_id?: boolean
+  class_teacher_id?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   department?: boolean | Prisma.Class$departmentArgs<ExtArgs>
 }, ExtArgs["result"]["class"]>
 
 export type ClassSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenantId?: boolean
+  tenant_id?: boolean
   name?: boolean
   level?: boolean
   capacity?: boolean
-  departmentId?: boolean
-  classTeacherId?: boolean
+  department_id?: boolean
+  class_teacher_id?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   department?: boolean | Prisma.Class$departmentArgs<ExtArgs>
 }, ExtArgs["result"]["class"]>
 
 export type ClassSelectScalar = {
   id?: boolean
-  tenantId?: boolean
+  tenant_id?: boolean
   name?: boolean
   level?: boolean
   capacity?: boolean
-  departmentId?: boolean
-  classTeacherId?: boolean
+  department_id?: boolean
+  class_teacher_id?: boolean
 }
 
-export type ClassOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "name" | "level" | "capacity" | "departmentId" | "classTeacherId", ExtArgs["result"]["class"]>
+export type ClassOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "name" | "level" | "capacity" | "department_id" | "class_teacher_id", ExtArgs["result"]["class"]>
 export type ClassInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   department?: boolean | Prisma.Class$departmentArgs<ExtArgs>
@@ -984,12 +984,12 @@ export type $ClassPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tenantId: string
+    tenant_id: string
     name: string
     level: string
     capacity: number
-    departmentId: string | null
-    classTeacherId: string | null
+    department_id: string | null
+    class_teacher_id: string | null
   }, ExtArgs["result"]["class"]>
   composites: {}
 }
@@ -1418,12 +1418,12 @@ export interface Prisma__ClassClient<T, Null = never, ExtArgs extends runtime.Ty
  */
 export interface ClassFieldRefs {
   readonly id: Prisma.FieldRef<"Class", 'String'>
-  readonly tenantId: Prisma.FieldRef<"Class", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"Class", 'String'>
   readonly name: Prisma.FieldRef<"Class", 'String'>
   readonly level: Prisma.FieldRef<"Class", 'String'>
   readonly capacity: Prisma.FieldRef<"Class", 'Int'>
-  readonly departmentId: Prisma.FieldRef<"Class", 'String'>
-  readonly classTeacherId: Prisma.FieldRef<"Class", 'String'>
+  readonly department_id: Prisma.FieldRef<"Class", 'String'>
+  readonly class_teacher_id: Prisma.FieldRef<"Class", 'String'>
 }
     
 

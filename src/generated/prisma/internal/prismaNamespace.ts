@@ -1579,9 +1579,9 @@ export const TenantScalarFieldEnum = {
   status: 'status',
   plan: 'plan',
   config: 'config',
-  createdAt: 'createdAt',
-  deletedAt: 'deletedAt',
-  updatedAt: 'updatedAt'
+  created_at: 'created_at',
+  deleted_at: 'deleted_at',
+  updated_at: 'updated_at'
 } as const
 
 export type TenantScalarFieldEnum = (typeof TenantScalarFieldEnum)[keyof typeof TenantScalarFieldEnum]
@@ -1595,16 +1595,16 @@ export const UserScalarFieldEnum = {
   phone: 'phone',
   avatar: 'avatar',
   status: 'status',
-  firstName: 'firstName',
-  lastName: 'lastName',
-  mfaEnabled: 'mfaEnabled',
-  mfaSecret: 'mfaSecret',
-  passwordHash: 'passwordHash',
+  first_name: 'first_name',
+  last_name: 'last_name',
+  mfa_enabled: 'mfa_enabled',
+  mfa_secret: 'mfa_secret',
+  password_hash: 'password_hash',
   relationship: 'relationship',
-  createdAt: 'createdAt',
-  lastLoginAt: 'lastLoginAt',
-  tenantId: 'tenantId',
-  updatedAt: 'updatedAt'
+  created_at: 'created_at',
+  last_login_at: 'last_login_at',
+  tenant_id: 'tenant_id',
+  updated_at: 'updated_at'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -1613,9 +1613,9 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const RefreshTokenScalarFieldEnum = {
   id: 'id',
   token: 'token',
-  createdAt: 'createdAt',
-  expiresAt: 'expiresAt',
-  userId: 'userId'
+  created_at: 'created_at',
+  expires_at: 'expires_at',
+  user_id: 'user_id'
 } as const
 
 export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
@@ -1623,13 +1623,13 @@ export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[k
 
 export const StudentProfileScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  tenantId: 'tenantId',
-  matricNumber: 'matricNumber',
-  classId: 'classId',
-  admissionDate: 'admissionDate',
-  dateOfBirth: 'dateOfBirth',
-  guardianIds: 'guardianIds'
+  user_id: 'user_id',
+  tenant_id: 'tenant_id',
+  matric_number: 'matric_number',
+  class_id: 'class_id',
+  admission_date: 'admission_date',
+  date_of_birth: 'date_of_birth',
+  guardian_ids: 'guardian_ids'
 } as const
 
 export type StudentProfileScalarFieldEnum = (typeof StudentProfileScalarFieldEnum)[keyof typeof StudentProfileScalarFieldEnum]
@@ -1637,12 +1637,12 @@ export type StudentProfileScalarFieldEnum = (typeof StudentProfileScalarFieldEnu
 
 export const TeacherProfileScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  tenantId: 'tenantId',
-  employeeId: 'employeeId',
-  departmentId: 'departmentId',
+  user_id: 'user_id',
+  tenant_id: 'tenant_id',
+  employee_id: 'employee_id',
+  department_id: 'department_id',
   qualification: 'qualification',
-  dateJoined: 'dateJoined'
+  date_joined: 'date_joined'
 } as const
 
 export type TeacherProfileScalarFieldEnum = (typeof TeacherProfileScalarFieldEnum)[keyof typeof TeacherProfileScalarFieldEnum]
@@ -1650,11 +1650,11 @@ export type TeacherProfileScalarFieldEnum = (typeof TeacherProfileScalarFieldEnu
 
 export const GuardianProfileScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  tenantId: 'tenantId',
+  user_id: 'user_id',
+  tenant_id: 'tenant_id',
   occupation: 'occupation',
   relationship: 'relationship',
-  wardIds: 'wardIds'
+  ward_ids: 'ward_ids'
 } as const
 
 export type GuardianProfileScalarFieldEnum = (typeof GuardianProfileScalarFieldEnum)[keyof typeof GuardianProfileScalarFieldEnum]
@@ -1662,12 +1662,12 @@ export type GuardianProfileScalarFieldEnum = (typeof GuardianProfileScalarFieldE
 
 export const StaffProfileScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  tenantId: 'tenantId',
-  employeeId: 'employeeId',
-  staffType: 'staffType',
-  departmentId: 'departmentId',
-  dateJoined: 'dateJoined'
+  user_id: 'user_id',
+  tenant_id: 'tenant_id',
+  employee_id: 'employee_id',
+  staff_type: 'staff_type',
+  department_id: 'department_id',
+  date_joined: 'date_joined'
 } as const
 
 export type StaffProfileScalarFieldEnum = (typeof StaffProfileScalarFieldEnum)[keyof typeof StaffProfileScalarFieldEnum]
@@ -1675,13 +1675,13 @@ export type StaffProfileScalarFieldEnum = (typeof StaffProfileScalarFieldEnum)[k
 
 export const AcademicSessionScalarFieldEnum = {
   id: 'id',
-  tenantId: 'tenantId',
+  tenant_id: 'tenant_id',
   name: 'name',
-  startDate: 'startDate',
-  endDate: 'endDate',
-  isCurrent: 'isCurrent',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  start_date: 'start_date',
+  end_date: 'end_date',
+  is_current: 'is_current',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 } as const
 
 export type AcademicSessionScalarFieldEnum = (typeof AcademicSessionScalarFieldEnum)[keyof typeof AcademicSessionScalarFieldEnum]
@@ -1689,14 +1689,14 @@ export type AcademicSessionScalarFieldEnum = (typeof AcademicSessionScalarFieldE
 
 export const AcademicTermScalarFieldEnum = {
   id: 'id',
-  tenantId: 'tenantId',
-  academicSessionId: 'academicSessionId',
+  tenant_id: 'tenant_id',
+  academic_session_id: 'academic_session_id',
   name: 'name',
-  startDate: 'startDate',
-  endDate: 'endDate',
-  isCurrent: 'isCurrent',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  start_date: 'start_date',
+  end_date: 'end_date',
+  is_current: 'is_current',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 } as const
 
 export type AcademicTermScalarFieldEnum = (typeof AcademicTermScalarFieldEnum)[keyof typeof AcademicTermScalarFieldEnum]
@@ -1704,10 +1704,10 @@ export type AcademicTermScalarFieldEnum = (typeof AcademicTermScalarFieldEnum)[k
 
 export const DepartmentScalarFieldEnum = {
   id: 'id',
-  tenantId: 'tenantId',
+  tenant_id: 'tenant_id',
   name: 'name',
   description: 'description',
-  hodId: 'hodId'
+  hod_id: 'hod_id'
 } as const
 
 export type DepartmentScalarFieldEnum = (typeof DepartmentScalarFieldEnum)[keyof typeof DepartmentScalarFieldEnum]
@@ -1715,12 +1715,12 @@ export type DepartmentScalarFieldEnum = (typeof DepartmentScalarFieldEnum)[keyof
 
 export const ClassScalarFieldEnum = {
   id: 'id',
-  tenantId: 'tenantId',
+  tenant_id: 'tenant_id',
   name: 'name',
   level: 'level',
   capacity: 'capacity',
-  departmentId: 'departmentId',
-  classTeacherId: 'classTeacherId'
+  department_id: 'department_id',
+  class_teacher_id: 'class_teacher_id'
 } as const
 
 export type ClassScalarFieldEnum = (typeof ClassScalarFieldEnum)[keyof typeof ClassScalarFieldEnum]
@@ -1728,12 +1728,12 @@ export type ClassScalarFieldEnum = (typeof ClassScalarFieldEnum)[keyof typeof Cl
 
 export const SubjectScalarFieldEnum = {
   id: 'id',
-  tenantId: 'tenantId',
+  tenant_id: 'tenant_id',
   name: 'name',
   code: 'code',
   title: 'title',
   description: 'description',
-  departmentId: 'departmentId'
+  department_id: 'department_id'
 } as const
 
 export type SubjectScalarFieldEnum = (typeof SubjectScalarFieldEnum)[keyof typeof SubjectScalarFieldEnum]
@@ -1741,10 +1741,10 @@ export type SubjectScalarFieldEnum = (typeof SubjectScalarFieldEnum)[keyof typeo
 
 export const ClassSubjectScalarFieldEnum = {
   id: 'id',
-  tenantId: 'tenantId',
-  classId: 'classId',
-  subjectId: 'subjectId',
-  subjectType: 'subjectType'
+  tenant_id: 'tenant_id',
+  class_id: 'class_id',
+  subject_id: 'subject_id',
+  subject_type: 'subject_type'
 } as const
 
 export type ClassSubjectScalarFieldEnum = (typeof ClassSubjectScalarFieldEnum)[keyof typeof ClassSubjectScalarFieldEnum]
@@ -1752,9 +1752,9 @@ export type ClassSubjectScalarFieldEnum = (typeof ClassSubjectScalarFieldEnum)[k
 
 export const SubjectTeacherScalarFieldEnum = {
   id: 'id',
-  tenantId: 'tenantId',
-  classSubjectId: 'classSubjectId',
-  teacherId: 'teacherId'
+  tenant_id: 'tenant_id',
+  class_subject_id: 'class_subject_id',
+  teacher_id: 'teacher_id'
 } as const
 
 export type SubjectTeacherScalarFieldEnum = (typeof SubjectTeacherScalarFieldEnum)[keyof typeof SubjectTeacherScalarFieldEnum]
@@ -1762,11 +1762,11 @@ export type SubjectTeacherScalarFieldEnum = (typeof SubjectTeacherScalarFieldEnu
 
 export const StudentSubjectRegistrationScalarFieldEnum = {
   id: 'id',
-  tenantId: 'tenantId',
-  studentId: 'studentId',
-  classSubjectId: 'classSubjectId',
-  termId: 'termId',
-  registrationDate: 'registrationDate'
+  tenant_id: 'tenant_id',
+  student_id: 'student_id',
+  class_subject_id: 'class_subject_id',
+  term_id: 'term_id',
+  registration_date: 'registration_date'
 } as const
 
 export type StudentSubjectRegistrationScalarFieldEnum = (typeof StudentSubjectRegistrationScalarFieldEnum)[keyof typeof StudentSubjectRegistrationScalarFieldEnum]

@@ -28,19 +28,19 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 const USER_SELECT = {
   id: true,
-  tenantId: true,
+  tenant_id: true,
   role: true,
   identifier: true,
-  firstName: true,
-  lastName: true,
+  first_name: true,
+  last_name: true,
   email: true,
   phone: true,
   avatar: true,
   status: true,
-  mfaEnabled: true,
-  lastLoginAt: true,
-  createdAt: true,
-  updatedAt: true,
+  mfa_enabled: true,
+  last_login_at: true,
+  created_at: true,
+  updated_at: true,
   // studentProfile: true,
   // teacherProfile: true,
   // guardianProfile: true,
@@ -86,7 +86,7 @@ export class UsersService {
     const emailProvided = dto.email != null && dto.email.trim() !== '';
     if (emailProvided) {
       const existingEmail = await this.prisma.user.findFirst({
-        where: { tenantId, email: dto.email!.trim() },
+        where: { tenant_id: tenantId, email: dto.email!.trim() },
       });
       if (existingEmail) {
         throw new ConflictException(
@@ -109,7 +109,7 @@ export class UsersService {
 
       // Check the identifier is not already taken within this school
       const existingUser = await tx.user.findFirst({
-        where: { tenantId, identifier },
+        where: { tenant_id: tenantId, identifier },
       });
       if (existingUser) {
         throw new IdentifierTakenException(identifier);
@@ -118,14 +118,14 @@ export class UsersService {
       // Create the base user
       const newUser = await tx.user.create({
         data: {
-          tenantId,
+          tenant_id: tenantId,
           role: dto.role,
           identifier,
-          firstName: dto.first_name,
-          lastName: dto.last_name,
+          first_name: dto.first_name,
+          last_name: dto.last_name,
           email: dto.email,
           phone: dto.phone,
-          passwordHash,
+          password_hash: passwordHash,
           status: 'ACTIVE',
         },
       });
@@ -160,29 +160,29 @@ export class UsersService {
 
     // Build the user where clause dynamically based on the search, status, role, and classId provided
     const where: Prisma.UserWhereInput = {
-      tenantId,
+      tenant_id: tenantId,
       ...(role && { role }),
       ...(status && { status }),
       // Search across name, email, matric number, employee ID, guardian ID, or identifier
       ...(search && {
         OR: [
-          { firstName: { contains: search, mode: 'insensitive' } },
-          { lastName: { contains: search, mode: 'insensitive' } },
+          { first_name: { contains: search, mode: 'insensitive' } },
+          { last_name: { contains: search, mode: 'insensitive' } },
           { email: { contains: search, mode: 'insensitive' } },
           { identifier: { contains: search, mode: 'insensitive' } },
           {
-            studentProfile: {
-              matricNumber: { contains: search, mode: 'insensitive' },
+            student_profile: {
+              matric_number: { contains: search, mode: 'insensitive' },
             },
           },
           {
-            teacherProfile: {
-              employeeId: { contains: search, mode: 'insensitive' },
+            teacher_profile: {
+              employee_id: { contains: search, mode: 'insensitive' },
             },
           },
           {
-            guardianProfile: {
-              userId: { contains: search, mode: 'insensitive' },
+            guardian_profile: {
+              user_id: { contains: search, mode: 'insensitive' },
             },
           },
         ],
@@ -192,7 +192,7 @@ export class UsersService {
       ...(class_id &&
         (!role || role === UserRole.STUDENT) && {
           role: UserRole.STUDENT,
-          studentProfile: { classId: class_id },
+        studentProfile: { class_id: class_id },
         }),
     };
 
@@ -204,7 +204,7 @@ export class UsersService {
         skip: (page - 1) * limit,
         take: limit,
         select: USER_SELECT,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { created_at: 'desc' },
       }),
     ]);
 
@@ -225,7 +225,7 @@ export class UsersService {
   private async getOneOrThrow(id: string): Promise<UserWithProfiles> {
     const tenantId = this.cls.get<string>('tenantId');
     const user = await this.prisma.user.findUnique({
-      where: { id, tenantId },
+      where: { id, tenant_id: tenantId },
       select: USER_SELECT,
     });
     // console.log(user);
@@ -249,7 +249,7 @@ export class UsersService {
     // If email is being changed, check it's not already taken by another user in the tenant
     if (dto.email) {
       const existingEmail = await this.prisma.user.findFirst({
-        where: { tenantId, email: dto.email, NOT: { id } },
+        where: { tenant_id: tenantId, email: dto.email, NOT: { id } },
       });
       if (existingEmail) {
         throw new EmailTakenException(dto.email);
@@ -269,8 +269,8 @@ export class UsersService {
     } = dto;
 
     const baseUserData: Prisma.UserUpdateInput = {
-      ...(first_name !== undefined && { firstName: first_name }),
-      ...(last_name !== undefined && { lastName: last_name }),
+      ...(first_name !== undefined && { first_name: first_name }),
+      ...(last_name !== undefined && { last_name: last_name }),
       ...(phone_number !== undefined && { phone: phone_number }),
       ...(rest.email !== undefined && { email: rest.email }),
       ...(rest.avatar !== undefined && { avatar: rest.avatar }),
@@ -278,25 +278,27 @@ export class UsersService {
 
     await this.prisma.$transaction(async (tx) => {
       await tx.user.update({
-        where: { id, tenantId },
+        where: { id, tenant_id: tenantId },
         data: baseUserData,
       });
 
       if (qualification || subject_ids || department_id) {
         await tx.teacherProfile.updateMany({
-          where: { userId: id },
+          where: { user_id: id },
           data: {
             ...(qualification !== undefined && { qualification }),
-            ...(subject_ids !== undefined && { subjectIds: subject_ids }),
-            ...(department_id !== undefined && { departmentId: department_id }),
+            ...(subject_ids !== undefined && { subject_ids: subject_ids }),
+            ...(department_id !== undefined && {
+              department_id: department_id,
+            }),
           },
         });
       }
 
       if (class_id !== undefined) {
         await tx.studentProfile.updateMany({
-          where: { userId: id },
-          data: { classId: class_id },
+          where: { user_id: id },
+          data: { class_id: class_id },
         });
       }
     });
@@ -327,13 +329,13 @@ export class UsersService {
     }
 
     await this.prisma.user.update({
-      where: { id, tenantId },
+      where: { id, tenant_id: tenantId },
       data: { status: UserStatus.SUSPENDED },
     });
 
     // Invalidate all their refresh tokens and revoke all their tokens
     await this.prisma.refreshToken.deleteMany({
-      where: { userId: id },
+      where: { user_id: id },
     });
 
     this.logger.log(
@@ -370,7 +372,7 @@ export class UsersService {
 
     // Cascade deletes the profile and refresh tokens automatically
     await this.prisma.user.delete({
-      where: { id, tenantId },
+      where: { id, tenant_id: tenantId },
     });
 
     this.logger.log(
@@ -384,12 +386,12 @@ export class UsersService {
   async changePassword(userId: string, dto: ChangePasswordDto) {
     const tenantId = this.cls.get<string>('tenantId');
     const user = await this.prisma.user.findUnique({
-      where: { id: userId, tenantId },
+      where: { id: userId, tenant_id: tenantId },
     });
 
     const isCurrentPasswordValid = await bcrypt.compare(
       dto.current_password,
-      user?.passwordHash ?? '',
+      user?.password_hash ?? '',
     );
 
     if (!isCurrentPasswordValid) {
@@ -403,12 +405,12 @@ export class UsersService {
     const newHash = await bcrypt.hash(dto.new_password, 12);
 
     await this.prisma.user.update({
-      where: { id: userId, tenantId },
-      data: { passwordHash: newHash },
+      where: { id: userId, tenant_id: tenantId },
+      data: { password_hash: newHash },
     });
 
     await this.prisma.refreshToken.deleteMany({
-      where: { userId },
+      where: { user_id: userId },
     });
 
     return { message: 'Password changed successfully. Please login again.' };
@@ -426,11 +428,11 @@ export class UsersService {
 
     await this.prisma.user.update({
       where: { id: targetUserId },
-      data: { passwordHash: newHash },
+      data: { password_hash: newHash },
     });
 
     await this.prisma.refreshToken.deleteMany({
-      where: { userId: targetUserId },
+      where: { user_id: targetUserId },
     });
 
     this.logger.log(
@@ -467,7 +469,7 @@ export class UsersService {
         }
 
         const existing = await this.prisma.user.findFirst({
-          where: { tenantId, identifier: row.identifier },
+          where: { tenant_id: tenantId, identifier: row.identifier },
         });
         if (existing) {
           results.failed.push({
@@ -507,14 +509,14 @@ export class UsersService {
 
           const user = await tx.user.create({
             data: {
-              tenantId: tenantId,
+              tenant_id: tenantId,
               role,
               identifier,
-              firstName: row.firstName,
-              lastName: row.lastName,
+              first_name: row.first_name,
+              last_name: row.last_name,
               email: row.email || null,
               phone: row.phone || null,
-              passwordHash: password,
+              password_hash: password,
               status: 'ACTIVE',
             },
           });
@@ -563,12 +565,18 @@ export class UsersService {
       suspendedCount,
       deletedCount,
     ] = await Promise.all([
-      this.prisma.user.count({ where: { tenantId, role: UserRole.STUDENT } }),
-      this.prisma.user.count({ where: { tenantId, role: UserRole.TEACHER } }),
-      this.prisma.user.count({ where: { tenantId, role: UserRole.GUARDIAN } }),
+      this.prisma.user.count({
+        where: { tenant_id: tenantId, role: UserRole.STUDENT },
+      }),
+      this.prisma.user.count({
+        where: { tenant_id: tenantId, role: UserRole.TEACHER },
+      }),
+      this.prisma.user.count({
+        where: { tenant_id: tenantId, role: UserRole.GUARDIAN },
+      }),
       this.prisma.user.count({
         where: {
-          tenantId,
+          tenant_id: tenantId,
           role: {
             in: [
               UserRole.COUNSELOR,
@@ -583,13 +591,13 @@ export class UsersService {
         },
       }),
       this.prisma.user.count({
-        where: { tenantId, status: UserStatus.ACTIVE },
+        where: { tenant_id: tenantId, status: UserStatus.ACTIVE },
       }),
       this.prisma.user.count({
-        where: { tenantId, status: UserStatus.SUSPENDED },
+        where: { tenant_id: tenantId, status: UserStatus.SUSPENDED },
       }),
       this.prisma.user.count({
-        where: { tenantId, status: UserStatus.DELETED },
+        where: { tenant_id: tenantId, status: UserStatus.DELETED },
       }),
     ]);
 
@@ -679,12 +687,15 @@ export class UsersService {
     const year = new Date().getFullYear();
     const matricPrefix = `${prefix}/${year}/`;
     const last = await tx.studentProfile.findFirst({
-      where: { tenantId, matricNumber: { startsWith: matricPrefix } },
-      orderBy: { matricNumber: 'desc' },
-      select: { matricNumber: true },
+      where: {
+        tenant_id: tenantId,
+        matric_number: { startsWith: matricPrefix },
+      },
+      orderBy: { matric_number: 'desc' },
+      select: { matric_number: true },
     });
     const numPart = last
-      ? String(last.matricNumber).slice(matricPrefix.length)
+      ? String(last.matric_number).slice(matricPrefix.length)
       : '';
     const nextNum = numPart ? parseInt(numPart, 10) + 1 : 1;
     return `${matricPrefix}${String(nextNum).padStart(4, '0')}`;
@@ -698,11 +709,13 @@ export class UsersService {
   ): Promise<string> {
     const empPrefix = `${prefix}/TCH/`;
     const last = await tx.teacherProfile.findFirst({
-      where: { tenantId, employeeId: { startsWith: empPrefix } },
-      orderBy: { employeeId: 'desc' },
-      select: { employeeId: true },
+      where: { tenant_id: tenantId, employee_id: { startsWith: empPrefix } },
+      orderBy: { employee_id: 'desc' },
+      select: { employee_id: true },
     });
-    const numPart = last ? String(last.employeeId).slice(empPrefix.length) : '';
+    const numPart = last
+      ? String(last.employee_id).slice(empPrefix.length)
+      : '';
     const nextNum = numPart ? parseInt(numPart, 10) + 1 : 1;
     return `${empPrefix}${String(nextNum).padStart(3, '0')}`;
   }
@@ -715,11 +728,13 @@ export class UsersService {
   ): Promise<string> {
     const empPrefix = `${prefix}/EMP/`;
     const last = await tx.staffProfile.findFirst({
-      where: { tenantId, employeeId: { startsWith: empPrefix } },
-      orderBy: { employeeId: 'desc' },
-      select: { employeeId: true },
+      where: { tenant_id: tenantId, employee_id: { startsWith: empPrefix } },
+      orderBy: { employee_id: 'desc' },
+      select: { employee_id: true },
     });
-    const numPart = last ? String(last.employeeId).slice(empPrefix.length) : '';
+    const numPart = last
+      ? String(last.employee_id).slice(empPrefix.length)
+      : '';
     const nextNum = numPart ? parseInt(numPart, 10) + 1 : 1;
     return `${empPrefix}${String(nextNum).padStart(3, '0')}`;
   }
@@ -740,14 +755,16 @@ export class UsersService {
       case UserRole.STUDENT:
         await tx.studentProfile.create({
           data: {
-            userId,
-            tenantId,
-            matricNumber: resolved.matricNumber ?? resolved.identifier,
-            classId: dto.class_id ?? '',
-            admissionDate: dto.admission_date
+            user_id: userId,
+            tenant_id: tenantId,
+            matric_number: resolved.matricNumber ?? resolved.identifier,
+            class_id: dto.class_id ?? '',
+            admission_date: dto.admission_date
               ? new Date(dto.admission_date)
               : null,
-            dateOfBirth: dto.date_of_birth ? new Date(dto.date_of_birth) : null,
+            date_of_birth: dto.date_of_birth
+              ? new Date(dto.date_of_birth)
+              : null,
           },
         });
         break;
@@ -755,9 +772,9 @@ export class UsersService {
       case UserRole.TEACHER:
         await tx.teacherProfile.create({
           data: {
-            userId,
-            tenantId,
-            employeeId: resolved.employeeId ?? resolved.identifier,
+            user_id: userId,
+            tenant_id: tenantId,
+            employee_id: resolved.employeeId ?? resolved.identifier,
             qualification: dto.qualification ?? null,
           },
         });
@@ -766,11 +783,11 @@ export class UsersService {
       case UserRole.GUARDIAN:
         await tx.guardianProfile.create({
           data: {
-            userId,
-            tenantId,
+            user_id: userId,
+            tenant_id: tenantId,
             occupation: dto.occupation ?? '',
             relationship: dto.relationship ?? '',
-            wardIds: dto.ward_ids ?? [],
+            ward_ids: dto.ward_ids ?? [],
           },
         });
         break;
@@ -785,10 +802,10 @@ export class UsersService {
       case UserRole.OTHER:
         await tx.staffProfile.create({
           data: {
-            userId,
-            tenantId,
-            employeeId: resolved.employeeId ?? resolved.identifier,
-            staffType: dto.staff_type ?? dto.role.toLowerCase(),
+            user_id: userId,
+            tenant_id: tenantId,
+            employee_id: resolved.employeeId ?? resolved.identifier,
+            staff_type: dto.staff_type ?? dto.role.toLowerCase(),
           },
         });
         break;

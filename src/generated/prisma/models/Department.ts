@@ -26,52 +26,52 @@ export type AggregateDepartment = {
 
 export type DepartmentMinAggregateOutputType = {
   id: string | null
-  tenantId: string | null
+  tenant_id: string | null
   name: string | null
   description: string | null
-  hodId: string | null
+  hod_id: string | null
 }
 
 export type DepartmentMaxAggregateOutputType = {
   id: string | null
-  tenantId: string | null
+  tenant_id: string | null
   name: string | null
   description: string | null
-  hodId: string | null
+  hod_id: string | null
 }
 
 export type DepartmentCountAggregateOutputType = {
   id: number
-  tenantId: number
+  tenant_id: number
   name: number
   description: number
-  hodId: number
+  hod_id: number
   _all: number
 }
 
 
 export type DepartmentMinAggregateInputType = {
   id?: true
-  tenantId?: true
+  tenant_id?: true
   name?: true
   description?: true
-  hodId?: true
+  hod_id?: true
 }
 
 export type DepartmentMaxAggregateInputType = {
   id?: true
-  tenantId?: true
+  tenant_id?: true
   name?: true
   description?: true
-  hodId?: true
+  hod_id?: true
 }
 
 export type DepartmentCountAggregateInputType = {
   id?: true
-  tenantId?: true
+  tenant_id?: true
   name?: true
   description?: true
-  hodId?: true
+  hod_id?: true
   _all?: true
 }
 
@@ -149,10 +149,10 @@ export type DepartmentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type DepartmentGroupByOutputType = {
   id: string
-  tenantId: string
+  tenant_id: string
   name: string
   description: string | null
-  hodId: string | null
+  hod_id: string | null
   _count: DepartmentCountAggregateOutputType | null
   _min: DepartmentMinAggregateOutputType | null
   _max: DepartmentMaxAggregateOutputType | null
@@ -178,10 +178,10 @@ export type DepartmentWhereInput = {
   OR?: Prisma.DepartmentWhereInput[]
   NOT?: Prisma.DepartmentWhereInput | Prisma.DepartmentWhereInput[]
   id?: Prisma.StringFilter<"Department"> | string
-  tenantId?: Prisma.StringFilter<"Department"> | string
+  tenant_id?: Prisma.StringFilter<"Department"> | string
   name?: Prisma.StringFilter<"Department"> | string
   description?: Prisma.StringNullableFilter<"Department"> | string | null
-  hodId?: Prisma.StringNullableFilter<"Department"> | string | null
+  hod_id?: Prisma.StringNullableFilter<"Department"> | string | null
   subjects?: Prisma.SubjectListRelationFilter
   classes?: Prisma.ClassListRelationFilter
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
@@ -189,10 +189,10 @@ export type DepartmentWhereInput = {
 
 export type DepartmentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  hodId?: Prisma.SortOrderInput | Prisma.SortOrder
+  hod_id?: Prisma.SortOrderInput | Prisma.SortOrder
   subjects?: Prisma.SubjectOrderByRelationAggregateInput
   classes?: Prisma.ClassOrderByRelationAggregateInput
   tenant?: Prisma.TenantOrderByWithRelationInput
@@ -200,25 +200,25 @@ export type DepartmentOrderByWithRelationInput = {
 
 export type DepartmentWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  tenantId_name?: Prisma.DepartmentTenantIdNameCompoundUniqueInput
+  tenant_id_name?: Prisma.DepartmentTenant_idNameCompoundUniqueInput
   AND?: Prisma.DepartmentWhereInput | Prisma.DepartmentWhereInput[]
   OR?: Prisma.DepartmentWhereInput[]
   NOT?: Prisma.DepartmentWhereInput | Prisma.DepartmentWhereInput[]
-  tenantId?: Prisma.StringFilter<"Department"> | string
+  tenant_id?: Prisma.StringFilter<"Department"> | string
   name?: Prisma.StringFilter<"Department"> | string
   description?: Prisma.StringNullableFilter<"Department"> | string | null
-  hodId?: Prisma.StringNullableFilter<"Department"> | string | null
+  hod_id?: Prisma.StringNullableFilter<"Department"> | string | null
   subjects?: Prisma.SubjectListRelationFilter
   classes?: Prisma.ClassListRelationFilter
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-}, "id" | "tenantId_name">
+}, "id" | "tenant_id_name">
 
 export type DepartmentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  hodId?: Prisma.SortOrderInput | Prisma.SortOrder
+  hod_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.DepartmentCountOrderByAggregateInput
   _max?: Prisma.DepartmentMaxOrderByAggregateInput
   _min?: Prisma.DepartmentMinOrderByAggregateInput
@@ -229,17 +229,17 @@ export type DepartmentScalarWhereWithAggregatesInput = {
   OR?: Prisma.DepartmentScalarWhereWithAggregatesInput[]
   NOT?: Prisma.DepartmentScalarWhereWithAggregatesInput | Prisma.DepartmentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Department"> | string
-  tenantId?: Prisma.StringWithAggregatesFilter<"Department"> | string
+  tenant_id?: Prisma.StringWithAggregatesFilter<"Department"> | string
   name?: Prisma.StringWithAggregatesFilter<"Department"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Department"> | string | null
-  hodId?: Prisma.StringNullableWithAggregatesFilter<"Department"> | string | null
+  hod_id?: Prisma.StringNullableWithAggregatesFilter<"Department"> | string | null
 }
 
 export type DepartmentCreateInput = {
   id?: string
   name: string
   description?: string | null
-  hodId?: string | null
+  hod_id?: string | null
   subjects?: Prisma.SubjectCreateNestedManyWithoutDepartmentInput
   classes?: Prisma.ClassCreateNestedManyWithoutDepartmentInput
   tenant: Prisma.TenantCreateNestedOneWithoutDepartmentsInput
@@ -247,10 +247,10 @@ export type DepartmentCreateInput = {
 
 export type DepartmentUncheckedCreateInput = {
   id?: string
-  tenantId: string
+  tenant_id: string
   name: string
   description?: string | null
-  hodId?: string | null
+  hod_id?: string | null
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutDepartmentInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutDepartmentInput
 }
@@ -259,7 +259,7 @@ export type DepartmentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  hodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hod_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjects?: Prisma.SubjectUpdateManyWithoutDepartmentNestedInput
   classes?: Prisma.ClassUpdateManyWithoutDepartmentNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDepartmentsNestedInput
@@ -267,35 +267,35 @@ export type DepartmentUpdateInput = {
 
 export type DepartmentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  hodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hod_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutDepartmentNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentCreateManyInput = {
   id?: string
-  tenantId: string
+  tenant_id: string
   name: string
   description?: string | null
-  hodId?: string | null
+  hod_id?: string | null
 }
 
 export type DepartmentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  hodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hod_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DepartmentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  hodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hod_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DepartmentListRelationFilter = {
@@ -308,33 +308,33 @@ export type DepartmentOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type DepartmentTenantIdNameCompoundUniqueInput = {
-  tenantId: string
+export type DepartmentTenant_idNameCompoundUniqueInput = {
+  tenant_id: string
   name: string
 }
 
 export type DepartmentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  hodId?: Prisma.SortOrder
+  hod_id?: Prisma.SortOrder
 }
 
 export type DepartmentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  hodId?: Prisma.SortOrder
+  hod_id?: Prisma.SortOrder
 }
 
 export type DepartmentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  hodId?: Prisma.SortOrder
+  hod_id?: Prisma.SortOrder
 }
 
 export type DepartmentNullableScalarRelationFilter = {
@@ -420,7 +420,7 @@ export type DepartmentCreateWithoutTenantInput = {
   id?: string
   name: string
   description?: string | null
-  hodId?: string | null
+  hod_id?: string | null
   subjects?: Prisma.SubjectCreateNestedManyWithoutDepartmentInput
   classes?: Prisma.ClassCreateNestedManyWithoutDepartmentInput
 }
@@ -429,7 +429,7 @@ export type DepartmentUncheckedCreateWithoutTenantInput = {
   id?: string
   name: string
   description?: string | null
-  hodId?: string | null
+  hod_id?: string | null
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutDepartmentInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutDepartmentInput
 }
@@ -465,27 +465,27 @@ export type DepartmentScalarWhereInput = {
   OR?: Prisma.DepartmentScalarWhereInput[]
   NOT?: Prisma.DepartmentScalarWhereInput | Prisma.DepartmentScalarWhereInput[]
   id?: Prisma.StringFilter<"Department"> | string
-  tenantId?: Prisma.StringFilter<"Department"> | string
+  tenant_id?: Prisma.StringFilter<"Department"> | string
   name?: Prisma.StringFilter<"Department"> | string
   description?: Prisma.StringNullableFilter<"Department"> | string | null
-  hodId?: Prisma.StringNullableFilter<"Department"> | string | null
+  hod_id?: Prisma.StringNullableFilter<"Department"> | string | null
 }
 
 export type DepartmentCreateWithoutClassesInput = {
   id?: string
   name: string
   description?: string | null
-  hodId?: string | null
+  hod_id?: string | null
   subjects?: Prisma.SubjectCreateNestedManyWithoutDepartmentInput
   tenant: Prisma.TenantCreateNestedOneWithoutDepartmentsInput
 }
 
 export type DepartmentUncheckedCreateWithoutClassesInput = {
   id?: string
-  tenantId: string
+  tenant_id: string
   name: string
   description?: string | null
-  hodId?: string | null
+  hod_id?: string | null
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutDepartmentInput
 }
 
@@ -509,17 +509,17 @@ export type DepartmentUpdateWithoutClassesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  hodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hod_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjects?: Prisma.SubjectUpdateManyWithoutDepartmentNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDepartmentsNestedInput
 }
 
 export type DepartmentUncheckedUpdateWithoutClassesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  hodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hod_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutDepartmentNestedInput
 }
 
@@ -527,17 +527,17 @@ export type DepartmentCreateWithoutSubjectsInput = {
   id?: string
   name: string
   description?: string | null
-  hodId?: string | null
+  hod_id?: string | null
   classes?: Prisma.ClassCreateNestedManyWithoutDepartmentInput
   tenant: Prisma.TenantCreateNestedOneWithoutDepartmentsInput
 }
 
 export type DepartmentUncheckedCreateWithoutSubjectsInput = {
   id?: string
-  tenantId: string
+  tenant_id: string
   name: string
   description?: string | null
-  hodId?: string | null
+  hod_id?: string | null
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutDepartmentInput
 }
 
@@ -561,17 +561,17 @@ export type DepartmentUpdateWithoutSubjectsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  hodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hod_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   classes?: Prisma.ClassUpdateManyWithoutDepartmentNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDepartmentsNestedInput
 }
 
 export type DepartmentUncheckedUpdateWithoutSubjectsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  hodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hod_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   classes?: Prisma.ClassUncheckedUpdateManyWithoutDepartmentNestedInput
 }
 
@@ -579,14 +579,14 @@ export type DepartmentCreateManyTenantInput = {
   id?: string
   name: string
   description?: string | null
-  hodId?: string | null
+  hod_id?: string | null
 }
 
 export type DepartmentUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  hodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hod_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjects?: Prisma.SubjectUpdateManyWithoutDepartmentNestedInput
   classes?: Prisma.ClassUpdateManyWithoutDepartmentNestedInput
 }
@@ -595,7 +595,7 @@ export type DepartmentUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  hodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hod_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutDepartmentNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutDepartmentNestedInput
 }
@@ -604,7 +604,7 @@ export type DepartmentUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  hodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hod_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -649,10 +649,10 @@ export type DepartmentCountOutputTypeCountClassesArgs<ExtArgs extends runtime.Ty
 
 export type DepartmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenantId?: boolean
+  tenant_id?: boolean
   name?: boolean
   description?: boolean
-  hodId?: boolean
+  hod_id?: boolean
   subjects?: boolean | Prisma.Department$subjectsArgs<ExtArgs>
   classes?: boolean | Prisma.Department$classesArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -661,31 +661,31 @@ export type DepartmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type DepartmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenantId?: boolean
+  tenant_id?: boolean
   name?: boolean
   description?: boolean
-  hodId?: boolean
+  hod_id?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["department"]>
 
 export type DepartmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenantId?: boolean
+  tenant_id?: boolean
   name?: boolean
   description?: boolean
-  hodId?: boolean
+  hod_id?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["department"]>
 
 export type DepartmentSelectScalar = {
   id?: boolean
-  tenantId?: boolean
+  tenant_id?: boolean
   name?: boolean
   description?: boolean
-  hodId?: boolean
+  hod_id?: boolean
 }
 
-export type DepartmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "name" | "description" | "hodId", ExtArgs["result"]["department"]>
+export type DepartmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "name" | "description" | "hod_id", ExtArgs["result"]["department"]>
 export type DepartmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subjects?: boolean | Prisma.Department$subjectsArgs<ExtArgs>
   classes?: boolean | Prisma.Department$classesArgs<ExtArgs>
@@ -708,10 +708,10 @@ export type $DepartmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tenantId: string
+    tenant_id: string
     name: string
     description: string | null
-    hodId: string | null
+    hod_id: string | null
   }, ExtArgs["result"]["department"]>
   composites: {}
 }
@@ -1139,10 +1139,10 @@ export interface Prisma__DepartmentClient<T, Null = never, ExtArgs extends runti
  */
 export interface DepartmentFieldRefs {
   readonly id: Prisma.FieldRef<"Department", 'String'>
-  readonly tenantId: Prisma.FieldRef<"Department", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"Department", 'String'>
   readonly name: Prisma.FieldRef<"Department", 'String'>
   readonly description: Prisma.FieldRef<"Department", 'String'>
-  readonly hodId: Prisma.FieldRef<"Department", 'String'>
+  readonly hod_id: Prisma.FieldRef<"Department", 'String'>
 }
     
 

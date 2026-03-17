@@ -9,86 +9,86 @@ datasource db {
 }
 
 model Tenant {
-  id               String            @id @default(uuid())
-  name             String
-  slug             String            @unique
+  id                String            @id @default(uuid())
+  name              String
+  slug              String            @unique
   /// Short code used in matric/employee IDs (e.g. GFA for Greenfield Academy). Falls back to slug if not set.
-  initials         String?           @map("initials")
-  email            String?
-  phone            String?
-  address          String?
-  logo             String?
-  status           TenantStatus      @default(ACTIVE)
-  plan             String            @default("free")
-  config           Json              @default("{}")
-  createdAt        DateTime          @default(now()) @map("created_at")
-  deletedAt        DateTime?         @map("deleted_at")
-  updatedAt        DateTime          @updatedAt @map("updated_at")
-  users            User[]
-  academicSessions AcademicSession[]
-  academicTerms    AcademicTerm[]
-  departments      Department[]
-  classes          Class[]
-  subjects         Subject[]
+  initials          String?
+  email             String?
+  phone             String?
+  address           String?
+  logo              String?
+  status            TenantStatus      @default(ACTIVE)
+  plan              String            @default("free")
+  config            Json              @default("{}")
+  created_at        DateTime          @default(now())
+  deleted_at        DateTime?
+  updated_at        DateTime          @updatedAt
+  users             User[]
+  academic_sessions AcademicSession[]
+  academic_terms    AcademicTerm[]
+  departments       Department[]
+  classes           Class[]
+  subjects          Subject[]
 
   @@map("tenants")
 }
 
 model User {
-  id              String           @id @default(uuid())
-  role            UserRole
+  id               String           @id @default(uuid())
+  role             UserRole
   /// Human-readable login ID: students = matricNumber, teachers/staff = employeeId, guardians = custom ID. Unique per tenant.
-  identifier      String           @unique
-  email           String?
-  phone           String?
-  avatar          String?
-  status          UserStatus       @default(PENDING)
-  firstName       String           @map("first_name")
-  lastName        String           @map("last_name")
-  mfaEnabled      Boolean          @default(false)
-  mfaSecret       String?          @map("mfa_secret")
-  passwordHash    String           @map("password_hash")
-  relationship    String?
-  createdAt       DateTime         @default(now()) @map("created_at")
-  lastLoginAt     DateTime?        @map("last_login_at")
-  tenantId        String           @map("tenant_id")
-  updatedAt       DateTime         @updatedAt @map("updated_at")
-  guardianProfile GuardianProfile?
-  refreshTokens   RefreshToken[]
-  staffProfile    StaffProfile?
-  studentProfile  StudentProfile?
-  teacherProfile  TeacherProfile?
-  tenant          Tenant           @relation(fields: [tenantId], references: [id])
+  identifier       String           @unique
+  email            String?
+  phone            String?
+  avatar           String?
+  status           UserStatus       @default(PENDING)
+  first_name       String
+  last_name        String
+  mfa_enabled      Boolean          @default(false)
+  mfa_secret       String?
+  password_hash    String
+  relationship     String?
+  created_at       DateTime         @default(now())
+  last_login_at    DateTime?
+  tenant_id        String
+  updated_at       DateTime         @updatedAt
+  guardian_profile GuardianProfile?
+  refresh_tokens   RefreshToken[]
+  staff_profile    StaffProfile?
+  student_profile  StudentProfile?
+  teacher_profile  TeacherProfile?
+  tenant           Tenant           @relation(fields: [tenant_id], references: [id])
 
-  @@unique([tenantId, identifier])
-  @@unique([tenantId, email])
+  @@unique([tenant_id, identifier])
+  @@unique([tenant_id, email])
   @@map("users")
 }
 
 model RefreshToken {
-  id        String   @id @default(uuid())
-  token     String   @unique
-  createdAt DateTime @default(now()) @map("created_at")
-  expiresAt DateTime @map("expires_at")
-  userId    String   @map("user_id")
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String   @id @default(uuid())
+  token      String   @unique
+  created_at DateTime @default(now())
+  expires_at DateTime
+  user_id    String
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("refresh_tokens")
 }
 
 /// id = internal UUID. userId = FK to User. matricNumber = display ID (e.g. GFA/2026/0001), same as User.identifier for students.
 model StudentProfile {
-  id            String    @id @default(uuid())
-  userId        String    @unique @map("user_id")
-  tenantId      String    @map("tenant_id")
-  matricNumber  String    @unique @map("matric_number")
-  classId       String    @map("class_id")
-  admissionDate DateTime? @map("admission_date")
-  dateOfBirth   DateTime? @map("date_of_birth")
-  guardianIds   String[]  @default([]) @map("guardian_ids")
+  id             String    @id @default(uuid())
+  user_id        String    @unique
+  tenant_id      String
+  matric_number  String    @unique
+  class_id       String
+  admission_date DateTime?
+  date_of_birth  DateTime?
+  guardian_ids   String[]  @default([])
 
-  user                        User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  class                       Class?                       @relation(fields: [classId], references: [id])
+  user                        User                         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  class                       Class?                       @relation(fields: [class_id], references: [id])
   studentSubjectRegistrations StudentSubjectRegistration[]
 
   @@map("student_profiles")
@@ -97,15 +97,15 @@ model StudentProfile {
 /// id = internal UUID. userId = FK to User. employeeId = display ID (e.g. GFA/TCH/001), same as User.identifier for teachers.
 model TeacherProfile {
   id            String    @id @default(uuid())
-  userId        String    @unique @map("user_id")
-  tenantId      String    @map("tenant_id")
-  employeeId    String    @unique @map("employee_id")
-  departmentId  String?   @map("department_id")
-  qualification String?   @map("qualification")
-  dateJoined    DateTime? @map("date_joined")
+  user_id       String    @unique
+  tenant_id     String
+  employee_id   String    @unique
+  department_id String?
+  qualification String?
+  date_joined   DateTime?
   // subjectIds    String[]  @default([]) @map("subject_ids")
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("teacher_profiles")
 }
@@ -113,161 +113,159 @@ model TeacherProfile {
 /// id = internal UUID. userId = FK to User. Guardians use User.identifier (no separate employee/matric field).
 model GuardianProfile {
   id           String   @id @default(uuid())
-  userId       String   @unique @map("user_id")
-  tenantId     String   @map("tenant_id")
-  occupation   String?  @map("occupation")
-  relationship String?  @map("relationship")
-  wardIds      String[] @default([]) @map("ward_ids")
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user_id      String   @unique
+  tenant_id    String
+  occupation   String?
+  relationship String?
+  ward_ids     String[] @default([])
+  user         User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("guardian_profiles")
 }
 
 /// id = internal UUID. userId = FK to User. employeeId = display ID (e.g. GFA/EMP/001), same as User.identifier for staff.
 model StaffProfile {
-  id           String    @id @default(uuid())
-  userId       String    @unique @map("user_id")
-  tenantId     String    @map("tenant_id")
-  employeeId   String    @unique @map("employee_id")
-  staffType    String    @map("staff_type")
-  departmentId String?   @map("department_id")
-  dateJoined   DateTime? @map("date_joined")
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id            String    @id @default(uuid())
+  user_id       String    @unique
+  tenant_id     String
+  employee_id   String    @unique
+  staff_type    String
+  department_id String?
+  date_joined   DateTime?
+  user          User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("staff_profiles")
 }
 
 model AcademicSession {
-  id        String   @id @default(uuid())
-  tenantId  String   @map("tenant_id")
-  name      String   @map("name")
-  startDate DateTime @map("start_date")
-  endDate   DateTime @map("end_date")
-  isCurrent Boolean  @default(false) @map("is_current")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id         String   @id @default(uuid())
+  tenant_id  String
+  name       String
+  start_date DateTime
+  end_date   DateTime
+  is_current Boolean  @default(false)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  tenant Tenant         @relation(fields: [tenantId], references: [id])
+  tenant Tenant         @relation(fields: [tenant_id], references: [id])
   // semesters        AcademicSemester[] // For uni
   terms  AcademicTerm[] // For secondary
 
-  @@unique([tenantId, name]) // can't have two sessions with same name in one school
+  @@unique([tenant_id, name]) // can't have two sessions with same name in one school
   @@map("academic_sessions")
 }
 
 model AcademicTerm {
-  id                   String                       @id @default(uuid())
-  tenantId             String                       @map("tenant_id")
-  academicSessionId    String                       @map("academic_session_id")
-  name                 String                       @map("name")
-  startDate            DateTime                     @map("start_date")
-  endDate              DateTime                     @map("end_date")
-  isCurrent            Boolean                      @default(false) @map("is_current")
-  createdAt            DateTime                     @default(now()) @map("created_at")
-  updatedAt            DateTime                     @updatedAt @map("updated_at")
-  subjectRegistrations StudentSubjectRegistration[]
+  id                    String                       @id @default(uuid())
+  tenant_id             String
+  academic_session_id   String
+  name                  String
+  start_date            DateTime
+  end_date              DateTime
+  is_current            Boolean                      @default(false)
+  created_at            DateTime                     @default(now())
+  updated_at            DateTime                     @updatedAt
+  subject_registrations StudentSubjectRegistration[]
 
-  tenant          Tenant          @relation(fields: [tenantId], references: [id])
-  academicSession AcademicSession @relation(fields: [academicSessionId], references: [id], onDelete: Cascade)
+  tenant          Tenant          @relation(fields: [tenant_id], references: [id])
+  academicSession AcademicSession @relation(fields: [academic_session_id], references: [id], onDelete: Cascade)
 
-  @@unique([academicSessionId, name]) // can't have two terms with same name in one session
+  @@unique([academic_session_id, name]) // can't have two terms with same name in one session
   @@map("academic_terms")
 }
 
 model Department {
   id          String  @id @default(uuid())
-  tenantId    String  @map("tenant_id")
-  name        String  @map("name")
-  description String? @map("description")
-  hodId       String? @map("hod_id")
+  tenant_id   String
+  name        String
+  description String?
+  hod_id      String?
 
   subjects Subject[]
   classes  Class[]
 
-  tenant Tenant @relation(fields: [tenantId], references: [id])
+  tenant Tenant @relation(fields: [tenant_id], references: [id])
 
-  @@unique([tenantId, name])
+  @@unique([tenant_id, name])
   @@map("departments")
 }
 
 model Class {
-  id             String  @id @default(uuid())
-  tenantId       String  @map("tenant_id")
-  name           String
-  level          String
-  capacity       Int     @default(40)
-  departmentId   String? @map("department_id")
-  classTeacherId String? @map("class_teacher_id") // the teacher responsible for this class
+  id               String  @id @default(uuid())
+  tenant_id        String
+  name             String
+  level            String
+  capacity         Int     @default(40)
+  department_id    String?
+  class_teacher_id String? // the teacher responsible for this class
 
-  tenant        Tenant           @relation(fields: [tenantId], references: [id])
-  department    Department?      @relation(fields: [departmentId], references: [id])  
+  tenant        Tenant           @relation(fields: [tenant_id], references: [id])
+  department    Department?      @relation(fields: [department_id], references: [id])
   students      StudentProfile[]
-  classSubjects ClassSubject[]    // subjects offered in this class
+  classSubjects ClassSubject[] // subjects offered in this class
 
-  @@unique([tenantId, name])
+  @@unique([tenant_id, name])
   @@map("classes")
 }
 
 model Subject {
-  id           String  @id @default(uuid())
-  tenantId     String  @map("tenant_id")
-  name         String
-  code         String
-  title        String
-  description  String?
-  departmentId String? @map("department_id")
+  id            String  @id @default(uuid())
+  tenant_id     String
+  name          String
+  code          String
+  title         String
+  description   String?
+  department_id String?
 
-  tenant        Tenant         @relation(fields: [tenantId], references: [id])
-  department    Department?    @relation(fields: [departmentId], references: [id])
+  tenant        Tenant         @relation(fields: [tenant_id], references: [id])
+  department    Department?    @relation(fields: [department_id], references: [id])
   classSubjects ClassSubject[] // which classes offer this subject
 
-  @@unique([tenantId, code, departmentId])
+  @@unique([tenant_id, code, department_id])
   @@map("subjects")
 }
 
 model ClassSubject {
-  id          String      @id @default(uuid())
-  tenantId    String      @map("tenant_id")
-  classId     String      @map("class_id")
-  subjectId   String      @map("subject_id")
-  subjectType SubjectType @default(COMPULSORY)
-  // createdAt DateTime @default(now()) @map("created_at")
-  // updatedAt DateTime @updatedAt @map("updated_at")
+  id           String      @id @default(uuid())
+  tenant_id    String
+  class_id     String
+  subject_id   String
+  subject_type SubjectType @default(COMPULSORY)
 
-  class                       Class                        @relation(fields: [classId], references: [id], onDelete: Cascade)
-  subject                     Subject                      @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  teachers                    SubjectTeacher[]
-  studentSubjectRegistrations StudentSubjectRegistration[]
+  class                         Class                        @relation(fields: [class_id], references: [id], onDelete: Cascade)
+  subject                       Subject                      @relation(fields: [subject_id], references: [id], onDelete: Cascade)
+  teachers                      SubjectTeacher[]
+  student_subject_registrations StudentSubjectRegistration[]
 
-  @@unique([tenantId, classId, subjectId])
+  @@unique([tenant_id, class_id, subject_id])
   @@map("class_subjects")
 }
 
 model SubjectTeacher {
-  id             String @id @default(uuid())
-  tenantId       String @map("tenant_id")
-  classSubjectId String @map("class_subject_id")
-  teacherId      String @map("teacher_id")
+  id               String @id @default(uuid())
+  tenant_id        String
+  class_subject_id String
+  teacher_id       String
 
-  classSubject ClassSubject @relation(fields: [classSubjectId], references: [id], onDelete: Cascade)
+  classSubject ClassSubject @relation(fields: [class_subject_id], references: [id], onDelete: Cascade)
 
-  @@unique([tenantId, classSubjectId, teacherId])
+  @@unique([tenant_id, class_subject_id, teacher_id])
   @@map("subject_teachers")
 }
 
 model StudentSubjectRegistration {
-  id               String   @id @default(uuid())
-  tenantId         String   @map("tenant_id")
-  studentId        String   @map("student_id")
-  classSubjectId   String   @map("class_subject_id")
-  termId           String   @map("term_id")
-  registrationDate DateTime @default(now()) @map("registration_date")
+  id                String   @id @default(uuid())
+  tenant_id         String
+  student_id        String
+  class_subject_id  String
+  term_id           String
+  registration_date DateTime @default(now())
 
-  student      StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  classSubject ClassSubject   @relation(fields: [classSubjectId], references: [id])
-  term         AcademicTerm   @relation(fields: [termId], references: [id])
+  student      StudentProfile @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  classSubject ClassSubject   @relation(fields: [class_subject_id], references: [id])
+  term         AcademicTerm   @relation(fields: [term_id], references: [id])
 
-  @@unique([tenantId, studentId, classSubjectId, termId])
+  @@unique([tenant_id, student_id, class_subject_id, term_id])
   @@map("student_subject_registrations")
 }
 

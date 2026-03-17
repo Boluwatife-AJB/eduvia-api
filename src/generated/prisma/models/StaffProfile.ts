@@ -26,64 +26,64 @@ export type AggregateStaffProfile = {
 
 export type StaffProfileMinAggregateOutputType = {
   id: string | null
-  userId: string | null
-  tenantId: string | null
-  employeeId: string | null
-  staffType: string | null
-  departmentId: string | null
-  dateJoined: Date | null
+  user_id: string | null
+  tenant_id: string | null
+  employee_id: string | null
+  staff_type: string | null
+  department_id: string | null
+  date_joined: Date | null
 }
 
 export type StaffProfileMaxAggregateOutputType = {
   id: string | null
-  userId: string | null
-  tenantId: string | null
-  employeeId: string | null
-  staffType: string | null
-  departmentId: string | null
-  dateJoined: Date | null
+  user_id: string | null
+  tenant_id: string | null
+  employee_id: string | null
+  staff_type: string | null
+  department_id: string | null
+  date_joined: Date | null
 }
 
 export type StaffProfileCountAggregateOutputType = {
   id: number
-  userId: number
-  tenantId: number
-  employeeId: number
-  staffType: number
-  departmentId: number
-  dateJoined: number
+  user_id: number
+  tenant_id: number
+  employee_id: number
+  staff_type: number
+  department_id: number
+  date_joined: number
   _all: number
 }
 
 
 export type StaffProfileMinAggregateInputType = {
   id?: true
-  userId?: true
-  tenantId?: true
-  employeeId?: true
-  staffType?: true
-  departmentId?: true
-  dateJoined?: true
+  user_id?: true
+  tenant_id?: true
+  employee_id?: true
+  staff_type?: true
+  department_id?: true
+  date_joined?: true
 }
 
 export type StaffProfileMaxAggregateInputType = {
   id?: true
-  userId?: true
-  tenantId?: true
-  employeeId?: true
-  staffType?: true
-  departmentId?: true
-  dateJoined?: true
+  user_id?: true
+  tenant_id?: true
+  employee_id?: true
+  staff_type?: true
+  department_id?: true
+  date_joined?: true
 }
 
 export type StaffProfileCountAggregateInputType = {
   id?: true
-  userId?: true
-  tenantId?: true
-  employeeId?: true
-  staffType?: true
-  departmentId?: true
-  dateJoined?: true
+  user_id?: true
+  tenant_id?: true
+  employee_id?: true
+  staff_type?: true
+  department_id?: true
+  date_joined?: true
   _all?: true
 }
 
@@ -161,12 +161,12 @@ export type StaffProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 
 export type StaffProfileGroupByOutputType = {
   id: string
-  userId: string
-  tenantId: string
-  employeeId: string
-  staffType: string
-  departmentId: string | null
-  dateJoined: Date | null
+  user_id: string
+  tenant_id: string
+  employee_id: string
+  staff_type: string
+  department_id: string | null
+  date_joined: Date | null
   _count: StaffProfileCountAggregateOutputType | null
   _min: StaffProfileMinAggregateOutputType | null
   _max: StaffProfileMaxAggregateOutputType | null
@@ -192,48 +192,48 @@ export type StaffProfileWhereInput = {
   OR?: Prisma.StaffProfileWhereInput[]
   NOT?: Prisma.StaffProfileWhereInput | Prisma.StaffProfileWhereInput[]
   id?: Prisma.StringFilter<"StaffProfile"> | string
-  userId?: Prisma.StringFilter<"StaffProfile"> | string
-  tenantId?: Prisma.StringFilter<"StaffProfile"> | string
-  employeeId?: Prisma.StringFilter<"StaffProfile"> | string
-  staffType?: Prisma.StringFilter<"StaffProfile"> | string
-  departmentId?: Prisma.StringNullableFilter<"StaffProfile"> | string | null
-  dateJoined?: Prisma.DateTimeNullableFilter<"StaffProfile"> | Date | string | null
+  user_id?: Prisma.StringFilter<"StaffProfile"> | string
+  tenant_id?: Prisma.StringFilter<"StaffProfile"> | string
+  employee_id?: Prisma.StringFilter<"StaffProfile"> | string
+  staff_type?: Prisma.StringFilter<"StaffProfile"> | string
+  department_id?: Prisma.StringNullableFilter<"StaffProfile"> | string | null
+  date_joined?: Prisma.DateTimeNullableFilter<"StaffProfile"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type StaffProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  employeeId?: Prisma.SortOrder
-  staffType?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
-  dateJoined?: Prisma.SortOrderInput | Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  employee_id?: Prisma.SortOrder
+  staff_type?: Prisma.SortOrder
+  department_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  date_joined?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type StaffProfileWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  userId?: string
-  employeeId?: string
+  user_id?: string
+  employee_id?: string
   AND?: Prisma.StaffProfileWhereInput | Prisma.StaffProfileWhereInput[]
   OR?: Prisma.StaffProfileWhereInput[]
   NOT?: Prisma.StaffProfileWhereInput | Prisma.StaffProfileWhereInput[]
-  tenantId?: Prisma.StringFilter<"StaffProfile"> | string
-  staffType?: Prisma.StringFilter<"StaffProfile"> | string
-  departmentId?: Prisma.StringNullableFilter<"StaffProfile"> | string | null
-  dateJoined?: Prisma.DateTimeNullableFilter<"StaffProfile"> | Date | string | null
+  tenant_id?: Prisma.StringFilter<"StaffProfile"> | string
+  staff_type?: Prisma.StringFilter<"StaffProfile"> | string
+  department_id?: Prisma.StringNullableFilter<"StaffProfile"> | string | null
+  date_joined?: Prisma.DateTimeNullableFilter<"StaffProfile"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "userId" | "employeeId">
+}, "id" | "user_id" | "employee_id">
 
 export type StaffProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  employeeId?: Prisma.SortOrder
-  staffType?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
-  dateJoined?: Prisma.SortOrderInput | Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  employee_id?: Prisma.SortOrder
+  staff_type?: Prisma.SortOrder
+  department_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  date_joined?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.StaffProfileCountOrderByAggregateInput
   _max?: Prisma.StaffProfileMaxOrderByAggregateInput
   _min?: Prisma.StaffProfileMinOrderByAggregateInput
@@ -244,81 +244,81 @@ export type StaffProfileScalarWhereWithAggregatesInput = {
   OR?: Prisma.StaffProfileScalarWhereWithAggregatesInput[]
   NOT?: Prisma.StaffProfileScalarWhereWithAggregatesInput | Prisma.StaffProfileScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
-  tenantId?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
-  employeeId?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
-  staffType?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
-  departmentId?: Prisma.StringNullableWithAggregatesFilter<"StaffProfile"> | string | null
-  dateJoined?: Prisma.DateTimeNullableWithAggregatesFilter<"StaffProfile"> | Date | string | null
+  user_id?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
+  tenant_id?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
+  employee_id?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
+  staff_type?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
+  department_id?: Prisma.StringNullableWithAggregatesFilter<"StaffProfile"> | string | null
+  date_joined?: Prisma.DateTimeNullableWithAggregatesFilter<"StaffProfile"> | Date | string | null
 }
 
 export type StaffProfileCreateInput = {
   id?: string
-  tenantId: string
-  employeeId: string
-  staffType: string
-  departmentId?: string | null
-  dateJoined?: Date | string | null
-  user: Prisma.UserCreateNestedOneWithoutStaffProfileInput
+  tenant_id: string
+  employee_id: string
+  staff_type: string
+  department_id?: string | null
+  date_joined?: Date | string | null
+  user: Prisma.UserCreateNestedOneWithoutStaff_profileInput
 }
 
 export type StaffProfileUncheckedCreateInput = {
   id?: string
-  userId: string
-  tenantId: string
-  employeeId: string
-  staffType: string
-  departmentId?: string | null
-  dateJoined?: Date | string | null
+  user_id: string
+  tenant_id: string
+  employee_id: string
+  staff_type: string
+  department_id?: string | null
+  date_joined?: Date | string | null
 }
 
 export type StaffProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  employeeId?: Prisma.StringFieldUpdateOperationsInput | string
-  staffType?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  user?: Prisma.UserUpdateOneRequiredWithoutStaffProfileNestedInput
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  employee_id?: Prisma.StringFieldUpdateOperationsInput | string
+  staff_type?: Prisma.StringFieldUpdateOperationsInput | string
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user?: Prisma.UserUpdateOneRequiredWithoutStaff_profileNestedInput
 }
 
 export type StaffProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  employeeId?: Prisma.StringFieldUpdateOperationsInput | string
-  staffType?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  employee_id?: Prisma.StringFieldUpdateOperationsInput | string
+  staff_type?: Prisma.StringFieldUpdateOperationsInput | string
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type StaffProfileCreateManyInput = {
   id?: string
-  userId: string
-  tenantId: string
-  employeeId: string
-  staffType: string
-  departmentId?: string | null
-  dateJoined?: Date | string | null
+  user_id: string
+  tenant_id: string
+  employee_id: string
+  staff_type: string
+  department_id?: string | null
+  date_joined?: Date | string | null
 }
 
 export type StaffProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  employeeId?: Prisma.StringFieldUpdateOperationsInput | string
-  staffType?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  employee_id?: Prisma.StringFieldUpdateOperationsInput | string
+  staff_type?: Prisma.StringFieldUpdateOperationsInput | string
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type StaffProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  employeeId?: Prisma.StringFieldUpdateOperationsInput | string
-  staffType?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  employee_id?: Prisma.StringFieldUpdateOperationsInput | string
+  staff_type?: Prisma.StringFieldUpdateOperationsInput | string
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type StaffProfileNullableScalarRelationFilter = {
@@ -328,32 +328,32 @@ export type StaffProfileNullableScalarRelationFilter = {
 
 export type StaffProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  employeeId?: Prisma.SortOrder
-  staffType?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrder
-  dateJoined?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  employee_id?: Prisma.SortOrder
+  staff_type?: Prisma.SortOrder
+  department_id?: Prisma.SortOrder
+  date_joined?: Prisma.SortOrder
 }
 
 export type StaffProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  employeeId?: Prisma.SortOrder
-  staffType?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrder
-  dateJoined?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  employee_id?: Prisma.SortOrder
+  staff_type?: Prisma.SortOrder
+  department_id?: Prisma.SortOrder
+  date_joined?: Prisma.SortOrder
 }
 
 export type StaffProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  employeeId?: Prisma.SortOrder
-  staffType?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrder
-  dateJoined?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  employee_id?: Prisma.SortOrder
+  staff_type?: Prisma.SortOrder
+  department_id?: Prisma.SortOrder
+  date_joined?: Prisma.SortOrder
 }
 
 export type StaffProfileCreateNestedOneWithoutUserInput = {
@@ -390,20 +390,20 @@ export type StaffProfileUncheckedUpdateOneWithoutUserNestedInput = {
 
 export type StaffProfileCreateWithoutUserInput = {
   id?: string
-  tenantId: string
-  employeeId: string
-  staffType: string
-  departmentId?: string | null
-  dateJoined?: Date | string | null
+  tenant_id: string
+  employee_id: string
+  staff_type: string
+  department_id?: string | null
+  date_joined?: Date | string | null
 }
 
 export type StaffProfileUncheckedCreateWithoutUserInput = {
   id?: string
-  tenantId: string
-  employeeId: string
-  staffType: string
-  departmentId?: string | null
-  dateJoined?: Date | string | null
+  tenant_id: string
+  employee_id: string
+  staff_type: string
+  department_id?: string | null
+  date_joined?: Date | string | null
 }
 
 export type StaffProfileCreateOrConnectWithoutUserInput = {
@@ -424,68 +424,68 @@ export type StaffProfileUpdateToOneWithWhereWithoutUserInput = {
 
 export type StaffProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  employeeId?: Prisma.StringFieldUpdateOperationsInput | string
-  staffType?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  employee_id?: Prisma.StringFieldUpdateOperationsInput | string
+  staff_type?: Prisma.StringFieldUpdateOperationsInput | string
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type StaffProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  employeeId?: Prisma.StringFieldUpdateOperationsInput | string
-  staffType?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  employee_id?: Prisma.StringFieldUpdateOperationsInput | string
+  staff_type?: Prisma.StringFieldUpdateOperationsInput | string
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
 
 export type StaffProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
-  tenantId?: boolean
-  employeeId?: boolean
-  staffType?: boolean
-  departmentId?: boolean
-  dateJoined?: boolean
+  user_id?: boolean
+  tenant_id?: boolean
+  employee_id?: boolean
+  staff_type?: boolean
+  department_id?: boolean
+  date_joined?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["staffProfile"]>
 
 export type StaffProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
-  tenantId?: boolean
-  employeeId?: boolean
-  staffType?: boolean
-  departmentId?: boolean
-  dateJoined?: boolean
+  user_id?: boolean
+  tenant_id?: boolean
+  employee_id?: boolean
+  staff_type?: boolean
+  department_id?: boolean
+  date_joined?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["staffProfile"]>
 
 export type StaffProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
-  tenantId?: boolean
-  employeeId?: boolean
-  staffType?: boolean
-  departmentId?: boolean
-  dateJoined?: boolean
+  user_id?: boolean
+  tenant_id?: boolean
+  employee_id?: boolean
+  staff_type?: boolean
+  department_id?: boolean
+  date_joined?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["staffProfile"]>
 
 export type StaffProfileSelectScalar = {
   id?: boolean
-  userId?: boolean
-  tenantId?: boolean
-  employeeId?: boolean
-  staffType?: boolean
-  departmentId?: boolean
-  dateJoined?: boolean
+  user_id?: boolean
+  tenant_id?: boolean
+  employee_id?: boolean
+  staff_type?: boolean
+  department_id?: boolean
+  date_joined?: boolean
 }
 
-export type StaffProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tenantId" | "employeeId" | "staffType" | "departmentId" | "dateJoined", ExtArgs["result"]["staffProfile"]>
+export type StaffProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "tenant_id" | "employee_id" | "staff_type" | "department_id" | "date_joined", ExtArgs["result"]["staffProfile"]>
 export type StaffProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -503,12 +503,12 @@ export type $StaffProfilePayload<ExtArgs extends runtime.Types.Extensions.Intern
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    userId: string
-    tenantId: string
-    employeeId: string
-    staffType: string
-    departmentId: string | null
-    dateJoined: Date | null
+    user_id: string
+    tenant_id: string
+    employee_id: string
+    staff_type: string
+    department_id: string | null
+    date_joined: Date | null
   }, ExtArgs["result"]["staffProfile"]>
   composites: {}
 }
@@ -934,12 +934,12 @@ export interface Prisma__StaffProfileClient<T, Null = never, ExtArgs extends run
  */
 export interface StaffProfileFieldRefs {
   readonly id: Prisma.FieldRef<"StaffProfile", 'String'>
-  readonly userId: Prisma.FieldRef<"StaffProfile", 'String'>
-  readonly tenantId: Prisma.FieldRef<"StaffProfile", 'String'>
-  readonly employeeId: Prisma.FieldRef<"StaffProfile", 'String'>
-  readonly staffType: Prisma.FieldRef<"StaffProfile", 'String'>
-  readonly departmentId: Prisma.FieldRef<"StaffProfile", 'String'>
-  readonly dateJoined: Prisma.FieldRef<"StaffProfile", 'DateTime'>
+  readonly user_id: Prisma.FieldRef<"StaffProfile", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"StaffProfile", 'String'>
+  readonly employee_id: Prisma.FieldRef<"StaffProfile", 'String'>
+  readonly staff_type: Prisma.FieldRef<"StaffProfile", 'String'>
+  readonly department_id: Prisma.FieldRef<"StaffProfile", 'String'>
+  readonly date_joined: Prisma.FieldRef<"StaffProfile", 'DateTime'>
 }
     
 

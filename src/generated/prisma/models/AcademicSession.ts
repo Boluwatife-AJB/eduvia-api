@@ -26,70 +26,70 @@ export type AggregateAcademicSession = {
 
 export type AcademicSessionMinAggregateOutputType = {
   id: string | null
-  tenantId: string | null
+  tenant_id: string | null
   name: string | null
-  startDate: Date | null
-  endDate: Date | null
-  isCurrent: boolean | null
-  createdAt: Date | null
-  updatedAt: Date | null
+  start_date: Date | null
+  end_date: Date | null
+  is_current: boolean | null
+  created_at: Date | null
+  updated_at: Date | null
 }
 
 export type AcademicSessionMaxAggregateOutputType = {
   id: string | null
-  tenantId: string | null
+  tenant_id: string | null
   name: string | null
-  startDate: Date | null
-  endDate: Date | null
-  isCurrent: boolean | null
-  createdAt: Date | null
-  updatedAt: Date | null
+  start_date: Date | null
+  end_date: Date | null
+  is_current: boolean | null
+  created_at: Date | null
+  updated_at: Date | null
 }
 
 export type AcademicSessionCountAggregateOutputType = {
   id: number
-  tenantId: number
+  tenant_id: number
   name: number
-  startDate: number
-  endDate: number
-  isCurrent: number
-  createdAt: number
-  updatedAt: number
+  start_date: number
+  end_date: number
+  is_current: number
+  created_at: number
+  updated_at: number
   _all: number
 }
 
 
 export type AcademicSessionMinAggregateInputType = {
   id?: true
-  tenantId?: true
+  tenant_id?: true
   name?: true
-  startDate?: true
-  endDate?: true
-  isCurrent?: true
-  createdAt?: true
-  updatedAt?: true
+  start_date?: true
+  end_date?: true
+  is_current?: true
+  created_at?: true
+  updated_at?: true
 }
 
 export type AcademicSessionMaxAggregateInputType = {
   id?: true
-  tenantId?: true
+  tenant_id?: true
   name?: true
-  startDate?: true
-  endDate?: true
-  isCurrent?: true
-  createdAt?: true
-  updatedAt?: true
+  start_date?: true
+  end_date?: true
+  is_current?: true
+  created_at?: true
+  updated_at?: true
 }
 
 export type AcademicSessionCountAggregateInputType = {
   id?: true
-  tenantId?: true
+  tenant_id?: true
   name?: true
-  startDate?: true
-  endDate?: true
-  isCurrent?: true
-  createdAt?: true
-  updatedAt?: true
+  start_date?: true
+  end_date?: true
+  is_current?: true
+  created_at?: true
+  updated_at?: true
   _all?: true
 }
 
@@ -167,13 +167,13 @@ export type AcademicSessionGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 
 export type AcademicSessionGroupByOutputType = {
   id: string
-  tenantId: string
+  tenant_id: string
   name: string
-  startDate: Date
-  endDate: Date
-  isCurrent: boolean
-  createdAt: Date
-  updatedAt: Date
+  start_date: Date
+  end_date: Date
+  is_current: boolean
+  created_at: Date
+  updated_at: Date
   _count: AcademicSessionCountAggregateOutputType | null
   _min: AcademicSessionMinAggregateOutputType | null
   _max: AcademicSessionMaxAggregateOutputType | null
@@ -199,56 +199,56 @@ export type AcademicSessionWhereInput = {
   OR?: Prisma.AcademicSessionWhereInput[]
   NOT?: Prisma.AcademicSessionWhereInput | Prisma.AcademicSessionWhereInput[]
   id?: Prisma.StringFilter<"AcademicSession"> | string
-  tenantId?: Prisma.StringFilter<"AcademicSession"> | string
+  tenant_id?: Prisma.StringFilter<"AcademicSession"> | string
   name?: Prisma.StringFilter<"AcademicSession"> | string
-  startDate?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
-  endDate?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
-  isCurrent?: Prisma.BoolFilter<"AcademicSession"> | boolean
-  createdAt?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
+  start_date?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
+  end_date?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
+  is_current?: Prisma.BoolFilter<"AcademicSession"> | boolean
+  created_at?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   terms?: Prisma.AcademicTermListRelationFilter
 }
 
 export type AcademicSessionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  startDate?: Prisma.SortOrder
-  endDate?: Prisma.SortOrder
-  isCurrent?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  start_date?: Prisma.SortOrder
+  end_date?: Prisma.SortOrder
+  is_current?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
   terms?: Prisma.AcademicTermOrderByRelationAggregateInput
 }
 
 export type AcademicSessionWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  tenantId_name?: Prisma.AcademicSessionTenantIdNameCompoundUniqueInput
+  tenant_id_name?: Prisma.AcademicSessionTenant_idNameCompoundUniqueInput
   AND?: Prisma.AcademicSessionWhereInput | Prisma.AcademicSessionWhereInput[]
   OR?: Prisma.AcademicSessionWhereInput[]
   NOT?: Prisma.AcademicSessionWhereInput | Prisma.AcademicSessionWhereInput[]
-  tenantId?: Prisma.StringFilter<"AcademicSession"> | string
+  tenant_id?: Prisma.StringFilter<"AcademicSession"> | string
   name?: Prisma.StringFilter<"AcademicSession"> | string
-  startDate?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
-  endDate?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
-  isCurrent?: Prisma.BoolFilter<"AcademicSession"> | boolean
-  createdAt?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
+  start_date?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
+  end_date?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
+  is_current?: Prisma.BoolFilter<"AcademicSession"> | boolean
+  created_at?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   terms?: Prisma.AcademicTermListRelationFilter
-}, "id" | "tenantId_name">
+}, "id" | "tenant_id_name">
 
 export type AcademicSessionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  startDate?: Prisma.SortOrder
-  endDate?: Prisma.SortOrder
-  isCurrent?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  start_date?: Prisma.SortOrder
+  end_date?: Prisma.SortOrder
+  is_current?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
   _count?: Prisma.AcademicSessionCountOrderByAggregateInput
   _max?: Prisma.AcademicSessionMaxOrderByAggregateInput
   _min?: Prisma.AcademicSessionMinOrderByAggregateInput
@@ -259,93 +259,93 @@ export type AcademicSessionScalarWhereWithAggregatesInput = {
   OR?: Prisma.AcademicSessionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.AcademicSessionScalarWhereWithAggregatesInput | Prisma.AcademicSessionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"AcademicSession"> | string
-  tenantId?: Prisma.StringWithAggregatesFilter<"AcademicSession"> | string
+  tenant_id?: Prisma.StringWithAggregatesFilter<"AcademicSession"> | string
   name?: Prisma.StringWithAggregatesFilter<"AcademicSession"> | string
-  startDate?: Prisma.DateTimeWithAggregatesFilter<"AcademicSession"> | Date | string
-  endDate?: Prisma.DateTimeWithAggregatesFilter<"AcademicSession"> | Date | string
-  isCurrent?: Prisma.BoolWithAggregatesFilter<"AcademicSession"> | boolean
-  createdAt?: Prisma.DateTimeWithAggregatesFilter<"AcademicSession"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AcademicSession"> | Date | string
+  start_date?: Prisma.DateTimeWithAggregatesFilter<"AcademicSession"> | Date | string
+  end_date?: Prisma.DateTimeWithAggregatesFilter<"AcademicSession"> | Date | string
+  is_current?: Prisma.BoolWithAggregatesFilter<"AcademicSession"> | boolean
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"AcademicSession"> | Date | string
+  updated_at?: Prisma.DateTimeWithAggregatesFilter<"AcademicSession"> | Date | string
 }
 
 export type AcademicSessionCreateInput = {
   id?: string
   name: string
-  startDate: Date | string
-  endDate: Date | string
-  isCurrent?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutAcademicSessionsInput
+  start_date: Date | string
+  end_date: Date | string
+  is_current?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutAcademic_sessionsInput
   terms?: Prisma.AcademicTermCreateNestedManyWithoutAcademicSessionInput
 }
 
 export type AcademicSessionUncheckedCreateInput = {
   id?: string
-  tenantId: string
+  tenant_id: string
   name: string
-  startDate: Date | string
-  endDate: Date | string
-  isCurrent?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  start_date: Date | string
+  end_date: Date | string
+  is_current?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
   terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutAcademicSessionInput
 }
 
 export type AcademicSessionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutAcademicSessionsNestedInput
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_current?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutAcademic_sessionsNestedInput
   terms?: Prisma.AcademicTermUpdateManyWithoutAcademicSessionNestedInput
 }
 
 export type AcademicSessionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_current?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutAcademicSessionNestedInput
 }
 
 export type AcademicSessionCreateManyInput = {
   id?: string
-  tenantId: string
+  tenant_id: string
   name: string
-  startDate: Date | string
-  endDate: Date | string
-  isCurrent?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  start_date: Date | string
+  end_date: Date | string
+  is_current?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
 }
 
 export type AcademicSessionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_current?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AcademicSessionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_current?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AcademicSessionListRelationFilter = {
@@ -358,42 +358,42 @@ export type AcademicSessionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type AcademicSessionTenantIdNameCompoundUniqueInput = {
-  tenantId: string
+export type AcademicSessionTenant_idNameCompoundUniqueInput = {
+  tenant_id: string
   name: string
 }
 
 export type AcademicSessionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  startDate?: Prisma.SortOrder
-  endDate?: Prisma.SortOrder
-  isCurrent?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  start_date?: Prisma.SortOrder
+  end_date?: Prisma.SortOrder
+  is_current?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
 }
 
 export type AcademicSessionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  startDate?: Prisma.SortOrder
-  endDate?: Prisma.SortOrder
-  isCurrent?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  start_date?: Prisma.SortOrder
+  end_date?: Prisma.SortOrder
+  is_current?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
 }
 
 export type AcademicSessionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  startDate?: Prisma.SortOrder
-  endDate?: Prisma.SortOrder
-  isCurrent?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  start_date?: Prisma.SortOrder
+  end_date?: Prisma.SortOrder
+  is_current?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
 }
 
 export type AcademicSessionScalarRelationFilter = {
@@ -460,22 +460,22 @@ export type AcademicSessionUpdateOneRequiredWithoutTermsNestedInput = {
 export type AcademicSessionCreateWithoutTenantInput = {
   id?: string
   name: string
-  startDate: Date | string
-  endDate: Date | string
-  isCurrent?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  start_date: Date | string
+  end_date: Date | string
+  is_current?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
   terms?: Prisma.AcademicTermCreateNestedManyWithoutAcademicSessionInput
 }
 
 export type AcademicSessionUncheckedCreateWithoutTenantInput = {
   id?: string
   name: string
-  startDate: Date | string
-  endDate: Date | string
-  isCurrent?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  start_date: Date | string
+  end_date: Date | string
+  is_current?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
   terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutAcademicSessionInput
 }
 
@@ -510,35 +510,35 @@ export type AcademicSessionScalarWhereInput = {
   OR?: Prisma.AcademicSessionScalarWhereInput[]
   NOT?: Prisma.AcademicSessionScalarWhereInput | Prisma.AcademicSessionScalarWhereInput[]
   id?: Prisma.StringFilter<"AcademicSession"> | string
-  tenantId?: Prisma.StringFilter<"AcademicSession"> | string
+  tenant_id?: Prisma.StringFilter<"AcademicSession"> | string
   name?: Prisma.StringFilter<"AcademicSession"> | string
-  startDate?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
-  endDate?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
-  isCurrent?: Prisma.BoolFilter<"AcademicSession"> | boolean
-  createdAt?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
+  start_date?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
+  end_date?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
+  is_current?: Prisma.BoolFilter<"AcademicSession"> | boolean
+  created_at?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"AcademicSession"> | Date | string
 }
 
 export type AcademicSessionCreateWithoutTermsInput = {
   id?: string
   name: string
-  startDate: Date | string
-  endDate: Date | string
-  isCurrent?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutAcademicSessionsInput
+  start_date: Date | string
+  end_date: Date | string
+  is_current?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutAcademic_sessionsInput
 }
 
 export type AcademicSessionUncheckedCreateWithoutTermsInput = {
   id?: string
-  tenantId: string
+  tenant_id: string
   name: string
-  startDate: Date | string
-  endDate: Date | string
-  isCurrent?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  start_date: Date | string
+  end_date: Date | string
+  is_current?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
 }
 
 export type AcademicSessionCreateOrConnectWithoutTermsInput = {
@@ -560,65 +560,65 @@ export type AcademicSessionUpdateToOneWithWhereWithoutTermsInput = {
 export type AcademicSessionUpdateWithoutTermsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutAcademicSessionsNestedInput
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_current?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutAcademic_sessionsNestedInput
 }
 
 export type AcademicSessionUncheckedUpdateWithoutTermsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_current?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AcademicSessionCreateManyTenantInput = {
   id?: string
   name: string
-  startDate: Date | string
-  endDate: Date | string
-  isCurrent?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
+  start_date: Date | string
+  end_date: Date | string
+  is_current?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
 }
 
 export type AcademicSessionUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_current?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   terms?: Prisma.AcademicTermUpdateManyWithoutAcademicSessionNestedInput
 }
 
 export type AcademicSessionUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_current?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutAcademicSessionNestedInput
 }
 
 export type AcademicSessionUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_current?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -654,13 +654,13 @@ export type AcademicSessionCountOutputTypeCountTermsArgs<ExtArgs extends runtime
 
 export type AcademicSessionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenantId?: boolean
+  tenant_id?: boolean
   name?: boolean
-  startDate?: boolean
-  endDate?: boolean
-  isCurrent?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
+  start_date?: boolean
+  end_date?: boolean
+  is_current?: boolean
+  created_at?: boolean
+  updated_at?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   terms?: boolean | Prisma.AcademicSession$termsArgs<ExtArgs>
   _count?: boolean | Prisma.AcademicSessionCountOutputTypeDefaultArgs<ExtArgs>
@@ -668,40 +668,40 @@ export type AcademicSessionSelect<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type AcademicSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenantId?: boolean
+  tenant_id?: boolean
   name?: boolean
-  startDate?: boolean
-  endDate?: boolean
-  isCurrent?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
+  start_date?: boolean
+  end_date?: boolean
+  is_current?: boolean
+  created_at?: boolean
+  updated_at?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["academicSession"]>
 
 export type AcademicSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenantId?: boolean
+  tenant_id?: boolean
   name?: boolean
-  startDate?: boolean
-  endDate?: boolean
-  isCurrent?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
+  start_date?: boolean
+  end_date?: boolean
+  is_current?: boolean
+  created_at?: boolean
+  updated_at?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["academicSession"]>
 
 export type AcademicSessionSelectScalar = {
   id?: boolean
-  tenantId?: boolean
+  tenant_id?: boolean
   name?: boolean
-  startDate?: boolean
-  endDate?: boolean
-  isCurrent?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
+  start_date?: boolean
+  end_date?: boolean
+  is_current?: boolean
+  created_at?: boolean
+  updated_at?: boolean
 }
 
-export type AcademicSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "name" | "startDate" | "endDate" | "isCurrent" | "createdAt" | "updatedAt", ExtArgs["result"]["academicSession"]>
+export type AcademicSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "name" | "start_date" | "end_date" | "is_current" | "created_at" | "updated_at", ExtArgs["result"]["academicSession"]>
 export type AcademicSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   terms?: boolean | Prisma.AcademicSession$termsArgs<ExtArgs>
@@ -722,13 +722,13 @@ export type $AcademicSessionPayload<ExtArgs extends runtime.Types.Extensions.Int
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tenantId: string
+    tenant_id: string
     name: string
-    startDate: Date
-    endDate: Date
-    isCurrent: boolean
-    createdAt: Date
-    updatedAt: Date
+    start_date: Date
+    end_date: Date
+    is_current: boolean
+    created_at: Date
+    updated_at: Date
   }, ExtArgs["result"]["academicSession"]>
   composites: {}
 }
@@ -1155,13 +1155,13 @@ export interface Prisma__AcademicSessionClient<T, Null = never, ExtArgs extends 
  */
 export interface AcademicSessionFieldRefs {
   readonly id: Prisma.FieldRef<"AcademicSession", 'String'>
-  readonly tenantId: Prisma.FieldRef<"AcademicSession", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"AcademicSession", 'String'>
   readonly name: Prisma.FieldRef<"AcademicSession", 'String'>
-  readonly startDate: Prisma.FieldRef<"AcademicSession", 'DateTime'>
-  readonly endDate: Prisma.FieldRef<"AcademicSession", 'DateTime'>
-  readonly isCurrent: Prisma.FieldRef<"AcademicSession", 'Boolean'>
-  readonly createdAt: Prisma.FieldRef<"AcademicSession", 'DateTime'>
-  readonly updatedAt: Prisma.FieldRef<"AcademicSession", 'DateTime'>
+  readonly start_date: Prisma.FieldRef<"AcademicSession", 'DateTime'>
+  readonly end_date: Prisma.FieldRef<"AcademicSession", 'DateTime'>
+  readonly is_current: Prisma.FieldRef<"AcademicSession", 'Boolean'>
+  readonly created_at: Prisma.FieldRef<"AcademicSession", 'DateTime'>
+  readonly updated_at: Prisma.FieldRef<"AcademicSession", 'DateTime'>
 }
     
 

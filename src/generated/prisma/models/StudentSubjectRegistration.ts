@@ -26,58 +26,58 @@ export type AggregateStudentSubjectRegistration = {
 
 export type StudentSubjectRegistrationMinAggregateOutputType = {
   id: string | null
-  tenantId: string | null
-  studentId: string | null
-  classSubjectId: string | null
-  termId: string | null
-  registrationDate: Date | null
+  tenant_id: string | null
+  student_id: string | null
+  class_subject_id: string | null
+  term_id: string | null
+  registration_date: Date | null
 }
 
 export type StudentSubjectRegistrationMaxAggregateOutputType = {
   id: string | null
-  tenantId: string | null
-  studentId: string | null
-  classSubjectId: string | null
-  termId: string | null
-  registrationDate: Date | null
+  tenant_id: string | null
+  student_id: string | null
+  class_subject_id: string | null
+  term_id: string | null
+  registration_date: Date | null
 }
 
 export type StudentSubjectRegistrationCountAggregateOutputType = {
   id: number
-  tenantId: number
-  studentId: number
-  classSubjectId: number
-  termId: number
-  registrationDate: number
+  tenant_id: number
+  student_id: number
+  class_subject_id: number
+  term_id: number
+  registration_date: number
   _all: number
 }
 
 
 export type StudentSubjectRegistrationMinAggregateInputType = {
   id?: true
-  tenantId?: true
-  studentId?: true
-  classSubjectId?: true
-  termId?: true
-  registrationDate?: true
+  tenant_id?: true
+  student_id?: true
+  class_subject_id?: true
+  term_id?: true
+  registration_date?: true
 }
 
 export type StudentSubjectRegistrationMaxAggregateInputType = {
   id?: true
-  tenantId?: true
-  studentId?: true
-  classSubjectId?: true
-  termId?: true
-  registrationDate?: true
+  tenant_id?: true
+  student_id?: true
+  class_subject_id?: true
+  term_id?: true
+  registration_date?: true
 }
 
 export type StudentSubjectRegistrationCountAggregateInputType = {
   id?: true
-  tenantId?: true
-  studentId?: true
-  classSubjectId?: true
-  termId?: true
-  registrationDate?: true
+  tenant_id?: true
+  student_id?: true
+  class_subject_id?: true
+  term_id?: true
+  registration_date?: true
   _all?: true
 }
 
@@ -155,11 +155,11 @@ export type StudentSubjectRegistrationGroupByArgs<ExtArgs extends runtime.Types.
 
 export type StudentSubjectRegistrationGroupByOutputType = {
   id: string
-  tenantId: string
-  studentId: string
-  classSubjectId: string
-  termId: string
-  registrationDate: Date
+  tenant_id: string
+  student_id: string
+  class_subject_id: string
+  term_id: string
+  registration_date: Date
   _count: StudentSubjectRegistrationCountAggregateOutputType | null
   _min: StudentSubjectRegistrationMinAggregateOutputType | null
   _max: StudentSubjectRegistrationMaxAggregateOutputType | null
@@ -185,11 +185,11 @@ export type StudentSubjectRegistrationWhereInput = {
   OR?: Prisma.StudentSubjectRegistrationWhereInput[]
   NOT?: Prisma.StudentSubjectRegistrationWhereInput | Prisma.StudentSubjectRegistrationWhereInput[]
   id?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
-  tenantId?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
-  studentId?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
-  classSubjectId?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
-  termId?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
-  registrationDate?: Prisma.DateTimeFilter<"StudentSubjectRegistration"> | Date | string
+  tenant_id?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
+  student_id?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
+  class_subject_id?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
+  term_id?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
+  registration_date?: Prisma.DateTimeFilter<"StudentSubjectRegistration"> | Date | string
   student?: Prisma.XOR<Prisma.StudentProfileScalarRelationFilter, Prisma.StudentProfileWhereInput>
   classSubject?: Prisma.XOR<Prisma.ClassSubjectScalarRelationFilter, Prisma.ClassSubjectWhereInput>
   term?: Prisma.XOR<Prisma.AcademicTermScalarRelationFilter, Prisma.AcademicTermWhereInput>
@@ -197,11 +197,11 @@ export type StudentSubjectRegistrationWhereInput = {
 
 export type StudentSubjectRegistrationOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
-  classSubjectId?: Prisma.SortOrder
-  termId?: Prisma.SortOrder
-  registrationDate?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  student_id?: Prisma.SortOrder
+  class_subject_id?: Prisma.SortOrder
+  term_id?: Prisma.SortOrder
+  registration_date?: Prisma.SortOrder
   student?: Prisma.StudentProfileOrderByWithRelationInput
   classSubject?: Prisma.ClassSubjectOrderByWithRelationInput
   term?: Prisma.AcademicTermOrderByWithRelationInput
@@ -209,27 +209,27 @@ export type StudentSubjectRegistrationOrderByWithRelationInput = {
 
 export type StudentSubjectRegistrationWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  tenantId_studentId_classSubjectId_termId?: Prisma.StudentSubjectRegistrationTenantIdStudentIdClassSubjectIdTermIdCompoundUniqueInput
+  tenant_id_student_id_class_subject_id_term_id?: Prisma.StudentSubjectRegistrationTenant_idStudent_idClass_subject_idTerm_idCompoundUniqueInput
   AND?: Prisma.StudentSubjectRegistrationWhereInput | Prisma.StudentSubjectRegistrationWhereInput[]
   OR?: Prisma.StudentSubjectRegistrationWhereInput[]
   NOT?: Prisma.StudentSubjectRegistrationWhereInput | Prisma.StudentSubjectRegistrationWhereInput[]
-  tenantId?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
-  studentId?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
-  classSubjectId?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
-  termId?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
-  registrationDate?: Prisma.DateTimeFilter<"StudentSubjectRegistration"> | Date | string
+  tenant_id?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
+  student_id?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
+  class_subject_id?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
+  term_id?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
+  registration_date?: Prisma.DateTimeFilter<"StudentSubjectRegistration"> | Date | string
   student?: Prisma.XOR<Prisma.StudentProfileScalarRelationFilter, Prisma.StudentProfileWhereInput>
   classSubject?: Prisma.XOR<Prisma.ClassSubjectScalarRelationFilter, Prisma.ClassSubjectWhereInput>
   term?: Prisma.XOR<Prisma.AcademicTermScalarRelationFilter, Prisma.AcademicTermWhereInput>
-}, "id" | "tenantId_studentId_classSubjectId_termId">
+}, "id" | "tenant_id_student_id_class_subject_id_term_id">
 
 export type StudentSubjectRegistrationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
-  classSubjectId?: Prisma.SortOrder
-  termId?: Prisma.SortOrder
-  registrationDate?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  student_id?: Prisma.SortOrder
+  class_subject_id?: Prisma.SortOrder
+  term_id?: Prisma.SortOrder
+  registration_date?: Prisma.SortOrder
   _count?: Prisma.StudentSubjectRegistrationCountOrderByAggregateInput
   _max?: Prisma.StudentSubjectRegistrationMaxOrderByAggregateInput
   _min?: Prisma.StudentSubjectRegistrationMinOrderByAggregateInput
@@ -240,71 +240,71 @@ export type StudentSubjectRegistrationScalarWhereWithAggregatesInput = {
   OR?: Prisma.StudentSubjectRegistrationScalarWhereWithAggregatesInput[]
   NOT?: Prisma.StudentSubjectRegistrationScalarWhereWithAggregatesInput | Prisma.StudentSubjectRegistrationScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"StudentSubjectRegistration"> | string
-  tenantId?: Prisma.StringWithAggregatesFilter<"StudentSubjectRegistration"> | string
-  studentId?: Prisma.StringWithAggregatesFilter<"StudentSubjectRegistration"> | string
-  classSubjectId?: Prisma.StringWithAggregatesFilter<"StudentSubjectRegistration"> | string
-  termId?: Prisma.StringWithAggregatesFilter<"StudentSubjectRegistration"> | string
-  registrationDate?: Prisma.DateTimeWithAggregatesFilter<"StudentSubjectRegistration"> | Date | string
+  tenant_id?: Prisma.StringWithAggregatesFilter<"StudentSubjectRegistration"> | string
+  student_id?: Prisma.StringWithAggregatesFilter<"StudentSubjectRegistration"> | string
+  class_subject_id?: Prisma.StringWithAggregatesFilter<"StudentSubjectRegistration"> | string
+  term_id?: Prisma.StringWithAggregatesFilter<"StudentSubjectRegistration"> | string
+  registration_date?: Prisma.DateTimeWithAggregatesFilter<"StudentSubjectRegistration"> | Date | string
 }
 
 export type StudentSubjectRegistrationCreateInput = {
   id?: string
-  tenantId: string
-  registrationDate?: Date | string
+  tenant_id: string
+  registration_date?: Date | string
   student: Prisma.StudentProfileCreateNestedOneWithoutStudentSubjectRegistrationsInput
-  classSubject: Prisma.ClassSubjectCreateNestedOneWithoutStudentSubjectRegistrationsInput
-  term: Prisma.AcademicTermCreateNestedOneWithoutSubjectRegistrationsInput
+  classSubject: Prisma.ClassSubjectCreateNestedOneWithoutStudent_subject_registrationsInput
+  term: Prisma.AcademicTermCreateNestedOneWithoutSubject_registrationsInput
 }
 
 export type StudentSubjectRegistrationUncheckedCreateInput = {
   id?: string
-  tenantId: string
-  studentId: string
-  classSubjectId: string
-  termId: string
-  registrationDate?: Date | string
+  tenant_id: string
+  student_id: string
+  class_subject_id: string
+  term_id: string
+  registration_date?: Date | string
 }
 
 export type StudentSubjectRegistrationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  registration_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentProfileUpdateOneRequiredWithoutStudentSubjectRegistrationsNestedInput
-  classSubject?: Prisma.ClassSubjectUpdateOneRequiredWithoutStudentSubjectRegistrationsNestedInput
-  term?: Prisma.AcademicTermUpdateOneRequiredWithoutSubjectRegistrationsNestedInput
+  classSubject?: Prisma.ClassSubjectUpdateOneRequiredWithoutStudent_subject_registrationsNestedInput
+  term?: Prisma.AcademicTermUpdateOneRequiredWithoutSubject_registrationsNestedInput
 }
 
 export type StudentSubjectRegistrationUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  classSubjectId?: Prisma.StringFieldUpdateOperationsInput | string
-  termId?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  student_id?: Prisma.StringFieldUpdateOperationsInput | string
+  class_subject_id?: Prisma.StringFieldUpdateOperationsInput | string
+  term_id?: Prisma.StringFieldUpdateOperationsInput | string
+  registration_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type StudentSubjectRegistrationCreateManyInput = {
   id?: string
-  tenantId: string
-  studentId: string
-  classSubjectId: string
-  termId: string
-  registrationDate?: Date | string
+  tenant_id: string
+  student_id: string
+  class_subject_id: string
+  term_id: string
+  registration_date?: Date | string
 }
 
 export type StudentSubjectRegistrationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  registration_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type StudentSubjectRegistrationUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  classSubjectId?: Prisma.StringFieldUpdateOperationsInput | string
-  termId?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  student_id?: Prisma.StringFieldUpdateOperationsInput | string
+  class_subject_id?: Prisma.StringFieldUpdateOperationsInput | string
+  term_id?: Prisma.StringFieldUpdateOperationsInput | string
+  registration_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type StudentSubjectRegistrationListRelationFilter = {
@@ -317,38 +317,38 @@ export type StudentSubjectRegistrationOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type StudentSubjectRegistrationTenantIdStudentIdClassSubjectIdTermIdCompoundUniqueInput = {
-  tenantId: string
-  studentId: string
-  classSubjectId: string
-  termId: string
+export type StudentSubjectRegistrationTenant_idStudent_idClass_subject_idTerm_idCompoundUniqueInput = {
+  tenant_id: string
+  student_id: string
+  class_subject_id: string
+  term_id: string
 }
 
 export type StudentSubjectRegistrationCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
-  classSubjectId?: Prisma.SortOrder
-  termId?: Prisma.SortOrder
-  registrationDate?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  student_id?: Prisma.SortOrder
+  class_subject_id?: Prisma.SortOrder
+  term_id?: Prisma.SortOrder
+  registration_date?: Prisma.SortOrder
 }
 
 export type StudentSubjectRegistrationMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
-  classSubjectId?: Prisma.SortOrder
-  termId?: Prisma.SortOrder
-  registrationDate?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  student_id?: Prisma.SortOrder
+  class_subject_id?: Prisma.SortOrder
+  term_id?: Prisma.SortOrder
+  registration_date?: Prisma.SortOrder
 }
 
 export type StudentSubjectRegistrationMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
-  classSubjectId?: Prisma.SortOrder
-  termId?: Prisma.SortOrder
-  registrationDate?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  student_id?: Prisma.SortOrder
+  class_subject_id?: Prisma.SortOrder
+  term_id?: Prisma.SortOrder
+  registration_date?: Prisma.SortOrder
 }
 
 export type StudentSubjectRegistrationCreateNestedManyWithoutStudentInput = {
@@ -479,18 +479,18 @@ export type StudentSubjectRegistrationUncheckedUpdateManyWithoutClassSubjectNest
 
 export type StudentSubjectRegistrationCreateWithoutStudentInput = {
   id?: string
-  tenantId: string
-  registrationDate?: Date | string
-  classSubject: Prisma.ClassSubjectCreateNestedOneWithoutStudentSubjectRegistrationsInput
-  term: Prisma.AcademicTermCreateNestedOneWithoutSubjectRegistrationsInput
+  tenant_id: string
+  registration_date?: Date | string
+  classSubject: Prisma.ClassSubjectCreateNestedOneWithoutStudent_subject_registrationsInput
+  term: Prisma.AcademicTermCreateNestedOneWithoutSubject_registrationsInput
 }
 
 export type StudentSubjectRegistrationUncheckedCreateWithoutStudentInput = {
   id?: string
-  tenantId: string
-  classSubjectId: string
-  termId: string
-  registrationDate?: Date | string
+  tenant_id: string
+  class_subject_id: string
+  term_id: string
+  registration_date?: Date | string
 }
 
 export type StudentSubjectRegistrationCreateOrConnectWithoutStudentInput = {
@@ -524,27 +524,27 @@ export type StudentSubjectRegistrationScalarWhereInput = {
   OR?: Prisma.StudentSubjectRegistrationScalarWhereInput[]
   NOT?: Prisma.StudentSubjectRegistrationScalarWhereInput | Prisma.StudentSubjectRegistrationScalarWhereInput[]
   id?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
-  tenantId?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
-  studentId?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
-  classSubjectId?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
-  termId?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
-  registrationDate?: Prisma.DateTimeFilter<"StudentSubjectRegistration"> | Date | string
+  tenant_id?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
+  student_id?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
+  class_subject_id?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
+  term_id?: Prisma.StringFilter<"StudentSubjectRegistration"> | string
+  registration_date?: Prisma.DateTimeFilter<"StudentSubjectRegistration"> | Date | string
 }
 
 export type StudentSubjectRegistrationCreateWithoutTermInput = {
   id?: string
-  tenantId: string
-  registrationDate?: Date | string
+  tenant_id: string
+  registration_date?: Date | string
   student: Prisma.StudentProfileCreateNestedOneWithoutStudentSubjectRegistrationsInput
-  classSubject: Prisma.ClassSubjectCreateNestedOneWithoutStudentSubjectRegistrationsInput
+  classSubject: Prisma.ClassSubjectCreateNestedOneWithoutStudent_subject_registrationsInput
 }
 
 export type StudentSubjectRegistrationUncheckedCreateWithoutTermInput = {
   id?: string
-  tenantId: string
-  studentId: string
-  classSubjectId: string
-  registrationDate?: Date | string
+  tenant_id: string
+  student_id: string
+  class_subject_id: string
+  registration_date?: Date | string
 }
 
 export type StudentSubjectRegistrationCreateOrConnectWithoutTermInput = {
@@ -575,18 +575,18 @@ export type StudentSubjectRegistrationUpdateManyWithWhereWithoutTermInput = {
 
 export type StudentSubjectRegistrationCreateWithoutClassSubjectInput = {
   id?: string
-  tenantId: string
-  registrationDate?: Date | string
+  tenant_id: string
+  registration_date?: Date | string
   student: Prisma.StudentProfileCreateNestedOneWithoutStudentSubjectRegistrationsInput
-  term: Prisma.AcademicTermCreateNestedOneWithoutSubjectRegistrationsInput
+  term: Prisma.AcademicTermCreateNestedOneWithoutSubject_registrationsInput
 }
 
 export type StudentSubjectRegistrationUncheckedCreateWithoutClassSubjectInput = {
   id?: string
-  tenantId: string
-  studentId: string
-  termId: string
-  registrationDate?: Date | string
+  tenant_id: string
+  student_id: string
+  term_id: string
+  registration_date?: Date | string
 }
 
 export type StudentSubjectRegistrationCreateOrConnectWithoutClassSubjectInput = {
@@ -617,109 +617,109 @@ export type StudentSubjectRegistrationUpdateManyWithWhereWithoutClassSubjectInpu
 
 export type StudentSubjectRegistrationCreateManyStudentInput = {
   id?: string
-  tenantId: string
-  classSubjectId: string
-  termId: string
-  registrationDate?: Date | string
+  tenant_id: string
+  class_subject_id: string
+  term_id: string
+  registration_date?: Date | string
 }
 
 export type StudentSubjectRegistrationUpdateWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classSubject?: Prisma.ClassSubjectUpdateOneRequiredWithoutStudentSubjectRegistrationsNestedInput
-  term?: Prisma.AcademicTermUpdateOneRequiredWithoutSubjectRegistrationsNestedInput
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  registration_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  classSubject?: Prisma.ClassSubjectUpdateOneRequiredWithoutStudent_subject_registrationsNestedInput
+  term?: Prisma.AcademicTermUpdateOneRequiredWithoutSubject_registrationsNestedInput
 }
 
 export type StudentSubjectRegistrationUncheckedUpdateWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  classSubjectId?: Prisma.StringFieldUpdateOperationsInput | string
-  termId?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  class_subject_id?: Prisma.StringFieldUpdateOperationsInput | string
+  term_id?: Prisma.StringFieldUpdateOperationsInput | string
+  registration_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type StudentSubjectRegistrationUncheckedUpdateManyWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  classSubjectId?: Prisma.StringFieldUpdateOperationsInput | string
-  termId?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  class_subject_id?: Prisma.StringFieldUpdateOperationsInput | string
+  term_id?: Prisma.StringFieldUpdateOperationsInput | string
+  registration_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type StudentSubjectRegistrationCreateManyTermInput = {
   id?: string
-  tenantId: string
-  studentId: string
-  classSubjectId: string
-  registrationDate?: Date | string
+  tenant_id: string
+  student_id: string
+  class_subject_id: string
+  registration_date?: Date | string
 }
 
 export type StudentSubjectRegistrationUpdateWithoutTermInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  registration_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentProfileUpdateOneRequiredWithoutStudentSubjectRegistrationsNestedInput
-  classSubject?: Prisma.ClassSubjectUpdateOneRequiredWithoutStudentSubjectRegistrationsNestedInput
+  classSubject?: Prisma.ClassSubjectUpdateOneRequiredWithoutStudent_subject_registrationsNestedInput
 }
 
 export type StudentSubjectRegistrationUncheckedUpdateWithoutTermInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  classSubjectId?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  student_id?: Prisma.StringFieldUpdateOperationsInput | string
+  class_subject_id?: Prisma.StringFieldUpdateOperationsInput | string
+  registration_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type StudentSubjectRegistrationUncheckedUpdateManyWithoutTermInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  classSubjectId?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  student_id?: Prisma.StringFieldUpdateOperationsInput | string
+  class_subject_id?: Prisma.StringFieldUpdateOperationsInput | string
+  registration_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type StudentSubjectRegistrationCreateManyClassSubjectInput = {
   id?: string
-  tenantId: string
-  studentId: string
-  termId: string
-  registrationDate?: Date | string
+  tenant_id: string
+  student_id: string
+  term_id: string
+  registration_date?: Date | string
 }
 
 export type StudentSubjectRegistrationUpdateWithoutClassSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  registration_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentProfileUpdateOneRequiredWithoutStudentSubjectRegistrationsNestedInput
-  term?: Prisma.AcademicTermUpdateOneRequiredWithoutSubjectRegistrationsNestedInput
+  term?: Prisma.AcademicTermUpdateOneRequiredWithoutSubject_registrationsNestedInput
 }
 
 export type StudentSubjectRegistrationUncheckedUpdateWithoutClassSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  termId?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  student_id?: Prisma.StringFieldUpdateOperationsInput | string
+  term_id?: Prisma.StringFieldUpdateOperationsInput | string
+  registration_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type StudentSubjectRegistrationUncheckedUpdateManyWithoutClassSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  termId?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  student_id?: Prisma.StringFieldUpdateOperationsInput | string
+  term_id?: Prisma.StringFieldUpdateOperationsInput | string
+  registration_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
 
 export type StudentSubjectRegistrationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenantId?: boolean
-  studentId?: boolean
-  classSubjectId?: boolean
-  termId?: boolean
-  registrationDate?: boolean
+  tenant_id?: boolean
+  student_id?: boolean
+  class_subject_id?: boolean
+  term_id?: boolean
+  registration_date?: boolean
   student?: boolean | Prisma.StudentProfileDefaultArgs<ExtArgs>
   classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
   term?: boolean | Prisma.AcademicTermDefaultArgs<ExtArgs>
@@ -727,11 +727,11 @@ export type StudentSubjectRegistrationSelect<ExtArgs extends runtime.Types.Exten
 
 export type StudentSubjectRegistrationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenantId?: boolean
-  studentId?: boolean
-  classSubjectId?: boolean
-  termId?: boolean
-  registrationDate?: boolean
+  tenant_id?: boolean
+  student_id?: boolean
+  class_subject_id?: boolean
+  term_id?: boolean
+  registration_date?: boolean
   student?: boolean | Prisma.StudentProfileDefaultArgs<ExtArgs>
   classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
   term?: boolean | Prisma.AcademicTermDefaultArgs<ExtArgs>
@@ -739,11 +739,11 @@ export type StudentSubjectRegistrationSelectCreateManyAndReturn<ExtArgs extends 
 
 export type StudentSubjectRegistrationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenantId?: boolean
-  studentId?: boolean
-  classSubjectId?: boolean
-  termId?: boolean
-  registrationDate?: boolean
+  tenant_id?: boolean
+  student_id?: boolean
+  class_subject_id?: boolean
+  term_id?: boolean
+  registration_date?: boolean
   student?: boolean | Prisma.StudentProfileDefaultArgs<ExtArgs>
   classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
   term?: boolean | Prisma.AcademicTermDefaultArgs<ExtArgs>
@@ -751,14 +751,14 @@ export type StudentSubjectRegistrationSelectUpdateManyAndReturn<ExtArgs extends 
 
 export type StudentSubjectRegistrationSelectScalar = {
   id?: boolean
-  tenantId?: boolean
-  studentId?: boolean
-  classSubjectId?: boolean
-  termId?: boolean
-  registrationDate?: boolean
+  tenant_id?: boolean
+  student_id?: boolean
+  class_subject_id?: boolean
+  term_id?: boolean
+  registration_date?: boolean
 }
 
-export type StudentSubjectRegistrationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "studentId" | "classSubjectId" | "termId" | "registrationDate", ExtArgs["result"]["studentSubjectRegistration"]>
+export type StudentSubjectRegistrationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "student_id" | "class_subject_id" | "term_id" | "registration_date", ExtArgs["result"]["studentSubjectRegistration"]>
 export type StudentSubjectRegistrationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   student?: boolean | Prisma.StudentProfileDefaultArgs<ExtArgs>
   classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
@@ -784,11 +784,11 @@ export type $StudentSubjectRegistrationPayload<ExtArgs extends runtime.Types.Ext
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tenantId: string
-    studentId: string
-    classSubjectId: string
-    termId: string
-    registrationDate: Date
+    tenant_id: string
+    student_id: string
+    class_subject_id: string
+    term_id: string
+    registration_date: Date
   }, ExtArgs["result"]["studentSubjectRegistration"]>
   composites: {}
 }
@@ -1216,11 +1216,11 @@ export interface Prisma__StudentSubjectRegistrationClient<T, Null = never, ExtAr
  */
 export interface StudentSubjectRegistrationFieldRefs {
   readonly id: Prisma.FieldRef<"StudentSubjectRegistration", 'String'>
-  readonly tenantId: Prisma.FieldRef<"StudentSubjectRegistration", 'String'>
-  readonly studentId: Prisma.FieldRef<"StudentSubjectRegistration", 'String'>
-  readonly classSubjectId: Prisma.FieldRef<"StudentSubjectRegistration", 'String'>
-  readonly termId: Prisma.FieldRef<"StudentSubjectRegistration", 'String'>
-  readonly registrationDate: Prisma.FieldRef<"StudentSubjectRegistration", 'DateTime'>
+  readonly tenant_id: Prisma.FieldRef<"StudentSubjectRegistration", 'String'>
+  readonly student_id: Prisma.FieldRef<"StudentSubjectRegistration", 'String'>
+  readonly class_subject_id: Prisma.FieldRef<"StudentSubjectRegistration", 'String'>
+  readonly term_id: Prisma.FieldRef<"StudentSubjectRegistration", 'String'>
+  readonly registration_date: Prisma.FieldRef<"StudentSubjectRegistration", 'DateTime'>
 }
     
 

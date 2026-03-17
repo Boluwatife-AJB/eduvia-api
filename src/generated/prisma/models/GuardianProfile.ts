@@ -26,54 +26,54 @@ export type AggregateGuardianProfile = {
 
 export type GuardianProfileMinAggregateOutputType = {
   id: string | null
-  userId: string | null
-  tenantId: string | null
+  user_id: string | null
+  tenant_id: string | null
   occupation: string | null
   relationship: string | null
 }
 
 export type GuardianProfileMaxAggregateOutputType = {
   id: string | null
-  userId: string | null
-  tenantId: string | null
+  user_id: string | null
+  tenant_id: string | null
   occupation: string | null
   relationship: string | null
 }
 
 export type GuardianProfileCountAggregateOutputType = {
   id: number
-  userId: number
-  tenantId: number
+  user_id: number
+  tenant_id: number
   occupation: number
   relationship: number
-  wardIds: number
+  ward_ids: number
   _all: number
 }
 
 
 export type GuardianProfileMinAggregateInputType = {
   id?: true
-  userId?: true
-  tenantId?: true
+  user_id?: true
+  tenant_id?: true
   occupation?: true
   relationship?: true
 }
 
 export type GuardianProfileMaxAggregateInputType = {
   id?: true
-  userId?: true
-  tenantId?: true
+  user_id?: true
+  tenant_id?: true
   occupation?: true
   relationship?: true
 }
 
 export type GuardianProfileCountAggregateInputType = {
   id?: true
-  userId?: true
-  tenantId?: true
+  user_id?: true
+  tenant_id?: true
   occupation?: true
   relationship?: true
-  wardIds?: true
+  ward_ids?: true
   _all?: true
 }
 
@@ -151,11 +151,11 @@ export type GuardianProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 
 export type GuardianProfileGroupByOutputType = {
   id: string
-  userId: string
-  tenantId: string
+  user_id: string
+  tenant_id: string
   occupation: string | null
   relationship: string | null
-  wardIds: string[]
+  ward_ids: string[]
   _count: GuardianProfileCountAggregateOutputType | null
   _min: GuardianProfileMinAggregateOutputType | null
   _max: GuardianProfileMaxAggregateOutputType | null
@@ -181,44 +181,44 @@ export type GuardianProfileWhereInput = {
   OR?: Prisma.GuardianProfileWhereInput[]
   NOT?: Prisma.GuardianProfileWhereInput | Prisma.GuardianProfileWhereInput[]
   id?: Prisma.StringFilter<"GuardianProfile"> | string
-  userId?: Prisma.StringFilter<"GuardianProfile"> | string
-  tenantId?: Prisma.StringFilter<"GuardianProfile"> | string
+  user_id?: Prisma.StringFilter<"GuardianProfile"> | string
+  tenant_id?: Prisma.StringFilter<"GuardianProfile"> | string
   occupation?: Prisma.StringNullableFilter<"GuardianProfile"> | string | null
   relationship?: Prisma.StringNullableFilter<"GuardianProfile"> | string | null
-  wardIds?: Prisma.StringNullableListFilter<"GuardianProfile">
+  ward_ids?: Prisma.StringNullableListFilter<"GuardianProfile">
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type GuardianProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   occupation?: Prisma.SortOrderInput | Prisma.SortOrder
   relationship?: Prisma.SortOrderInput | Prisma.SortOrder
-  wardIds?: Prisma.SortOrder
+  ward_ids?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type GuardianProfileWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  userId?: string
+  user_id?: string
   AND?: Prisma.GuardianProfileWhereInput | Prisma.GuardianProfileWhereInput[]
   OR?: Prisma.GuardianProfileWhereInput[]
   NOT?: Prisma.GuardianProfileWhereInput | Prisma.GuardianProfileWhereInput[]
-  tenantId?: Prisma.StringFilter<"GuardianProfile"> | string
+  tenant_id?: Prisma.StringFilter<"GuardianProfile"> | string
   occupation?: Prisma.StringNullableFilter<"GuardianProfile"> | string | null
   relationship?: Prisma.StringNullableFilter<"GuardianProfile"> | string | null
-  wardIds?: Prisma.StringNullableListFilter<"GuardianProfile">
+  ward_ids?: Prisma.StringNullableListFilter<"GuardianProfile">
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "userId">
+}, "id" | "user_id">
 
 export type GuardianProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   occupation?: Prisma.SortOrderInput | Prisma.SortOrder
   relationship?: Prisma.SortOrderInput | Prisma.SortOrder
-  wardIds?: Prisma.SortOrder
+  ward_ids?: Prisma.SortOrder
   _count?: Prisma.GuardianProfileCountOrderByAggregateInput
   _max?: Prisma.GuardianProfileMaxOrderByAggregateInput
   _min?: Prisma.GuardianProfileMinOrderByAggregateInput
@@ -229,73 +229,73 @@ export type GuardianProfileScalarWhereWithAggregatesInput = {
   OR?: Prisma.GuardianProfileScalarWhereWithAggregatesInput[]
   NOT?: Prisma.GuardianProfileScalarWhereWithAggregatesInput | Prisma.GuardianProfileScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"GuardianProfile"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"GuardianProfile"> | string
-  tenantId?: Prisma.StringWithAggregatesFilter<"GuardianProfile"> | string
+  user_id?: Prisma.StringWithAggregatesFilter<"GuardianProfile"> | string
+  tenant_id?: Prisma.StringWithAggregatesFilter<"GuardianProfile"> | string
   occupation?: Prisma.StringNullableWithAggregatesFilter<"GuardianProfile"> | string | null
   relationship?: Prisma.StringNullableWithAggregatesFilter<"GuardianProfile"> | string | null
-  wardIds?: Prisma.StringNullableListFilter<"GuardianProfile">
+  ward_ids?: Prisma.StringNullableListFilter<"GuardianProfile">
 }
 
 export type GuardianProfileCreateInput = {
   id?: string
-  tenantId: string
+  tenant_id: string
   occupation?: string | null
   relationship?: string | null
-  wardIds?: Prisma.GuardianProfileCreatewardIdsInput | string[]
-  user: Prisma.UserCreateNestedOneWithoutGuardianProfileInput
+  ward_ids?: Prisma.GuardianProfileCreateward_idsInput | string[]
+  user: Prisma.UserCreateNestedOneWithoutGuardian_profileInput
 }
 
 export type GuardianProfileUncheckedCreateInput = {
   id?: string
-  userId: string
-  tenantId: string
+  user_id: string
+  tenant_id: string
   occupation?: string | null
   relationship?: string | null
-  wardIds?: Prisma.GuardianProfileCreatewardIdsInput | string[]
+  ward_ids?: Prisma.GuardianProfileCreateward_idsInput | string[]
 }
 
 export type GuardianProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wardIds?: Prisma.GuardianProfileUpdatewardIdsInput | string[]
-  user?: Prisma.UserUpdateOneRequiredWithoutGuardianProfileNestedInput
+  ward_ids?: Prisma.GuardianProfileUpdateward_idsInput | string[]
+  user?: Prisma.UserUpdateOneRequiredWithoutGuardian_profileNestedInput
 }
 
 export type GuardianProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wardIds?: Prisma.GuardianProfileUpdatewardIdsInput | string[]
+  ward_ids?: Prisma.GuardianProfileUpdateward_idsInput | string[]
 }
 
 export type GuardianProfileCreateManyInput = {
   id?: string
-  userId: string
-  tenantId: string
+  user_id: string
+  tenant_id: string
   occupation?: string | null
   relationship?: string | null
-  wardIds?: Prisma.GuardianProfileCreatewardIdsInput | string[]
+  ward_ids?: Prisma.GuardianProfileCreateward_idsInput | string[]
 }
 
 export type GuardianProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wardIds?: Prisma.GuardianProfileUpdatewardIdsInput | string[]
+  ward_ids?: Prisma.GuardianProfileUpdateward_idsInput | string[]
 }
 
 export type GuardianProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wardIds?: Prisma.GuardianProfileUpdatewardIdsInput | string[]
+  ward_ids?: Prisma.GuardianProfileUpdateward_idsInput | string[]
 }
 
 export type GuardianProfileNullableScalarRelationFilter = {
@@ -305,25 +305,25 @@ export type GuardianProfileNullableScalarRelationFilter = {
 
 export type GuardianProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   occupation?: Prisma.SortOrder
   relationship?: Prisma.SortOrder
-  wardIds?: Prisma.SortOrder
+  ward_ids?: Prisma.SortOrder
 }
 
 export type GuardianProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   occupation?: Prisma.SortOrder
   relationship?: Prisma.SortOrder
 }
 
 export type GuardianProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   occupation?: Prisma.SortOrder
   relationship?: Prisma.SortOrder
 }
@@ -360,29 +360,29 @@ export type GuardianProfileUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.GuardianProfileUpdateToOneWithWhereWithoutUserInput, Prisma.GuardianProfileUpdateWithoutUserInput>, Prisma.GuardianProfileUncheckedUpdateWithoutUserInput>
 }
 
-export type GuardianProfileCreatewardIdsInput = {
+export type GuardianProfileCreateward_idsInput = {
   set: string[]
 }
 
-export type GuardianProfileUpdatewardIdsInput = {
+export type GuardianProfileUpdateward_idsInput = {
   set?: string[]
   push?: string | string[]
 }
 
 export type GuardianProfileCreateWithoutUserInput = {
   id?: string
-  tenantId: string
+  tenant_id: string
   occupation?: string | null
   relationship?: string | null
-  wardIds?: Prisma.GuardianProfileCreatewardIdsInput | string[]
+  ward_ids?: Prisma.GuardianProfileCreateward_idsInput | string[]
 }
 
 export type GuardianProfileUncheckedCreateWithoutUserInput = {
   id?: string
-  tenantId: string
+  tenant_id: string
   occupation?: string | null
   relationship?: string | null
-  wardIds?: Prisma.GuardianProfileCreatewardIdsInput | string[]
+  ward_ids?: Prisma.GuardianProfileCreateward_idsInput | string[]
 }
 
 export type GuardianProfileCreateOrConnectWithoutUserInput = {
@@ -403,62 +403,62 @@ export type GuardianProfileUpdateToOneWithWhereWithoutUserInput = {
 
 export type GuardianProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wardIds?: Prisma.GuardianProfileUpdatewardIdsInput | string[]
+  ward_ids?: Prisma.GuardianProfileUpdateward_idsInput | string[]
 }
 
 export type GuardianProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wardIds?: Prisma.GuardianProfileUpdatewardIdsInput | string[]
+  ward_ids?: Prisma.GuardianProfileUpdateward_idsInput | string[]
 }
 
 
 
 export type GuardianProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
-  tenantId?: boolean
+  user_id?: boolean
+  tenant_id?: boolean
   occupation?: boolean
   relationship?: boolean
-  wardIds?: boolean
+  ward_ids?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["guardianProfile"]>
 
 export type GuardianProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
-  tenantId?: boolean
+  user_id?: boolean
+  tenant_id?: boolean
   occupation?: boolean
   relationship?: boolean
-  wardIds?: boolean
+  ward_ids?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["guardianProfile"]>
 
 export type GuardianProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
-  tenantId?: boolean
+  user_id?: boolean
+  tenant_id?: boolean
   occupation?: boolean
   relationship?: boolean
-  wardIds?: boolean
+  ward_ids?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["guardianProfile"]>
 
 export type GuardianProfileSelectScalar = {
   id?: boolean
-  userId?: boolean
-  tenantId?: boolean
+  user_id?: boolean
+  tenant_id?: boolean
   occupation?: boolean
   relationship?: boolean
-  wardIds?: boolean
+  ward_ids?: boolean
 }
 
-export type GuardianProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tenantId" | "occupation" | "relationship" | "wardIds", ExtArgs["result"]["guardianProfile"]>
+export type GuardianProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "tenant_id" | "occupation" | "relationship" | "ward_ids", ExtArgs["result"]["guardianProfile"]>
 export type GuardianProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -476,11 +476,11 @@ export type $GuardianProfilePayload<ExtArgs extends runtime.Types.Extensions.Int
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    userId: string
-    tenantId: string
+    user_id: string
+    tenant_id: string
     occupation: string | null
     relationship: string | null
-    wardIds: string[]
+    ward_ids: string[]
   }, ExtArgs["result"]["guardianProfile"]>
   composites: {}
 }
@@ -906,11 +906,11 @@ export interface Prisma__GuardianProfileClient<T, Null = never, ExtArgs extends 
  */
 export interface GuardianProfileFieldRefs {
   readonly id: Prisma.FieldRef<"GuardianProfile", 'String'>
-  readonly userId: Prisma.FieldRef<"GuardianProfile", 'String'>
-  readonly tenantId: Prisma.FieldRef<"GuardianProfile", 'String'>
+  readonly user_id: Prisma.FieldRef<"GuardianProfile", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"GuardianProfile", 'String'>
   readonly occupation: Prisma.FieldRef<"GuardianProfile", 'String'>
   readonly relationship: Prisma.FieldRef<"GuardianProfile", 'String'>
-  readonly wardIds: Prisma.FieldRef<"GuardianProfile", 'String[]'>
+  readonly ward_ids: Prisma.FieldRef<"GuardianProfile", 'String[]'>
 }
     
 

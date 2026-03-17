@@ -61,7 +61,7 @@ export class SchoolSetupService {
 
     const existingSession = await this.prisma.academicSession.findFirst({
       where: {
-        tenantId,
+        tenant_id: tenantId,
         name: dto.name,
       },
     });
@@ -76,22 +76,22 @@ export class SchoolSetupService {
     if (dto.is_current) {
       await this.prisma.academicSession.updateMany({
         where: {
-          tenantId,
-          isCurrent: true,
+          tenant_id: tenantId,
+          is_current: true,
         },
         data: {
-          isCurrent: false,
+          is_current: false,
         },
       });
     }
 
     const academicSession = await this.prisma.academicSession.create({
       data: {
-        tenantId,
+        tenant_id: tenantId,
         name: dto.name,
-        startDate: new Date(dto.start_date),
-        endDate: new Date(dto.end_date),
-        isCurrent: dto.is_current ?? false,
+        start_date: new Date(dto.start_date),
+        end_date: new Date(dto.end_date),
+        is_current: dto.is_current ?? false,
       },
       include: {
         terms: true,
@@ -109,13 +109,13 @@ export class SchoolSetupService {
     const tenantId = this.cls.get<string>('tenantId');
 
     return this.prisma.academicSession.findMany({
-      where: { tenantId },
+      where: { tenant_id: tenantId },
       include: {
         terms: {
-          orderBy: { startDate: 'asc' },
+          orderBy: { start_date: 'asc' },
         },
       },
-      orderBy: { startDate: 'desc' },
+      orderBy: { start_date: 'desc' },
     });
   }
 
@@ -124,10 +124,10 @@ export class SchoolSetupService {
     const tenantId = this.cls.get<string>('tenantId');
 
     const currentSession = await this.prisma.academicSession.findFirst({
-      where: { tenantId, isCurrent: true },
+      where: { tenant_id: tenantId, is_current: true },
       include: {
         terms: {
-          orderBy: { startDate: 'asc' },
+          orderBy: { start_date: 'asc' },
         },
       },
     });
@@ -147,12 +147,12 @@ export class SchoolSetupService {
 
     await this.prisma.$transaction([
       this.prisma.academicSession.updateMany({
-        where: { tenantId, isCurrent: true },
-        data: { isCurrent: false },
+        where: { tenant_id: tenantId, is_current: true },
+        data: { is_current: false },
       }),
       this.prisma.academicSession.update({
         where: { id: sessionId },
-        data: { isCurrent: true },
+        data: { is_current: true },
       }),
     ]);
 
@@ -195,7 +195,7 @@ export class SchoolSetupService {
       tenantId,
     );
 
-    if (academicSession.isCurrent) {
+    if (academicSession.is_current) {
       throw new BadRequestException('Cannot delete current academic session');
     }
 
@@ -235,7 +235,7 @@ export class SchoolSetupService {
     }
 
     const existingTerm = await this.prisma.academicTerm.findFirst({
-      where: { academicSessionId: dto.academic_session_id, name: dto.name },
+      where: { academic_session_id: dto.academic_session_id, name: dto.name },
     });
 
     if (existingTerm) {
@@ -246,7 +246,7 @@ export class SchoolSetupService {
 
     // Enforce max 3 terms per session
     const termsCount = await this.prisma.academicTerm.count({
-      where: { academicSessionId: dto.academic_session_id },
+      where: { academic_session_id: dto.academic_session_id },
     });
     if (termsCount >= 3) {
       throw new BadRequestException(
@@ -257,19 +257,19 @@ export class SchoolSetupService {
     // Only one term can be current at a time
     if (dto.is_current) {
       await this.prisma.academicTerm.updateMany({
-        where: { tenantId, isCurrent: true },
-        data: { isCurrent: false },
+        where: { tenant_id: tenantId, is_current: true },
+        data: { is_current: false },
       });
     }
 
     return this.prisma.academicTerm.create({
       data: {
-        tenantId,
-        academicSessionId: dto.academic_session_id,
+        tenant_id: tenantId,
+        academic_session_id: dto.academic_session_id,
         name: dto.name,
-        startDate: new Date(dto.start_date),
-        endDate: new Date(dto.end_date),
-        isCurrent: dto.is_current ?? false,
+        start_date: new Date(dto.start_date),
+        end_date: new Date(dto.end_date),
+        is_current: dto.is_current ?? false,
       },
     });
   }
@@ -283,8 +283,8 @@ export class SchoolSetupService {
     );
 
     return this.prisma.academicTerm.findMany({
-      where: { academicSessionId, tenantId },
-      orderBy: { startDate: 'asc' },
+      where: { academic_session_id: academicSessionId, tenant_id: tenantId },
+      orderBy: { start_date: 'asc' },
     });
   }
 
@@ -293,7 +293,7 @@ export class SchoolSetupService {
     const tenantId = this.cls.get<string>('tenantId');
 
     const term = await this.prisma.academicTerm.findFirst({
-      where: { tenantId, isCurrent: true },
+      where: { tenant_id: tenantId, is_current: true },
       include: { academicSession: true },
     });
 
@@ -312,12 +312,12 @@ export class SchoolSetupService {
 
     await this.prisma.$transaction([
       this.prisma.academicTerm.updateMany({
-        where: { tenantId, isCurrent: true },
-        data: { isCurrent: false },
+        where: { tenant_id: tenantId, is_current: true },
+        data: { is_current: false },
       }),
       this.prisma.academicTerm.update({
         where: { id: termId },
-        data: { isCurrent: true },
+        data: { is_current: true },
       }),
     ]);
 
@@ -336,8 +336,8 @@ export class SchoolSetupService {
       where: { id: termId },
       data: {
         ...(dto.name && { name: dto.name }),
-        ...(dto.start_date && { startDate: new Date(dto.start_date) }),
-        ...(dto.end_date && { endDate: new Date(dto.end_date) }),
+        ...(dto.start_date && { start_date: new Date(dto.start_date) }),
+        ...(dto.end_date && { end_date: new Date(dto.end_date) }),
       },
       include: { academicSession: true },
     });
@@ -349,7 +349,7 @@ export class SchoolSetupService {
     const tenantId = this.cls.get<string>('tenantId');
 
     const existingDepartment = await this.prisma.department.findFirst({
-      where: { tenantId, name: dto.name },
+      where: { tenant_id: tenantId, name: dto.name },
     });
 
     if (existingDepartment) {
@@ -364,7 +364,7 @@ export class SchoolSetupService {
 
     return this.prisma.department.create({
       data: {
-        tenantId,
+        tenant_id: tenantId,
         ...dto,
       },
     });
@@ -375,7 +375,7 @@ export class SchoolSetupService {
     const tenantId = this.cls.get<string>('tenantId');
 
     const departments = await this.prisma.department.findMany({
-      where: { tenantId },
+      where: { tenant_id: tenantId },
       include: {
         subjects: { select: { id: true, name: true, code: true } },
         classes: { select: { id: true, name: true, level: true } },
@@ -402,7 +402,7 @@ export class SchoolSetupService {
       data: {
         name: dto.name,
         description: dto.description,
-        hodId: dto.hod_id,
+        hod_id: dto.hod_id,
       },
     });
   }
@@ -415,12 +415,12 @@ export class SchoolSetupService {
     // Nullify references rather than blocking deletion
     await this.prisma.$transaction([
       this.prisma.subject.updateMany({
-        where: { departmentId },
-        data: { departmentId: null },
+        where: { department_id: departmentId },
+        data: { department_id: null },
       }),
       this.prisma.class.updateMany({
-        where: { departmentId },
-        data: { departmentId: null },
+        where: { department_id: departmentId },
+        data: { department_id: null },
       }),
       this.prisma.department.delete({
         where: { id: departmentId },
@@ -436,7 +436,7 @@ export class SchoolSetupService {
     const tenantId = this.cls.get<string>('tenantId');
 
     const existingClass = await this.prisma.class.findFirst({
-      where: { tenantId, name: dto.name },
+      where: { tenant_id: tenantId, name: dto.name },
     });
     if (existingClass) {
       throw new ConflictException(
@@ -454,12 +454,12 @@ export class SchoolSetupService {
 
     return this.prisma.class.create({
       data: {
-        tenantId,
+        tenant_id: tenantId,
         name: dto.name,
         level: dto.level,
         capacity: dto.capacity ?? 0,
-        departmentId: dto.department_id ?? null,
-        classTeacherId: dto.class_teacher_id ?? null,
+        department_id: dto.department_id ?? null,
+        class_teacher_id: dto.class_teacher_id ?? null,
       },
       include: {
         department: true,
@@ -473,7 +473,7 @@ export class SchoolSetupService {
     const tenantId = this.cls.get<string>('tenantId');
 
     return this.prisma.class.findMany({
-      where: { tenantId, ...(level && { level }) },
+      where: { tenant_id: tenantId, ...(level && { level }) },
       include: {
         department: { select: { id: true, name: true } },
         classSubjects: {
@@ -493,7 +493,7 @@ export class SchoolSetupService {
     const tenantId = this.cls.get<string>('tenantId');
 
     const cls = await this.prisma.class.findUnique({
-      where: { id: classId, tenantId },
+      where: { id: classId, tenant_id: tenantId },
       include: {
         department: true,
         classSubjects: { include: { subject: true } },
@@ -502,8 +502,8 @@ export class SchoolSetupService {
             user: {
               select: {
                 id: true,
-                firstName: true,
-                lastName: true,
+                first_name: true,
+                last_name: true,
                 email: true,
                 avatar: true,
                 identifier: true,
@@ -535,7 +535,7 @@ export class SchoolSetupService {
 
     if (dto.name) {
       const existingClass = await this.prisma.class.findFirst({
-        where: { tenantId, name: dto.name, NOT: { id: classId } },
+        where: { tenant_id: tenantId, name: dto.name, NOT: { id: classId } },
       });
       if (existingClass) {
         throw new ConflictException(
@@ -550,8 +550,8 @@ export class SchoolSetupService {
         name: dto.name,
         level: dto.level,
         capacity: dto.capacity ?? 0,
-        departmentId: dto.department_id ?? null,
-        classTeacherId: dto.class_teacher_id ?? null,
+        department_id: dto.department_id ?? null,
+        class_teacher_id: dto.class_teacher_id ?? null,
       },
       include: {
         department: true,
@@ -567,7 +567,7 @@ export class SchoolSetupService {
 
     // Prevent deletion if class has students
     const studentsCount = await this.prisma.studentProfile.count({
-      where: { classId },
+      where: { class_id: classId },
     });
     if (studentsCount > 0) {
       throw new BadRequestException(
@@ -590,18 +590,18 @@ export class SchoolSetupService {
 
     // Verify the student exists in this school
     const studentProfile = await this.prisma.studentProfile.findFirst({
-      where: { tenantId, userId: studentUserId },
+      where: { tenant_id: tenantId, user_id: studentUserId },
       include: { class: true },
     });
     if (!studentProfile) throw new UserNotFoundException();
 
     // Block if already in this exact class
-    if (studentProfile.classId === classId) {
+    if (studentProfile.class_id === classId) {
       throw new StudentAlreadyInClassException(cls.name);
     }
 
     // Block if already in a different class — use transfer instead
-    if (studentProfile.classId && studentProfile.classId !== classId) {
+    if (studentProfile.class_id && studentProfile.class_id !== classId) {
       throw new StudentAlreadyInClassException(
         studentProfile.class?.name ?? 'another class',
       );
@@ -609,7 +609,7 @@ export class SchoolSetupService {
 
     // Check class capacity
     const currentCount = await this.prisma.studentProfile.count({
-      where: { classId },
+      where: { class_id: classId },
     });
 
     if (currentCount >= cls.capacity) {
@@ -624,7 +624,7 @@ export class SchoolSetupService {
 
     await this.prisma.studentProfile.update({
       where: { id: studentProfile.id },
-      data: { classId },
+      data: { class_id: classId },
     });
 
     this.logger.log(
@@ -633,8 +633,8 @@ export class SchoolSetupService {
 
     return {
       message: `Student successfully assigned to ${cls.name}`,
-      studentId: studentProfile.id,
-      classId,
+      student_id: studentProfile.id,
+      class_id: classId,
       className: cls.name,
     };
   }
@@ -651,9 +651,9 @@ export class SchoolSetupService {
 
     const codeExists = await this.prisma.subject.findFirst({
       where: {
-        tenantId,
+        tenant_id: tenantId,
         code: dto.code,
-        departmentId: dto.department_id ?? null,
+        department_id: dto.department_id ?? null,
       },
     });
     if (codeExists) {
@@ -662,12 +662,12 @@ export class SchoolSetupService {
 
     return this.prisma.subject.create({
       data: {
-        tenantId,
+        tenant_id: tenantId,
         name: dto.name,
         title: dto.title,
         code: dto.code,
         description: dto.description,
-        departmentId: dto.department_id ?? null,
+        department_id: dto.department_id ?? null,
       },
       include: { department: true },
     });
@@ -678,7 +678,10 @@ export class SchoolSetupService {
     const tenantId = this.cls.get<string>('tenantId');
 
     return this.prisma.subject.findMany({
-      where: { tenantId, ...(departmentId && { departmentId }) },
+      where: {
+        tenant_id: tenantId,
+        ...(departmentId && { department_id: departmentId }),
+      },
       include: {
         department: { select: { id: true, name: true } },
         classSubjects: {
@@ -697,7 +700,7 @@ export class SchoolSetupService {
     const tenantId = this.cls.get<string>('tenantId');
 
     const subject = await this.prisma.subject.findUnique({
-      where: { id, tenantId },
+      where: { id, tenant_id: tenantId },
       include: {
         department: { select: { id: true, name: true } },
         // TODO: Add classes offering this subject
@@ -752,17 +755,17 @@ export class SchoolSetupService {
 
     // Check if subject not assigned
     const existingAssignment = await this.prisma.classSubject.findFirst({
-      where: { classId, subjectId: dto.subject_id },
+      where: { class_id: classId, subject_id: dto.subject_id },
     });
 
     if (existingAssignment) throw new SubjectAlreadyAssignedException();
 
     return this.prisma.classSubject.create({
       data: {
-        tenantId,
-        classId,
-        subjectId: dto.subject_id,
-        subjectType: dto.subject_type,
+        tenant_id: tenantId,
+        class_id: classId,
+        subject_id: dto.subject_id,
+        subject_type: dto.subject_type,
       },
       include: {
         subject: true,
@@ -787,7 +790,7 @@ export class SchoolSetupService {
         await this.validateSubjectBelongsToTenant(item.subject_id, tenantId);
 
         const existing = await this.prisma.classSubject.findFirst({
-          where: { classId, subjectId: item.subject_id },
+          where: { class_id: classId, subject_id: item.subject_id },
         });
 
         if (existing) {
@@ -800,10 +803,10 @@ export class SchoolSetupService {
 
         await this.prisma.classSubject.create({
           data: {
-            tenantId,
-            classId,
-            subjectId: item.subject_id,
-            subjectType: item.subject_type,
+            tenant_id: tenantId,
+            class_id: classId,
+            subject_id: item.subject_id,
+            subject_type: item.subject_type,
           },
         });
 
@@ -829,7 +832,7 @@ export class SchoolSetupService {
     await this.validateClassBelongsToTenant(classId, tenantId);
 
     const classSubject = await this.prisma.classSubject.findFirst({
-      where: { classId, subjectId },
+      where: { class_id: classId, subject_id: subjectId },
     });
 
     if (!classSubject) throw new SubjectNotAssignedException();
@@ -850,7 +853,7 @@ export class SchoolSetupService {
     const tenantId = this.cls.get<string>('tenantId');
 
     const classSubject = await this.prisma.classSubject.findFirst({
-      where: { classId, subjectId },
+      where: { class_id: classId, subject_id: subjectId },
       include: {
         subject: true,
       },
@@ -861,16 +864,16 @@ export class SchoolSetupService {
     await this.validateTeacherBelongsToTenant(teacherId, tenantId);
 
     const alreadyAssigned = await this.prisma.subjectTeacher.findFirst({
-      where: { classSubjectId: classSubject.id, teacherId },
+      where: { class_subject_id: classSubject.id, teacher_id: teacherId },
     });
 
     if (alreadyAssigned) throw new TeacherAlreadyAssignedToSubjectException();
 
     return this.prisma.subjectTeacher.create({
       data: {
-        tenantId,
-        classSubjectId: classSubject.id,
-        teacherId,
+        tenant_id: tenantId,
+        class_subject_id: classSubject.id,
+        teacher_id: teacherId,
       },
     });
 
@@ -885,7 +888,7 @@ export class SchoolSetupService {
     const tenantId = this.cls.get<string>('tenantId');
 
     const classSubject = await this.prisma.classSubject.findFirst({
-      where: { classId, subjectId },
+      where: { class_id: classId, subject_id: subjectId },
       include: {
         subject: true,
       },
@@ -901,7 +904,7 @@ export class SchoolSetupService {
     for (const teacherId of dto.teacher_ids) {
       try {
         const alreadyAssigned = await this.prisma.subjectTeacher.findFirst({
-          where: { classSubjectId: classSubject.id, teacherId },
+          where: { class_subject_id: classSubject.id, teacher_id: teacherId },
         });
 
         if (alreadyAssigned) {
@@ -914,9 +917,9 @@ export class SchoolSetupService {
 
         await this.prisma.subjectTeacher.create({
           data: {
-            tenantId,
-            classSubjectId: classSubject.id,
-            teacherId,
+            tenant_id: tenantId,
+            class_subject_id: classSubject.id,
+            teacher_id: teacherId,
           },
         });
 
@@ -949,13 +952,13 @@ export class SchoolSetupService {
     await this.validateTeacherBelongsToTenant(teacherId, tenantId);
 
     const classSubject = await this.prisma.classSubject.findFirst({
-      where: { classId, subjectId },
+      where: { class_id: classId, subject_id: subjectId },
     });
 
     if (!classSubject) throw new SubjectNotAssignedException();
 
     const assignment = await this.prisma.subjectTeacher.findFirst({
-      where: { classSubjectId: classSubject.id, teacherId },
+      where: { class_subject_id: classSubject.id, teacher_id: teacherId },
     });
 
     if (!assignment) throw new SubjectNotAssignedException();
@@ -975,31 +978,31 @@ export class SchoolSetupService {
     const tenantId = this.cls.get<string>('tenantId');
 
     const studentProfile = await this.prisma.studentProfile.findFirst({
-      where: { userId: studentId, tenantId },
+      where: { user_id: studentId, tenant_id: tenantId },
     });
-    if (!studentProfile?.classId) throw new StudentNotInClassException();
+    if (!studentProfile?.class_id) throw new StudentNotInClassException();
 
     // Get current active term
     const currentTerm = await this.prisma.academicTerm.findFirst({
-      where: { tenantId, isCurrent: true },
+      where: { tenant_id: tenantId, is_current: true },
     });
     if (!currentTerm) throw new ActiveTermRequiredException();
 
     // Get all subjects in the class
     const allClassSubjects = await this.prisma.classSubject.findMany({
-      where: { classId: studentProfile.classId },
+      where: { class_id: studentProfile.class_id },
     });
 
     const compulsoryIds = allClassSubjects
-      .filter((item) => item.subjectType === SubjectType.COMPULSORY)
+      .filter((item) => item.subject_type === SubjectType.COMPULSORY)
       .map((item) => item.id);
 
     const electiveIds = allClassSubjects
-      .filter((item) => item.subjectType === SubjectType.ELECTIVE)
+      .filter((item) => item.subject_type === SubjectType.ELECTIVE)
       .map((item) => item.id);
 
     const optionalIds = allClassSubjects
-      .filter((item) => item.subjectType === SubjectType.OPTIONAL)
+      .filter((item) => item.subject_type === SubjectType.OPTIONAL)
       .map((item) => item.id);
 
     // Validate every class subject id is in the class
@@ -1023,18 +1026,18 @@ export class SchoolSetupService {
       for (const classSubjectId of subjectsToRegister) {
         await tx.studentSubjectRegistration.upsert({
           where: {
-            tenantId_studentId_classSubjectId_termId: {
-              tenantId,
-              studentId: studentProfile.id,
-              classSubjectId,
-              termId: currentTerm.id,
+            tenant_id_student_id_class_subject_id_term_id: {
+              tenant_id: tenantId,
+              student_id: studentProfile.id,
+              class_subject_id: classSubjectId,
+              term_id: currentTerm.id,
             },
           },
           create: {
-            tenantId,
-            studentId: studentProfile.id,
-            classSubjectId,
-            termId: currentTerm.id,
+            tenant_id: tenantId,
+            student_id: studentProfile.id,
+            class_subject_id: classSubjectId,
+            term_id: currentTerm.id,
           },
           update: {},
         });
@@ -1051,22 +1054,22 @@ export class SchoolSetupService {
     const tenantId = this.cls.get<string>('tenantId');
 
     const studentProfile = await this.prisma.studentProfile.findFirst({
-      where: { userId: studentId, tenantId },
+      where: { user_id: studentId, tenant_id: tenantId },
     });
-    if (!studentProfile?.classId) throw new StudentNotInClassException();
+    if (!studentProfile?.class_id) throw new StudentNotInClassException();
 
     const currentTerm = await this.prisma.academicTerm.findFirst({
-      where: { tenantId, isCurrent: true },
+      where: { tenant_id: tenantId, is_current: true },
     });
 
     if (!currentTerm) throw new ActiveTermRequiredException();
 
     const allClassSubjects = await this.prisma.classSubject.findMany({
-      where: { classId: studentProfile.classId },
+      where: { class_id: studentProfile.class_id },
     });
 
     const compulsoryIds = allClassSubjects
-      .filter((item) => item.subjectType === SubjectType.COMPULSORY)
+      .filter((item) => item.subject_type === SubjectType.COMPULSORY)
       .map((item) => item.id);
 
     for (const compulsoryId of compulsoryIds) {
@@ -1086,9 +1089,9 @@ export class SchoolSetupService {
       // Remove all current elective registrations for this term
       await tx.studentSubjectRegistration.deleteMany({
         where: {
-          studentId: studentProfile.id,
-          classSubject: { subjectType: SubjectType.ELECTIVE },
-          termId: currentTerm.id,
+          student_id: studentProfile.id,
+          classSubject: { subject_type: SubjectType.ELECTIVE },
+          term_id: currentTerm.id,
         },
       });
 
@@ -1096,18 +1099,18 @@ export class SchoolSetupService {
       for (const classSubjectId of dto.class_subject_ids) {
         await tx.studentSubjectRegistration.upsert({
           where: {
-            tenantId_studentId_classSubjectId_termId: {
-              tenantId,
-              studentId: studentProfile.id,
-              classSubjectId,
-              termId: currentTerm.id,
+            tenant_id_student_id_class_subject_id_term_id: {
+              tenant_id: tenantId,
+              student_id: studentProfile.id,
+              class_subject_id: classSubjectId,
+              term_id: currentTerm.id,
             },
           },
           create: {
-            tenantId,
-            studentId: studentProfile.id,
-            classSubjectId,
-            termId: currentTerm.id,
+            tenant_id: tenantId,
+            student_id: studentProfile.id,
+            class_subject_id: classSubjectId,
+            term_id: currentTerm.id,
           },
           update: {},
         });
@@ -1121,18 +1124,18 @@ export class SchoolSetupService {
     const tenantId = this.cls.get<string>('tenantId');
 
     const studentProfile = await this.prisma.studentProfile.findFirst({
-      where: { userId: studentId, tenantId },
+      where: { user_id: studentId, tenant_id: tenantId },
     });
     if (!studentProfile) throw new UserNotFoundException();
 
     const currentTerm = await this.prisma.academicTerm.findFirst({
-      where: { tenantId, isCurrent: true },
+      where: { tenant_id: tenantId, is_current: true },
     });
 
     if (!currentTerm) throw new ActiveTermRequiredException();
 
     return this.prisma.studentSubjectRegistration.findMany({
-      where: { studentId: studentProfile.id, termId: currentTerm.id },
+      where: { student_id: studentProfile.id, term_id: currentTerm.id },
       include: {
         classSubject: {
           include: {
@@ -1157,18 +1160,18 @@ export class SchoolSetupService {
       classByLevel,
     ] = await Promise.all([
       this.prisma.academicSession.findFirst({
-        where: { tenantId, isCurrent: true },
+        where: { tenant_id: tenantId, is_current: true },
       }),
       this.prisma.academicTerm.findFirst({
-        where: { tenantId, isCurrent: true },
+        where: { tenant_id: tenantId, is_current: true },
         include: { academicSession: true },
       }),
-      this.prisma.class.count({ where: { tenantId } }),
-      this.prisma.subject.count({ where: { tenantId } }),
-      this.prisma.department.count({ where: { tenantId } }),
+      this.prisma.class.count({ where: { tenant_id: tenantId } }),
+      this.prisma.subject.count({ where: { tenant_id: tenantId } }),
+      this.prisma.department.count({ where: { tenant_id: tenantId } }),
       // Group class by level
       this.prisma.class.groupBy({
-        where: { tenantId },
+        where: { tenant_id: tenantId },
         by: ['level'],
         _count: { id: true },
       }),
@@ -1195,7 +1198,7 @@ export class SchoolSetupService {
     tenantId: string,
   ) {
     const academicSession = await this.prisma.academicSession.findUnique({
-      where: { id: sessionId, tenantId },
+      where: { id: sessionId, tenant_id: tenantId },
       include: { terms: true },
     });
 
@@ -1210,7 +1213,7 @@ export class SchoolSetupService {
     tenantId: string,
   ) {
     const term = await this.prisma.academicTerm.findUnique({
-      where: { id: termId, tenantId },
+      where: { id: termId, tenant_id: tenantId },
     });
     if (!term) {
       throw new NotFoundException('Academic term not found');
@@ -1223,7 +1226,7 @@ export class SchoolSetupService {
     tenantId: string,
   ) {
     const dept = await this.prisma.department.findUnique({
-      where: { id: departmentId, tenantId },
+      where: { id: departmentId, tenant_id: tenantId },
     });
     if (!dept) {
       throw new NotFoundException('Department not found');
@@ -1236,7 +1239,7 @@ export class SchoolSetupService {
     tenantId: string,
   ) {
     const teacher = await this.prisma.user.findFirst({
-      where: { id: teacherId, tenantId, role: 'TEACHER' },
+      where: { id: teacherId, tenant_id: tenantId, role: 'TEACHER' },
     });
     // console.log(teacher);
     if (!teacher) {
@@ -1250,7 +1253,7 @@ export class SchoolSetupService {
     tenantId: string,
   ) {
     const cls = await this.prisma.class.findFirst({
-      where: { id: classId, tenantId },
+      where: { id: classId, tenant_id: tenantId },
     });
     if (!cls) {
       throw new NotFoundException('Class not found');
@@ -1263,7 +1266,7 @@ export class SchoolSetupService {
     tenantId: string,
   ) {
     const subject = await this.prisma.subject.findFirst({
-      where: { id: subjectId, tenantId },
+      where: { id: subjectId, tenant_id: tenantId },
     });
     if (!subject) {
       throw new NotFoundException('Subject not found');
@@ -1276,7 +1279,7 @@ export class SchoolSetupService {
     tenantId: string,
   ) {
     const student = await this.prisma.studentProfile.findFirst({
-      where: { userId: studentId, tenantId },
+      where: { user_id: studentId, tenant_id: tenantId },
     });
     if (!student) {
       throw new NotFoundException('Student not found');

@@ -26,46 +26,46 @@ export type AggregateSubjectTeacher = {
 
 export type SubjectTeacherMinAggregateOutputType = {
   id: string | null
-  tenantId: string | null
-  classSubjectId: string | null
-  teacherId: string | null
+  tenant_id: string | null
+  class_subject_id: string | null
+  teacher_id: string | null
 }
 
 export type SubjectTeacherMaxAggregateOutputType = {
   id: string | null
-  tenantId: string | null
-  classSubjectId: string | null
-  teacherId: string | null
+  tenant_id: string | null
+  class_subject_id: string | null
+  teacher_id: string | null
 }
 
 export type SubjectTeacherCountAggregateOutputType = {
   id: number
-  tenantId: number
-  classSubjectId: number
-  teacherId: number
+  tenant_id: number
+  class_subject_id: number
+  teacher_id: number
   _all: number
 }
 
 
 export type SubjectTeacherMinAggregateInputType = {
   id?: true
-  tenantId?: true
-  classSubjectId?: true
-  teacherId?: true
+  tenant_id?: true
+  class_subject_id?: true
+  teacher_id?: true
 }
 
 export type SubjectTeacherMaxAggregateInputType = {
   id?: true
-  tenantId?: true
-  classSubjectId?: true
-  teacherId?: true
+  tenant_id?: true
+  class_subject_id?: true
+  teacher_id?: true
 }
 
 export type SubjectTeacherCountAggregateInputType = {
   id?: true
-  tenantId?: true
-  classSubjectId?: true
-  teacherId?: true
+  tenant_id?: true
+  class_subject_id?: true
+  teacher_id?: true
   _all?: true
 }
 
@@ -143,9 +143,9 @@ export type SubjectTeacherGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 
 export type SubjectTeacherGroupByOutputType = {
   id: string
-  tenantId: string
-  classSubjectId: string
-  teacherId: string
+  tenant_id: string
+  class_subject_id: string
+  teacher_id: string
   _count: SubjectTeacherCountAggregateOutputType | null
   _min: SubjectTeacherMinAggregateOutputType | null
   _max: SubjectTeacherMaxAggregateOutputType | null
@@ -171,37 +171,37 @@ export type SubjectTeacherWhereInput = {
   OR?: Prisma.SubjectTeacherWhereInput[]
   NOT?: Prisma.SubjectTeacherWhereInput | Prisma.SubjectTeacherWhereInput[]
   id?: Prisma.StringFilter<"SubjectTeacher"> | string
-  tenantId?: Prisma.StringFilter<"SubjectTeacher"> | string
-  classSubjectId?: Prisma.StringFilter<"SubjectTeacher"> | string
-  teacherId?: Prisma.StringFilter<"SubjectTeacher"> | string
+  tenant_id?: Prisma.StringFilter<"SubjectTeacher"> | string
+  class_subject_id?: Prisma.StringFilter<"SubjectTeacher"> | string
+  teacher_id?: Prisma.StringFilter<"SubjectTeacher"> | string
   classSubject?: Prisma.XOR<Prisma.ClassSubjectScalarRelationFilter, Prisma.ClassSubjectWhereInput>
 }
 
 export type SubjectTeacherOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  classSubjectId?: Prisma.SortOrder
-  teacherId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  class_subject_id?: Prisma.SortOrder
+  teacher_id?: Prisma.SortOrder
   classSubject?: Prisma.ClassSubjectOrderByWithRelationInput
 }
 
 export type SubjectTeacherWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  tenantId_classSubjectId_teacherId?: Prisma.SubjectTeacherTenantIdClassSubjectIdTeacherIdCompoundUniqueInput
+  tenant_id_class_subject_id_teacher_id?: Prisma.SubjectTeacherTenant_idClass_subject_idTeacher_idCompoundUniqueInput
   AND?: Prisma.SubjectTeacherWhereInput | Prisma.SubjectTeacherWhereInput[]
   OR?: Prisma.SubjectTeacherWhereInput[]
   NOT?: Prisma.SubjectTeacherWhereInput | Prisma.SubjectTeacherWhereInput[]
-  tenantId?: Prisma.StringFilter<"SubjectTeacher"> | string
-  classSubjectId?: Prisma.StringFilter<"SubjectTeacher"> | string
-  teacherId?: Prisma.StringFilter<"SubjectTeacher"> | string
+  tenant_id?: Prisma.StringFilter<"SubjectTeacher"> | string
+  class_subject_id?: Prisma.StringFilter<"SubjectTeacher"> | string
+  teacher_id?: Prisma.StringFilter<"SubjectTeacher"> | string
   classSubject?: Prisma.XOR<Prisma.ClassSubjectScalarRelationFilter, Prisma.ClassSubjectWhereInput>
-}, "id" | "tenantId_classSubjectId_teacherId">
+}, "id" | "tenant_id_class_subject_id_teacher_id">
 
 export type SubjectTeacherOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  classSubjectId?: Prisma.SortOrder
-  teacherId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  class_subject_id?: Prisma.SortOrder
+  teacher_id?: Prisma.SortOrder
   _count?: Prisma.SubjectTeacherCountOrderByAggregateInput
   _max?: Prisma.SubjectTeacherMaxOrderByAggregateInput
   _min?: Prisma.SubjectTeacherMinOrderByAggregateInput
@@ -212,57 +212,57 @@ export type SubjectTeacherScalarWhereWithAggregatesInput = {
   OR?: Prisma.SubjectTeacherScalarWhereWithAggregatesInput[]
   NOT?: Prisma.SubjectTeacherScalarWhereWithAggregatesInput | Prisma.SubjectTeacherScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"SubjectTeacher"> | string
-  tenantId?: Prisma.StringWithAggregatesFilter<"SubjectTeacher"> | string
-  classSubjectId?: Prisma.StringWithAggregatesFilter<"SubjectTeacher"> | string
-  teacherId?: Prisma.StringWithAggregatesFilter<"SubjectTeacher"> | string
+  tenant_id?: Prisma.StringWithAggregatesFilter<"SubjectTeacher"> | string
+  class_subject_id?: Prisma.StringWithAggregatesFilter<"SubjectTeacher"> | string
+  teacher_id?: Prisma.StringWithAggregatesFilter<"SubjectTeacher"> | string
 }
 
 export type SubjectTeacherCreateInput = {
   id?: string
-  tenantId: string
-  teacherId: string
+  tenant_id: string
+  teacher_id: string
   classSubject: Prisma.ClassSubjectCreateNestedOneWithoutTeachersInput
 }
 
 export type SubjectTeacherUncheckedCreateInput = {
   id?: string
-  tenantId: string
-  classSubjectId: string
-  teacherId: string
+  tenant_id: string
+  class_subject_id: string
+  teacher_id: string
 }
 
 export type SubjectTeacherUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  teacherId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
   classSubject?: Prisma.ClassSubjectUpdateOneRequiredWithoutTeachersNestedInput
 }
 
 export type SubjectTeacherUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  classSubjectId?: Prisma.StringFieldUpdateOperationsInput | string
-  teacherId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  class_subject_id?: Prisma.StringFieldUpdateOperationsInput | string
+  teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SubjectTeacherCreateManyInput = {
   id?: string
-  tenantId: string
-  classSubjectId: string
-  teacherId: string
+  tenant_id: string
+  class_subject_id: string
+  teacher_id: string
 }
 
 export type SubjectTeacherUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  teacherId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SubjectTeacherUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  classSubjectId?: Prisma.StringFieldUpdateOperationsInput | string
-  teacherId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  class_subject_id?: Prisma.StringFieldUpdateOperationsInput | string
+  teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SubjectTeacherListRelationFilter = {
@@ -275,31 +275,31 @@ export type SubjectTeacherOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type SubjectTeacherTenantIdClassSubjectIdTeacherIdCompoundUniqueInput = {
-  tenantId: string
-  classSubjectId: string
-  teacherId: string
+export type SubjectTeacherTenant_idClass_subject_idTeacher_idCompoundUniqueInput = {
+  tenant_id: string
+  class_subject_id: string
+  teacher_id: string
 }
 
 export type SubjectTeacherCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  classSubjectId?: Prisma.SortOrder
-  teacherId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  class_subject_id?: Prisma.SortOrder
+  teacher_id?: Prisma.SortOrder
 }
 
 export type SubjectTeacherMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  classSubjectId?: Prisma.SortOrder
-  teacherId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  class_subject_id?: Prisma.SortOrder
+  teacher_id?: Prisma.SortOrder
 }
 
 export type SubjectTeacherMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  classSubjectId?: Prisma.SortOrder
-  teacherId?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  class_subject_id?: Prisma.SortOrder
+  teacher_id?: Prisma.SortOrder
 }
 
 export type SubjectTeacherCreateNestedManyWithoutClassSubjectInput = {
@@ -346,14 +346,14 @@ export type SubjectTeacherUncheckedUpdateManyWithoutClassSubjectNestedInput = {
 
 export type SubjectTeacherCreateWithoutClassSubjectInput = {
   id?: string
-  tenantId: string
-  teacherId: string
+  tenant_id: string
+  teacher_id: string
 }
 
 export type SubjectTeacherUncheckedCreateWithoutClassSubjectInput = {
   id?: string
-  tenantId: string
-  teacherId: string
+  tenant_id: string
+  teacher_id: string
 }
 
 export type SubjectTeacherCreateOrConnectWithoutClassSubjectInput = {
@@ -387,69 +387,69 @@ export type SubjectTeacherScalarWhereInput = {
   OR?: Prisma.SubjectTeacherScalarWhereInput[]
   NOT?: Prisma.SubjectTeacherScalarWhereInput | Prisma.SubjectTeacherScalarWhereInput[]
   id?: Prisma.StringFilter<"SubjectTeacher"> | string
-  tenantId?: Prisma.StringFilter<"SubjectTeacher"> | string
-  classSubjectId?: Prisma.StringFilter<"SubjectTeacher"> | string
-  teacherId?: Prisma.StringFilter<"SubjectTeacher"> | string
+  tenant_id?: Prisma.StringFilter<"SubjectTeacher"> | string
+  class_subject_id?: Prisma.StringFilter<"SubjectTeacher"> | string
+  teacher_id?: Prisma.StringFilter<"SubjectTeacher"> | string
 }
 
 export type SubjectTeacherCreateManyClassSubjectInput = {
   id?: string
-  tenantId: string
-  teacherId: string
+  tenant_id: string
+  teacher_id: string
 }
 
 export type SubjectTeacherUpdateWithoutClassSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  teacherId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SubjectTeacherUncheckedUpdateWithoutClassSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  teacherId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SubjectTeacherUncheckedUpdateManyWithoutClassSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  teacherId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
 
 export type SubjectTeacherSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenantId?: boolean
-  classSubjectId?: boolean
-  teacherId?: boolean
+  tenant_id?: boolean
+  class_subject_id?: boolean
+  teacher_id?: boolean
   classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectTeacher"]>
 
 export type SubjectTeacherSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenantId?: boolean
-  classSubjectId?: boolean
-  teacherId?: boolean
+  tenant_id?: boolean
+  class_subject_id?: boolean
+  teacher_id?: boolean
   classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectTeacher"]>
 
 export type SubjectTeacherSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  tenantId?: boolean
-  classSubjectId?: boolean
-  teacherId?: boolean
+  tenant_id?: boolean
+  class_subject_id?: boolean
+  teacher_id?: boolean
   classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectTeacher"]>
 
 export type SubjectTeacherSelectScalar = {
   id?: boolean
-  tenantId?: boolean
-  classSubjectId?: boolean
-  teacherId?: boolean
+  tenant_id?: boolean
+  class_subject_id?: boolean
+  teacher_id?: boolean
 }
 
-export type SubjectTeacherOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "classSubjectId" | "teacherId", ExtArgs["result"]["subjectTeacher"]>
+export type SubjectTeacherOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "class_subject_id" | "teacher_id", ExtArgs["result"]["subjectTeacher"]>
 export type SubjectTeacherInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
 }
@@ -467,9 +467,9 @@ export type $SubjectTeacherPayload<ExtArgs extends runtime.Types.Extensions.Inte
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tenantId: string
-    classSubjectId: string
-    teacherId: string
+    tenant_id: string
+    class_subject_id: string
+    teacher_id: string
   }, ExtArgs["result"]["subjectTeacher"]>
   composites: {}
 }
@@ -895,9 +895,9 @@ export interface Prisma__SubjectTeacherClient<T, Null = never, ExtArgs extends r
  */
 export interface SubjectTeacherFieldRefs {
   readonly id: Prisma.FieldRef<"SubjectTeacher", 'String'>
-  readonly tenantId: Prisma.FieldRef<"SubjectTeacher", 'String'>
-  readonly classSubjectId: Prisma.FieldRef<"SubjectTeacher", 'String'>
-  readonly teacherId: Prisma.FieldRef<"SubjectTeacher", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"SubjectTeacher", 'String'>
+  readonly class_subject_id: Prisma.FieldRef<"SubjectTeacher", 'String'>
+  readonly teacher_id: Prisma.FieldRef<"SubjectTeacher", 'String'>
 }
     
 

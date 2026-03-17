@@ -26,64 +26,64 @@ export type AggregateTeacherProfile = {
 
 export type TeacherProfileMinAggregateOutputType = {
   id: string | null
-  userId: string | null
-  tenantId: string | null
-  employeeId: string | null
-  departmentId: string | null
+  user_id: string | null
+  tenant_id: string | null
+  employee_id: string | null
+  department_id: string | null
   qualification: string | null
-  dateJoined: Date | null
+  date_joined: Date | null
 }
 
 export type TeacherProfileMaxAggregateOutputType = {
   id: string | null
-  userId: string | null
-  tenantId: string | null
-  employeeId: string | null
-  departmentId: string | null
+  user_id: string | null
+  tenant_id: string | null
+  employee_id: string | null
+  department_id: string | null
   qualification: string | null
-  dateJoined: Date | null
+  date_joined: Date | null
 }
 
 export type TeacherProfileCountAggregateOutputType = {
   id: number
-  userId: number
-  tenantId: number
-  employeeId: number
-  departmentId: number
+  user_id: number
+  tenant_id: number
+  employee_id: number
+  department_id: number
   qualification: number
-  dateJoined: number
+  date_joined: number
   _all: number
 }
 
 
 export type TeacherProfileMinAggregateInputType = {
   id?: true
-  userId?: true
-  tenantId?: true
-  employeeId?: true
-  departmentId?: true
+  user_id?: true
+  tenant_id?: true
+  employee_id?: true
+  department_id?: true
   qualification?: true
-  dateJoined?: true
+  date_joined?: true
 }
 
 export type TeacherProfileMaxAggregateInputType = {
   id?: true
-  userId?: true
-  tenantId?: true
-  employeeId?: true
-  departmentId?: true
+  user_id?: true
+  tenant_id?: true
+  employee_id?: true
+  department_id?: true
   qualification?: true
-  dateJoined?: true
+  date_joined?: true
 }
 
 export type TeacherProfileCountAggregateInputType = {
   id?: true
-  userId?: true
-  tenantId?: true
-  employeeId?: true
-  departmentId?: true
+  user_id?: true
+  tenant_id?: true
+  employee_id?: true
+  department_id?: true
   qualification?: true
-  dateJoined?: true
+  date_joined?: true
   _all?: true
 }
 
@@ -161,12 +161,12 @@ export type TeacherProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 
 export type TeacherProfileGroupByOutputType = {
   id: string
-  userId: string
-  tenantId: string
-  employeeId: string
-  departmentId: string | null
+  user_id: string
+  tenant_id: string
+  employee_id: string
+  department_id: string | null
   qualification: string | null
-  dateJoined: Date | null
+  date_joined: Date | null
   _count: TeacherProfileCountAggregateOutputType | null
   _min: TeacherProfileMinAggregateOutputType | null
   _max: TeacherProfileMaxAggregateOutputType | null
@@ -192,48 +192,48 @@ export type TeacherProfileWhereInput = {
   OR?: Prisma.TeacherProfileWhereInput[]
   NOT?: Prisma.TeacherProfileWhereInput | Prisma.TeacherProfileWhereInput[]
   id?: Prisma.StringFilter<"TeacherProfile"> | string
-  userId?: Prisma.StringFilter<"TeacherProfile"> | string
-  tenantId?: Prisma.StringFilter<"TeacherProfile"> | string
-  employeeId?: Prisma.StringFilter<"TeacherProfile"> | string
-  departmentId?: Prisma.StringNullableFilter<"TeacherProfile"> | string | null
+  user_id?: Prisma.StringFilter<"TeacherProfile"> | string
+  tenant_id?: Prisma.StringFilter<"TeacherProfile"> | string
+  employee_id?: Prisma.StringFilter<"TeacherProfile"> | string
+  department_id?: Prisma.StringNullableFilter<"TeacherProfile"> | string | null
   qualification?: Prisma.StringNullableFilter<"TeacherProfile"> | string | null
-  dateJoined?: Prisma.DateTimeNullableFilter<"TeacherProfile"> | Date | string | null
+  date_joined?: Prisma.DateTimeNullableFilter<"TeacherProfile"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type TeacherProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  employeeId?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  employee_id?: Prisma.SortOrder
+  department_id?: Prisma.SortOrderInput | Prisma.SortOrder
   qualification?: Prisma.SortOrderInput | Prisma.SortOrder
-  dateJoined?: Prisma.SortOrderInput | Prisma.SortOrder
+  date_joined?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type TeacherProfileWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  userId?: string
-  employeeId?: string
+  user_id?: string
+  employee_id?: string
   AND?: Prisma.TeacherProfileWhereInput | Prisma.TeacherProfileWhereInput[]
   OR?: Prisma.TeacherProfileWhereInput[]
   NOT?: Prisma.TeacherProfileWhereInput | Prisma.TeacherProfileWhereInput[]
-  tenantId?: Prisma.StringFilter<"TeacherProfile"> | string
-  departmentId?: Prisma.StringNullableFilter<"TeacherProfile"> | string | null
+  tenant_id?: Prisma.StringFilter<"TeacherProfile"> | string
+  department_id?: Prisma.StringNullableFilter<"TeacherProfile"> | string | null
   qualification?: Prisma.StringNullableFilter<"TeacherProfile"> | string | null
-  dateJoined?: Prisma.DateTimeNullableFilter<"TeacherProfile"> | Date | string | null
+  date_joined?: Prisma.DateTimeNullableFilter<"TeacherProfile"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "userId" | "employeeId">
+}, "id" | "user_id" | "employee_id">
 
 export type TeacherProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  employeeId?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  employee_id?: Prisma.SortOrder
+  department_id?: Prisma.SortOrderInput | Prisma.SortOrder
   qualification?: Prisma.SortOrderInput | Prisma.SortOrder
-  dateJoined?: Prisma.SortOrderInput | Prisma.SortOrder
+  date_joined?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TeacherProfileCountOrderByAggregateInput
   _max?: Prisma.TeacherProfileMaxOrderByAggregateInput
   _min?: Prisma.TeacherProfileMinOrderByAggregateInput
@@ -244,81 +244,81 @@ export type TeacherProfileScalarWhereWithAggregatesInput = {
   OR?: Prisma.TeacherProfileScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TeacherProfileScalarWhereWithAggregatesInput | Prisma.TeacherProfileScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"TeacherProfile"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"TeacherProfile"> | string
-  tenantId?: Prisma.StringWithAggregatesFilter<"TeacherProfile"> | string
-  employeeId?: Prisma.StringWithAggregatesFilter<"TeacherProfile"> | string
-  departmentId?: Prisma.StringNullableWithAggregatesFilter<"TeacherProfile"> | string | null
+  user_id?: Prisma.StringWithAggregatesFilter<"TeacherProfile"> | string
+  tenant_id?: Prisma.StringWithAggregatesFilter<"TeacherProfile"> | string
+  employee_id?: Prisma.StringWithAggregatesFilter<"TeacherProfile"> | string
+  department_id?: Prisma.StringNullableWithAggregatesFilter<"TeacherProfile"> | string | null
   qualification?: Prisma.StringNullableWithAggregatesFilter<"TeacherProfile"> | string | null
-  dateJoined?: Prisma.DateTimeNullableWithAggregatesFilter<"TeacherProfile"> | Date | string | null
+  date_joined?: Prisma.DateTimeNullableWithAggregatesFilter<"TeacherProfile"> | Date | string | null
 }
 
 export type TeacherProfileCreateInput = {
   id?: string
-  tenantId: string
-  employeeId: string
-  departmentId?: string | null
+  tenant_id: string
+  employee_id: string
+  department_id?: string | null
   qualification?: string | null
-  dateJoined?: Date | string | null
-  user: Prisma.UserCreateNestedOneWithoutTeacherProfileInput
+  date_joined?: Date | string | null
+  user: Prisma.UserCreateNestedOneWithoutTeacher_profileInput
 }
 
 export type TeacherProfileUncheckedCreateInput = {
   id?: string
-  userId: string
-  tenantId: string
-  employeeId: string
-  departmentId?: string | null
+  user_id: string
+  tenant_id: string
+  employee_id: string
+  department_id?: string | null
   qualification?: string | null
-  dateJoined?: Date | string | null
+  date_joined?: Date | string | null
 }
 
 export type TeacherProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  employeeId?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  employee_id?: Prisma.StringFieldUpdateOperationsInput | string
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  user?: Prisma.UserUpdateOneRequiredWithoutTeacherProfileNestedInput
+  date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user?: Prisma.UserUpdateOneRequiredWithoutTeacher_profileNestedInput
 }
 
 export type TeacherProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  employeeId?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  employee_id?: Prisma.StringFieldUpdateOperationsInput | string
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TeacherProfileCreateManyInput = {
   id?: string
-  userId: string
-  tenantId: string
-  employeeId: string
-  departmentId?: string | null
+  user_id: string
+  tenant_id: string
+  employee_id: string
+  department_id?: string | null
   qualification?: string | null
-  dateJoined?: Date | string | null
+  date_joined?: Date | string | null
 }
 
 export type TeacherProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  employeeId?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  employee_id?: Prisma.StringFieldUpdateOperationsInput | string
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TeacherProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  employeeId?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  employee_id?: Prisma.StringFieldUpdateOperationsInput | string
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TeacherProfileNullableScalarRelationFilter = {
@@ -328,32 +328,32 @@ export type TeacherProfileNullableScalarRelationFilter = {
 
 export type TeacherProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  employeeId?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  employee_id?: Prisma.SortOrder
+  department_id?: Prisma.SortOrder
   qualification?: Prisma.SortOrder
-  dateJoined?: Prisma.SortOrder
+  date_joined?: Prisma.SortOrder
 }
 
 export type TeacherProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  employeeId?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  employee_id?: Prisma.SortOrder
+  department_id?: Prisma.SortOrder
   qualification?: Prisma.SortOrder
-  dateJoined?: Prisma.SortOrder
+  date_joined?: Prisma.SortOrder
 }
 
 export type TeacherProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  employeeId?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  employee_id?: Prisma.SortOrder
+  department_id?: Prisma.SortOrder
   qualification?: Prisma.SortOrder
-  dateJoined?: Prisma.SortOrder
+  date_joined?: Prisma.SortOrder
 }
 
 export type TeacherProfileCreateNestedOneWithoutUserInput = {
@@ -390,20 +390,20 @@ export type TeacherProfileUncheckedUpdateOneWithoutUserNestedInput = {
 
 export type TeacherProfileCreateWithoutUserInput = {
   id?: string
-  tenantId: string
-  employeeId: string
-  departmentId?: string | null
+  tenant_id: string
+  employee_id: string
+  department_id?: string | null
   qualification?: string | null
-  dateJoined?: Date | string | null
+  date_joined?: Date | string | null
 }
 
 export type TeacherProfileUncheckedCreateWithoutUserInput = {
   id?: string
-  tenantId: string
-  employeeId: string
-  departmentId?: string | null
+  tenant_id: string
+  employee_id: string
+  department_id?: string | null
   qualification?: string | null
-  dateJoined?: Date | string | null
+  date_joined?: Date | string | null
 }
 
 export type TeacherProfileCreateOrConnectWithoutUserInput = {
@@ -424,68 +424,68 @@ export type TeacherProfileUpdateToOneWithWhereWithoutUserInput = {
 
 export type TeacherProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  employeeId?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  employee_id?: Prisma.StringFieldUpdateOperationsInput | string
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TeacherProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  employeeId?: Prisma.StringFieldUpdateOperationsInput | string
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  employee_id?: Prisma.StringFieldUpdateOperationsInput | string
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateJoined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
 
 export type TeacherProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
-  tenantId?: boolean
-  employeeId?: boolean
-  departmentId?: boolean
+  user_id?: boolean
+  tenant_id?: boolean
+  employee_id?: boolean
+  department_id?: boolean
   qualification?: boolean
-  dateJoined?: boolean
+  date_joined?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teacherProfile"]>
 
 export type TeacherProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
-  tenantId?: boolean
-  employeeId?: boolean
-  departmentId?: boolean
+  user_id?: boolean
+  tenant_id?: boolean
+  employee_id?: boolean
+  department_id?: boolean
   qualification?: boolean
-  dateJoined?: boolean
+  date_joined?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teacherProfile"]>
 
 export type TeacherProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
-  tenantId?: boolean
-  employeeId?: boolean
-  departmentId?: boolean
+  user_id?: boolean
+  tenant_id?: boolean
+  employee_id?: boolean
+  department_id?: boolean
   qualification?: boolean
-  dateJoined?: boolean
+  date_joined?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teacherProfile"]>
 
 export type TeacherProfileSelectScalar = {
   id?: boolean
-  userId?: boolean
-  tenantId?: boolean
-  employeeId?: boolean
-  departmentId?: boolean
+  user_id?: boolean
+  tenant_id?: boolean
+  employee_id?: boolean
+  department_id?: boolean
   qualification?: boolean
-  dateJoined?: boolean
+  date_joined?: boolean
 }
 
-export type TeacherProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tenantId" | "employeeId" | "departmentId" | "qualification" | "dateJoined", ExtArgs["result"]["teacherProfile"]>
+export type TeacherProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "tenant_id" | "employee_id" | "department_id" | "qualification" | "date_joined", ExtArgs["result"]["teacherProfile"]>
 export type TeacherProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -503,12 +503,12 @@ export type $TeacherProfilePayload<ExtArgs extends runtime.Types.Extensions.Inte
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    userId: string
-    tenantId: string
-    employeeId: string
-    departmentId: string | null
+    user_id: string
+    tenant_id: string
+    employee_id: string
+    department_id: string | null
     qualification: string | null
-    dateJoined: Date | null
+    date_joined: Date | null
   }, ExtArgs["result"]["teacherProfile"]>
   composites: {}
 }
@@ -934,12 +934,12 @@ export interface Prisma__TeacherProfileClient<T, Null = never, ExtArgs extends r
  */
 export interface TeacherProfileFieldRefs {
   readonly id: Prisma.FieldRef<"TeacherProfile", 'String'>
-  readonly userId: Prisma.FieldRef<"TeacherProfile", 'String'>
-  readonly tenantId: Prisma.FieldRef<"TeacherProfile", 'String'>
-  readonly employeeId: Prisma.FieldRef<"TeacherProfile", 'String'>
-  readonly departmentId: Prisma.FieldRef<"TeacherProfile", 'String'>
+  readonly user_id: Prisma.FieldRef<"TeacherProfile", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"TeacherProfile", 'String'>
+  readonly employee_id: Prisma.FieldRef<"TeacherProfile", 'String'>
+  readonly department_id: Prisma.FieldRef<"TeacherProfile", 'String'>
   readonly qualification: Prisma.FieldRef<"TeacherProfile", 'String'>
-  readonly dateJoined: Prisma.FieldRef<"TeacherProfile", 'DateTime'>
+  readonly date_joined: Prisma.FieldRef<"TeacherProfile", 'DateTime'>
 }
     
 

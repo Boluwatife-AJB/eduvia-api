@@ -35,9 +35,9 @@ export type TenantMinAggregateOutputType = {
   logo: string | null
   status: $Enums.TenantStatus | null
   plan: string | null
-  createdAt: Date | null
-  deletedAt: Date | null
-  updatedAt: Date | null
+  created_at: Date | null
+  deleted_at: Date | null
+  updated_at: Date | null
 }
 
 export type TenantMaxAggregateOutputType = {
@@ -51,9 +51,9 @@ export type TenantMaxAggregateOutputType = {
   logo: string | null
   status: $Enums.TenantStatus | null
   plan: string | null
-  createdAt: Date | null
-  deletedAt: Date | null
-  updatedAt: Date | null
+  created_at: Date | null
+  deleted_at: Date | null
+  updated_at: Date | null
 }
 
 export type TenantCountAggregateOutputType = {
@@ -68,9 +68,9 @@ export type TenantCountAggregateOutputType = {
   status: number
   plan: number
   config: number
-  createdAt: number
-  deletedAt: number
-  updatedAt: number
+  created_at: number
+  deleted_at: number
+  updated_at: number
   _all: number
 }
 
@@ -86,9 +86,9 @@ export type TenantMinAggregateInputType = {
   logo?: true
   status?: true
   plan?: true
-  createdAt?: true
-  deletedAt?: true
-  updatedAt?: true
+  created_at?: true
+  deleted_at?: true
+  updated_at?: true
 }
 
 export type TenantMaxAggregateInputType = {
@@ -102,9 +102,9 @@ export type TenantMaxAggregateInputType = {
   logo?: true
   status?: true
   plan?: true
-  createdAt?: true
-  deletedAt?: true
-  updatedAt?: true
+  created_at?: true
+  deleted_at?: true
+  updated_at?: true
 }
 
 export type TenantCountAggregateInputType = {
@@ -119,9 +119,9 @@ export type TenantCountAggregateInputType = {
   status?: true
   plan?: true
   config?: true
-  createdAt?: true
-  deletedAt?: true
-  updatedAt?: true
+  created_at?: true
+  deleted_at?: true
+  updated_at?: true
   _all?: true
 }
 
@@ -209,9 +209,9 @@ export type TenantGroupByOutputType = {
   status: $Enums.TenantStatus
   plan: string
   config: runtime.JsonValue
-  createdAt: Date
-  deletedAt: Date | null
-  updatedAt: Date
+  created_at: Date
+  deleted_at: Date | null
+  updated_at: Date
   _count: TenantCountAggregateOutputType | null
   _min: TenantMinAggregateOutputType | null
   _max: TenantMaxAggregateOutputType | null
@@ -247,12 +247,12 @@ export type TenantWhereInput = {
   status?: Prisma.EnumTenantStatusFilter<"Tenant"> | $Enums.TenantStatus
   plan?: Prisma.StringFilter<"Tenant"> | string
   config?: Prisma.JsonFilter<"Tenant">
-  createdAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
-  deletedAt?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
-  updatedAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
+  created_at?: Prisma.DateTimeFilter<"Tenant"> | Date | string
+  deleted_at?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
+  updated_at?: Prisma.DateTimeFilter<"Tenant"> | Date | string
   users?: Prisma.UserListRelationFilter
-  academicSessions?: Prisma.AcademicSessionListRelationFilter
-  academicTerms?: Prisma.AcademicTermListRelationFilter
+  academic_sessions?: Prisma.AcademicSessionListRelationFilter
+  academic_terms?: Prisma.AcademicTermListRelationFilter
   departments?: Prisma.DepartmentListRelationFilter
   classes?: Prisma.ClassListRelationFilter
   subjects?: Prisma.SubjectListRelationFilter
@@ -270,12 +270,12 @@ export type TenantOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   config?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
   users?: Prisma.UserOrderByRelationAggregateInput
-  academicSessions?: Prisma.AcademicSessionOrderByRelationAggregateInput
-  academicTerms?: Prisma.AcademicTermOrderByRelationAggregateInput
+  academic_sessions?: Prisma.AcademicSessionOrderByRelationAggregateInput
+  academic_terms?: Prisma.AcademicTermOrderByRelationAggregateInput
   departments?: Prisma.DepartmentOrderByRelationAggregateInput
   classes?: Prisma.ClassOrderByRelationAggregateInput
   subjects?: Prisma.SubjectOrderByRelationAggregateInput
@@ -296,12 +296,12 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumTenantStatusFilter<"Tenant"> | $Enums.TenantStatus
   plan?: Prisma.StringFilter<"Tenant"> | string
   config?: Prisma.JsonFilter<"Tenant">
-  createdAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
-  deletedAt?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
-  updatedAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
+  created_at?: Prisma.DateTimeFilter<"Tenant"> | Date | string
+  deleted_at?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
+  updated_at?: Prisma.DateTimeFilter<"Tenant"> | Date | string
   users?: Prisma.UserListRelationFilter
-  academicSessions?: Prisma.AcademicSessionListRelationFilter
-  academicTerms?: Prisma.AcademicTermListRelationFilter
+  academic_sessions?: Prisma.AcademicSessionListRelationFilter
+  academic_terms?: Prisma.AcademicTermListRelationFilter
   departments?: Prisma.DepartmentListRelationFilter
   classes?: Prisma.ClassListRelationFilter
   subjects?: Prisma.SubjectListRelationFilter
@@ -319,9 +319,9 @@ export type TenantOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   config?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
   _count?: Prisma.TenantCountOrderByAggregateInput
   _max?: Prisma.TenantMaxOrderByAggregateInput
   _min?: Prisma.TenantMinOrderByAggregateInput
@@ -342,9 +342,9 @@ export type TenantScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumTenantStatusWithAggregatesFilter<"Tenant"> | $Enums.TenantStatus
   plan?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
   config?: Prisma.JsonWithAggregatesFilter<"Tenant">
-  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Tenant"> | Date | string
-  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Tenant"> | Date | string | null
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Tenant"> | Date | string
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"Tenant"> | Date | string
+  deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"Tenant"> | Date | string | null
+  updated_at?: Prisma.DateTimeWithAggregatesFilter<"Tenant"> | Date | string
 }
 
 export type TenantCreateInput = {
@@ -359,12 +359,12 @@ export type TenantCreateInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
@@ -382,12 +382,12 @@ export type TenantUncheckedCreateInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
@@ -405,12 +405,12 @@ export type TenantUpdateInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
@@ -428,12 +428,12 @@ export type TenantUncheckedUpdateInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
@@ -451,9 +451,9 @@ export type TenantCreateManyInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
 }
 
 export type TenantUpdateManyMutationInput = {
@@ -468,9 +468,9 @@ export type TenantUpdateManyMutationInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TenantUncheckedUpdateManyInput = {
@@ -485,9 +485,9 @@ export type TenantUncheckedUpdateManyInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TenantCountOrderByAggregateInput = {
@@ -502,9 +502,9 @@ export type TenantCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   config?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
 }
 
 export type TenantMaxOrderByAggregateInput = {
@@ -518,9 +518,9 @@ export type TenantMaxOrderByAggregateInput = {
   logo?: Prisma.SortOrder
   status?: Prisma.SortOrder
   plan?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
 }
 
 export type TenantMinOrderByAggregateInput = {
@@ -534,9 +534,9 @@ export type TenantMinOrderByAggregateInput = {
   logo?: Prisma.SortOrder
   status?: Prisma.SortOrder
   plan?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
 }
 
 export type TenantScalarRelationFilter = {
@@ -578,32 +578,32 @@ export type TenantUpdateOneRequiredWithoutUsersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutUsersInput, Prisma.TenantUpdateWithoutUsersInput>, Prisma.TenantUncheckedUpdateWithoutUsersInput>
 }
 
-export type TenantCreateNestedOneWithoutAcademicSessionsInput = {
-  create?: Prisma.XOR<Prisma.TenantCreateWithoutAcademicSessionsInput, Prisma.TenantUncheckedCreateWithoutAcademicSessionsInput>
-  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAcademicSessionsInput
+export type TenantCreateNestedOneWithoutAcademic_sessionsInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutAcademic_sessionsInput, Prisma.TenantUncheckedCreateWithoutAcademic_sessionsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAcademic_sessionsInput
   connect?: Prisma.TenantWhereUniqueInput
 }
 
-export type TenantUpdateOneRequiredWithoutAcademicSessionsNestedInput = {
-  create?: Prisma.XOR<Prisma.TenantCreateWithoutAcademicSessionsInput, Prisma.TenantUncheckedCreateWithoutAcademicSessionsInput>
-  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAcademicSessionsInput
-  upsert?: Prisma.TenantUpsertWithoutAcademicSessionsInput
+export type TenantUpdateOneRequiredWithoutAcademic_sessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutAcademic_sessionsInput, Prisma.TenantUncheckedCreateWithoutAcademic_sessionsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAcademic_sessionsInput
+  upsert?: Prisma.TenantUpsertWithoutAcademic_sessionsInput
   connect?: Prisma.TenantWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutAcademicSessionsInput, Prisma.TenantUpdateWithoutAcademicSessionsInput>, Prisma.TenantUncheckedUpdateWithoutAcademicSessionsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutAcademic_sessionsInput, Prisma.TenantUpdateWithoutAcademic_sessionsInput>, Prisma.TenantUncheckedUpdateWithoutAcademic_sessionsInput>
 }
 
-export type TenantCreateNestedOneWithoutAcademicTermsInput = {
-  create?: Prisma.XOR<Prisma.TenantCreateWithoutAcademicTermsInput, Prisma.TenantUncheckedCreateWithoutAcademicTermsInput>
-  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAcademicTermsInput
+export type TenantCreateNestedOneWithoutAcademic_termsInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutAcademic_termsInput, Prisma.TenantUncheckedCreateWithoutAcademic_termsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAcademic_termsInput
   connect?: Prisma.TenantWhereUniqueInput
 }
 
-export type TenantUpdateOneRequiredWithoutAcademicTermsNestedInput = {
-  create?: Prisma.XOR<Prisma.TenantCreateWithoutAcademicTermsInput, Prisma.TenantUncheckedCreateWithoutAcademicTermsInput>
-  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAcademicTermsInput
-  upsert?: Prisma.TenantUpsertWithoutAcademicTermsInput
+export type TenantUpdateOneRequiredWithoutAcademic_termsNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutAcademic_termsInput, Prisma.TenantUncheckedCreateWithoutAcademic_termsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAcademic_termsInput
+  upsert?: Prisma.TenantUpsertWithoutAcademic_termsInput
   connect?: Prisma.TenantWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutAcademicTermsInput, Prisma.TenantUpdateWithoutAcademicTermsInput>, Prisma.TenantUncheckedUpdateWithoutAcademicTermsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutAcademic_termsInput, Prisma.TenantUpdateWithoutAcademic_termsInput>, Prisma.TenantUncheckedUpdateWithoutAcademic_termsInput>
 }
 
 export type TenantCreateNestedOneWithoutDepartmentsInput = {
@@ -660,11 +660,11 @@ export type TenantCreateWithoutUsersInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
-  academicSessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
@@ -682,11 +682,11 @@ export type TenantUncheckedCreateWithoutUsersInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
-  academicSessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
@@ -720,11 +720,11 @@ export type TenantUpdateWithoutUsersInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  academicSessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
@@ -742,17 +742,17 @@ export type TenantUncheckedUpdateWithoutUsersInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  academicSessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
 }
 
-export type TenantCreateWithoutAcademicSessionsInput = {
+export type TenantCreateWithoutAcademic_sessionsInput = {
   id?: string
   name: string
   slug: string
@@ -764,17 +764,17 @@ export type TenantCreateWithoutAcademicSessionsInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
 }
 
-export type TenantUncheckedCreateWithoutAcademicSessionsInput = {
+export type TenantUncheckedCreateWithoutAcademic_sessionsInput = {
   id?: string
   name: string
   slug: string
@@ -786,33 +786,33 @@ export type TenantUncheckedCreateWithoutAcademicSessionsInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
 }
 
-export type TenantCreateOrConnectWithoutAcademicSessionsInput = {
+export type TenantCreateOrConnectWithoutAcademic_sessionsInput = {
   where: Prisma.TenantWhereUniqueInput
-  create: Prisma.XOR<Prisma.TenantCreateWithoutAcademicSessionsInput, Prisma.TenantUncheckedCreateWithoutAcademicSessionsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutAcademic_sessionsInput, Prisma.TenantUncheckedCreateWithoutAcademic_sessionsInput>
 }
 
-export type TenantUpsertWithoutAcademicSessionsInput = {
-  update: Prisma.XOR<Prisma.TenantUpdateWithoutAcademicSessionsInput, Prisma.TenantUncheckedUpdateWithoutAcademicSessionsInput>
-  create: Prisma.XOR<Prisma.TenantCreateWithoutAcademicSessionsInput, Prisma.TenantUncheckedCreateWithoutAcademicSessionsInput>
+export type TenantUpsertWithoutAcademic_sessionsInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutAcademic_sessionsInput, Prisma.TenantUncheckedUpdateWithoutAcademic_sessionsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutAcademic_sessionsInput, Prisma.TenantUncheckedCreateWithoutAcademic_sessionsInput>
   where?: Prisma.TenantWhereInput
 }
 
-export type TenantUpdateToOneWithWhereWithoutAcademicSessionsInput = {
+export type TenantUpdateToOneWithWhereWithoutAcademic_sessionsInput = {
   where?: Prisma.TenantWhereInput
-  data: Prisma.XOR<Prisma.TenantUpdateWithoutAcademicSessionsInput, Prisma.TenantUncheckedUpdateWithoutAcademicSessionsInput>
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutAcademic_sessionsInput, Prisma.TenantUncheckedUpdateWithoutAcademic_sessionsInput>
 }
 
-export type TenantUpdateWithoutAcademicSessionsInput = {
+export type TenantUpdateWithoutAcademic_sessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -824,17 +824,17 @@ export type TenantUpdateWithoutAcademicSessionsInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
 }
 
-export type TenantUncheckedUpdateWithoutAcademicSessionsInput = {
+export type TenantUncheckedUpdateWithoutAcademic_sessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -846,17 +846,17 @@ export type TenantUncheckedUpdateWithoutAcademicSessionsInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
 }
 
-export type TenantCreateWithoutAcademicTermsInput = {
+export type TenantCreateWithoutAcademic_termsInput = {
   id?: string
   name: string
   slug: string
@@ -868,17 +868,17 @@ export type TenantCreateWithoutAcademicTermsInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
 }
 
-export type TenantUncheckedCreateWithoutAcademicTermsInput = {
+export type TenantUncheckedCreateWithoutAcademic_termsInput = {
   id?: string
   name: string
   slug: string
@@ -890,33 +890,33 @@ export type TenantUncheckedCreateWithoutAcademicTermsInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
 }
 
-export type TenantCreateOrConnectWithoutAcademicTermsInput = {
+export type TenantCreateOrConnectWithoutAcademic_termsInput = {
   where: Prisma.TenantWhereUniqueInput
-  create: Prisma.XOR<Prisma.TenantCreateWithoutAcademicTermsInput, Prisma.TenantUncheckedCreateWithoutAcademicTermsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutAcademic_termsInput, Prisma.TenantUncheckedCreateWithoutAcademic_termsInput>
 }
 
-export type TenantUpsertWithoutAcademicTermsInput = {
-  update: Prisma.XOR<Prisma.TenantUpdateWithoutAcademicTermsInput, Prisma.TenantUncheckedUpdateWithoutAcademicTermsInput>
-  create: Prisma.XOR<Prisma.TenantCreateWithoutAcademicTermsInput, Prisma.TenantUncheckedCreateWithoutAcademicTermsInput>
+export type TenantUpsertWithoutAcademic_termsInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutAcademic_termsInput, Prisma.TenantUncheckedUpdateWithoutAcademic_termsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutAcademic_termsInput, Prisma.TenantUncheckedCreateWithoutAcademic_termsInput>
   where?: Prisma.TenantWhereInput
 }
 
-export type TenantUpdateToOneWithWhereWithoutAcademicTermsInput = {
+export type TenantUpdateToOneWithWhereWithoutAcademic_termsInput = {
   where?: Prisma.TenantWhereInput
-  data: Prisma.XOR<Prisma.TenantUpdateWithoutAcademicTermsInput, Prisma.TenantUncheckedUpdateWithoutAcademicTermsInput>
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutAcademic_termsInput, Prisma.TenantUncheckedUpdateWithoutAcademic_termsInput>
 }
 
-export type TenantUpdateWithoutAcademicTermsInput = {
+export type TenantUpdateWithoutAcademic_termsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -928,17 +928,17 @@ export type TenantUpdateWithoutAcademicTermsInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
 }
 
-export type TenantUncheckedUpdateWithoutAcademicTermsInput = {
+export type TenantUncheckedUpdateWithoutAcademic_termsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -950,11 +950,11 @@ export type TenantUncheckedUpdateWithoutAcademicTermsInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
@@ -972,12 +972,12 @@ export type TenantCreateWithoutDepartmentsInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
 }
@@ -994,12 +994,12 @@ export type TenantUncheckedCreateWithoutDepartmentsInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
 }
@@ -1032,12 +1032,12 @@ export type TenantUpdateWithoutDepartmentsInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
 }
@@ -1054,12 +1054,12 @@ export type TenantUncheckedUpdateWithoutDepartmentsInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
 }
@@ -1076,12 +1076,12 @@ export type TenantCreateWithoutClassesInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
 }
@@ -1098,12 +1098,12 @@ export type TenantUncheckedCreateWithoutClassesInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
 }
@@ -1136,12 +1136,12 @@ export type TenantUpdateWithoutClassesInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
 }
@@ -1158,12 +1158,12 @@ export type TenantUncheckedUpdateWithoutClassesInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
 }
@@ -1180,12 +1180,12 @@ export type TenantCreateWithoutSubjectsInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
 }
@@ -1202,12 +1202,12 @@ export type TenantUncheckedCreateWithoutSubjectsInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
 }
@@ -1240,12 +1240,12 @@ export type TenantUpdateWithoutSubjectsInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
 }
@@ -1262,12 +1262,12 @@ export type TenantUncheckedUpdateWithoutSubjectsInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
 }
@@ -1279,8 +1279,8 @@ export type TenantUncheckedUpdateWithoutSubjectsInput = {
 
 export type TenantCountOutputType = {
   users: number
-  academicSessions: number
-  academicTerms: number
+  academic_sessions: number
+  academic_terms: number
   departments: number
   classes: number
   subjects: number
@@ -1288,8 +1288,8 @@ export type TenantCountOutputType = {
 
 export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | TenantCountOutputTypeCountUsersArgs
-  academicSessions?: boolean | TenantCountOutputTypeCountAcademicSessionsArgs
-  academicTerms?: boolean | TenantCountOutputTypeCountAcademicTermsArgs
+  academic_sessions?: boolean | TenantCountOutputTypeCountAcademic_sessionsArgs
+  academic_terms?: boolean | TenantCountOutputTypeCountAcademic_termsArgs
   departments?: boolean | TenantCountOutputTypeCountDepartmentsArgs
   classes?: boolean | TenantCountOutputTypeCountClassesArgs
   subjects?: boolean | TenantCountOutputTypeCountSubjectsArgs
@@ -1315,14 +1315,14 @@ export type TenantCountOutputTypeCountUsersArgs<ExtArgs extends runtime.Types.Ex
 /**
  * TenantCountOutputType without action
  */
-export type TenantCountOutputTypeCountAcademicSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TenantCountOutputTypeCountAcademic_sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AcademicSessionWhereInput
 }
 
 /**
  * TenantCountOutputType without action
  */
-export type TenantCountOutputTypeCountAcademicTermsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TenantCountOutputTypeCountAcademic_termsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AcademicTermWhereInput
 }
 
@@ -1360,12 +1360,12 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   status?: boolean
   plan?: boolean
   config?: boolean
-  createdAt?: boolean
-  deletedAt?: boolean
-  updatedAt?: boolean
+  created_at?: boolean
+  deleted_at?: boolean
+  updated_at?: boolean
   users?: boolean | Prisma.Tenant$usersArgs<ExtArgs>
-  academicSessions?: boolean | Prisma.Tenant$academicSessionsArgs<ExtArgs>
-  academicTerms?: boolean | Prisma.Tenant$academicTermsArgs<ExtArgs>
+  academic_sessions?: boolean | Prisma.Tenant$academic_sessionsArgs<ExtArgs>
+  academic_terms?: boolean | Prisma.Tenant$academic_termsArgs<ExtArgs>
   departments?: boolean | Prisma.Tenant$departmentsArgs<ExtArgs>
   classes?: boolean | Prisma.Tenant$classesArgs<ExtArgs>
   subjects?: boolean | Prisma.Tenant$subjectsArgs<ExtArgs>
@@ -1384,9 +1384,9 @@ export type TenantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   status?: boolean
   plan?: boolean
   config?: boolean
-  createdAt?: boolean
-  deletedAt?: boolean
-  updatedAt?: boolean
+  created_at?: boolean
+  deleted_at?: boolean
+  updated_at?: boolean
 }, ExtArgs["result"]["tenant"]>
 
 export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1401,9 +1401,9 @@ export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   status?: boolean
   plan?: boolean
   config?: boolean
-  createdAt?: boolean
-  deletedAt?: boolean
-  updatedAt?: boolean
+  created_at?: boolean
+  deleted_at?: boolean
+  updated_at?: boolean
 }, ExtArgs["result"]["tenant"]>
 
 export type TenantSelectScalar = {
@@ -1418,16 +1418,16 @@ export type TenantSelectScalar = {
   status?: boolean
   plan?: boolean
   config?: boolean
-  createdAt?: boolean
-  deletedAt?: boolean
-  updatedAt?: boolean
+  created_at?: boolean
+  deleted_at?: boolean
+  updated_at?: boolean
 }
 
-export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "initials" | "email" | "phone" | "address" | "logo" | "status" | "plan" | "config" | "createdAt" | "deletedAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "initials" | "email" | "phone" | "address" | "logo" | "status" | "plan" | "config" | "created_at" | "deleted_at" | "updated_at", ExtArgs["result"]["tenant"]>
 export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | Prisma.Tenant$usersArgs<ExtArgs>
-  academicSessions?: boolean | Prisma.Tenant$academicSessionsArgs<ExtArgs>
-  academicTerms?: boolean | Prisma.Tenant$academicTermsArgs<ExtArgs>
+  academic_sessions?: boolean | Prisma.Tenant$academic_sessionsArgs<ExtArgs>
+  academic_terms?: boolean | Prisma.Tenant$academic_termsArgs<ExtArgs>
   departments?: boolean | Prisma.Tenant$departmentsArgs<ExtArgs>
   classes?: boolean | Prisma.Tenant$classesArgs<ExtArgs>
   subjects?: boolean | Prisma.Tenant$subjectsArgs<ExtArgs>
@@ -1440,8 +1440,8 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "Tenant"
   objects: {
     users: Prisma.$UserPayload<ExtArgs>[]
-    academicSessions: Prisma.$AcademicSessionPayload<ExtArgs>[]
-    academicTerms: Prisma.$AcademicTermPayload<ExtArgs>[]
+    academic_sessions: Prisma.$AcademicSessionPayload<ExtArgs>[]
+    academic_terms: Prisma.$AcademicTermPayload<ExtArgs>[]
     departments: Prisma.$DepartmentPayload<ExtArgs>[]
     classes: Prisma.$ClassPayload<ExtArgs>[]
     subjects: Prisma.$SubjectPayload<ExtArgs>[]
@@ -1461,9 +1461,9 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     status: $Enums.TenantStatus
     plan: string
     config: runtime.JsonValue
-    createdAt: Date
-    deletedAt: Date | null
-    updatedAt: Date
+    created_at: Date
+    deleted_at: Date | null
+    updated_at: Date
   }, ExtArgs["result"]["tenant"]>
   composites: {}
 }
@@ -1859,8 +1859,8 @@ readonly fields: TenantFieldRefs;
 export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   users<T extends Prisma.Tenant$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  academicSessions<T extends Prisma.Tenant$academicSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$academicSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AcademicSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  academicTerms<T extends Prisma.Tenant$academicTermsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$academicTermsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AcademicTermPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  academic_sessions<T extends Prisma.Tenant$academic_sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$academic_sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AcademicSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  academic_terms<T extends Prisma.Tenant$academic_termsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$academic_termsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AcademicTermPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   departments<T extends Prisma.Tenant$departmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$departmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   classes<T extends Prisma.Tenant$classesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$classesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subjects<T extends Prisma.Tenant$subjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -1904,9 +1904,9 @@ export interface TenantFieldRefs {
   readonly status: Prisma.FieldRef<"Tenant", 'TenantStatus'>
   readonly plan: Prisma.FieldRef<"Tenant", 'String'>
   readonly config: Prisma.FieldRef<"Tenant", 'Json'>
-  readonly createdAt: Prisma.FieldRef<"Tenant", 'DateTime'>
-  readonly deletedAt: Prisma.FieldRef<"Tenant", 'DateTime'>
-  readonly updatedAt: Prisma.FieldRef<"Tenant", 'DateTime'>
+  readonly created_at: Prisma.FieldRef<"Tenant", 'DateTime'>
+  readonly deleted_at: Prisma.FieldRef<"Tenant", 'DateTime'>
+  readonly updated_at: Prisma.FieldRef<"Tenant", 'DateTime'>
 }
     
 
@@ -2324,9 +2324,9 @@ export type Tenant$usersArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 }
 
 /**
- * Tenant.academicSessions
+ * Tenant.academic_sessions
  */
-export type Tenant$academicSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Tenant$academic_sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the AcademicSession
    */
@@ -2348,9 +2348,9 @@ export type Tenant$academicSessionsArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * Tenant.academicTerms
+ * Tenant.academic_terms
  */
-export type Tenant$academicTermsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Tenant$academic_termsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the AcademicTerm
    */
