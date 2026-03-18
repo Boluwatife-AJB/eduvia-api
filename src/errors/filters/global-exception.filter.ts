@@ -254,8 +254,8 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       url: request.url,
       status_code: classified.status_code,
       code: classified.code,
-      tenantId: (request as any).tenantId ?? 'unknown',
-      userId: (request as any).user?.id ?? 'unauthenticated',
+      tenant_id: (request as any).tenantId ?? 'unknown',
+      user_id: (request as any).user?.id ?? 'unauthenticated',
       ip: request.ip,
     };
 

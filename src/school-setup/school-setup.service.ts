@@ -37,6 +37,7 @@ import { CreateSubjectDto, UpdateSubjectDto } from './dto/subject.dto';
 import { CreateTermDto, UpdateTermDto } from './dto/term.dto';
 import { AppException } from 'src/errors/exceptions/app.exception';
 import { ErrorCode } from 'src/errors/types/error-codes.enum';
+import { BulkAssignStudentsDto } from './dto/assign-student.dto';
 
 @Injectable()
 export class SchoolSetupService {
@@ -581,7 +582,7 @@ export class SchoolSetupService {
     return { message: 'Class deleted successfully' };
   }
 
-  // Put student in class
+  // Assign student in class
   async assignStudentToClass(classId: string, studentUserId: string) {
     const tenantId = this.cls.get<string>('tenantId');
 
@@ -636,6 +637,129 @@ export class SchoolSetupService {
       student_id: studentProfile.id,
       class_id: classId,
       className: cls.name,
+    };
+  }
+
+  // Bulk Assign students to class
+  async bulkAssignStudentsToClass(dto: BulkAssignStudentsDto, classId: string) {
+    const tenantId = this.cls.get<string>('tenantId');
+    const cls = await this.validateClassBelongsToTenant(classId, tenantId);
+
+    // Check if class is full
+    const currentCount = await this.prisma.studentProfile.count({
+      where: { class_id: classId },
+    });
+    const availableSeats = cls.capacity - currentCount;
+
+    if (availableSeats < dto.student_user_ids.length) {
+      throw new AppException({
+        code: ErrorCode.RESOURCE_CONFLICT,
+        statusCode: 400,
+        message: `Class '${cls.name}' has only ${availableSeats} available seats. but you are trying to assign ${dto.student_user_ids.length} student(s).`,
+        action:
+          'Reduce the number of students to assign or assign the students to a different class.',
+      });
+    }
+
+    const results = {
+      assigned: [] as string[],
+      skipped: [] as { studentUserId: string; reason: string }[],
+    };
+
+    for (const studentUserId of dto.student_user_ids) {
+      try {
+        const studentProfile = await this.prisma.studentProfile.findFirst({
+          where: { tenant_id: tenantId, user_id: studentUserId },
+          include: { class: true },
+        });
+
+        if (!studentProfile) {
+          results.skipped.push({ studentUserId, reason: 'Student not found' });
+          continue;
+        }
+
+        if (studentProfile.class_id === classId) {
+          results.skipped.push({
+            studentUserId,
+            reason: 'Student already in this class',
+          });
+          continue;
+        }
+
+        await this.prisma.studentProfile.update({
+          where: { id: studentProfile.id },
+          data: { class_id: classId },
+        });
+
+        results.assigned.push(studentUserId);
+      } catch (error) {
+        results.skipped.push({
+          studentUserId,
+          reason: error instanceof Error ? error.message : 'Unknown error',
+        });
+      }
+    }
+
+    return {
+      message: `Successfully assigned ${results.assigned.length} student(s) to ${cls.name} and skipped ${results.skipped.length} student(s)`,
+      assigned: results.assigned,
+      skipped: results.skipped,
+    };
+  }
+
+  // Transfer student from one class to another
+  async transferStudentToClass(
+    destinationClassId: string,
+    studentUserId: string,
+    reason?: string,
+  ) {
+    const tenantId = this.cls.get<string>('tenantId');
+    const destinationClass = await this.validateClassBelongsToTenant(
+      destinationClassId,
+      tenantId,
+    );
+
+    const studentProfile = await this.prisma.studentProfile.findFirst({
+      where: { tenant_id: tenantId, user_id: studentUserId },
+      include: { class: true },
+    });
+
+    if (!studentProfile) throw new UserNotFoundException();
+
+    if (studentProfile.class_id === destinationClassId) {
+      throw new StudentAlreadyInClassException(destinationClass.name);
+    }
+
+    // Check if destination class is full
+    const currentCount = await this.prisma.studentProfile.count({
+      where: { class_id: destinationClassId },
+    });
+    if (currentCount >= destinationClass.capacity) {
+      throw new AppException({
+        code: ErrorCode.RESOURCE_CONFLICT,
+        statusCode: 400,
+        message: `Destination class '${destinationClass.name}' is at full capacity (${destinationClass.capacity} students).`,
+        action:
+          'Increase the class capacity or transfer the student to a different class.',
+      });
+    }
+
+    const previousClass = studentProfile.class?.name ?? 'unassigned';
+
+    await this.prisma.studentProfile.update({
+      where: { id: studentProfile.id },
+      data: { class_id: destinationClassId },
+    });
+
+    this.logger.log(
+      `Student '${studentUserId}' transferred from ${previousClass} to ${destinationClass.name} in tenant '${tenantId}. Reason: ${reason ?? 'not provided'}`,
+    );
+
+    return {
+      message: `Student successfully transferred to ${destinationClass.name}`,
+      student_id: studentProfile.id,
+      class_id: destinationClassId,
+      className: destinationClass.name,
     };
   }
 
