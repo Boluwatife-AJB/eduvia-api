@@ -78,21 +78,24 @@ model RefreshToken {
 
 /// id = internal UUID. userId = FK to User. matricNumber = display ID (e.g. GFA/2026/0001), same as User.identifier for students.
 model StudentProfile {
-  id             String    @id @default(uuid())
-  user_id        String    @unique
-  tenant_id      String
-  matric_number  String    @unique
-  class_id       String
-  admission_date DateTime?
-  date_of_birth  DateTime?
-  guardian_ids   String[]  @default([])
-
-  user                        User                         @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  class                       Class?                       @relation(fields: [class_id], references: [id])
+  id                          String                       @id @default(uuid())
+  user_id                     String                       @unique
+  tenant_id                   String
+  matric_number               String                       @unique
+  class_id                    String?
+  admission_date              DateTime?
+  date_of_birth               DateTime?
+  guardian_ids                String[]                     @default([])
+  /// Denormalized Subject.id list; keep in sync with StudentSubjectRegistration or derive via query.
+  registered_subject_ids      String[]                     @default([])
   studentSubjectRegistrations StudentSubjectRegistration[]
+
+  user  User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  class Class? @relation(fields: [class_id], references: [id])
 
   @@map("student_profiles")
 }
+
 
 /// id = internal UUID. userId = FK to User. employeeId = display ID (e.g. GFA/TCH/001), same as User.identifier for teachers.
 model TeacherProfile {
@@ -103,7 +106,8 @@ model TeacherProfile {
   department_id String?
   qualification String?
   date_joined   DateTime?
-  // subjectIds    String[]  @default([]) @map("subject_ids")
+  /// Denormalized Subject.id list; keep in sync with SubjectTeacher → ClassSubject or derive via query.
+  assigned_subject_ids String[] @default([])
 
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
@@ -198,6 +202,8 @@ model Class {
   capacity         Int     @default(40)
   department_id    String?
   class_teacher_id String? // the teacher responsible for this class
+  /// Denormalized Subject.id list; keep in sync with ClassSubject or derive via query.
+  subject_ids      String[] @default([])
 
   tenant        Tenant           @relation(fields: [tenant_id], references: [id])
   department    Department?      @relation(fields: [department_id], references: [id])

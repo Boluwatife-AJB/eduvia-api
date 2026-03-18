@@ -24,7 +24,7 @@ export class TransferStudentToClassDto {
   })
   @IsString()
   @IsOptional()
-  class_id: string;
+  reason: string;
 }
 
 export class BulkAssignStudentsDto {

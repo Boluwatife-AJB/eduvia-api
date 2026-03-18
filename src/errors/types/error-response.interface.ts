@@ -1,7 +1,7 @@
 export interface SuccessResponse<T = unknown> {
   success: true;
   status_code: number;
-  message?: string;
+  message: string;
   data: T;
   meta?: PaginationMeta;
 }

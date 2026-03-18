@@ -24,7 +24,10 @@ import {
   CreateAcademicSessionDto,
   UpdateAcademicSessionDto,
 } from './dto/academic-session.dto';
-import { AssignStudentToClassDto } from './dto/assign-student.dto';
+import {
+  AssignStudentToClassDto,
+  TransferStudentToClassDto,
+} from './dto/assign-student.dto';
 import {
   AssignSubjectToClassDto,
   AssignTeacherToSubjectDto,
@@ -53,50 +56,8 @@ const ADMIN_ROLES = [
 export class SchoolSetupController {
   constructor(private readonly service: SchoolSetupService) {}
 
-  // STUDENT SUBJECT REGISTRATION
-  @Post('subjects/register')
-  @Roles(UserRole.STUDENT)
-  @ApiOperation({
-    summary: 'Student registers their subjects for the current term',
-    description:
-      'Compulsory subjects are auto-included. Only elective IDs need to be submitted.',
-  })
-  registerSubjects(
-    @CurrentUser() user: { id: string },
-    @Body() dto: RegisterSubjectsDto,
-  ) {
-    return this.service.registerSubjectsForStudent(dto, user.id);
-  }
-
-  @Put('subjects/register')
-  @Roles(UserRole.STUDENT)
-  @ApiOperation({
-    summary: 'Update subject registration — replace elective selections',
-  })
-  updateRegistration(
-    @CurrentUser() user: { id: string },
-    @Body() dto: UpdateSubjectRegistrationDto,
-  ) {
-    return this.service.updateSubjectRegistration(dto, user.id);
-  }
-
-  @Get('subjects/register/me')
-  @Roles(UserRole.STUDENT)
-  @ApiOperation({ summary: 'View your current subject registration' })
-  getMyRegistration(@CurrentUser() user: { id: string }) {
-    return this.service.getStudentRegistration(user.id);
-  }
-
-  @Get('subjects/register/:studentId')
-  @Roles(...ADMIN_ROLES, UserRole.TEACHER)
-  @ApiOperation({ summary: 'View a specific student subject registration' })
-  getStudentRegistration(@Param('studentId') studentId: string) {
-    return this.service.getStudentRegistration(studentId);
-  }
-
   // Overview
   @Get('overview')
-  // @Roles(...ADMIN_ROLES)
   @ApiOperation({
     summary: 'Get full school structure setup overview for the dashboard',
   })
@@ -450,10 +411,10 @@ export class SchoolSetupController {
     return this.service.registerSubjectsForStudent(dto, user.id);
   }
 
-  @Put('subjects/register')
+  @Put('subjects/update')
   @Roles(UserRole.STUDENT)
   @ApiOperation({
-    summary: 'Update subject registration — replace elective selections',
+    summary: 'Update subject registration -  replace elective selections',
   })
   updateSubjectRegistration(
     @CurrentUser() user: { id: string },
@@ -474,5 +435,30 @@ export class SchoolSetupController {
   @ApiOperation({ summary: 'View a specific student subject registration' })
   getStudentSubjectRegistration(@Param('studentId') studentId: string) {
     return this.service.getStudentRegistration(studentId);
+  }
+
+  @Patch('classes/:classId/students/transfer')
+  @Roles(...ADMIN_ROLES)
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Transfer a student from their current class to this class',
+  })
+  transferStudent(
+    @Param('classId') classId: string,
+    @Body() dto: TransferStudentToClassDto,
+  ) {
+    return this.service.transferStudentToClass(
+      classId,
+      dto.student_user_id,
+      dto.reason,
+    );
+  }
+
+  @Delete('students/:studentUserId/class')
+  @Roles(...ADMIN_ROLES)
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Remove a student from their current class' })
+  removeStudentFromClass(@Param('studentUserId') studentUserId: string) {
+    return this.service.removeStudentFromClass(studentUserId);
   }
 }

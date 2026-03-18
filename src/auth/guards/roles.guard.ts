@@ -25,7 +25,6 @@ export class RolesGuard implements CanActivate {
 
     const { user } = context.switchToHttp().getRequest();
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const hasRole = requiredRoles.includes(user.role);
 
     if (!hasRole)

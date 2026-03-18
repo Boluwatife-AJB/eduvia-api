@@ -99,16 +99,17 @@ export class AuthService {
     this.logger.log(`User ${user.id} logged in from ${tenantId}`);
 
     return {
-      user: {
-        id: user.id,
-        role: user.role,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        identifier: user.identifier,
-        email: user.email,
-        avatar: user.avatar,
+      message: 'Login successful',
+      data: {
+        user: {
+          id: user.id,
+          role: user.role,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          identifier: user.identifier,
+        },
+        ...tokens,
       },
-      ...tokens,
     };
   }
 

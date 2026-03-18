@@ -582,64 +582,6 @@ export class SchoolSetupService {
     return { message: 'Class deleted successfully' };
   }
 
-  // Assign student in class
-  async assignStudentToClass(classId: string, studentUserId: string) {
-    const tenantId = this.cls.get<string>('tenantId');
-
-    // Verify the class exists in this school
-    const cls = await this.validateClassBelongsToTenant(classId, tenantId);
-
-    // Verify the student exists in this school
-    const studentProfile = await this.prisma.studentProfile.findFirst({
-      where: { tenant_id: tenantId, user_id: studentUserId },
-      include: { class: true },
-    });
-    if (!studentProfile) throw new UserNotFoundException();
-
-    // Block if already in this exact class
-    if (studentProfile.class_id === classId) {
-      throw new StudentAlreadyInClassException(cls.name);
-    }
-
-    // Block if already in a different class — use transfer instead
-    if (studentProfile.class_id && studentProfile.class_id !== classId) {
-      throw new StudentAlreadyInClassException(
-        studentProfile.class?.name ?? 'another class',
-      );
-    }
-
-    // Check class capacity
-    const currentCount = await this.prisma.studentProfile.count({
-      where: { class_id: classId },
-    });
-
-    if (currentCount >= cls.capacity) {
-      throw new AppException({
-        code: ErrorCode.RESOURCE_CONFLICT,
-        statusCode: 400,
-        message: `Class '${cls.name}' is at full capacity (${cls.capacity} students).`,
-        action:
-          'Increase the class capacity or assign the student to a different class.',
-      });
-    }
-
-    await this.prisma.studentProfile.update({
-      where: { id: studentProfile.id },
-      data: { class_id: classId },
-    });
-
-    this.logger.log(
-      `Student '${studentUserId}' assigned to class '${cls.name}' in tenant '${tenantId}'`,
-    );
-
-    return {
-      message: `Student successfully assigned to ${cls.name}`,
-      student_id: studentProfile.id,
-      class_id: classId,
-      className: cls.name,
-    };
-  }
-
   // Bulk Assign students to class
   async bulkAssignStudentsToClass(dto: BulkAssignStudentsDto, classId: string) {
     const tenantId = this.cls.get<string>('tenantId');
@@ -707,6 +649,64 @@ export class SchoolSetupService {
     };
   }
 
+  // Assign student in class
+  async assignStudentToClass(classId: string, studentUserId: string) {
+    const tenantId = this.cls.get<string>('tenantId');
+
+    // Verify the class exists in this school
+    const cls = await this.validateClassBelongsToTenant(classId, tenantId);
+
+    // Verify the student exists in this school
+    const studentProfile = await this.prisma.studentProfile.findFirst({
+      where: { tenant_id: tenantId, user_id: studentUserId },
+      include: { class: true },
+    });
+    if (!studentProfile) throw new UserNotFoundException();
+
+    // Block if already in this exact class
+    if (studentProfile.class_id === classId) {
+      throw new StudentAlreadyInClassException(cls.name);
+    }
+
+    // Block if already in a different class — use transfer instead
+    if (studentProfile.class_id && studentProfile.class_id !== classId) {
+      throw new StudentAlreadyInClassException(
+        studentProfile.class?.name ?? 'another class',
+      );
+    }
+
+    // Check class capacity
+    const currentCount = await this.prisma.studentProfile.count({
+      where: { class_id: classId },
+    });
+
+    if (currentCount >= cls.capacity) {
+      throw new AppException({
+        code: ErrorCode.RESOURCE_CONFLICT,
+        statusCode: 400,
+        message: `Class '${cls.name}' is at full capacity (${cls.capacity} students).`,
+        action:
+          'Increase the class capacity or assign the student to a different class.',
+      });
+    }
+
+    await this.prisma.studentProfile.update({
+      where: { id: studentProfile.id },
+      data: { class_id: classId },
+    });
+
+    this.logger.log(
+      `Student '${studentUserId}' assigned to class '${cls.name}' in tenant '${tenantId}'`,
+    );
+
+    return {
+      message: `Student successfully assigned to ${cls.name}`,
+      student_id: studentProfile.id,
+      class_id: classId,
+      className: cls.name,
+    };
+  }
+
   // Transfer student from one class to another
   async transferStudentToClass(
     destinationClassId: string,
@@ -744,7 +744,8 @@ export class SchoolSetupService {
       });
     }
 
-    const previousClass = studentProfile.class?.name ?? 'unassigned';
+    const previousClass =
+      (studentProfile.class as { name: string })?.name ?? 'unassigned';
 
     await this.prisma.studentProfile.update({
       where: { id: studentProfile.id },
@@ -761,6 +762,32 @@ export class SchoolSetupService {
       class_id: destinationClassId,
       className: destinationClass.name,
     };
+  }
+
+  // TODO: This is not working, I got P2003
+  // Remove student from class
+  async removeStudentFromClass(studentUserId: string) {
+    const tenantId = this.cls.get<string>('tenantId');
+
+    const studentProfile = await this.prisma.studentProfile.findFirst({
+      where: { tenant_id: tenantId, user_id: studentUserId },
+    });
+    if (!studentProfile) throw new UserNotFoundException();
+
+    if (!studentProfile.class_id) {
+      throw new AppException({
+        code: ErrorCode.RESOURCE_NOT_FOUND,
+        statusCode: 400,
+        message: 'This student is not currently assigned to any class.',
+      });
+    }
+
+    await this.prisma.studentProfile.update({
+      where: { id: studentProfile.id },
+      data: { class_id: null },
+    });
+
+    return { message: 'Student removed from class successfully' };
   }
 
   // Subjects
@@ -862,10 +889,37 @@ export class SchoolSetupService {
     const tenantId = this.cls.get<string>('tenantId');
     await this.validateSubjectBelongsToTenant(subjectId, tenantId);
 
-    // Remove all classes first
+    const classSubjects = (await this.prisma.classSubject.findMany({
+      where: { subject_id: subjectId, tenant_id: tenantId },
+      include: { teachers: { select: { teacher_id: true } } },
+    })) as Array<{
+      class_id: string;
+      teachers: { teacher_id: string }[];
+    }>;
+    const classIds = [...new Set(classSubjects.map((cs) => cs.class_id))];
+    const teacherIds: string[] = [];
+    const seenTeachers = new Set<string>();
+    for (const cs of classSubjects) {
+      for (const t of cs.teachers) {
+        const id = t.teacher_id;
+        if (!seenTeachers.has(id)) {
+          seenTeachers.add(id);
+          teacherIds.push(id);
+        }
+      }
+    }
+
     await this.prisma.subject.delete({
       where: { id: subjectId },
     });
+
+    for (const cid of classIds) {
+      await this.syncClassSubjectIds(cid);
+    }
+    for (const tid of teacherIds) {
+      await this.syncTeacherAssignedSubjectIds(tid);
+    }
+
     return { message: 'Subject deleted successfully' };
   }
 
@@ -884,7 +938,7 @@ export class SchoolSetupService {
 
     if (existingAssignment) throw new SubjectAlreadyAssignedException();
 
-    return this.prisma.classSubject.create({
+    const created = await this.prisma.classSubject.create({
       data: {
         tenant_id: tenantId,
         class_id: classId,
@@ -896,6 +950,8 @@ export class SchoolSetupService {
         teachers: true,
       },
     });
+    await this.syncClassSubjectIds(classId);
+    return created;
   }
 
   // Bulk assign subjects to class
@@ -943,6 +999,7 @@ export class SchoolSetupService {
         this.logger.error(error);
       }
     }
+    await this.syncClassSubjectIds(classId);
     return {
       assigned: results.assigned,
       skipped: results.skipped,
@@ -961,9 +1018,21 @@ export class SchoolSetupService {
 
     if (!classSubject) throw new SubjectNotAssignedException();
 
+    const affectedTeachers = await this.prisma.subjectTeacher.findMany({
+      where: { class_subject_id: classSubject.id },
+      select: { teacher_id: true },
+    });
+
     await this.prisma.classSubject.delete({
       where: { id: classSubject.id },
     });
+
+    await this.syncClassSubjectIds(classId);
+    for (const t of affectedTeachers) {
+      await this.syncTeacherAssignedSubjectIds(
+        (t as { teacher_id: string }).teacher_id,
+      );
+    }
 
     return { message: 'Subject unassigned from class successfully' };
   }
@@ -993,15 +1062,15 @@ export class SchoolSetupService {
 
     if (alreadyAssigned) throw new TeacherAlreadyAssignedToSubjectException();
 
-    return this.prisma.subjectTeacher.create({
+    const row = await this.prisma.subjectTeacher.create({
       data: {
         tenant_id: tenantId,
         class_subject_id: classSubject.id,
         teacher_id: teacherId,
       },
     });
-
-    // return { message: 'Teacher assigned to class subject successfully' };
+    await this.syncTeacherAssignedSubjectIds(teacherId);
+    return row;
   }
 
   async bulkAssignTeachersToClassSubjects(
@@ -1048,6 +1117,7 @@ export class SchoolSetupService {
         });
 
         results.assigned.push(teacherId);
+        await this.syncTeacherAssignedSubjectIds(teacherId);
       } catch (error) {
         results.skipped.push({
           teacherId,
@@ -1091,6 +1161,8 @@ export class SchoolSetupService {
       where: { id: assignment.id },
     });
 
+    await this.syncTeacherAssignedSubjectIds(teacherId);
+
     return { message: 'Teacher removed from subject successfully' };
   }
 
@@ -1105,6 +1177,7 @@ export class SchoolSetupService {
       where: { user_id: studentId, tenant_id: tenantId },
     });
     if (!studentProfile?.class_id) throw new StudentNotInClassException();
+    const studentClassId = studentProfile.class_id as string;
 
     // Get current active term
     const currentTerm = await this.prisma.academicTerm.findFirst({
@@ -1114,8 +1187,10 @@ export class SchoolSetupService {
 
     // Get all subjects in the class
     const allClassSubjects = await this.prisma.classSubject.findMany({
-      where: { class_id: studentProfile.class_id },
+      where: { class_id: studentClassId },
     });
+
+    // console.log('allClassSubjects', allClassSubjects);
 
     const compulsoryIds = allClassSubjects
       .filter((item) => item.subject_type === SubjectType.COMPULSORY)
@@ -1132,8 +1207,9 @@ export class SchoolSetupService {
     // Validate every class subject id is in the class
     for (const classSubjectId of dto.class_subject_ids) {
       const classSubject = allClassSubjects.find(
-        (item) => item.id === classSubjectId,
+        (item) => item.subject_id === classSubjectId,
       );
+      // console.log('classSubject', classSubject);
       if (!classSubject) throw new SubjectNotAssignedException();
     }
 
@@ -1168,6 +1244,11 @@ export class SchoolSetupService {
       }
     });
 
+    await this.syncStudentRegisteredSubjectIdsForTerm(
+      studentProfile.id,
+      currentTerm.id,
+    );
+
     return this.getStudentRegistration(studentId);
   }
 
@@ -1181,6 +1262,7 @@ export class SchoolSetupService {
       where: { user_id: studentId, tenant_id: tenantId },
     });
     if (!studentProfile?.class_id) throw new StudentNotInClassException();
+    const studentClassId = studentProfile.class_id as string;
 
     const currentTerm = await this.prisma.academicTerm.findFirst({
       where: { tenant_id: tenantId, is_current: true },
@@ -1189,7 +1271,7 @@ export class SchoolSetupService {
     if (!currentTerm) throw new ActiveTermRequiredException();
 
     const allClassSubjects = await this.prisma.classSubject.findMany({
-      where: { class_id: studentProfile.class_id },
+      where: { class_id: studentClassId },
     });
 
     const compulsoryIds = allClassSubjects
@@ -1240,6 +1322,11 @@ export class SchoolSetupService {
         });
       }
     });
+
+    await this.syncStudentRegisteredSubjectIdsForTerm(
+      studentProfile.id,
+      currentTerm.id,
+    );
 
     return this.getStudentRegistration(studentId);
   }
@@ -1309,11 +1396,82 @@ export class SchoolSetupService {
         subjects: subjectCount,
         departments: departmentCount,
       },
-      classByLevel: classByLevel.map((item) => ({
-        level: item.level,
-        count: item._count.id,
-      })),
+      classByLevel: classByLevel.map(
+        (item: { level: string; _count: { id: number } }) => ({
+          level: item.level,
+          count: item._count.id,
+        }),
+      ),
     };
+  }
+
+  /** Denormalized `classes.subject_ids` from ClassSubject rows. */
+  private async syncClassSubjectIds(classId: string): Promise<void> {
+    const rows = await this.prisma.classSubject.findMany({
+      where: { class_id: classId },
+      select: { subject_id: true },
+    });
+    const ids = [
+      ...new Set(rows.map((r: { subject_id: string }) => r.subject_id)),
+    ];
+    await this.prisma.class.update({
+      where: { id: classId },
+      data: { subject_ids: ids },
+    });
+  }
+
+  /** Denormalized `teacher_profiles.assigned_subject_ids` (teacher_id = User.id). */
+  private async syncTeacherAssignedSubjectIds(
+    teacherUserId: string,
+  ): Promise<void> {
+    const profile = await this.prisma.teacherProfile.findUnique({
+      where: { user_id: teacherUserId },
+      select: { id: true },
+    });
+    if (!profile) return;
+
+    const assignments = await this.prisma.subjectTeacher.findMany({
+      where: { teacher_id: teacherUserId },
+      include: { classSubject: { select: { subject_id: true } } },
+    });
+    const ids = [
+      ...new Set(
+        assignments.map(
+          (a: { classSubject: { subject_id: string } }) =>
+            a.classSubject.subject_id,
+        ),
+      ),
+    ];
+    await this.prisma.teacherProfile.update({
+      where: { id: profile.id },
+      data: { assigned_subject_ids: ids },
+    });
+  }
+
+  /**
+   * Denormalized `student_profiles.registered_subject_ids` for the given term
+   * (distinct Subject.id from registrations in that term).
+   */
+  private async syncStudentRegisteredSubjectIdsForTerm(
+    studentProfileId: string,
+    termId: string,
+  ): Promise<void> {
+    const regs = await this.prisma.studentSubjectRegistration.findMany({
+      where: { student_id: studentProfileId, term_id: termId },
+      include: { classSubject: { select: { subject_id: true } } },
+    });
+    const ids = [
+      ...new Set(
+        regs.map(
+          (r: { classSubject: { subject_id: string } }) =>
+            r.classSubject.subject_id,
+        ),
+      ),
+    ];
+    await this.prisma.studentProfile.update({
+      where: { id: studentProfileId },
+      data: { registered_subject_ids: ids },
+    });
   }
 
   // Private validation helpers

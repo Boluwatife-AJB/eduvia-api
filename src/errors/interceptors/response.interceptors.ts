@@ -5,8 +5,15 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { map, Observable } from 'rxjs';
-import { SuccessResponse } from '../types/error-response.interface';
+import {
+  PaginationMeta,
+  SuccessResponse,
+} from '../types/error-response.interface';
 import { Response } from 'express';
+
+function isRecord(v: unknown): v is Record<string, unknown> {
+  return v !== null && typeof v === 'object' && !Array.isArray(v);
+}
 
 @Injectable()
 export class ResponseInterceptors implements NestInterceptor {
@@ -14,23 +21,40 @@ export class ResponseInterceptors implements NestInterceptor {
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<SuccessResponse> {
-    const response = context.switchToHttp().getResponse<Response>();
-    const statusCode = context.switchToHttp().getResponse().statusCode;
+    const statusCode = context
+      .switchToHttp()
+      .getResponse<Response>().statusCode;
 
     return next.handle().pipe(
-      map((data) => {
-        // If the service returned a paginated result with meta,
-        // promote the meta to the top level of the envelope
+      map((data: unknown): SuccessResponse => {
+        let message = 'Request processed successfully';
+        let bodyData: unknown = data;
+        let meta: PaginationMeta | undefined;
 
-        const hasMeta =
-          data && typeof data === 'object' && 'meta' in data && 'data' in data;
+        if (isRecord(data)) {
+          const hasDataAndMeta = 'data' in data && 'meta' in data;
+          const hasMessageAndData =
+            typeof data.message === 'string' && 'data' in data;
+
+          if (hasMessageAndData) {
+            message = data.message as string;
+            bodyData = data['data'];
+            if (hasDataAndMeta && isRecord(data.meta)) {
+              meta = data.meta as unknown as PaginationMeta;
+            }
+          } else if (hasDataAndMeta) {
+            bodyData = data['data'];
+            meta = data.meta as unknown as PaginationMeta;
+          }
+        }
 
         return {
           success: true,
           status_code: statusCode,
-          data: hasMeta ? data.data : data,
-          ...(hasMeta && { meta: data.meta }),
-        } satisfies SuccessResponse;
+          message,
+          data: bodyData,
+          ...(meta !== undefined ? { meta } : {}),
+        };
       }),
     );
   }

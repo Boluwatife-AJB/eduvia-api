@@ -222,7 +222,10 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       success: false,
       status_code: classified.status_code,
       code: classified.code,
-      message: classified.message,
+      message:
+        typeof classified.message === 'string'
+          ? classified.message
+          : 'An error occurred.',
       action: classified.action,
       errors: classified.errors,
       detail: classified.detail,

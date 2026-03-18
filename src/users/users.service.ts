@@ -192,7 +192,7 @@ export class UsersService {
       ...(class_id &&
         (!role || role === UserRole.STUDENT) && {
           role: UserRole.STUDENT,
-        studentProfile: { class_id },
+          studentProfile: { class_id },
         }),
     };
 
