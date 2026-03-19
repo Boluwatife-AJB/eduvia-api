@@ -17,6 +17,9 @@ import { TenantModule } from './tenant/tenant.module';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
 import { UsersService } from './users/users.service';
+import { TimetableService } from './timetable/timetable.service';
+import { TimetableController } from './timetable/timetable.controller';
+import { TimetableModule } from './timetable/timetable.module';
 
 @Module({
   imports: [
@@ -41,12 +44,14 @@ import { UsersService } from './users/users.service';
     TenantModule, // JWT auth, login, refresh, logout, etc.
     UsersModule, // Users module
     SchoolSetupModule, // School setup module
+    TimetableModule,
   ],
   controllers: [
     AppController,
     AuthController,
     UsersController,
     SchoolSetupController,
+    TimetableController,
   ],
   providers: [
     AppService,
@@ -69,6 +74,8 @@ import { UsersService } from './users/users.service';
     },
 
     UsersService,
+
+    TimetableService,
 
     // SchoolSetupService,
   ],

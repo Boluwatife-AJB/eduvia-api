@@ -65,7 +65,9 @@ export const ModelName = {
   Subject: 'Subject',
   ClassSubject: 'ClassSubject',
   SubjectTeacher: 'SubjectTeacher',
-  StudentSubjectRegistration: 'StudentSubjectRegistration'
+  StudentSubjectRegistration: 'StudentSubjectRegistration',
+  TimeTableSlot: 'TimeTableSlot',
+  TutorialClass: 'TutorialClass'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -290,6 +292,48 @@ export const StudentSubjectRegistrationScalarFieldEnum = {
 } as const
 
 export type StudentSubjectRegistrationScalarFieldEnum = (typeof StudentSubjectRegistrationScalarFieldEnum)[keyof typeof StudentSubjectRegistrationScalarFieldEnum]
+
+
+export const TimeTableSlotScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  class_id: 'class_id',
+  subject_id: 'subject_id',
+  teacher_id: 'teacher_id',
+  academic_term_id: 'academic_term_id',
+  day_of_week: 'day_of_week',
+  start_time: 'start_time',
+  end_time: 'end_time',
+  venue: 'venue',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type TimeTableSlotScalarFieldEnum = (typeof TimeTableSlotScalarFieldEnum)[keyof typeof TimeTableSlotScalarFieldEnum]
+
+
+export const TutorialClassScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  teacher_id: 'teacher_id',
+  class_id: 'class_id',
+  subject_id: 'subject_id',
+  academic_term_id: 'academic_term_id',
+  title: 'title',
+  description: 'description',
+  venue: 'venue',
+  start_time: 'start_time',
+  end_time: 'end_time',
+  is_recurring: 'is_recurring',
+  recurring_day: 'recurring_day',
+  max_students: 'max_students',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  teacherProfileId: 'teacherProfileId'
+} as const
+
+export type TutorialClassScalarFieldEnum = (typeof TutorialClassScalarFieldEnum)[keyof typeof TutorialClassScalarFieldEnum]
 
 
 export const SortOrder = {

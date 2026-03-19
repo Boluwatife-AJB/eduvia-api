@@ -30,6 +30,8 @@ model Tenant {
   departments       Department[]
   classes           Class[]
   subjects          Subject[]
+  timeTableSlots    TimeTableSlot[]
+  tutorialClasses   TutorialClass[]
 
   @@map("tenants")
 }
@@ -96,20 +98,20 @@ model StudentProfile {
   @@map("student_profiles")
 }
 
-
 /// id = internal UUID. userId = FK to User. employeeId = display ID (e.g. GFA/TCH/001), same as User.identifier for teachers.
 model TeacherProfile {
-  id            String    @id @default(uuid())
-  user_id       String    @unique
-  tenant_id     String
-  employee_id   String    @unique
-  department_id String?
-  qualification String?
-  date_joined   DateTime?
+  id                   String    @id @default(uuid())
+  user_id              String    @unique
+  tenant_id            String
+  employee_id          String    @unique
+  department_id        String?
+  qualification        String?
+  date_joined          DateTime?
   /// Denormalized Subject.id list; keep in sync with SubjectTeacher → ClassSubject or derive via query.
-  assigned_subject_ids String[] @default([])
+  assigned_subject_ids String[]  @default([])
 
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user            User            @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  tutorialClasses TutorialClass[]
 
   @@map("teacher_profiles")
 }
@@ -173,6 +175,8 @@ model AcademicTerm {
 
   tenant          Tenant          @relation(fields: [tenant_id], references: [id])
   academicSession AcademicSession @relation(fields: [academic_session_id], references: [id], onDelete: Cascade)
+  timeTableSlots  TimeTableSlot[]
+  tutorialClasses TutorialClass[]
 
   @@unique([academic_session_id, name]) // can't have two terms with same name in one session
   @@map("academic_terms")
@@ -195,20 +199,21 @@ model Department {
 }
 
 model Class {
-  id               String  @id @default(uuid())
+  id               String   @id @default(uuid())
   tenant_id        String
   name             String
   level            String
-  capacity         Int     @default(40)
+  capacity         Int      @default(40)
   department_id    String?
   class_teacher_id String? // the teacher responsible for this class
   /// Denormalized Subject.id list; keep in sync with ClassSubject or derive via query.
   subject_ids      String[] @default([])
 
-  tenant        Tenant           @relation(fields: [tenant_id], references: [id])
-  department    Department?      @relation(fields: [department_id], references: [id])
-  students      StudentProfile[]
-  classSubjects ClassSubject[] // subjects offered in this class
+  tenant         Tenant           @relation(fields: [tenant_id], references: [id])
+  department     Department?      @relation(fields: [department_id], references: [id])
+  students       StudentProfile[]
+  classSubjects  ClassSubject[] // subjects offered in this class
+  timeTableSlots TimeTableSlot[]
 
   @@unique([tenant_id, name])
   @@map("classes")
@@ -223,9 +228,11 @@ model Subject {
   description   String?
   department_id String?
 
-  tenant        Tenant         @relation(fields: [tenant_id], references: [id])
-  department    Department?    @relation(fields: [department_id], references: [id])
-  classSubjects ClassSubject[] // which classes offer this subject
+  tenant          Tenant          @relation(fields: [tenant_id], references: [id])
+  department      Department?     @relation(fields: [department_id], references: [id])
+  classSubjects   ClassSubject[] // which classes offer this subject
+  timeTableSlots  TimeTableSlot[]
+  tutorialClasses TutorialClass[]
 
   @@unique([tenant_id, code, department_id])
   @@map("subjects")
@@ -275,6 +282,58 @@ model StudentSubjectRegistration {
   @@map("student_subject_registrations")
 }
 
+model TimeTableSlot {
+  id               String    @id @default(uuid())
+  tenant_id        String
+  class_id         String
+  subject_id       String
+  teacher_id       String
+  academic_term_id String
+  day_of_week      DayOfWeek
+  start_time       String // HH:MM
+  end_time         String
+  venue            String?
+  is_active        Boolean   @default(true)
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+
+  tenant  Tenant       @relation(fields: [tenant_id], references: [id])
+  class   Class        @relation(fields: [class_id], references: [id], onDelete: Cascade)
+  subject Subject      @relation(fields: [subject_id], references: [id])
+  term    AcademicTerm @relation(fields: [academic_term_id], references: [id])
+
+  // @@unique([tenant_id, class_id, subject_id, teacher_id, academic_term_id, day_of_week, start_time, end_time])
+  @@map("timetable_slots")
+}
+
+// Extra classes created by teachers outside of the regular timetable
+model TutorialClass {
+  id               String     @id @default(uuid())
+  tenant_id        String
+  teacher_id       String
+  class_id         String?
+  subject_id       String
+  academic_term_id String
+  title            String
+  description      String?
+  venue            String?
+  start_time       DateTime
+  end_time         DateTime
+  is_recurring     Boolean    @default(false)
+  recurring_day    DayOfWeek?
+  max_students     Int?
+  created_at       DateTime   @default(now())
+  updated_at       DateTime   @updatedAt
+
+  tenant           Tenant          @relation(fields: [tenant_id], references: [id])
+  subject          Subject         @relation(fields: [subject_id], references: [id])
+  term             AcademicTerm    @relation(fields: [academic_term_id], references: [id])
+  teacherProfile   TeacherProfile? @relation(fields: [teacherProfileId], references: [id])
+  teacherProfileId String?
+
+  @@map("tutorial_classes")
+}
+
 enum UserRole {
   STUDENT
   TEACHER
@@ -317,4 +376,14 @@ enum SubjectType {
   COMPULSORY
   ELECTIVE
   OPTIONAL
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
 }

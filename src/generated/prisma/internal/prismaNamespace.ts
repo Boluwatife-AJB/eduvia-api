@@ -398,7 +398,9 @@ export const ModelName = {
   Subject: 'Subject',
   ClassSubject: 'ClassSubject',
   SubjectTeacher: 'SubjectTeacher',
-  StudentSubjectRegistration: 'StudentSubjectRegistration'
+  StudentSubjectRegistration: 'StudentSubjectRegistration',
+  TimeTableSlot: 'TimeTableSlot',
+  TutorialClass: 'TutorialClass'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -414,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "tenant" | "user" | "refreshToken" | "studentProfile" | "teacherProfile" | "guardianProfile" | "staffProfile" | "academicSession" | "academicTerm" | "department" | "class" | "subject" | "classSubject" | "subjectTeacher" | "studentSubjectRegistration"
+    modelProps: "tenant" | "user" | "refreshToken" | "studentProfile" | "teacherProfile" | "guardianProfile" | "staffProfile" | "academicSession" | "academicTerm" | "department" | "class" | "subject" | "classSubject" | "subjectTeacher" | "studentSubjectRegistration" | "timeTableSlot" | "tutorialClass"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1528,6 +1530,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TimeTableSlot: {
+      payload: Prisma.$TimeTableSlotPayload<ExtArgs>
+      fields: Prisma.TimeTableSlotFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TimeTableSlotFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeTableSlotPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TimeTableSlotFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeTableSlotPayload>
+        }
+        findFirst: {
+          args: Prisma.TimeTableSlotFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeTableSlotPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TimeTableSlotFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeTableSlotPayload>
+        }
+        findMany: {
+          args: Prisma.TimeTableSlotFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeTableSlotPayload>[]
+        }
+        create: {
+          args: Prisma.TimeTableSlotCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeTableSlotPayload>
+        }
+        createMany: {
+          args: Prisma.TimeTableSlotCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TimeTableSlotCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeTableSlotPayload>[]
+        }
+        delete: {
+          args: Prisma.TimeTableSlotDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeTableSlotPayload>
+        }
+        update: {
+          args: Prisma.TimeTableSlotUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeTableSlotPayload>
+        }
+        deleteMany: {
+          args: Prisma.TimeTableSlotDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TimeTableSlotUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TimeTableSlotUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeTableSlotPayload>[]
+        }
+        upsert: {
+          args: Prisma.TimeTableSlotUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeTableSlotPayload>
+        }
+        aggregate: {
+          args: Prisma.TimeTableSlotAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTimeTableSlot>
+        }
+        groupBy: {
+          args: Prisma.TimeTableSlotGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TimeTableSlotGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TimeTableSlotCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TimeTableSlotCountAggregateOutputType> | number
+        }
+      }
+    }
+    TutorialClass: {
+      payload: Prisma.$TutorialClassPayload<ExtArgs>
+      fields: Prisma.TutorialClassFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TutorialClassFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TutorialClassPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TutorialClassFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TutorialClassPayload>
+        }
+        findFirst: {
+          args: Prisma.TutorialClassFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TutorialClassPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TutorialClassFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TutorialClassPayload>
+        }
+        findMany: {
+          args: Prisma.TutorialClassFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TutorialClassPayload>[]
+        }
+        create: {
+          args: Prisma.TutorialClassCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TutorialClassPayload>
+        }
+        createMany: {
+          args: Prisma.TutorialClassCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TutorialClassCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TutorialClassPayload>[]
+        }
+        delete: {
+          args: Prisma.TutorialClassDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TutorialClassPayload>
+        }
+        update: {
+          args: Prisma.TutorialClassUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TutorialClassPayload>
+        }
+        deleteMany: {
+          args: Prisma.TutorialClassDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TutorialClassUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TutorialClassUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TutorialClassPayload>[]
+        }
+        upsert: {
+          args: Prisma.TutorialClassUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TutorialClassPayload>
+        }
+        aggregate: {
+          args: Prisma.TutorialClassAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTutorialClass>
+        }
+        groupBy: {
+          args: Prisma.TutorialClassGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TutorialClassGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TutorialClassCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TutorialClassCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1775,6 +1925,48 @@ export const StudentSubjectRegistrationScalarFieldEnum = {
 export type StudentSubjectRegistrationScalarFieldEnum = (typeof StudentSubjectRegistrationScalarFieldEnum)[keyof typeof StudentSubjectRegistrationScalarFieldEnum]
 
 
+export const TimeTableSlotScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  class_id: 'class_id',
+  subject_id: 'subject_id',
+  teacher_id: 'teacher_id',
+  academic_term_id: 'academic_term_id',
+  day_of_week: 'day_of_week',
+  start_time: 'start_time',
+  end_time: 'end_time',
+  venue: 'venue',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type TimeTableSlotScalarFieldEnum = (typeof TimeTableSlotScalarFieldEnum)[keyof typeof TimeTableSlotScalarFieldEnum]
+
+
+export const TutorialClassScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  teacher_id: 'teacher_id',
+  class_id: 'class_id',
+  subject_id: 'subject_id',
+  academic_term_id: 'academic_term_id',
+  title: 'title',
+  description: 'description',
+  venue: 'venue',
+  start_time: 'start_time',
+  end_time: 'end_time',
+  is_recurring: 'is_recurring',
+  recurring_day: 'recurring_day',
+  max_students: 'max_students',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  teacherProfileId: 'teacherProfileId'
+} as const
+
+export type TutorialClassScalarFieldEnum = (typeof TutorialClassScalarFieldEnum)[keyof typeof TutorialClassScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1941,6 +2133,20 @@ export type ListEnumSubjectTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
+ * Reference to a field of type 'DayOfWeek'
+ */
+export type EnumDayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DayOfWeek'>
+    
+
+
+/**
+ * Reference to a field of type 'DayOfWeek[]'
+ */
+export type ListEnumDayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DayOfWeek[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -2063,6 +2269,8 @@ export type GlobalOmitConfig = {
   classSubject?: Prisma.ClassSubjectOmit
   subjectTeacher?: Prisma.SubjectTeacherOmit
   studentSubjectRegistration?: Prisma.StudentSubjectRegistrationOmit
+  timeTableSlot?: Prisma.TimeTableSlotOmit
+  tutorialClass?: Prisma.TutorialClassOmit
 }
 
 /* Types for Logging */

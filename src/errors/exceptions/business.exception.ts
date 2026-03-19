@@ -251,3 +251,98 @@ export class StudentAlreadyInClassException extends AppException {
     });
   }
 }
+
+// TIMETABLE EXCEPTIONS
+export class TimetableSlotNotFoundException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.TIMETABLE_SLOT_NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
+      message: 'Timetable slot not found.',
+    });
+  }
+}
+
+export class TeacherScheduleConflictException extends AppException {
+  constructor(day: string, startTime: string, endTime: string) {
+    super({
+      code: ErrorCode.TEACHER_SCHEDULE_CONFLICT,
+      statusCode: HttpStatus.CONFLICT,
+      message: `This teacher already has a class on ${day} between ${startTime} and ${endTime}.`,
+      action: 'Choose a different time slot or assign a different teacher.',
+    });
+  }
+}
+
+export class ClassScheduleConflictException extends AppException {
+  constructor(day: string, startTime: string, endTime: string) {
+    super({
+      code: ErrorCode.CLASS_SCHEDULE_CONFLICT,
+      statusCode: HttpStatus.CONFLICT,
+      message: `This class already has a subject scheduled on ${day} between ${startTime} and ${endTime}.`,
+      action: 'Choose a different time slot.',
+    });
+  }
+}
+
+export class InvalidTimeRangeException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.INVALID_TIME_RANGE,
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: 'Start time must be before end time.',
+    });
+  }
+}
+
+export class SlotNotInSchoolHoursException extends AppException {
+  constructor(open: string, close: string) {
+    super({
+      code: ErrorCode.SLOT_NOT_IN_SCHOOL_HOURS,
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: `Slot must fall within school hours (${open} — ${close}).`,
+      action: 'Adjust the slot time to fit within school operating hours.',
+    });
+  }
+}
+
+export class TutorialClassNotFoundException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.TUTORIAL_CLASS_NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
+      message: 'Tutorial class not found.',
+    });
+  }
+}
+
+export class TutorialTimeConflictException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.TUTORIAL_TIME_CONFLICT,
+      statusCode: HttpStatus.CONFLICT,
+      message: 'You already have a session scheduled during this time.',
+      action: 'Choose a different time for this tutorial class.',
+    });
+  }
+}
+
+export class ClassNotFoundException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.CLASS_NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
+      message: 'Class not found.',
+    });
+  }
+}
+
+export class SubjectNotFoundException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.SUBJECT_NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
+      message: 'Subject not found.',
+    });
+  }
+}

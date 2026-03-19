@@ -256,6 +256,8 @@ export type TenantWhereInput = {
   departments?: Prisma.DepartmentListRelationFilter
   classes?: Prisma.ClassListRelationFilter
   subjects?: Prisma.SubjectListRelationFilter
+  timeTableSlots?: Prisma.TimeTableSlotListRelationFilter
+  tutorialClasses?: Prisma.TutorialClassListRelationFilter
 }
 
 export type TenantOrderByWithRelationInput = {
@@ -279,6 +281,8 @@ export type TenantOrderByWithRelationInput = {
   departments?: Prisma.DepartmentOrderByRelationAggregateInput
   classes?: Prisma.ClassOrderByRelationAggregateInput
   subjects?: Prisma.SubjectOrderByRelationAggregateInput
+  timeTableSlots?: Prisma.TimeTableSlotOrderByRelationAggregateInput
+  tutorialClasses?: Prisma.TutorialClassOrderByRelationAggregateInput
 }
 
 export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -305,6 +309,8 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   departments?: Prisma.DepartmentListRelationFilter
   classes?: Prisma.ClassListRelationFilter
   subjects?: Prisma.SubjectListRelationFilter
+  timeTableSlots?: Prisma.TimeTableSlotListRelationFilter
+  tutorialClasses?: Prisma.TutorialClassListRelationFilter
 }, "id" | "slug">
 
 export type TenantOrderByWithAggregationInput = {
@@ -368,6 +374,8 @@ export type TenantCreateInput = {
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timeTableSlots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorialClasses?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateInput = {
@@ -391,6 +399,8 @@ export type TenantUncheckedCreateInput = {
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timeTableSlots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorialClasses?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUpdateInput = {
@@ -414,6 +424,8 @@ export type TenantUpdateInput = {
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timeTableSlots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorialClasses?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateInput = {
@@ -437,6 +449,8 @@ export type TenantUncheckedUpdateInput = {
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timeTableSlots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorialClasses?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateManyInput = {
@@ -648,6 +662,34 @@ export type TenantUpdateOneRequiredWithoutSubjectsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutSubjectsInput, Prisma.TenantUpdateWithoutSubjectsInput>, Prisma.TenantUncheckedUpdateWithoutSubjectsInput>
 }
 
+export type TenantCreateNestedOneWithoutTimeTableSlotsInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutTimeTableSlotsInput, Prisma.TenantUncheckedCreateWithoutTimeTableSlotsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutTimeTableSlotsInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutTimeTableSlotsNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutTimeTableSlotsInput, Prisma.TenantUncheckedCreateWithoutTimeTableSlotsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutTimeTableSlotsInput
+  upsert?: Prisma.TenantUpsertWithoutTimeTableSlotsInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutTimeTableSlotsInput, Prisma.TenantUpdateWithoutTimeTableSlotsInput>, Prisma.TenantUncheckedUpdateWithoutTimeTableSlotsInput>
+}
+
+export type TenantCreateNestedOneWithoutTutorialClassesInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutTutorialClassesInput, Prisma.TenantUncheckedCreateWithoutTutorialClassesInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutTutorialClassesInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutTutorialClassesNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutTutorialClassesInput, Prisma.TenantUncheckedCreateWithoutTutorialClassesInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutTutorialClassesInput
+  upsert?: Prisma.TenantUpsertWithoutTutorialClassesInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutTutorialClassesInput, Prisma.TenantUpdateWithoutTutorialClassesInput>, Prisma.TenantUncheckedUpdateWithoutTutorialClassesInput>
+}
+
 export type TenantCreateWithoutUsersInput = {
   id?: string
   name: string
@@ -668,6 +710,8 @@ export type TenantCreateWithoutUsersInput = {
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timeTableSlots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorialClasses?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutUsersInput = {
@@ -690,6 +734,8 @@ export type TenantUncheckedCreateWithoutUsersInput = {
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timeTableSlots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorialClasses?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutUsersInput = {
@@ -728,6 +774,8 @@ export type TenantUpdateWithoutUsersInput = {
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timeTableSlots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorialClasses?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -750,6 +798,8 @@ export type TenantUncheckedUpdateWithoutUsersInput = {
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timeTableSlots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorialClasses?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutAcademic_sessionsInput = {
@@ -772,6 +822,8 @@ export type TenantCreateWithoutAcademic_sessionsInput = {
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timeTableSlots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorialClasses?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutAcademic_sessionsInput = {
@@ -794,6 +846,8 @@ export type TenantUncheckedCreateWithoutAcademic_sessionsInput = {
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timeTableSlots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorialClasses?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutAcademic_sessionsInput = {
@@ -832,6 +886,8 @@ export type TenantUpdateWithoutAcademic_sessionsInput = {
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timeTableSlots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorialClasses?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutAcademic_sessionsInput = {
@@ -854,6 +910,8 @@ export type TenantUncheckedUpdateWithoutAcademic_sessionsInput = {
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timeTableSlots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorialClasses?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutAcademic_termsInput = {
@@ -876,6 +934,8 @@ export type TenantCreateWithoutAcademic_termsInput = {
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timeTableSlots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorialClasses?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutAcademic_termsInput = {
@@ -898,6 +958,8 @@ export type TenantUncheckedCreateWithoutAcademic_termsInput = {
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timeTableSlots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorialClasses?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutAcademic_termsInput = {
@@ -936,6 +998,8 @@ export type TenantUpdateWithoutAcademic_termsInput = {
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timeTableSlots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorialClasses?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutAcademic_termsInput = {
@@ -958,6 +1022,8 @@ export type TenantUncheckedUpdateWithoutAcademic_termsInput = {
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timeTableSlots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorialClasses?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutDepartmentsInput = {
@@ -980,6 +1046,8 @@ export type TenantCreateWithoutDepartmentsInput = {
   academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timeTableSlots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorialClasses?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutDepartmentsInput = {
@@ -1002,6 +1070,8 @@ export type TenantUncheckedCreateWithoutDepartmentsInput = {
   academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timeTableSlots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorialClasses?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutDepartmentsInput = {
@@ -1040,6 +1110,8 @@ export type TenantUpdateWithoutDepartmentsInput = {
   academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timeTableSlots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorialClasses?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutDepartmentsInput = {
@@ -1062,6 +1134,8 @@ export type TenantUncheckedUpdateWithoutDepartmentsInput = {
   academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timeTableSlots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorialClasses?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutClassesInput = {
@@ -1084,6 +1158,8 @@ export type TenantCreateWithoutClassesInput = {
   academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timeTableSlots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorialClasses?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutClassesInput = {
@@ -1106,6 +1182,8 @@ export type TenantUncheckedCreateWithoutClassesInput = {
   academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timeTableSlots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorialClasses?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutClassesInput = {
@@ -1144,6 +1222,8 @@ export type TenantUpdateWithoutClassesInput = {
   academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timeTableSlots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorialClasses?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutClassesInput = {
@@ -1166,6 +1246,8 @@ export type TenantUncheckedUpdateWithoutClassesInput = {
   academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timeTableSlots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorialClasses?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutSubjectsInput = {
@@ -1188,6 +1270,8 @@ export type TenantCreateWithoutSubjectsInput = {
   academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
+  timeTableSlots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorialClasses?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutSubjectsInput = {
@@ -1210,6 +1294,8 @@ export type TenantUncheckedCreateWithoutSubjectsInput = {
   academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
+  timeTableSlots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorialClasses?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutSubjectsInput = {
@@ -1248,6 +1334,8 @@ export type TenantUpdateWithoutSubjectsInput = {
   academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
+  timeTableSlots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorialClasses?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutSubjectsInput = {
@@ -1270,6 +1358,232 @@ export type TenantUncheckedUpdateWithoutSubjectsInput = {
   academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
+  timeTableSlots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorialClasses?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutTimeTableSlotsInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  tutorialClasses?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutTimeTableSlotsInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  tutorialClasses?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutTimeTableSlotsInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutTimeTableSlotsInput, Prisma.TenantUncheckedCreateWithoutTimeTableSlotsInput>
+}
+
+export type TenantUpsertWithoutTimeTableSlotsInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutTimeTableSlotsInput, Prisma.TenantUncheckedUpdateWithoutTimeTableSlotsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutTimeTableSlotsInput, Prisma.TenantUncheckedCreateWithoutTimeTableSlotsInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutTimeTableSlotsInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutTimeTableSlotsInput, Prisma.TenantUncheckedUpdateWithoutTimeTableSlotsInput>
+}
+
+export type TenantUpdateWithoutTimeTableSlotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  tutorialClasses?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutTimeTableSlotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  tutorialClasses?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutTutorialClassesInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timeTableSlots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutTutorialClassesInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timeTableSlots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutTutorialClassesInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutTutorialClassesInput, Prisma.TenantUncheckedCreateWithoutTutorialClassesInput>
+}
+
+export type TenantUpsertWithoutTutorialClassesInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutTutorialClassesInput, Prisma.TenantUncheckedUpdateWithoutTutorialClassesInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutTutorialClassesInput, Prisma.TenantUncheckedCreateWithoutTutorialClassesInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutTutorialClassesInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutTutorialClassesInput, Prisma.TenantUncheckedUpdateWithoutTutorialClassesInput>
+}
+
+export type TenantUpdateWithoutTutorialClassesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timeTableSlots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutTutorialClassesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timeTableSlots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 
@@ -1284,6 +1598,8 @@ export type TenantCountOutputType = {
   departments: number
   classes: number
   subjects: number
+  timeTableSlots: number
+  tutorialClasses: number
 }
 
 export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1293,6 +1609,8 @@ export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   departments?: boolean | TenantCountOutputTypeCountDepartmentsArgs
   classes?: boolean | TenantCountOutputTypeCountClassesArgs
   subjects?: boolean | TenantCountOutputTypeCountSubjectsArgs
+  timeTableSlots?: boolean | TenantCountOutputTypeCountTimeTableSlotsArgs
+  tutorialClasses?: boolean | TenantCountOutputTypeCountTutorialClassesArgs
 }
 
 /**
@@ -1347,6 +1665,20 @@ export type TenantCountOutputTypeCountSubjectsArgs<ExtArgs extends runtime.Types
   where?: Prisma.SubjectWhereInput
 }
 
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountTimeTableSlotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TimeTableSlotWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountTutorialClassesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TutorialClassWhereInput
+}
+
 
 export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1369,6 +1701,8 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   departments?: boolean | Prisma.Tenant$departmentsArgs<ExtArgs>
   classes?: boolean | Prisma.Tenant$classesArgs<ExtArgs>
   subjects?: boolean | Prisma.Tenant$subjectsArgs<ExtArgs>
+  timeTableSlots?: boolean | Prisma.Tenant$timeTableSlotsArgs<ExtArgs>
+  tutorialClasses?: boolean | Prisma.Tenant$tutorialClassesArgs<ExtArgs>
   _count?: boolean | Prisma.TenantCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenant"]>
 
@@ -1431,6 +1765,8 @@ export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   departments?: boolean | Prisma.Tenant$departmentsArgs<ExtArgs>
   classes?: boolean | Prisma.Tenant$classesArgs<ExtArgs>
   subjects?: boolean | Prisma.Tenant$subjectsArgs<ExtArgs>
+  timeTableSlots?: boolean | Prisma.Tenant$timeTableSlotsArgs<ExtArgs>
+  tutorialClasses?: boolean | Prisma.Tenant$tutorialClassesArgs<ExtArgs>
   _count?: boolean | Prisma.TenantCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TenantIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1445,6 +1781,8 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     departments: Prisma.$DepartmentPayload<ExtArgs>[]
     classes: Prisma.$ClassPayload<ExtArgs>[]
     subjects: Prisma.$SubjectPayload<ExtArgs>[]
+    timeTableSlots: Prisma.$TimeTableSlotPayload<ExtArgs>[]
+    tutorialClasses: Prisma.$TutorialClassPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1864,6 +2202,8 @@ export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.T
   departments<T extends Prisma.Tenant$departmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$departmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   classes<T extends Prisma.Tenant$classesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$classesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subjects<T extends Prisma.Tenant$subjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  timeTableSlots<T extends Prisma.Tenant$timeTableSlotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$timeTableSlotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TimeTableSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tutorialClasses<T extends Prisma.Tenant$tutorialClassesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$tutorialClassesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TutorialClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2441,6 +2781,54 @@ export type Tenant$subjectsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.SubjectScalarFieldEnum | Prisma.SubjectScalarFieldEnum[]
+}
+
+/**
+ * Tenant.timeTableSlots
+ */
+export type Tenant$timeTableSlotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TimeTableSlot
+   */
+  select?: Prisma.TimeTableSlotSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TimeTableSlot
+   */
+  omit?: Prisma.TimeTableSlotOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeTableSlotInclude<ExtArgs> | null
+  where?: Prisma.TimeTableSlotWhereInput
+  orderBy?: Prisma.TimeTableSlotOrderByWithRelationInput | Prisma.TimeTableSlotOrderByWithRelationInput[]
+  cursor?: Prisma.TimeTableSlotWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TimeTableSlotScalarFieldEnum | Prisma.TimeTableSlotScalarFieldEnum[]
+}
+
+/**
+ * Tenant.tutorialClasses
+ */
+export type Tenant$tutorialClassesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TutorialClass
+   */
+  select?: Prisma.TutorialClassSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TutorialClass
+   */
+  omit?: Prisma.TutorialClassOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TutorialClassInclude<ExtArgs> | null
+  where?: Prisma.TutorialClassWhereInput
+  orderBy?: Prisma.TutorialClassOrderByWithRelationInput | Prisma.TutorialClassOrderByWithRelationInput[]
+  cursor?: Prisma.TutorialClassWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TutorialClassScalarFieldEnum | Prisma.TutorialClassScalarFieldEnum[]
 }
 
 /**

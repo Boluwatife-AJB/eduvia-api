@@ -114,3 +114,13 @@ export type SubjectTeacher = Prisma.SubjectTeacherModel
  * 
  */
 export type StudentSubjectRegistration = Prisma.StudentSubjectRegistrationModel
+/**
+ * Model TimeTableSlot
+ * 
+ */
+export type TimeTableSlot = Prisma.TimeTableSlotModel
+/**
+ * Model TutorialClass
+ * 
+ */
+export type TutorialClass = Prisma.TutorialClassModel
