@@ -25,6 +25,9 @@ import { StorageModule } from './storage/storage.module';
 import { LecturesService } from './lectures/lectures.service';
 import { LecturesController } from './lectures/lectures.controller';
 import { LecturesModule } from './lectures/lectures.module';
+import { UploadService } from './upload/upload.service';
+import { UploadController } from './upload/upload.controller';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -51,7 +54,8 @@ import { LecturesModule } from './lectures/lectures.module';
     UsersModule, // Users module
     SchoolSetupModule, // School setup module
     TimetableModule,
-    LecturesModule, // Lectures module
+    LecturesModule,
+    UploadModule, // Lectures module
   ],
   controllers: [
     AppController,
@@ -60,6 +64,7 @@ import { LecturesModule } from './lectures/lectures.module';
     SchoolSetupController,
     TimetableController,
     LecturesController,
+    UploadController,
   ],
   providers: [
     AppService,
@@ -88,6 +93,8 @@ import { LecturesModule } from './lectures/lectures.module';
     StorageService,
 
     LecturesService,
+
+    UploadService,
 
     // SchoolSetupService,
   ],

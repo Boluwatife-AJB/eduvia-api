@@ -118,30 +118,6 @@ export class LecturesService {
     });
     if (!classSubject) throw new SubjectNotAssignedException();
 
-    // For file-based types, the fileKey is confirmed in a separate step
-    // For TEXT and LINK, there is no file
-    const requiresFile =
-      dto.content_type !== LectureContentType.TEXT &&
-      dto.content_type !== LectureContentType.LINK;
-
-    if (dto.content_type === LectureContentType.LINK && !dto.external_url) {
-      throw new AppException({
-        code: ErrorCode.INVALID_INPUT,
-        message: 'external_url is required for LINK content type',
-        statusCode: HttpStatus.BAD_REQUEST,
-        action: 'Please provide a valid external URL',
-      });
-    }
-
-    if (dto.content_type === LectureContentType.TEXT && !dto.text_content) {
-      throw new AppException({
-        code: ErrorCode.INVALID_INPUT,
-        message: 'text_content is required for TEXT content type',
-        statusCode: HttpStatus.BAD_REQUEST,
-        action: 'Please provide a valid text content',
-      });
-    }
-
     const lecture = await this.prisma.lecture.create({
       data: {
         tenant_id: tenantId,
@@ -153,6 +129,7 @@ export class LecturesService {
         description: dto.description,
         content_type: dto.content_type,
         status: LectureStatus.DRAFT,
+        file_url: dto.file_url ?? null,
         external_url: dto.external_url ?? null,
         text_content: dto.text_content ?? null,
         duration_mins: dto.duration_mins ?? null,
@@ -165,13 +142,7 @@ export class LecturesService {
       `Lecture '${dto.title}' created as DRAFT by teacher profile '${teacherProfileId}' (user '${teacherUserId}')`,
     );
 
-    return {
-      ...lecture,
-      requiresFileUpload: requiresFile,
-      message: requiresFile
-        ? 'Lecture created. Call POST /lectures/:id/upload-url to get a presigned upload URL, then confirm the upload.'
-        : 'Lecture created successfully.',
-    };
+    return lecture;
   }
 
   // STEP 2: Confirm upload

@@ -215,6 +215,7 @@ model Class {
   tenant         Tenant           @relation(fields: [tenant_id], references: [id])
   department     Department?      @relation(fields: [department_id], references: [id])
   students       StudentProfile[]
+  // TODO: rename to use snake_case
   classSubjects  ClassSubject[] // subjects offered in this class
   timeTableSlots TimeTableSlot[]
   lectures       Lecture[]

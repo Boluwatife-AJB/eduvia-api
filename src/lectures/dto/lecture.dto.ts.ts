@@ -41,10 +41,31 @@ export class CreateLectureDto {
   @IsNotEmpty()
   content_type: LectureContentType;
 
+  // For FILE-based types (VIDEO, PDF, AUDIO, SLIDES)
+  // This is the fileUrl returned from POST /upload or POST /upload/confirm
+  @ApiPropertyOptional({
+    example: 'https://uploads.yourdomain.com/tenant-id/lectures/uuid-file.pdf',
+    description:
+      'The fileUrl returned from the upload endpoint. Required for VIDEO, PDF, AUDIO, SLIDES types.',
+  })
+  @ValidateIf((o) =>
+    [
+      LectureContentType.VIDEO,
+      LectureContentType.PDF,
+      LectureContentType.AUDIO,
+      LectureContentType.SLIDES,
+    ].includes(o.contentType),
+  )
+  @IsUrl({}, { message: 'fileUrl must be a valid URL' })
+  @IsNotEmpty()
+  file_url?: string;
+
   // Required only for LINK type
   @ApiPropertyOptional({ example: 'https://www.youtube.com/watch?v=...' })
-  @ValidateIf((o) => o.contentType === LectureContentType.LINK)
-  @IsUrl({}, { message: 'externalUrl must be a valid URL' })
+  @ValidateIf(
+    (o: CreateLectureDto) => o.content_type === LectureContentType.LINK,
+  )
+  @IsUrl({}, { message: 'external_url must be a valid URL' })
   @IsNotEmpty()
   external_url?: string;
 
