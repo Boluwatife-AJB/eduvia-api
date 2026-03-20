@@ -23,6 +23,7 @@ import { TimetableModule } from './timetable/timetable.module';
 import { StorageService } from './storage/storage.service';
 import { StorageModule } from './storage/storage.module';
 import { LecturesService } from './lectures/lectures.service';
+import { LecturesController } from './lectures/lectures.controller';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { LecturesService } from './lectures/lectures.service';
     UsersController,
     SchoolSetupController,
     TimetableController,
+    LecturesController,
   ],
   providers: [
     AppService,

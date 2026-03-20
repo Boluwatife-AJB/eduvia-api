@@ -1,7 +1,26 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { ClsService } from 'nestjs-cls';
 import { PrismaService } from 'src/database/prisma.service';
-import { StorageService } from 'src/storage/storage.service';
+import {
+  ActiveTermRequiredException,
+  FileNotFoundInStorageException,
+  LectureAccessDeniedException,
+  LectureAlreadyPublishedException,
+  LectureNotFoundException,
+  SubjectNotAssignedException,
+} from 'src/errors/exceptions/business.exception';
+import { ErrorCode } from 'src/errors/types/error-codes.enum';
+import { LectureContentType, LectureStatus } from 'src/generated/prisma/enums';
+import { AllowedMimeType, StorageService } from 'src/storage/storage.service';
+import {
+  ConfirmUploadDto,
+  CreateLectureDto,
+  QueryLecturesDto,
+  RequestUploadUrlDto,
+  UpdateLectureDto,
+  UpdateViewProgressDto,
+} from './dto/lecture.dto.ts';
+import { AppException } from 'src/errors/exceptions/app.exception';
 
 // Fields returned with every lecture response
 const LECTURE_SELECT = {
@@ -33,4 +52,515 @@ export class LecturesService {
     private readonly cls: ClsService,
     private readonly storage: StorageService,
   ) {}
+
+  // STEP 1: Upload flow: Request presigned upload URL -> Upload file to S3 -> Confirm upload -> Create lecture
+  async requestUploadUrl(teacherUserId: string, dto: RequestUploadUrlDto) {
+    const tenantId = this.cls.get<string>('tenantId');
+
+    const allowedMimes: AllowedMimeType[] = [
+      'video/mp4',
+      'video/webm',
+      'application/pdf',
+      'audio/mpeg',
+      'audio/mp3',
+      'application/vnd.ms-powerpoint',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      'image/jpeg',
+      'image/png',
+      'image/webp',
+    ];
+
+    if (!allowedMimes.includes(dto.mime_type as AllowedMimeType)) {
+      throw new AppException({
+        code: ErrorCode.INVALID_CONTENT_TYPE,
+        message: `File type '${dto.mime_type}' is not allowed.`,
+        statusCode: HttpStatus.BAD_REQUEST,
+        action: `Please use a supported file type. Allowed types are: ${allowedMimes.join(', ')}`,
+      });
+    }
+
+    const result = await this.storage.generatePresignedUploadUrl(
+      'lectures',
+      tenantId,
+      dto.mime_type as AllowedMimeType,
+      dto.file_size_bytes,
+      dto.file_name,
+    );
+
+    return {
+      uploadUrl: result.uploadUrl,
+      fieldKey: result.fieldKey,
+      publicUrl: result.publicUrl,
+      expiresIn: result.expiresIn,
+      message:
+        'Upload the file directly to uploadUrl using a PUT request, then call the confirm endpoint.',
+    };
+  }
+
+  // Create lecture
+  async createLecture(teacherUserId: string, dto: CreateLectureDto) {
+    const tenantId = this.cls.get<string>('tenantId');
+
+    const currentTerm = await this.prisma.academicTerm.findFirst({
+      where: { tenant_id: tenantId, is_current: true },
+    });
+    if (!currentTerm) throw new ActiveTermRequiredException();
+
+    // Verify that the subject is assigned to the class
+    const classSubject = await this.prisma.classSubject.findFirst({
+      where: { class_id: dto.class_id, subject_id: dto.subject_id },
+    });
+    if (!classSubject) throw new SubjectNotAssignedException();
+
+    // For file-based types, the fileKey is confirmed in a separate step
+    // For TEXT and LINK, there is no file
+    const requiresFile =
+      dto.content_type !== LectureContentType.TEXT &&
+      dto.content_type !== LectureContentType.LINK;
+
+    if (dto.content_type === LectureContentType.LINK && !dto.external_url) {
+      throw new AppException({
+        code: ErrorCode.INVALID_INPUT,
+        message: 'external_url is required for LINK content type',
+        statusCode: HttpStatus.BAD_REQUEST,
+        action: 'Please provide a valid external URL',
+      });
+    }
+
+    if (dto.content_type === LectureContentType.TEXT && !dto.text_content) {
+      throw new AppException({
+        code: ErrorCode.INVALID_INPUT,
+        message: 'text_content is required for TEXT content type',
+        statusCode: HttpStatus.BAD_REQUEST,
+        action: 'Please provide a valid text content',
+      });
+    }
+
+    const lecture = await this.prisma.lecture.create({
+      data: {
+        tenant_id: tenantId,
+        teacher_id: teacherUserId,
+        subject_id: dto.subject_id,
+        class_id: dto.class_id,
+        academic_term_id: currentTerm.id,
+        title: dto.title,
+        description: dto.description,
+        content_type: dto.content_type,
+        status: LectureStatus.DRAFT,
+        external_url: dto.external_url ?? null,
+        text_content: dto.text_content ?? null,
+        duration_mins: dto.duration_mins ?? null,
+        order: dto.order ?? 0,
+      },
+      select: LECTURE_SELECT,
+    });
+
+    this.logger.log(
+      `Lecture '${dto.title}' created as DRAFT by teacher '${teacherUserId}'`,
+    );
+
+    return {
+      ...lecture,
+      requiresFileUpload: requiresFile,
+      message: requiresFile
+        ? 'Lecture created. Call POST /lectures/:id/upload-url to get a presigned upload URL, then confirm the upload.'
+        : 'Lecture created successfully.',
+    };
+  }
+
+  // STEP 2: Confirm upload
+  async confirmUpload(
+    teacherUserId: string,
+    lectureId: string,
+    dto: ConfirmUploadDto,
+  ) {
+    const tenantId = this.cls.get<string>('tenantId');
+    await this.validateLectureOwnership(lectureId, tenantId, teacherUserId);
+
+    // Verify the file actually landed in storage before linking it
+    const fileExists = await this.storage.verifyFileExists(dto.file_key);
+    if (!fileExists) throw new FileNotFoundInStorageException();
+
+    const fileUrl = this.storage.getPublicUrl(dto.file_key);
+
+    await this.prisma.lecture.update({
+      where: { id: lectureId },
+      data: {
+        file_key: dto.file_key,
+        file_url: fileUrl,
+      },
+    });
+
+    return {
+      // ...lecture,
+      file_url: fileUrl,
+      message: 'File confirmed and linked to lecture.',
+    };
+  }
+
+  // Publish a lecture
+  async publishLecture(teacherUserId: string, lectureId: string) {
+    const tenantId = this.cls.get<string>('tenantId');
+    const lecture = await this.validateLectureOwnership(
+      lectureId,
+      tenantId,
+      teacherUserId,
+    );
+
+    if (lecture.status === LectureStatus.PUBLISHED) {
+      throw new LectureAlreadyPublishedException();
+    }
+
+    const requiresFile =
+      lecture.content_type !== LectureContentType.TEXT &&
+      lecture.content_type !== LectureContentType.LINK;
+
+    if (requiresFile && !lecture.file_key) {
+      throw new AppException({
+        code: ErrorCode.FILE_NOT_FOUND_IN_STORAGE,
+        message: 'Cannot publish a lecture without a confirmed file upload.',
+        statusCode: HttpStatus.BAD_REQUEST,
+        action: 'Upload the file and confirm it before publishing.',
+      });
+    }
+
+    const updated = await this.prisma.lecture.update({
+      where: { id: lectureId },
+      data: { status: LectureStatus.PUBLISHED, published_at: new Date() },
+      select: LECTURE_SELECT,
+    });
+
+    this.logger.log(
+      `Lecture '${updated.title}' published by teacher '${teacherUserId}'`,
+    );
+
+    return {
+      ...updated,
+      message: 'Lecture published successfully.',
+    };
+  }
+
+  // Unpublish a lecture
+  async unpublishLecture(teacherUserId: string, lectureId: string) {
+    const tenantId = this.cls.get<string>('tenantId');
+    const lecture = await this.validateLectureOwnership(
+      lectureId,
+      tenantId,
+      teacherUserId,
+    );
+
+    if (lecture.status === LectureStatus.UNPUBLISHED) {
+      throw new AppException({
+        code: ErrorCode.INVALID_INPUT,
+        message: 'Lecture is already unpublished.',
+        statusCode: HttpStatus.BAD_REQUEST,
+        action: 'Please publish the lecture before unpublishing.',
+      });
+    }
+
+    await this.prisma.lecture.update({
+      where: { id: lectureId },
+      data: { status: LectureStatus.UNPUBLISHED },
+    });
+
+    this.logger.log(
+      `Lecture '${lecture.title}' unpublished by teacher '${teacherUserId}'`,
+    );
+    return {
+      ...lecture,
+      message: 'Lecture unpublished successfully.',
+    };
+  }
+
+  // Archive a lecture
+  async archiveLecture(teacherUserId: string, lectureId: string) {
+    const tenantId = this.cls.get<string>('tenantId');
+    await this.validateLectureOwnership(lectureId, tenantId, teacherUserId);
+
+    return this.prisma.lecture.update({
+      where: { id: lectureId },
+      data: { status: LectureStatus.ARCHIVED },
+      select: LECTURE_SELECT,
+    });
+  }
+
+  //  Update a lecture
+  async updateLecture(
+    teacherUserId: string,
+    lectureId: string,
+    dto: UpdateLectureDto,
+  ) {
+    const tenantId = this.cls.get<string>('tenantId');
+    await this.validateLectureOwnership(lectureId, tenantId, teacherUserId);
+
+    return this.prisma.lecture.update({
+      where: { id: lectureId },
+      data: {
+        ...(dto.title && { title: dto.title }),
+        ...(dto.description !== undefined && { description: dto.description }),
+        ...(dto.text_content !== undefined && {
+          text_content: dto.text_content,
+        }),
+        ...(dto.external_url !== undefined && {
+          external_url: dto.external_url,
+        }),
+        ...(dto.duration_mins !== undefined && {
+          duration_mins: dto.duration_mins,
+        }),
+        ...(dto.order !== undefined && { order: dto.order }),
+      },
+      select: LECTURE_SELECT,
+    });
+  }
+
+  // Delete a lecture
+  async deleteLecture(teacherUserId: string, lectureId: string) {
+    const tenantId = this.cls.get<string>('tenantId');
+    const lecture = await this.validateLectureOwnership(
+      lectureId,
+      tenantId,
+      teacherUserId,
+    );
+
+    if (lecture.file_key) {
+      await this.storage.deleteFile(lecture.file_key);
+    }
+
+    await this.prisma.lecture.delete({
+      where: { id: lectureId },
+    });
+
+    this.logger.log(
+      `Lecture '${lectureId}' deleted by teacher '${teacherUserId}'`,
+    );
+
+    return {
+      message: 'Lecture deleted successfully.',
+    };
+  }
+
+  // Fetch all lectures for a teacher including archived lectures and drafts
+  async getTeacherLectures(teacherUserId: string, query: QueryLecturesDto) {
+    const tenantId = this.cls.get<string>('tenantId');
+
+    return this.prisma.lecture.findMany({
+      where: {
+        tenant_id: tenantId,
+        teacher_id: teacherUserId,
+        ...(query.subject_id && { subject_id: query.subject_id }),
+        ...(query.class_id && { class_id: query.class_id }),
+        ...(query.content_type && { content_type: query.content_type }),
+      },
+      orderBy: [
+        { order: 'asc' },
+        { subject_id: 'asc' },
+        { created_at: 'desc' },
+      ],
+      select: LECTURE_SELECT,
+    });
+  }
+
+  // Fetch a single lecture by lecture id
+  async getTeacherLectureById(lectureId: string, teacherUserId: string) {
+    const tenantId = this.cls.get<string>('tenantId');
+
+    const lecture = await this.prisma.lecture.findFirst({
+      where: { id: lectureId, tenant_id: tenantId, teacher_id: teacherUserId },
+      select: {
+        ...LECTURE_SELECT,
+        views: {
+          select: {
+            id: true,
+            student_id: true,
+            viewed_at: true,
+            progress_percentage: true,
+          },
+        },
+      },
+    });
+
+    if (!lecture) throw new LectureNotFoundException();
+    return lecture;
+  }
+
+  // Fetch lectures for a student: Student can only see lectures that are published, assigned to their class and registered for the subject
+  async getStudentLectures(studentUserId: string, query: QueryLecturesDto) {
+    const tenantId = this.cls.get<string>('tenantId');
+
+    const studentProfile = await this.prisma.studentProfile.findFirst({
+      where: { user_id: studentUserId, tenant_id: tenantId },
+    });
+    if (!studentProfile?.class_id) {
+      throw new AppException({
+        code: ErrorCode.STUDENT_NOT_IN_CLASS,
+        message: 'Student is not assigned to any class.',
+        statusCode: HttpStatus.BAD_REQUEST,
+      });
+    }
+
+    const currentTerm = await this.prisma.academicTerm.findFirst({
+      where: { tenant_id: tenantId, is_current: true },
+    });
+    if (!currentTerm) throw new ActiveTermRequiredException();
+
+    const registeredSubjects =
+      await this.prisma.studentSubjectRegistration.findMany({
+        where: { student_id: studentProfile.id, term_id: currentTerm.id },
+        include: { classSubject: { select: { subject_id: true } } },
+      });
+
+    const registeredSubjectIds = registeredSubjects.map(
+      (item) => item.classSubject.subject_id,
+    );
+
+    const lectures = await this.prisma.lecture.findMany({
+      where: {
+        tenant_id: tenantId,
+        class_id: studentProfile.class_id,
+        academic_term_id: currentTerm.id,
+        subject_id: { in: registeredSubjectIds },
+        status: LectureStatus.PUBLISHED,
+        ...(query.subject_id && { subject_id: query.subject_id }),
+        ...(query.content_type && { content_type: query.content_type }),
+      },
+      orderBy: [
+        { order: 'asc' },
+        { subject_id: 'asc' },
+        { created_at: 'desc' },
+      ],
+      select: {
+        ...LECTURE_SELECT,
+        views: {
+          where: { student_id: studentUserId },
+          select: {
+            id: true,
+            viewed_at: true,
+            progress_percentage: true,
+          },
+        },
+      },
+    });
+
+    return lectures.map((lecture) => ({
+      ...lecture,
+      viewed: lecture.views.length > 0,
+      viewed_at: lecture.views.length > 0 ? lecture.views[0].viewed_at : null,
+      progress_percentage:
+        lecture.views.length > 0 ? lecture.views[0].progress_percentage : 0,
+    }));
+  }
+
+  // Fetch a single lecture by lecture id for a student
+  async getStudentLectureById(lectureId: string, studentUserId: string) {
+    const tenantId = this.cls.get<string>('tenantId');
+
+    const lecture = await this.prisma.lecture.findFirst({
+      where: {
+        id: lectureId,
+        tenant_id: tenantId,
+        status: LectureStatus.PUBLISHED,
+      },
+      select: {
+        ...LECTURE_SELECT,
+        file_key: false,
+      },
+    });
+
+    if (!lecture) throw new LectureNotFoundException();
+    // Validate the student is registered for the subject this lecture belongs to
+    await this.validateStudentCanAccessLecture(studentUserId, tenantId, {
+      subject_id: lecture.subject.id,
+      class_id: lecture.class.id,
+    });
+
+    // Record or update the student's view of the lecture
+    await this.prisma.lectureView.upsert({
+      where: {
+        lecture_id_student_id: {
+          lecture_id: lectureId,
+          student_id: studentUserId,
+        },
+      },
+      update: { viewed_at: new Date() },
+      create: {
+        tenant_id: tenantId,
+        student_id: studentUserId,
+        progress_percentage: 0,
+      },
+    });
+
+    return lecture;
+  }
+
+  // Progress tracking
+  async updateViewProgress(
+    studentUserId: string,
+    lectureId: string,
+    dto: UpdateViewProgressDto,
+  ) {
+    const tenantId = this.cls.get<string>('tenantId');
+
+    await this.prisma.lectureView.upsert({
+      where: {
+        lecture_id_student_id: {
+          lecture_id: lectureId,
+          student_id: studentUserId,
+        },
+      },
+      create: {
+        tenant_id: tenantId,
+        lecture_id: lectureId,
+        student_id: studentUserId,
+        progress_percentage: dto.progress_percentage,
+      },
+      update: { progress_percentage: dto.progress_percentage },
+    });
+    return {
+      message: 'View progress updated successfully.',
+      progress_percentage: dto.progress_percentage,
+    };
+  }
+
+  // PRIVATE HELPER METHODS
+  private async validateLectureOwnership(
+    lectureId: string,
+    tenantId: string,
+    teacherUserId: string,
+  ) {
+    const lecture = await this.prisma.lecture.findFirst({
+      where: { id: lectureId, tenant_id: tenantId, teacher_id: teacherUserId },
+    });
+    if (!lecture) throw new LectureNotFoundException();
+
+    return lecture;
+  }
+
+  private async validateStudentCanAccessLecture(
+    studentUserId: string,
+    tenantId: string,
+    lecture: { subject_id: string; class_id: string },
+  ) {
+    const studentProfile = await this.prisma.studentProfile.findFirst({
+      where: { user_id: studentUserId, tenant_id: tenantId },
+    });
+    if (studentProfile?.class_id !== lecture.class_id) {
+      throw new LectureAccessDeniedException();
+    }
+
+    const currentTerm = await this.prisma.academicTerm.findFirst({
+      where: { tenant_id: tenantId, is_current: true },
+    });
+    if (!currentTerm) throw new ActiveTermRequiredException();
+
+    const registeredSubjects =
+      await this.prisma.studentSubjectRegistration.findFirst({
+        where: {
+          student_id: studentProfile.id,
+          term_id: currentTerm.id,
+          classSubject: { subject_id: lecture.subject_id },
+        },
+      });
+
+    if (!registeredSubjects) throw new LectureAccessDeniedException();
+  }
 }

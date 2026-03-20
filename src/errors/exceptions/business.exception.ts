@@ -347,7 +347,6 @@ export class SubjectNotFoundException extends AppException {
   }
 }
 
-
 // ══════════════════════════════════════════════════════════
 // LECTURE EXCEPTIONS
 // ══════════════════════════════════════════════════════════

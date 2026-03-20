@@ -354,7 +354,7 @@ model Lecture {
   file_url         String?
   external_url     String?
   text_content     String?
-  duration         Int?
+  duration_mins    Int?
   file_size        Int?
   order            Int                @default(0)
   published_at     DateTime?
