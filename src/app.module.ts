@@ -24,6 +24,7 @@ import { StorageService } from './storage/storage.service';
 import { StorageModule } from './storage/storage.module';
 import { LecturesService } from './lectures/lectures.service';
 import { LecturesController } from './lectures/lectures.controller';
+import { LecturesModule } from './lectures/lectures.module';
 
 @Module({
   imports: [
@@ -49,7 +50,8 @@ import { LecturesController } from './lectures/lectures.controller';
     StorageModule, // Storage module
     UsersModule, // Users module
     SchoolSetupModule, // School setup module
-    TimetableModule, // Timetable module
+    TimetableModule,
+    LecturesModule, // Lectures module
   ],
   controllers: [
     AppController,

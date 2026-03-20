@@ -403,3 +403,16 @@ export class LectureAccessDeniedException extends AppException {
     });
   }
 }
+
+export class TeacherProfileNotFoundException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.TEACHER_PROFILE_NOT_FOUND,
+      statusCode: HttpStatus.FORBIDDEN,
+      message:
+        'No teacher profile exists for this account in the current school.',
+      action:
+        'Only staff with a teacher profile can manage lectures. Contact your administrator.',
+    });
+  }
+}

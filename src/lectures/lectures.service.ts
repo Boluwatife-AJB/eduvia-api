@@ -8,6 +8,7 @@ import {
   LectureAlreadyPublishedException,
   LectureNotFoundException,
   SubjectNotAssignedException,
+  TeacherProfileNotFoundException,
 } from 'src/errors/exceptions/business.exception';
 import { ErrorCode } from 'src/errors/types/error-codes.enum';
 import { LectureContentType, LectureStatus } from 'src/generated/prisma/enums';
@@ -88,18 +89,23 @@ export class LecturesService {
     );
 
     return {
-      uploadUrl: result.uploadUrl,
-      fieldKey: result.fieldKey,
-      publicUrl: result.publicUrl,
-      expiresIn: result.expiresIn,
-      message:
-        'Upload the file directly to uploadUrl using a PUT request, then call the confirm endpoint.',
+      upload_url: result.upload_url,
+      file_key: result.file_key,
+      public_url: result.public_url,
+      expires_in: result.expires_in,
+      file_size_bytes: result.file_size_bytes,
+      mime_type: result.mime_type,
+      upload_instructions: result.upload_instructions,
     };
   }
 
   // Create lecture
   async createLecture(teacherUserId: string, dto: CreateLectureDto) {
     const tenantId = this.cls.get<string>('tenantId');
+    const teacherProfileId = await this.resolveTeacherProfileId(
+      teacherUserId,
+      tenantId,
+    );
 
     const currentTerm = await this.prisma.academicTerm.findFirst({
       where: { tenant_id: tenantId, is_current: true },
@@ -139,7 +145,7 @@ export class LecturesService {
     const lecture = await this.prisma.lecture.create({
       data: {
         tenant_id: tenantId,
-        teacher_id: teacherUserId,
+        teacher_id: teacherProfileId,
         subject_id: dto.subject_id,
         class_id: dto.class_id,
         academic_term_id: currentTerm.id,
@@ -156,7 +162,7 @@ export class LecturesService {
     });
 
     this.logger.log(
-      `Lecture '${dto.title}' created as DRAFT by teacher '${teacherUserId}'`,
+      `Lecture '${dto.title}' created as DRAFT by teacher profile '${teacherProfileId}' (user '${teacherUserId}')`,
     );
 
     return {
@@ -182,18 +188,21 @@ export class LecturesService {
     if (!fileExists) throw new FileNotFoundInStorageException();
 
     const fileUrl = this.storage.getPublicUrl(dto.file_key);
+    const fileSize = fileExists.ContentLength ?? 0;
 
     await this.prisma.lecture.update({
       where: { id: lectureId },
       data: {
         file_key: dto.file_key,
         file_url: fileUrl,
+        file_size: fileSize,
       },
     });
 
     return {
       // ...lecture,
       file_url: fileUrl,
+      file_size: fileSize,
       message: 'File confirmed and linked to lecture.',
     };
   }
@@ -342,11 +351,15 @@ export class LecturesService {
   // Fetch all lectures for a teacher including archived lectures and drafts
   async getTeacherLectures(teacherUserId: string, query: QueryLecturesDto) {
     const tenantId = this.cls.get<string>('tenantId');
+    const teacherProfileId = await this.resolveTeacherProfileId(
+      teacherUserId,
+      tenantId,
+    );
 
     return this.prisma.lecture.findMany({
       where: {
         tenant_id: tenantId,
-        teacher_id: teacherUserId,
+        teacher_id: teacherProfileId,
         ...(query.subject_id && { subject_id: query.subject_id }),
         ...(query.class_id && { class_id: query.class_id }),
         ...(query.content_type && { content_type: query.content_type }),
@@ -363,9 +376,17 @@ export class LecturesService {
   // Fetch a single lecture by lecture id
   async getTeacherLectureById(lectureId: string, teacherUserId: string) {
     const tenantId = this.cls.get<string>('tenantId');
+    const teacherProfileId = await this.resolveTeacherProfileId(
+      teacherUserId,
+      tenantId,
+    );
 
     const lecture = await this.prisma.lecture.findFirst({
-      where: { id: lectureId, tenant_id: tenantId, teacher_id: teacherUserId },
+      where: {
+        id: lectureId,
+        tenant_id: tenantId,
+        teacher_id: teacherProfileId,
+      },
       select: {
         ...LECTURE_SELECT,
         views: {
@@ -522,13 +543,34 @@ export class LecturesService {
   }
 
   // PRIVATE HELPER METHODS
+  /** JWT `sub` / User.id → TeacherProfile.id (Lecture.teacher_id FK). */
+  private async resolveTeacherProfileId(
+    userId: string,
+    tenantId: string,
+  ): Promise<string> {
+    const profile = await this.prisma.teacherProfile.findFirst({
+      where: { user_id: userId, tenant_id: tenantId },
+      select: { id: true },
+    });
+    if (!profile) throw new TeacherProfileNotFoundException();
+    return profile.id;
+  }
+
   private async validateLectureOwnership(
     lectureId: string,
     tenantId: string,
     teacherUserId: string,
   ) {
+    const teacherProfileId = await this.resolveTeacherProfileId(
+      teacherUserId,
+      tenantId,
+    );
     const lecture = await this.prisma.lecture.findFirst({
-      where: { id: lectureId, tenant_id: tenantId, teacher_id: teacherUserId },
+      where: {
+        id: lectureId,
+        tenant_id: tenantId,
+        teacher_id: teacherProfileId,
+      },
     });
     if (!lecture) throw new LectureNotFoundException();
 

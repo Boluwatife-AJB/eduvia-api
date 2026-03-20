@@ -57,7 +57,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
-    "@types/multer": "^2.0.0",
+    "@types/multer": "^2.1.0",
     "@types/node": "^22.19.15",
     "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",
