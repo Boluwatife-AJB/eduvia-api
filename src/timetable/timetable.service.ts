@@ -617,7 +617,7 @@ export class TimetableService {
     const grouped: Record<string, any[]> = {};
 
     for (const day of days) {
-      grouped[day] = slots.filter((s) => s.dayOfWeek === day);
+      grouped[day] = slots.filter((s) => s.day_of_week === day);
     }
 
     return grouped;

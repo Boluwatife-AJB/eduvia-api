@@ -76,3 +76,26 @@ export const DayOfWeek = {
 } as const
 
 export type DayOfWeek = (typeof DayOfWeek)[keyof typeof DayOfWeek]
+
+
+export const LectureContentType = {
+  VIDEO: 'VIDEO',
+  AUDIO: 'AUDIO',
+  PDF: 'PDF',
+  SLIDES: 'SLIDES',
+  IMAGE: 'IMAGE',
+  TEXT: 'TEXT',
+  LINK: 'LINK'
+} as const
+
+export type LectureContentType = (typeof LectureContentType)[keyof typeof LectureContentType]
+
+
+export const LectureStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  UNPUBLISHED: 'UNPUBLISHED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type LectureStatus = (typeof LectureStatus)[keyof typeof LectureStatus]

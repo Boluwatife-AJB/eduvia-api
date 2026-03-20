@@ -20,6 +20,9 @@ import { UsersService } from './users/users.service';
 import { TimetableService } from './timetable/timetable.service';
 import { TimetableController } from './timetable/timetable.controller';
 import { TimetableModule } from './timetable/timetable.module';
+import { StorageService } from './storage/storage.service';
+import { StorageModule } from './storage/storage.module';
+import { LecturesService } from './lectures/lectures.service';
 
 @Module({
   imports: [
@@ -42,9 +45,10 @@ import { TimetableModule } from './timetable/timetable.module';
     DatabaseModule, // Prisma global module
     AuthModule, // Multi-tenancy via CLS - globally
     TenantModule, // JWT auth, login, refresh, logout, etc.
+    StorageModule, // Storage module
     UsersModule, // Users module
     SchoolSetupModule, // School setup module
-    TimetableModule,
+    TimetableModule, // Timetable module
   ],
   controllers: [
     AppController,
@@ -76,6 +80,10 @@ import { TimetableModule } from './timetable/timetable.module';
     UsersService,
 
     TimetableService,
+
+    StorageService,
+
+    LecturesService,
 
     // SchoolSetupService,
   ],

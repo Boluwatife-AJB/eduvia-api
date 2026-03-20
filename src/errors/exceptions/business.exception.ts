@@ -346,3 +346,61 @@ export class SubjectNotFoundException extends AppException {
     });
   }
 }
+
+
+// ══════════════════════════════════════════════════════════
+// LECTURE EXCEPTIONS
+// ══════════════════════════════════════════════════════════
+
+export class LectureNotFoundException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.LECTURE_NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
+      message: 'Lecture not found.',
+    });
+  }
+}
+
+export class LectureNotPublishedException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.LECTURE_NOT_PUBLISHED,
+      statusCode: HttpStatus.FORBIDDEN,
+      message: 'This lecture has not been published yet.',
+    });
+  }
+}
+
+export class LectureAlreadyPublishedException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.LECTURE_ALREADY_PUBLISHED,
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: 'This lecture is already published.',
+      action: 'Archive it first if you want to unpublish.',
+    });
+  }
+}
+
+export class FileNotFoundInStorageException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.FILE_NOT_FOUND_IN_STORAGE,
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: 'The uploaded file could not be verified in storage.',
+      action: 'Re-upload the file and try again.',
+    });
+  }
+}
+
+export class LectureAccessDeniedException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.LECTURE_ACCESS_DENIED,
+      statusCode: HttpStatus.FORBIDDEN,
+      message: 'You do not have access to this lecture.',
+      action: 'Ensure you are registered for this subject.',
+    });
+  }
+}

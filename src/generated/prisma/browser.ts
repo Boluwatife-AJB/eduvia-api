@@ -102,3 +102,13 @@ export type TimeTableSlot = Prisma.TimeTableSlotModel
  * 
  */
 export type TutorialClass = Prisma.TutorialClassModel
+/**
+ * Model Lecture
+ * 
+ */
+export type Lecture = Prisma.LectureModel
+/**
+ * Model LectureView
+ * 
+ */
+export type LectureView = Prisma.LectureViewModel

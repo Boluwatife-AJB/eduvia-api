@@ -32,6 +32,7 @@ model Tenant {
   subjects          Subject[]
   timeTableSlots    TimeTableSlot[]
   tutorialClasses   TutorialClass[]
+  lectures          Lecture[]
 
   @@map("tenants")
 }
@@ -112,6 +113,7 @@ model TeacherProfile {
 
   user            User            @relation(fields: [user_id], references: [id], onDelete: Cascade)
   tutorialClasses TutorialClass[]
+  lectures        Lecture[]
 
   @@map("teacher_profiles")
 }
@@ -177,6 +179,7 @@ model AcademicTerm {
   academicSession AcademicSession @relation(fields: [academic_session_id], references: [id], onDelete: Cascade)
   timeTableSlots  TimeTableSlot[]
   tutorialClasses TutorialClass[]
+  lectures        Lecture[]
 
   @@unique([academic_session_id, name]) // can't have two terms with same name in one session
   @@map("academic_terms")
@@ -214,6 +217,7 @@ model Class {
   students       StudentProfile[]
   classSubjects  ClassSubject[] // subjects offered in this class
   timeTableSlots TimeTableSlot[]
+  lectures       Lecture[]
 
   @@unique([tenant_id, name])
   @@map("classes")
@@ -233,6 +237,7 @@ model Subject {
   classSubjects   ClassSubject[] // which classes offer this subject
   timeTableSlots  TimeTableSlot[]
   tutorialClasses TutorialClass[]
+  lectures        Lecture[]
 
   @@unique([tenant_id, code, department_id])
   @@map("subjects")
@@ -334,6 +339,53 @@ model TutorialClass {
   @@map("tutorial_classes")
 }
 
+model Lecture {
+  id               String             @id @default(uuid())
+  tenant_id        String
+  teacher_id       String
+  subject_id       String
+  class_id         String
+  academic_term_id String
+  title            String
+  description      String?
+  content_type     LectureContentType
+  status           LectureStatus
+  file_key         String?
+  file_url         String?
+  external_url     String?
+  text_content     String?
+  duration         Int?
+  file_size        Int?
+  order            Int                @default(0)
+  published_at     DateTime?
+  created_at       DateTime           @default(now())
+  updated_at       DateTime           @updatedAt
+
+  tenant  Tenant         @relation(fields: [tenant_id], references: [id])
+  subject Subject        @relation(fields: [subject_id], references: [id])
+  class   Class          @relation(fields: [class_id], references: [id])
+  teacher TeacherProfile @relation(fields: [teacher_id], references: [id])
+  term    AcademicTerm   @relation(fields: [academic_term_id], references: [id])
+  views   LectureView[]
+
+  @@map("lectures")
+}
+
+model LectureView {
+  id            String   @id @default(uuid())
+  tenant_id     String
+  lecture_id    String
+  student_id       String
+  viewed_at     DateTime @default(now())
+  progress_percentage Int @default(0)
+
+
+  lecture       Lecture? @relation(fields: [lecture_id], references: [id], onDelete: Cascade)
+ 
+  @@unique([lecture_id, student_id])
+  @@map("lecture_views")
+}
+
 enum UserRole {
   STUDENT
   TEACHER
@@ -386,4 +438,21 @@ enum DayOfWeek {
   FRIDAY
   SATURDAY
   SUNDAY
+}
+
+enum LectureContentType {
+  VIDEO
+  AUDIO
+  PDF
+  SLIDES
+  IMAGE
+  TEXT
+  LINK
+}
+
+enum LectureStatus {
+  DRAFT
+  PUBLISHED
+  UNPUBLISHED
+  ARCHIVED
 }

@@ -67,7 +67,9 @@ export const ModelName = {
   SubjectTeacher: 'SubjectTeacher',
   StudentSubjectRegistration: 'StudentSubjectRegistration',
   TimeTableSlot: 'TimeTableSlot',
-  TutorialClass: 'TutorialClass'
+  TutorialClass: 'TutorialClass',
+  Lecture: 'Lecture',
+  LectureView: 'LectureView'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -334,6 +336,44 @@ export const TutorialClassScalarFieldEnum = {
 } as const
 
 export type TutorialClassScalarFieldEnum = (typeof TutorialClassScalarFieldEnum)[keyof typeof TutorialClassScalarFieldEnum]
+
+
+export const LectureScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  teacher_id: 'teacher_id',
+  subject_id: 'subject_id',
+  class_id: 'class_id',
+  academic_term_id: 'academic_term_id',
+  title: 'title',
+  description: 'description',
+  content_type: 'content_type',
+  status: 'status',
+  file_key: 'file_key',
+  file_url: 'file_url',
+  external_url: 'external_url',
+  text_content: 'text_content',
+  duration: 'duration',
+  file_size: 'file_size',
+  order: 'order',
+  published_at: 'published_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type LectureScalarFieldEnum = (typeof LectureScalarFieldEnum)[keyof typeof LectureScalarFieldEnum]
+
+
+export const LectureViewScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  lecture_id: 'lecture_id',
+  student_id: 'student_id',
+  viewed_at: 'viewed_at',
+  progress_percentage: 'progress_percentage'
+} as const
+
+export type LectureViewScalarFieldEnum = (typeof LectureViewScalarFieldEnum)[keyof typeof LectureViewScalarFieldEnum]
 
 
 export const SortOrder = {

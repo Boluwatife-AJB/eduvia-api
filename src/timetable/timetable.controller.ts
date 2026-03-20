@@ -94,8 +94,7 @@ export class TimetableController {
     return this.timetableService.getSchoolTimetable(query);
   }
 
-  @Get('class/:id')
-  @Roles(...ADMIN_ROLES)
+  @Get('class/:classId')
   @ApiOperation({
     summary: 'View the timetable for a specific class grouped by day',
   })
