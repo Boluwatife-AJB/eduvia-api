@@ -1,0 +1,43 @@
+name: CI NestJS Build and Test
+
+on:
+  push:
+    branches: [ "main", "dev", "staging" ]
+  pull_request:
+    branches: [ "main", "dev", "staging" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Use Node.js v${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run format check
+      run: npm run format:check
+
+    - name: Run lint
+      run: npm run lint
+
+    - name: Run type check
+      run: npm run type-check
+
+    - name: Run tests
+      run: npm run test
+
+    - name: Build application
+      run: npm run build

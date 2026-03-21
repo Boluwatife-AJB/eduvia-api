@@ -44,7 +44,7 @@ export class ResponseInterceptors implements NestInterceptor {
             }
           } else if (hasDataAndMeta) {
             bodyData = data['data'];
-            meta = data.meta as unknown as PaginationMeta;
+            meta = data.meta as PaginationMeta;
           }
         }
 

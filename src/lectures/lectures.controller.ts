@@ -22,6 +22,7 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from 'src/generated/prisma/enums';
 import {
   CreateLectureDto,
+  QueryLecturesAsStudentDto,
   QueryLecturesDto,
   UpdateLectureDto,
   UpdateViewProgressDto,
@@ -39,7 +40,7 @@ const TEACHER_ROLES = [
 @ApiBearerAuth()
 @Controller('lectures')
 export class LecturesController {
-  constructor(private readonly lecturesService: LecturesService) { }
+  constructor(private readonly lecturesService: LecturesService) {}
 
   // TEACHER ENDPOINTS
 

@@ -1177,7 +1177,7 @@ export class SchoolSetupService {
       where: { user_id: studentId, tenant_id: tenantId },
     });
     if (!studentProfile?.class_id) throw new StudentNotInClassException();
-    const studentClassId = studentProfile.class_id as string;
+    const studentClassId = studentProfile.class_id;
 
     // Get current active term
     const currentTerm = await this.prisma.academicTerm.findFirst({
@@ -1262,7 +1262,7 @@ export class SchoolSetupService {
       where: { user_id: studentId, tenant_id: tenantId },
     });
     if (!studentProfile?.class_id) throw new StudentNotInClassException();
-    const studentClassId = studentProfile.class_id as string;
+    const studentClassId = studentProfile.class_id;
 
     const currentTerm = await this.prisma.academicTerm.findFirst({
       where: { tenant_id: tenantId, is_current: true },
