@@ -48,13 +48,15 @@ export class CreateLectureDto {
     description:
       'The fileUrl returned from the upload endpoint. Required for VIDEO, PDF, AUDIO, SLIDES types.',
   })
-  @ValidateIf((o) =>
-    [
-      LectureContentType.VIDEO,
-      LectureContentType.PDF,
-      LectureContentType.AUDIO,
-      LectureContentType.SLIDES,
-    ].includes(o.contentType),
+  @ValidateIf((o: CreateLectureDto) =>
+    (
+      [
+        LectureContentType.VIDEO,
+        LectureContentType.PDF,
+        LectureContentType.AUDIO,
+        LectureContentType.SLIDES,
+      ] as const
+    ).includes(o.content_type as never),
   )
   @IsUrl({}, { message: 'fileUrl must be a valid URL' })
   @IsNotEmpty()
@@ -73,7 +75,9 @@ export class CreateLectureDto {
   @ApiPropertyOptional({
     description: 'Markdown text content — used when contentType is TEXT',
   })
-  @ValidateIf((o) => o.content_type === LectureContentType.TEXT)
+  @ValidateIf(
+    (o: CreateLectureDto) => o.content_type === LectureContentType.TEXT,
+  )
   @IsString()
   @IsNotEmpty()
   text_content?: string;

@@ -6,8 +6,20 @@ import {
   AccountInactiveException,
   UserNotFoundException,
 } from 'src/errors/exceptions/business.exception';
+import { UserRole, UserStatus } from 'src/generated/prisma/enums';
 import { PrismaService } from '../../database/prisma.service';
 // import { AuthErrorCode } from '../auth-error-codes';
+
+/** Shape attached to `request.user` after JwtStrategy.validate() */
+export interface JwtAuthUser {
+  id: string;
+  tenant_id: string;
+  role: UserRole;
+  first_name: string;
+  last_name: string;
+  identifier: string;
+  status: UserStatus;
+}
 
 export interface JwtPayload {
   sub: string; // User ID
@@ -31,7 +43,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
 
-  async validate(payload: JwtPayload) {
+  async validate(payload: JwtPayload): Promise<JwtAuthUser> {
     const user = await this.prisma.user.findUnique({
       where: { id: payload.sub },
       select: {

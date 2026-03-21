@@ -81,14 +81,14 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
     // Validation pipe error
     if (exception instanceof HttpException && exception.getStatus() === 400) {
-      const response = exception.getResponse() as any;
+      const response = exception.getResponse() as Record<string, unknown>;
 
       if (Array.isArray(response?.message)) {
         return {
           status_code: 422,
           code: ErrorCode.VALIDATION_ERROR,
           message: 'The data you submitted is invalid.',
-          errors: this.parseValidationErrors(response.message),
+          errors: this.parseValidationErrors(response.message as string[]),
         };
       }
     }
@@ -96,16 +96,18 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     // Generic errors(not-found, conflict, etc.)
     if (exception instanceof HttpException) {
       const status = exception.getStatus();
-      const response = exception.getResponse() as any;
+      const response = exception.getResponse();
+
+      const responseObj =
+        typeof response === 'string'
+          ? { message: response, action: undefined }
+          : (response as Record<string, unknown>);
 
       return {
         status_code: status,
         code: this.httpStatusToCode(status),
-        message:
-          typeof response === 'string'
-            ? response
-            : (response.message ?? exception.message),
-        action: response.action,
+        message: (responseObj.message as string) ?? exception.message,
+        action: (responseObj.action as string | undefined) ?? undefined,
       };
     }
 
@@ -174,11 +176,13 @@ export class GlobalExceptionFilter implements ExceptionFilter {
           status_code: HttpStatus.NOT_FOUND,
           code: ErrorCode.RESOURCE_NOT_FOUND,
           message: 'The requested record was not found.',
-          detail: this.isDev ? `Prisma P2025: ${error.meta?.cause}` : undefined,
+          detail: this.isDev
+            ? `Prisma P2025: ${String(error.meta?.cause)}`
+            : undefined,
         };
 
       // Foreign key constraint violation
-      case 'P2003':
+      case 'P2003': {
         const relatedField = (error.meta?.field_name as string) ?? 'field';
         return {
           status_code: HttpStatus.BAD_REQUEST,
@@ -189,6 +193,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
             ? `Prisma P2003: foreign key failed on ${relatedField}`
             : undefined,
         };
+      }
 
       // Record required for this operation was not found
       case 'P2001':
@@ -252,16 +257,6 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     classified: ReturnType<typeof this.classify>,
     request: Request,
   ): void {
-    const context = {
-      method: request.method,
-      url: request.url,
-      status_code: classified.status_code,
-      code: classified.code,
-      tenant_id: (request as any).tenantId ?? 'unknown',
-      user_id: (request as any).user?.id ?? 'unauthenticated',
-      ip: request.ip,
-    };
-
     if (classified.status_code >= 500) {
       // Server errors — always log full stack
       this.logger.error(

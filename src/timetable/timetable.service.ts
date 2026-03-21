@@ -617,7 +617,8 @@ export class TimetableService {
     const grouped: Record<string, any[]> = {};
 
     for (const day of days) {
-      grouped[day] = slots.filter((s) => s.day_of_week === day);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      grouped[day] = slots.filter((s: any) => s.day_of_week === day);
     }
 
     return grouped;
