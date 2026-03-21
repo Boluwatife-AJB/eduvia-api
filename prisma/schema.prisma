@@ -30,8 +30,8 @@ model Tenant {
   departments       Department[]
   classes           Class[]
   subjects          Subject[]
-  timeTableSlots    TimeTableSlot[]
-  tutorialClasses   TutorialClass[]
+  timetable_slots    TimeTableSlot[]
+  tutorial_classes   TutorialClass[]
   lectures          Lecture[]
   repository_folders RepositoryFolder[]
   repository_files   RepositoryFile[]
@@ -94,7 +94,7 @@ model StudentProfile {
   guardian_ids                String[]                     @default([])
   /// Denormalized Subject.id list; keep in sync with StudentSubjectRegistration or derive via query.
   registered_subject_ids      String[]                     @default([])
-  studentSubjectRegistrations StudentSubjectRegistration[]
+  student_subject_registrations StudentSubjectRegistration[]
 
   user  User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
   class Class? @relation(fields: [class_id], references: [id])
@@ -115,7 +115,7 @@ model TeacherProfile {
   assigned_subject_ids String[]  @default([])
 
   user            User            @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  tutorialClasses TutorialClass[]
+  tutorial_classes TutorialClass[]
   lectures        Lecture[]
 
   @@map("teacher_profiles")
@@ -180,8 +180,8 @@ model AcademicTerm {
 
   tenant          Tenant          @relation(fields: [tenant_id], references: [id])
   academicSession AcademicSession @relation(fields: [academic_session_id], references: [id], onDelete: Cascade)
-  timeTableSlots  TimeTableSlot[]
-  tutorialClasses TutorialClass[]
+  timetable_slots  TimeTableSlot[]
+  tutorial_classes TutorialClass[]
   lectures        Lecture[]
 
   @@unique([academic_session_id, name]) // can't have two terms with same name in one session
@@ -218,9 +218,9 @@ model Class {
   tenant         Tenant           @relation(fields: [tenant_id], references: [id])
   department     Department?      @relation(fields: [department_id], references: [id])
   students       StudentProfile[]
-  // TODO: rename to use snake_case
-  classSubjects  ClassSubject[] // subjects offered in this class
-  timeTableSlots TimeTableSlot[]
+
+  class_subjects  ClassSubject[] // subjects offered in this class
+  timetable_slots TimeTableSlot[]
   lectures       Lecture[]
 
   @@unique([tenant_id, name])
@@ -238,9 +238,9 @@ model Subject {
 
   tenant          Tenant          @relation(fields: [tenant_id], references: [id])
   department      Department?     @relation(fields: [department_id], references: [id])
-  classSubjects   ClassSubject[] // which classes offer this subject
-  timeTableSlots  TimeTableSlot[]
-  tutorialClasses TutorialClass[]
+  class_subjects   ClassSubject[] // which classes offer this subject
+  timetable_slots TimeTableSlot[]
+  tutorial_classes TutorialClass[]
   lectures        Lecture[]
 
   @@unique([tenant_id, code, department_id])
@@ -269,7 +269,7 @@ model SubjectTeacher {
   class_subject_id String
   teacher_id       String
 
-  classSubject ClassSubject @relation(fields: [class_subject_id], references: [id], onDelete: Cascade)
+  class_subject ClassSubject @relation(fields: [class_subject_id], references: [id], onDelete: Cascade)
 
   @@unique([tenant_id, class_subject_id, teacher_id])
   @@map("subject_teachers")
@@ -284,7 +284,7 @@ model StudentSubjectRegistration {
   registration_date DateTime @default(now())
 
   student      StudentProfile @relation(fields: [student_id], references: [id], onDelete: Cascade)
-  classSubject ClassSubject   @relation(fields: [class_subject_id], references: [id])
+  class_subject ClassSubject   @relation(fields: [class_subject_id], references: [id])
   term         AcademicTerm   @relation(fields: [term_id], references: [id])
 
   @@unique([tenant_id, student_id, class_subject_id, term_id])
@@ -337,8 +337,8 @@ model TutorialClass {
   tenant           Tenant          @relation(fields: [tenant_id], references: [id])
   subject          Subject         @relation(fields: [subject_id], references: [id])
   term             AcademicTerm    @relation(fields: [academic_term_id], references: [id])
-  teacherProfile   TeacherProfile? @relation(fields: [teacherProfileId], references: [id])
-  teacherProfileId String?
+  teacher_profile   TeacherProfile? @relation(fields: [teacher_profile_id], references: [id])
+  teacher_profile_id String?
 
   @@map("tutorial_classes")
 }

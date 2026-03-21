@@ -464,7 +464,7 @@ export class SchoolSetupService {
       },
       include: {
         department: true,
-        classSubjects: { include: { subject: true } },
+        class_subjects: { include: { subject: true } },
       },
     });
   }
@@ -477,7 +477,7 @@ export class SchoolSetupService {
       where: { tenant_id: tenantId, ...(level && { level }) },
       include: {
         department: { select: { id: true, name: true } },
-        classSubjects: {
+        class_subjects: {
           include: {
             subject: { select: { id: true, name: true, code: true } },
           },
@@ -497,7 +497,7 @@ export class SchoolSetupService {
       where: { id: classId, tenant_id: tenantId },
       include: {
         department: true,
-        classSubjects: { include: { subject: true } },
+        class_subjects: { include: { subject: true } },
         students: {
           include: {
             user: {
@@ -512,7 +512,7 @@ export class SchoolSetupService {
             },
           },
         },
-        _count: { select: { students: true, classSubjects: true } },
+        _count: { select: { students: true, class_subjects: true } },
       },
     });
     if (!cls) {
@@ -556,7 +556,7 @@ export class SchoolSetupService {
       },
       include: {
         department: true,
-        classSubjects: { include: { subject: true } },
+        class_subjects: { include: { subject: true } },
       },
     });
   }
@@ -835,7 +835,7 @@ export class SchoolSetupService {
       },
       include: {
         department: { select: { id: true, name: true } },
-        classSubjects: {
+        class_subjects: {
           include: {
             class: { select: { id: true, name: true, level: true } },
             teachers: true,
@@ -854,10 +854,11 @@ export class SchoolSetupService {
       where: { id, tenant_id: tenantId },
       include: {
         department: { select: { id: true, name: true } },
-        // TODO: Add classes offering this subject
-        // classSubjects: {
-        //   include: { class: { select: { id: true, name: true, level: true } } },
-        // },
+        class_subjects: {
+          include: {
+            class: { select: { id: true, name: true, level: true } },
+          },
+        },
       },
     });
 
@@ -1296,7 +1297,7 @@ export class SchoolSetupService {
       await tx.studentSubjectRegistration.deleteMany({
         where: {
           student_id: studentProfile.id,
-          classSubject: { subject_type: SubjectType.ELECTIVE },
+          class_subject: { subject_type: SubjectType.ELECTIVE },
           term_id: currentTerm.id,
         },
       });
@@ -1348,7 +1349,7 @@ export class SchoolSetupService {
     return this.prisma.studentSubjectRegistration.findMany({
       where: { student_id: studentProfile.id, term_id: currentTerm.id },
       include: {
-        classSubject: {
+        class_subject: {
           include: {
             subject: true,
             teachers: true,
@@ -1432,13 +1433,13 @@ export class SchoolSetupService {
 
     const assignments = await this.prisma.subjectTeacher.findMany({
       where: { teacher_id: teacherUserId },
-      include: { classSubject: { select: { subject_id: true } } },
+      include: { class_subject: { select: { subject_id: true } } },
     });
     const ids = [
       ...new Set(
         assignments.map(
-          (a: { classSubject: { subject_id: string } }) =>
-            a.classSubject.subject_id,
+          (a: { class_subject: { subject_id: string } }) =>
+            a.class_subject.subject_id,
         ),
       ),
     ];
@@ -1458,13 +1459,13 @@ export class SchoolSetupService {
   ): Promise<void> {
     const regs = await this.prisma.studentSubjectRegistration.findMany({
       where: { student_id: studentProfileId, term_id: termId },
-      include: { classSubject: { select: { subject_id: true } } },
+      include: { class_subject: { select: { subject_id: true } } },
     });
     const ids = [
       ...new Set(
         regs.map(
-          (r: { classSubject: { subject_id: string } }) =>
-            r.classSubject.subject_id,
+          (r: { class_subject: { subject_id: string } }) =>
+            r.class_subject.subject_id,
         ),
       ),
     ];

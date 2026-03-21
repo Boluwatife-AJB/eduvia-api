@@ -228,11 +228,12 @@ export class TimetableService {
     const registeredSubjects =
       await this.prisma.studentSubjectRegistration.findMany({
         where: { student_id: studentProfile.id, term_id: currentTerm.id },
-        include: { classSubject: { select: { subject_id: true } } },
+        include: { class_subject: { select: { subject_id: true } } },
       });
 
     const registeredSubjectIds = registeredSubjects.map(
-      (item) => item.classSubject.subject_id,
+      (item: { class_subject: { subject_id: string } }) =>
+        item.class_subject.subject_id,
     );
 
     // Return timetable slots for registered subjects only

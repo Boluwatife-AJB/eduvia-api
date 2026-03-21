@@ -2561,7 +2561,7 @@ export const TutorialClassScalarFieldEnum = {
   max_students: 'max_students',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  teacherProfileId: 'teacherProfileId'
+  teacher_profile_id: 'teacher_profile_id'
 } as const
 
 export type TutorialClassScalarFieldEnum = (typeof TutorialClassScalarFieldEnum)[keyof typeof TutorialClassScalarFieldEnum]

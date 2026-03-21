@@ -343,10 +343,10 @@ export type TimeTableSlotCreateInput = {
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutTimeTableSlotsInput
-  class: Prisma.ClassCreateNestedOneWithoutTimeTableSlotsInput
-  subject: Prisma.SubjectCreateNestedOneWithoutTimeTableSlotsInput
-  term: Prisma.AcademicTermCreateNestedOneWithoutTimeTableSlotsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutTimetable_slotsInput
+  class: Prisma.ClassCreateNestedOneWithoutTimetable_slotsInput
+  subject: Prisma.SubjectCreateNestedOneWithoutTimetable_slotsInput
+  term: Prisma.AcademicTermCreateNestedOneWithoutTimetable_slotsInput
 }
 
 export type TimeTableSlotUncheckedCreateInput = {
@@ -375,10 +375,10 @@ export type TimeTableSlotUpdateInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutTimeTableSlotsNestedInput
-  class?: Prisma.ClassUpdateOneRequiredWithoutTimeTableSlotsNestedInput
-  subject?: Prisma.SubjectUpdateOneRequiredWithoutTimeTableSlotsNestedInput
-  term?: Prisma.AcademicTermUpdateOneRequiredWithoutTimeTableSlotsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutTimetable_slotsNestedInput
+  class?: Prisma.ClassUpdateOneRequiredWithoutTimetable_slotsNestedInput
+  subject?: Prisma.SubjectUpdateOneRequiredWithoutTimetable_slotsNestedInput
+  term?: Prisma.AcademicTermUpdateOneRequiredWithoutTimetable_slotsNestedInput
 }
 
 export type TimeTableSlotUncheckedUpdateInput = {
@@ -681,9 +681,9 @@ export type TimeTableSlotCreateWithoutTenantInput = {
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  class: Prisma.ClassCreateNestedOneWithoutTimeTableSlotsInput
-  subject: Prisma.SubjectCreateNestedOneWithoutTimeTableSlotsInput
-  term: Prisma.AcademicTermCreateNestedOneWithoutTimeTableSlotsInput
+  class: Prisma.ClassCreateNestedOneWithoutTimetable_slotsInput
+  subject: Prisma.SubjectCreateNestedOneWithoutTimetable_slotsInput
+  term: Prisma.AcademicTermCreateNestedOneWithoutTimetable_slotsInput
 }
 
 export type TimeTableSlotUncheckedCreateWithoutTenantInput = {
@@ -756,9 +756,9 @@ export type TimeTableSlotCreateWithoutTermInput = {
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutTimeTableSlotsInput
-  class: Prisma.ClassCreateNestedOneWithoutTimeTableSlotsInput
-  subject: Prisma.SubjectCreateNestedOneWithoutTimeTableSlotsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutTimetable_slotsInput
+  class: Prisma.ClassCreateNestedOneWithoutTimetable_slotsInput
+  subject: Prisma.SubjectCreateNestedOneWithoutTimetable_slotsInput
 }
 
 export type TimeTableSlotUncheckedCreateWithoutTermInput = {
@@ -812,9 +812,9 @@ export type TimeTableSlotCreateWithoutClassInput = {
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutTimeTableSlotsInput
-  subject: Prisma.SubjectCreateNestedOneWithoutTimeTableSlotsInput
-  term: Prisma.AcademicTermCreateNestedOneWithoutTimeTableSlotsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutTimetable_slotsInput
+  subject: Prisma.SubjectCreateNestedOneWithoutTimetable_slotsInput
+  term: Prisma.AcademicTermCreateNestedOneWithoutTimetable_slotsInput
 }
 
 export type TimeTableSlotUncheckedCreateWithoutClassInput = {
@@ -868,9 +868,9 @@ export type TimeTableSlotCreateWithoutSubjectInput = {
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutTimeTableSlotsInput
-  class: Prisma.ClassCreateNestedOneWithoutTimeTableSlotsInput
-  term: Prisma.AcademicTermCreateNestedOneWithoutTimeTableSlotsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutTimetable_slotsInput
+  class: Prisma.ClassCreateNestedOneWithoutTimetable_slotsInput
+  term: Prisma.AcademicTermCreateNestedOneWithoutTimetable_slotsInput
 }
 
 export type TimeTableSlotUncheckedCreateWithoutSubjectInput = {
@@ -939,9 +939,9 @@ export type TimeTableSlotUpdateWithoutTenantInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  class?: Prisma.ClassUpdateOneRequiredWithoutTimeTableSlotsNestedInput
-  subject?: Prisma.SubjectUpdateOneRequiredWithoutTimeTableSlotsNestedInput
-  term?: Prisma.AcademicTermUpdateOneRequiredWithoutTimeTableSlotsNestedInput
+  class?: Prisma.ClassUpdateOneRequiredWithoutTimetable_slotsNestedInput
+  subject?: Prisma.SubjectUpdateOneRequiredWithoutTimetable_slotsNestedInput
+  term?: Prisma.AcademicTermUpdateOneRequiredWithoutTimetable_slotsNestedInput
 }
 
 export type TimeTableSlotUncheckedUpdateWithoutTenantInput = {
@@ -999,9 +999,9 @@ export type TimeTableSlotUpdateWithoutTermInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutTimeTableSlotsNestedInput
-  class?: Prisma.ClassUpdateOneRequiredWithoutTimeTableSlotsNestedInput
-  subject?: Prisma.SubjectUpdateOneRequiredWithoutTimeTableSlotsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutTimetable_slotsNestedInput
+  class?: Prisma.ClassUpdateOneRequiredWithoutTimetable_slotsNestedInput
+  subject?: Prisma.SubjectUpdateOneRequiredWithoutTimetable_slotsNestedInput
 }
 
 export type TimeTableSlotUncheckedUpdateWithoutTermInput = {
@@ -1059,9 +1059,9 @@ export type TimeTableSlotUpdateWithoutClassInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutTimeTableSlotsNestedInput
-  subject?: Prisma.SubjectUpdateOneRequiredWithoutTimeTableSlotsNestedInput
-  term?: Prisma.AcademicTermUpdateOneRequiredWithoutTimeTableSlotsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutTimetable_slotsNestedInput
+  subject?: Prisma.SubjectUpdateOneRequiredWithoutTimetable_slotsNestedInput
+  term?: Prisma.AcademicTermUpdateOneRequiredWithoutTimetable_slotsNestedInput
 }
 
 export type TimeTableSlotUncheckedUpdateWithoutClassInput = {
@@ -1119,9 +1119,9 @@ export type TimeTableSlotUpdateWithoutSubjectInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutTimeTableSlotsNestedInput
-  class?: Prisma.ClassUpdateOneRequiredWithoutTimeTableSlotsNestedInput
-  term?: Prisma.AcademicTermUpdateOneRequiredWithoutTimeTableSlotsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutTimetable_slotsNestedInput
+  class?: Prisma.ClassUpdateOneRequiredWithoutTimetable_slotsNestedInput
+  term?: Prisma.AcademicTermUpdateOneRequiredWithoutTimetable_slotsNestedInput
 }
 
 export type TimeTableSlotUncheckedUpdateWithoutSubjectInput = {

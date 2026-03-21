@@ -324,11 +324,12 @@ export class LecturesService {
     const registeredSubjects =
       await this.prisma.studentSubjectRegistration.findMany({
         where: { student_id: studentProfile.id, term_id: currentTerm.id },
-        include: { classSubject: { select: { subject_id: true } } },
+        include: { class_subject: { select: { subject_id: true } } },
       });
 
     const registeredSubjectIds = registeredSubjects.map(
-      (item) => item.classSubject.subject_id,
+      (item: { class_subject: { subject_id: string } }) =>
+        item.class_subject.subject_id,
     );
 
     const lectures = await this.prisma.lecture.findMany({
@@ -497,7 +498,7 @@ export class LecturesService {
         where: {
           student_id: studentProfile.id,
           term_id: currentTerm.id,
-          classSubject: { subject_id: lecture.subject_id },
+          class_subject: { subject_id: lecture.subject_id },
         },
       });
 

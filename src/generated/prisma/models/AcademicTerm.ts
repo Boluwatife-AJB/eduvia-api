@@ -217,8 +217,8 @@ export type AcademicTermWhereInput = {
   subject_registrations?: Prisma.StudentSubjectRegistrationListRelationFilter
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   academicSession?: Prisma.XOR<Prisma.AcademicSessionScalarRelationFilter, Prisma.AcademicSessionWhereInput>
-  timeTableSlots?: Prisma.TimeTableSlotListRelationFilter
-  tutorialClasses?: Prisma.TutorialClassListRelationFilter
+  timetable_slots?: Prisma.TimeTableSlotListRelationFilter
+  tutorial_classes?: Prisma.TutorialClassListRelationFilter
   lectures?: Prisma.LectureListRelationFilter
 }
 
@@ -235,8 +235,8 @@ export type AcademicTermOrderByWithRelationInput = {
   subject_registrations?: Prisma.StudentSubjectRegistrationOrderByRelationAggregateInput
   tenant?: Prisma.TenantOrderByWithRelationInput
   academicSession?: Prisma.AcademicSessionOrderByWithRelationInput
-  timeTableSlots?: Prisma.TimeTableSlotOrderByRelationAggregateInput
-  tutorialClasses?: Prisma.TutorialClassOrderByRelationAggregateInput
+  timetable_slots?: Prisma.TimeTableSlotOrderByRelationAggregateInput
+  tutorial_classes?: Prisma.TutorialClassOrderByRelationAggregateInput
   lectures?: Prisma.LectureOrderByRelationAggregateInput
 }
 
@@ -257,8 +257,8 @@ export type AcademicTermWhereUniqueInput = Prisma.AtLeast<{
   subject_registrations?: Prisma.StudentSubjectRegistrationListRelationFilter
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   academicSession?: Prisma.XOR<Prisma.AcademicSessionScalarRelationFilter, Prisma.AcademicSessionWhereInput>
-  timeTableSlots?: Prisma.TimeTableSlotListRelationFilter
-  tutorialClasses?: Prisma.TutorialClassListRelationFilter
+  timetable_slots?: Prisma.TimeTableSlotListRelationFilter
+  tutorial_classes?: Prisma.TutorialClassListRelationFilter
   lectures?: Prisma.LectureListRelationFilter
 }, "id" | "academic_session_id_name">
 
@@ -303,8 +303,8 @@ export type AcademicTermCreateInput = {
   subject_registrations?: Prisma.StudentSubjectRegistrationCreateNestedManyWithoutTermInput
   tenant: Prisma.TenantCreateNestedOneWithoutAcademic_termsInput
   academicSession: Prisma.AcademicSessionCreateNestedOneWithoutTermsInput
-  timeTableSlots?: Prisma.TimeTableSlotCreateNestedManyWithoutTermInput
-  tutorialClasses?: Prisma.TutorialClassCreateNestedManyWithoutTermInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTermInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTermInput
   lectures?: Prisma.LectureCreateNestedManyWithoutTermInput
 }
 
@@ -319,8 +319,8 @@ export type AcademicTermUncheckedCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedCreateNestedManyWithoutTermInput
-  timeTableSlots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTermInput
-  tutorialClasses?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTermInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTermInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTermInput
   lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTermInput
 }
 
@@ -335,8 +335,8 @@ export type AcademicTermUpdateInput = {
   subject_registrations?: Prisma.StudentSubjectRegistrationUpdateManyWithoutTermNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutAcademic_termsNestedInput
   academicSession?: Prisma.AcademicSessionUpdateOneRequiredWithoutTermsNestedInput
-  timeTableSlots?: Prisma.TimeTableSlotUpdateManyWithoutTermNestedInput
-  tutorialClasses?: Prisma.TutorialClassUpdateManyWithoutTermNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTermNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTermNestedInput
   lectures?: Prisma.LectureUpdateManyWithoutTermNestedInput
 }
 
@@ -351,8 +351,8 @@ export type AcademicTermUncheckedUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedUpdateManyWithoutTermNestedInput
-  timeTableSlots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTermNestedInput
-  tutorialClasses?: Prisma.TutorialClassUncheckedUpdateManyWithoutTermNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTermNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTermNestedInput
   lectures?: Prisma.LectureUncheckedUpdateManyWithoutTermNestedInput
 }
 
@@ -544,32 +544,32 @@ export type AcademicTermUpdateOneRequiredWithoutSubject_registrationsNestedInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.AcademicTermUpdateToOneWithWhereWithoutSubject_registrationsInput, Prisma.AcademicTermUpdateWithoutSubject_registrationsInput>, Prisma.AcademicTermUncheckedUpdateWithoutSubject_registrationsInput>
 }
 
-export type AcademicTermCreateNestedOneWithoutTimeTableSlotsInput = {
-  create?: Prisma.XOR<Prisma.AcademicTermCreateWithoutTimeTableSlotsInput, Prisma.AcademicTermUncheckedCreateWithoutTimeTableSlotsInput>
-  connectOrCreate?: Prisma.AcademicTermCreateOrConnectWithoutTimeTableSlotsInput
+export type AcademicTermCreateNestedOneWithoutTimetable_slotsInput = {
+  create?: Prisma.XOR<Prisma.AcademicTermCreateWithoutTimetable_slotsInput, Prisma.AcademicTermUncheckedCreateWithoutTimetable_slotsInput>
+  connectOrCreate?: Prisma.AcademicTermCreateOrConnectWithoutTimetable_slotsInput
   connect?: Prisma.AcademicTermWhereUniqueInput
 }
 
-export type AcademicTermUpdateOneRequiredWithoutTimeTableSlotsNestedInput = {
-  create?: Prisma.XOR<Prisma.AcademicTermCreateWithoutTimeTableSlotsInput, Prisma.AcademicTermUncheckedCreateWithoutTimeTableSlotsInput>
-  connectOrCreate?: Prisma.AcademicTermCreateOrConnectWithoutTimeTableSlotsInput
-  upsert?: Prisma.AcademicTermUpsertWithoutTimeTableSlotsInput
+export type AcademicTermUpdateOneRequiredWithoutTimetable_slotsNestedInput = {
+  create?: Prisma.XOR<Prisma.AcademicTermCreateWithoutTimetable_slotsInput, Prisma.AcademicTermUncheckedCreateWithoutTimetable_slotsInput>
+  connectOrCreate?: Prisma.AcademicTermCreateOrConnectWithoutTimetable_slotsInput
+  upsert?: Prisma.AcademicTermUpsertWithoutTimetable_slotsInput
   connect?: Prisma.AcademicTermWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.AcademicTermUpdateToOneWithWhereWithoutTimeTableSlotsInput, Prisma.AcademicTermUpdateWithoutTimeTableSlotsInput>, Prisma.AcademicTermUncheckedUpdateWithoutTimeTableSlotsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AcademicTermUpdateToOneWithWhereWithoutTimetable_slotsInput, Prisma.AcademicTermUpdateWithoutTimetable_slotsInput>, Prisma.AcademicTermUncheckedUpdateWithoutTimetable_slotsInput>
 }
 
-export type AcademicTermCreateNestedOneWithoutTutorialClassesInput = {
-  create?: Prisma.XOR<Prisma.AcademicTermCreateWithoutTutorialClassesInput, Prisma.AcademicTermUncheckedCreateWithoutTutorialClassesInput>
-  connectOrCreate?: Prisma.AcademicTermCreateOrConnectWithoutTutorialClassesInput
+export type AcademicTermCreateNestedOneWithoutTutorial_classesInput = {
+  create?: Prisma.XOR<Prisma.AcademicTermCreateWithoutTutorial_classesInput, Prisma.AcademicTermUncheckedCreateWithoutTutorial_classesInput>
+  connectOrCreate?: Prisma.AcademicTermCreateOrConnectWithoutTutorial_classesInput
   connect?: Prisma.AcademicTermWhereUniqueInput
 }
 
-export type AcademicTermUpdateOneRequiredWithoutTutorialClassesNestedInput = {
-  create?: Prisma.XOR<Prisma.AcademicTermCreateWithoutTutorialClassesInput, Prisma.AcademicTermUncheckedCreateWithoutTutorialClassesInput>
-  connectOrCreate?: Prisma.AcademicTermCreateOrConnectWithoutTutorialClassesInput
-  upsert?: Prisma.AcademicTermUpsertWithoutTutorialClassesInput
+export type AcademicTermUpdateOneRequiredWithoutTutorial_classesNestedInput = {
+  create?: Prisma.XOR<Prisma.AcademicTermCreateWithoutTutorial_classesInput, Prisma.AcademicTermUncheckedCreateWithoutTutorial_classesInput>
+  connectOrCreate?: Prisma.AcademicTermCreateOrConnectWithoutTutorial_classesInput
+  upsert?: Prisma.AcademicTermUpsertWithoutTutorial_classesInput
   connect?: Prisma.AcademicTermWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.AcademicTermUpdateToOneWithWhereWithoutTutorialClassesInput, Prisma.AcademicTermUpdateWithoutTutorialClassesInput>, Prisma.AcademicTermUncheckedUpdateWithoutTutorialClassesInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AcademicTermUpdateToOneWithWhereWithoutTutorial_classesInput, Prisma.AcademicTermUpdateWithoutTutorial_classesInput>, Prisma.AcademicTermUncheckedUpdateWithoutTutorial_classesInput>
 }
 
 export type AcademicTermCreateNestedOneWithoutLecturesInput = {
@@ -596,8 +596,8 @@ export type AcademicTermCreateWithoutTenantInput = {
   updated_at?: Date | string
   subject_registrations?: Prisma.StudentSubjectRegistrationCreateNestedManyWithoutTermInput
   academicSession: Prisma.AcademicSessionCreateNestedOneWithoutTermsInput
-  timeTableSlots?: Prisma.TimeTableSlotCreateNestedManyWithoutTermInput
-  tutorialClasses?: Prisma.TutorialClassCreateNestedManyWithoutTermInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTermInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTermInput
   lectures?: Prisma.LectureCreateNestedManyWithoutTermInput
 }
 
@@ -611,8 +611,8 @@ export type AcademicTermUncheckedCreateWithoutTenantInput = {
   created_at?: Date | string
   updated_at?: Date | string
   subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedCreateNestedManyWithoutTermInput
-  timeTableSlots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTermInput
-  tutorialClasses?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTermInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTermInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTermInput
   lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTermInput
 }
 
@@ -667,8 +667,8 @@ export type AcademicTermCreateWithoutAcademicSessionInput = {
   updated_at?: Date | string
   subject_registrations?: Prisma.StudentSubjectRegistrationCreateNestedManyWithoutTermInput
   tenant: Prisma.TenantCreateNestedOneWithoutAcademic_termsInput
-  timeTableSlots?: Prisma.TimeTableSlotCreateNestedManyWithoutTermInput
-  tutorialClasses?: Prisma.TutorialClassCreateNestedManyWithoutTermInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTermInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTermInput
   lectures?: Prisma.LectureCreateNestedManyWithoutTermInput
 }
 
@@ -682,8 +682,8 @@ export type AcademicTermUncheckedCreateWithoutAcademicSessionInput = {
   created_at?: Date | string
   updated_at?: Date | string
   subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedCreateNestedManyWithoutTermInput
-  timeTableSlots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTermInput
-  tutorialClasses?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTermInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTermInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTermInput
   lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTermInput
 }
 
@@ -723,8 +723,8 @@ export type AcademicTermCreateWithoutSubject_registrationsInput = {
   updated_at?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutAcademic_termsInput
   academicSession: Prisma.AcademicSessionCreateNestedOneWithoutTermsInput
-  timeTableSlots?: Prisma.TimeTableSlotCreateNestedManyWithoutTermInput
-  tutorialClasses?: Prisma.TutorialClassCreateNestedManyWithoutTermInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTermInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTermInput
   lectures?: Prisma.LectureCreateNestedManyWithoutTermInput
 }
 
@@ -738,8 +738,8 @@ export type AcademicTermUncheckedCreateWithoutSubject_registrationsInput = {
   is_current?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  timeTableSlots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTermInput
-  tutorialClasses?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTermInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTermInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTermInput
   lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTermInput
 }
 
@@ -769,8 +769,8 @@ export type AcademicTermUpdateWithoutSubject_registrationsInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutAcademic_termsNestedInput
   academicSession?: Prisma.AcademicSessionUpdateOneRequiredWithoutTermsNestedInput
-  timeTableSlots?: Prisma.TimeTableSlotUpdateManyWithoutTermNestedInput
-  tutorialClasses?: Prisma.TutorialClassUpdateManyWithoutTermNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTermNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTermNestedInput
   lectures?: Prisma.LectureUpdateManyWithoutTermNestedInput
 }
 
@@ -784,12 +784,12 @@ export type AcademicTermUncheckedUpdateWithoutSubject_registrationsInput = {
   is_current?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  timeTableSlots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTermNestedInput
-  tutorialClasses?: Prisma.TutorialClassUncheckedUpdateManyWithoutTermNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTermNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTermNestedInput
   lectures?: Prisma.LectureUncheckedUpdateManyWithoutTermNestedInput
 }
 
-export type AcademicTermCreateWithoutTimeTableSlotsInput = {
+export type AcademicTermCreateWithoutTimetable_slotsInput = {
   id?: string
   name: string
   start_date: Date | string
@@ -800,11 +800,11 @@ export type AcademicTermCreateWithoutTimeTableSlotsInput = {
   subject_registrations?: Prisma.StudentSubjectRegistrationCreateNestedManyWithoutTermInput
   tenant: Prisma.TenantCreateNestedOneWithoutAcademic_termsInput
   academicSession: Prisma.AcademicSessionCreateNestedOneWithoutTermsInput
-  tutorialClasses?: Prisma.TutorialClassCreateNestedManyWithoutTermInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTermInput
   lectures?: Prisma.LectureCreateNestedManyWithoutTermInput
 }
 
-export type AcademicTermUncheckedCreateWithoutTimeTableSlotsInput = {
+export type AcademicTermUncheckedCreateWithoutTimetable_slotsInput = {
   id?: string
   tenant_id: string
   academic_session_id: string
@@ -815,27 +815,27 @@ export type AcademicTermUncheckedCreateWithoutTimeTableSlotsInput = {
   created_at?: Date | string
   updated_at?: Date | string
   subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedCreateNestedManyWithoutTermInput
-  tutorialClasses?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTermInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTermInput
   lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTermInput
 }
 
-export type AcademicTermCreateOrConnectWithoutTimeTableSlotsInput = {
+export type AcademicTermCreateOrConnectWithoutTimetable_slotsInput = {
   where: Prisma.AcademicTermWhereUniqueInput
-  create: Prisma.XOR<Prisma.AcademicTermCreateWithoutTimeTableSlotsInput, Prisma.AcademicTermUncheckedCreateWithoutTimeTableSlotsInput>
+  create: Prisma.XOR<Prisma.AcademicTermCreateWithoutTimetable_slotsInput, Prisma.AcademicTermUncheckedCreateWithoutTimetable_slotsInput>
 }
 
-export type AcademicTermUpsertWithoutTimeTableSlotsInput = {
-  update: Prisma.XOR<Prisma.AcademicTermUpdateWithoutTimeTableSlotsInput, Prisma.AcademicTermUncheckedUpdateWithoutTimeTableSlotsInput>
-  create: Prisma.XOR<Prisma.AcademicTermCreateWithoutTimeTableSlotsInput, Prisma.AcademicTermUncheckedCreateWithoutTimeTableSlotsInput>
+export type AcademicTermUpsertWithoutTimetable_slotsInput = {
+  update: Prisma.XOR<Prisma.AcademicTermUpdateWithoutTimetable_slotsInput, Prisma.AcademicTermUncheckedUpdateWithoutTimetable_slotsInput>
+  create: Prisma.XOR<Prisma.AcademicTermCreateWithoutTimetable_slotsInput, Prisma.AcademicTermUncheckedCreateWithoutTimetable_slotsInput>
   where?: Prisma.AcademicTermWhereInput
 }
 
-export type AcademicTermUpdateToOneWithWhereWithoutTimeTableSlotsInput = {
+export type AcademicTermUpdateToOneWithWhereWithoutTimetable_slotsInput = {
   where?: Prisma.AcademicTermWhereInput
-  data: Prisma.XOR<Prisma.AcademicTermUpdateWithoutTimeTableSlotsInput, Prisma.AcademicTermUncheckedUpdateWithoutTimeTableSlotsInput>
+  data: Prisma.XOR<Prisma.AcademicTermUpdateWithoutTimetable_slotsInput, Prisma.AcademicTermUncheckedUpdateWithoutTimetable_slotsInput>
 }
 
-export type AcademicTermUpdateWithoutTimeTableSlotsInput = {
+export type AcademicTermUpdateWithoutTimetable_slotsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -846,11 +846,11 @@ export type AcademicTermUpdateWithoutTimeTableSlotsInput = {
   subject_registrations?: Prisma.StudentSubjectRegistrationUpdateManyWithoutTermNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutAcademic_termsNestedInput
   academicSession?: Prisma.AcademicSessionUpdateOneRequiredWithoutTermsNestedInput
-  tutorialClasses?: Prisma.TutorialClassUpdateManyWithoutTermNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTermNestedInput
   lectures?: Prisma.LectureUpdateManyWithoutTermNestedInput
 }
 
-export type AcademicTermUncheckedUpdateWithoutTimeTableSlotsInput = {
+export type AcademicTermUncheckedUpdateWithoutTimetable_slotsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   academic_session_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -861,11 +861,11 @@ export type AcademicTermUncheckedUpdateWithoutTimeTableSlotsInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedUpdateManyWithoutTermNestedInput
-  tutorialClasses?: Prisma.TutorialClassUncheckedUpdateManyWithoutTermNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTermNestedInput
   lectures?: Prisma.LectureUncheckedUpdateManyWithoutTermNestedInput
 }
 
-export type AcademicTermCreateWithoutTutorialClassesInput = {
+export type AcademicTermCreateWithoutTutorial_classesInput = {
   id?: string
   name: string
   start_date: Date | string
@@ -876,11 +876,11 @@ export type AcademicTermCreateWithoutTutorialClassesInput = {
   subject_registrations?: Prisma.StudentSubjectRegistrationCreateNestedManyWithoutTermInput
   tenant: Prisma.TenantCreateNestedOneWithoutAcademic_termsInput
   academicSession: Prisma.AcademicSessionCreateNestedOneWithoutTermsInput
-  timeTableSlots?: Prisma.TimeTableSlotCreateNestedManyWithoutTermInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTermInput
   lectures?: Prisma.LectureCreateNestedManyWithoutTermInput
 }
 
-export type AcademicTermUncheckedCreateWithoutTutorialClassesInput = {
+export type AcademicTermUncheckedCreateWithoutTutorial_classesInput = {
   id?: string
   tenant_id: string
   academic_session_id: string
@@ -891,27 +891,27 @@ export type AcademicTermUncheckedCreateWithoutTutorialClassesInput = {
   created_at?: Date | string
   updated_at?: Date | string
   subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedCreateNestedManyWithoutTermInput
-  timeTableSlots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTermInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTermInput
   lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTermInput
 }
 
-export type AcademicTermCreateOrConnectWithoutTutorialClassesInput = {
+export type AcademicTermCreateOrConnectWithoutTutorial_classesInput = {
   where: Prisma.AcademicTermWhereUniqueInput
-  create: Prisma.XOR<Prisma.AcademicTermCreateWithoutTutorialClassesInput, Prisma.AcademicTermUncheckedCreateWithoutTutorialClassesInput>
+  create: Prisma.XOR<Prisma.AcademicTermCreateWithoutTutorial_classesInput, Prisma.AcademicTermUncheckedCreateWithoutTutorial_classesInput>
 }
 
-export type AcademicTermUpsertWithoutTutorialClassesInput = {
-  update: Prisma.XOR<Prisma.AcademicTermUpdateWithoutTutorialClassesInput, Prisma.AcademicTermUncheckedUpdateWithoutTutorialClassesInput>
-  create: Prisma.XOR<Prisma.AcademicTermCreateWithoutTutorialClassesInput, Prisma.AcademicTermUncheckedCreateWithoutTutorialClassesInput>
+export type AcademicTermUpsertWithoutTutorial_classesInput = {
+  update: Prisma.XOR<Prisma.AcademicTermUpdateWithoutTutorial_classesInput, Prisma.AcademicTermUncheckedUpdateWithoutTutorial_classesInput>
+  create: Prisma.XOR<Prisma.AcademicTermCreateWithoutTutorial_classesInput, Prisma.AcademicTermUncheckedCreateWithoutTutorial_classesInput>
   where?: Prisma.AcademicTermWhereInput
 }
 
-export type AcademicTermUpdateToOneWithWhereWithoutTutorialClassesInput = {
+export type AcademicTermUpdateToOneWithWhereWithoutTutorial_classesInput = {
   where?: Prisma.AcademicTermWhereInput
-  data: Prisma.XOR<Prisma.AcademicTermUpdateWithoutTutorialClassesInput, Prisma.AcademicTermUncheckedUpdateWithoutTutorialClassesInput>
+  data: Prisma.XOR<Prisma.AcademicTermUpdateWithoutTutorial_classesInput, Prisma.AcademicTermUncheckedUpdateWithoutTutorial_classesInput>
 }
 
-export type AcademicTermUpdateWithoutTutorialClassesInput = {
+export type AcademicTermUpdateWithoutTutorial_classesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -922,11 +922,11 @@ export type AcademicTermUpdateWithoutTutorialClassesInput = {
   subject_registrations?: Prisma.StudentSubjectRegistrationUpdateManyWithoutTermNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutAcademic_termsNestedInput
   academicSession?: Prisma.AcademicSessionUpdateOneRequiredWithoutTermsNestedInput
-  timeTableSlots?: Prisma.TimeTableSlotUpdateManyWithoutTermNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTermNestedInput
   lectures?: Prisma.LectureUpdateManyWithoutTermNestedInput
 }
 
-export type AcademicTermUncheckedUpdateWithoutTutorialClassesInput = {
+export type AcademicTermUncheckedUpdateWithoutTutorial_classesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   academic_session_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -937,7 +937,7 @@ export type AcademicTermUncheckedUpdateWithoutTutorialClassesInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedUpdateManyWithoutTermNestedInput
-  timeTableSlots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTermNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTermNestedInput
   lectures?: Prisma.LectureUncheckedUpdateManyWithoutTermNestedInput
 }
 
@@ -952,8 +952,8 @@ export type AcademicTermCreateWithoutLecturesInput = {
   subject_registrations?: Prisma.StudentSubjectRegistrationCreateNestedManyWithoutTermInput
   tenant: Prisma.TenantCreateNestedOneWithoutAcademic_termsInput
   academicSession: Prisma.AcademicSessionCreateNestedOneWithoutTermsInput
-  timeTableSlots?: Prisma.TimeTableSlotCreateNestedManyWithoutTermInput
-  tutorialClasses?: Prisma.TutorialClassCreateNestedManyWithoutTermInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTermInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTermInput
 }
 
 export type AcademicTermUncheckedCreateWithoutLecturesInput = {
@@ -967,8 +967,8 @@ export type AcademicTermUncheckedCreateWithoutLecturesInput = {
   created_at?: Date | string
   updated_at?: Date | string
   subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedCreateNestedManyWithoutTermInput
-  timeTableSlots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTermInput
-  tutorialClasses?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTermInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTermInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTermInput
 }
 
 export type AcademicTermCreateOrConnectWithoutLecturesInput = {
@@ -998,8 +998,8 @@ export type AcademicTermUpdateWithoutLecturesInput = {
   subject_registrations?: Prisma.StudentSubjectRegistrationUpdateManyWithoutTermNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutAcademic_termsNestedInput
   academicSession?: Prisma.AcademicSessionUpdateOneRequiredWithoutTermsNestedInput
-  timeTableSlots?: Prisma.TimeTableSlotUpdateManyWithoutTermNestedInput
-  tutorialClasses?: Prisma.TutorialClassUpdateManyWithoutTermNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTermNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTermNestedInput
 }
 
 export type AcademicTermUncheckedUpdateWithoutLecturesInput = {
@@ -1013,8 +1013,8 @@ export type AcademicTermUncheckedUpdateWithoutLecturesInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedUpdateManyWithoutTermNestedInput
-  timeTableSlots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTermNestedInput
-  tutorialClasses?: Prisma.TutorialClassUncheckedUpdateManyWithoutTermNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTermNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTermNestedInput
 }
 
 export type AcademicTermCreateManyTenantInput = {
@@ -1038,8 +1038,8 @@ export type AcademicTermUpdateWithoutTenantInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject_registrations?: Prisma.StudentSubjectRegistrationUpdateManyWithoutTermNestedInput
   academicSession?: Prisma.AcademicSessionUpdateOneRequiredWithoutTermsNestedInput
-  timeTableSlots?: Prisma.TimeTableSlotUpdateManyWithoutTermNestedInput
-  tutorialClasses?: Prisma.TutorialClassUpdateManyWithoutTermNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTermNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTermNestedInput
   lectures?: Prisma.LectureUpdateManyWithoutTermNestedInput
 }
 
@@ -1053,8 +1053,8 @@ export type AcademicTermUncheckedUpdateWithoutTenantInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedUpdateManyWithoutTermNestedInput
-  timeTableSlots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTermNestedInput
-  tutorialClasses?: Prisma.TutorialClassUncheckedUpdateManyWithoutTermNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTermNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTermNestedInput
   lectures?: Prisma.LectureUncheckedUpdateManyWithoutTermNestedInput
 }
 
@@ -1090,8 +1090,8 @@ export type AcademicTermUpdateWithoutAcademicSessionInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject_registrations?: Prisma.StudentSubjectRegistrationUpdateManyWithoutTermNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutAcademic_termsNestedInput
-  timeTableSlots?: Prisma.TimeTableSlotUpdateManyWithoutTermNestedInput
-  tutorialClasses?: Prisma.TutorialClassUpdateManyWithoutTermNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTermNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTermNestedInput
   lectures?: Prisma.LectureUpdateManyWithoutTermNestedInput
 }
 
@@ -1105,8 +1105,8 @@ export type AcademicTermUncheckedUpdateWithoutAcademicSessionInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedUpdateManyWithoutTermNestedInput
-  timeTableSlots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTermNestedInput
-  tutorialClasses?: Prisma.TutorialClassUncheckedUpdateManyWithoutTermNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTermNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTermNestedInput
   lectures?: Prisma.LectureUncheckedUpdateManyWithoutTermNestedInput
 }
 
@@ -1128,15 +1128,15 @@ export type AcademicTermUncheckedUpdateManyWithoutAcademicSessionInput = {
 
 export type AcademicTermCountOutputType = {
   subject_registrations: number
-  timeTableSlots: number
-  tutorialClasses: number
+  timetable_slots: number
+  tutorial_classes: number
   lectures: number
 }
 
 export type AcademicTermCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subject_registrations?: boolean | AcademicTermCountOutputTypeCountSubject_registrationsArgs
-  timeTableSlots?: boolean | AcademicTermCountOutputTypeCountTimeTableSlotsArgs
-  tutorialClasses?: boolean | AcademicTermCountOutputTypeCountTutorialClassesArgs
+  timetable_slots?: boolean | AcademicTermCountOutputTypeCountTimetable_slotsArgs
+  tutorial_classes?: boolean | AcademicTermCountOutputTypeCountTutorial_classesArgs
   lectures?: boolean | AcademicTermCountOutputTypeCountLecturesArgs
 }
 
@@ -1160,14 +1160,14 @@ export type AcademicTermCountOutputTypeCountSubject_registrationsArgs<ExtArgs ex
 /**
  * AcademicTermCountOutputType without action
  */
-export type AcademicTermCountOutputTypeCountTimeTableSlotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type AcademicTermCountOutputTypeCountTimetable_slotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TimeTableSlotWhereInput
 }
 
 /**
  * AcademicTermCountOutputType without action
  */
-export type AcademicTermCountOutputTypeCountTutorialClassesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type AcademicTermCountOutputTypeCountTutorial_classesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TutorialClassWhereInput
 }
 
@@ -1192,8 +1192,8 @@ export type AcademicTermSelect<ExtArgs extends runtime.Types.Extensions.Internal
   subject_registrations?: boolean | Prisma.AcademicTerm$subject_registrationsArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   academicSession?: boolean | Prisma.AcademicSessionDefaultArgs<ExtArgs>
-  timeTableSlots?: boolean | Prisma.AcademicTerm$timeTableSlotsArgs<ExtArgs>
-  tutorialClasses?: boolean | Prisma.AcademicTerm$tutorialClassesArgs<ExtArgs>
+  timetable_slots?: boolean | Prisma.AcademicTerm$timetable_slotsArgs<ExtArgs>
+  tutorial_classes?: boolean | Prisma.AcademicTerm$tutorial_classesArgs<ExtArgs>
   lectures?: boolean | Prisma.AcademicTerm$lecturesArgs<ExtArgs>
   _count?: boolean | Prisma.AcademicTermCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["academicTerm"]>
@@ -1243,8 +1243,8 @@ export type AcademicTermInclude<ExtArgs extends runtime.Types.Extensions.Interna
   subject_registrations?: boolean | Prisma.AcademicTerm$subject_registrationsArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   academicSession?: boolean | Prisma.AcademicSessionDefaultArgs<ExtArgs>
-  timeTableSlots?: boolean | Prisma.AcademicTerm$timeTableSlotsArgs<ExtArgs>
-  tutorialClasses?: boolean | Prisma.AcademicTerm$tutorialClassesArgs<ExtArgs>
+  timetable_slots?: boolean | Prisma.AcademicTerm$timetable_slotsArgs<ExtArgs>
+  tutorial_classes?: boolean | Prisma.AcademicTerm$tutorial_classesArgs<ExtArgs>
   lectures?: boolean | Prisma.AcademicTerm$lecturesArgs<ExtArgs>
   _count?: boolean | Prisma.AcademicTermCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1263,8 +1263,8 @@ export type $AcademicTermPayload<ExtArgs extends runtime.Types.Extensions.Intern
     subject_registrations: Prisma.$StudentSubjectRegistrationPayload<ExtArgs>[]
     tenant: Prisma.$TenantPayload<ExtArgs>
     academicSession: Prisma.$AcademicSessionPayload<ExtArgs>
-    timeTableSlots: Prisma.$TimeTableSlotPayload<ExtArgs>[]
-    tutorialClasses: Prisma.$TutorialClassPayload<ExtArgs>[]
+    timetable_slots: Prisma.$TimeTableSlotPayload<ExtArgs>[]
+    tutorial_classes: Prisma.$TutorialClassPayload<ExtArgs>[]
     lectures: Prisma.$LecturePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1674,8 +1674,8 @@ export interface Prisma__AcademicTermClient<T, Null = never, ExtArgs extends run
   subject_registrations<T extends Prisma.AcademicTerm$subject_registrationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicTerm$subject_registrationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentSubjectRegistrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   academicSession<T extends Prisma.AcademicSessionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicSessionDefaultArgs<ExtArgs>>): Prisma.Prisma__AcademicSessionClient<runtime.Types.Result.GetResult<Prisma.$AcademicSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  timeTableSlots<T extends Prisma.AcademicTerm$timeTableSlotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicTerm$timeTableSlotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TimeTableSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  tutorialClasses<T extends Prisma.AcademicTerm$tutorialClassesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicTerm$tutorialClassesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TutorialClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  timetable_slots<T extends Prisma.AcademicTerm$timetable_slotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicTerm$timetable_slotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TimeTableSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tutorial_classes<T extends Prisma.AcademicTerm$tutorial_classesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicTerm$tutorial_classesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TutorialClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   lectures<T extends Prisma.AcademicTerm$lecturesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicTerm$lecturesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LecturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2140,9 +2140,9 @@ export type AcademicTerm$subject_registrationsArgs<ExtArgs extends runtime.Types
 }
 
 /**
- * AcademicTerm.timeTableSlots
+ * AcademicTerm.timetable_slots
  */
-export type AcademicTerm$timeTableSlotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type AcademicTerm$timetable_slotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the TimeTableSlot
    */
@@ -2164,9 +2164,9 @@ export type AcademicTerm$timeTableSlotsArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
- * AcademicTerm.tutorialClasses
+ * AcademicTerm.tutorial_classes
  */
-export type AcademicTerm$tutorialClassesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type AcademicTerm$tutorial_classesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the TutorialClass
    */

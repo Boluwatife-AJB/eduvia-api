@@ -174,7 +174,7 @@ export type SubjectTeacherWhereInput = {
   tenant_id?: Prisma.StringFilter<"SubjectTeacher"> | string
   class_subject_id?: Prisma.StringFilter<"SubjectTeacher"> | string
   teacher_id?: Prisma.StringFilter<"SubjectTeacher"> | string
-  classSubject?: Prisma.XOR<Prisma.ClassSubjectScalarRelationFilter, Prisma.ClassSubjectWhereInput>
+  class_subject?: Prisma.XOR<Prisma.ClassSubjectScalarRelationFilter, Prisma.ClassSubjectWhereInput>
 }
 
 export type SubjectTeacherOrderByWithRelationInput = {
@@ -182,7 +182,7 @@ export type SubjectTeacherOrderByWithRelationInput = {
   tenant_id?: Prisma.SortOrder
   class_subject_id?: Prisma.SortOrder
   teacher_id?: Prisma.SortOrder
-  classSubject?: Prisma.ClassSubjectOrderByWithRelationInput
+  class_subject?: Prisma.ClassSubjectOrderByWithRelationInput
 }
 
 export type SubjectTeacherWhereUniqueInput = Prisma.AtLeast<{
@@ -194,7 +194,7 @@ export type SubjectTeacherWhereUniqueInput = Prisma.AtLeast<{
   tenant_id?: Prisma.StringFilter<"SubjectTeacher"> | string
   class_subject_id?: Prisma.StringFilter<"SubjectTeacher"> | string
   teacher_id?: Prisma.StringFilter<"SubjectTeacher"> | string
-  classSubject?: Prisma.XOR<Prisma.ClassSubjectScalarRelationFilter, Prisma.ClassSubjectWhereInput>
+  class_subject?: Prisma.XOR<Prisma.ClassSubjectScalarRelationFilter, Prisma.ClassSubjectWhereInput>
 }, "id" | "tenant_id_class_subject_id_teacher_id">
 
 export type SubjectTeacherOrderByWithAggregationInput = {
@@ -221,7 +221,7 @@ export type SubjectTeacherCreateInput = {
   id?: string
   tenant_id: string
   teacher_id: string
-  classSubject: Prisma.ClassSubjectCreateNestedOneWithoutTeachersInput
+  class_subject: Prisma.ClassSubjectCreateNestedOneWithoutTeachersInput
 }
 
 export type SubjectTeacherUncheckedCreateInput = {
@@ -235,7 +235,7 @@ export type SubjectTeacherUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
-  classSubject?: Prisma.ClassSubjectUpdateOneRequiredWithoutTeachersNestedInput
+  class_subject?: Prisma.ClassSubjectUpdateOneRequiredWithoutTeachersNestedInput
 }
 
 export type SubjectTeacherUncheckedUpdateInput = {
@@ -302,84 +302,84 @@ export type SubjectTeacherMinOrderByAggregateInput = {
   teacher_id?: Prisma.SortOrder
 }
 
-export type SubjectTeacherCreateNestedManyWithoutClassSubjectInput = {
-  create?: Prisma.XOR<Prisma.SubjectTeacherCreateWithoutClassSubjectInput, Prisma.SubjectTeacherUncheckedCreateWithoutClassSubjectInput> | Prisma.SubjectTeacherCreateWithoutClassSubjectInput[] | Prisma.SubjectTeacherUncheckedCreateWithoutClassSubjectInput[]
-  connectOrCreate?: Prisma.SubjectTeacherCreateOrConnectWithoutClassSubjectInput | Prisma.SubjectTeacherCreateOrConnectWithoutClassSubjectInput[]
-  createMany?: Prisma.SubjectTeacherCreateManyClassSubjectInputEnvelope
+export type SubjectTeacherCreateNestedManyWithoutClass_subjectInput = {
+  create?: Prisma.XOR<Prisma.SubjectTeacherCreateWithoutClass_subjectInput, Prisma.SubjectTeacherUncheckedCreateWithoutClass_subjectInput> | Prisma.SubjectTeacherCreateWithoutClass_subjectInput[] | Prisma.SubjectTeacherUncheckedCreateWithoutClass_subjectInput[]
+  connectOrCreate?: Prisma.SubjectTeacherCreateOrConnectWithoutClass_subjectInput | Prisma.SubjectTeacherCreateOrConnectWithoutClass_subjectInput[]
+  createMany?: Prisma.SubjectTeacherCreateManyClass_subjectInputEnvelope
   connect?: Prisma.SubjectTeacherWhereUniqueInput | Prisma.SubjectTeacherWhereUniqueInput[]
 }
 
-export type SubjectTeacherUncheckedCreateNestedManyWithoutClassSubjectInput = {
-  create?: Prisma.XOR<Prisma.SubjectTeacherCreateWithoutClassSubjectInput, Prisma.SubjectTeacherUncheckedCreateWithoutClassSubjectInput> | Prisma.SubjectTeacherCreateWithoutClassSubjectInput[] | Prisma.SubjectTeacherUncheckedCreateWithoutClassSubjectInput[]
-  connectOrCreate?: Prisma.SubjectTeacherCreateOrConnectWithoutClassSubjectInput | Prisma.SubjectTeacherCreateOrConnectWithoutClassSubjectInput[]
-  createMany?: Prisma.SubjectTeacherCreateManyClassSubjectInputEnvelope
+export type SubjectTeacherUncheckedCreateNestedManyWithoutClass_subjectInput = {
+  create?: Prisma.XOR<Prisma.SubjectTeacherCreateWithoutClass_subjectInput, Prisma.SubjectTeacherUncheckedCreateWithoutClass_subjectInput> | Prisma.SubjectTeacherCreateWithoutClass_subjectInput[] | Prisma.SubjectTeacherUncheckedCreateWithoutClass_subjectInput[]
+  connectOrCreate?: Prisma.SubjectTeacherCreateOrConnectWithoutClass_subjectInput | Prisma.SubjectTeacherCreateOrConnectWithoutClass_subjectInput[]
+  createMany?: Prisma.SubjectTeacherCreateManyClass_subjectInputEnvelope
   connect?: Prisma.SubjectTeacherWhereUniqueInput | Prisma.SubjectTeacherWhereUniqueInput[]
 }
 
-export type SubjectTeacherUpdateManyWithoutClassSubjectNestedInput = {
-  create?: Prisma.XOR<Prisma.SubjectTeacherCreateWithoutClassSubjectInput, Prisma.SubjectTeacherUncheckedCreateWithoutClassSubjectInput> | Prisma.SubjectTeacherCreateWithoutClassSubjectInput[] | Prisma.SubjectTeacherUncheckedCreateWithoutClassSubjectInput[]
-  connectOrCreate?: Prisma.SubjectTeacherCreateOrConnectWithoutClassSubjectInput | Prisma.SubjectTeacherCreateOrConnectWithoutClassSubjectInput[]
-  upsert?: Prisma.SubjectTeacherUpsertWithWhereUniqueWithoutClassSubjectInput | Prisma.SubjectTeacherUpsertWithWhereUniqueWithoutClassSubjectInput[]
-  createMany?: Prisma.SubjectTeacherCreateManyClassSubjectInputEnvelope
+export type SubjectTeacherUpdateManyWithoutClass_subjectNestedInput = {
+  create?: Prisma.XOR<Prisma.SubjectTeacherCreateWithoutClass_subjectInput, Prisma.SubjectTeacherUncheckedCreateWithoutClass_subjectInput> | Prisma.SubjectTeacherCreateWithoutClass_subjectInput[] | Prisma.SubjectTeacherUncheckedCreateWithoutClass_subjectInput[]
+  connectOrCreate?: Prisma.SubjectTeacherCreateOrConnectWithoutClass_subjectInput | Prisma.SubjectTeacherCreateOrConnectWithoutClass_subjectInput[]
+  upsert?: Prisma.SubjectTeacherUpsertWithWhereUniqueWithoutClass_subjectInput | Prisma.SubjectTeacherUpsertWithWhereUniqueWithoutClass_subjectInput[]
+  createMany?: Prisma.SubjectTeacherCreateManyClass_subjectInputEnvelope
   set?: Prisma.SubjectTeacherWhereUniqueInput | Prisma.SubjectTeacherWhereUniqueInput[]
   disconnect?: Prisma.SubjectTeacherWhereUniqueInput | Prisma.SubjectTeacherWhereUniqueInput[]
   delete?: Prisma.SubjectTeacherWhereUniqueInput | Prisma.SubjectTeacherWhereUniqueInput[]
   connect?: Prisma.SubjectTeacherWhereUniqueInput | Prisma.SubjectTeacherWhereUniqueInput[]
-  update?: Prisma.SubjectTeacherUpdateWithWhereUniqueWithoutClassSubjectInput | Prisma.SubjectTeacherUpdateWithWhereUniqueWithoutClassSubjectInput[]
-  updateMany?: Prisma.SubjectTeacherUpdateManyWithWhereWithoutClassSubjectInput | Prisma.SubjectTeacherUpdateManyWithWhereWithoutClassSubjectInput[]
+  update?: Prisma.SubjectTeacherUpdateWithWhereUniqueWithoutClass_subjectInput | Prisma.SubjectTeacherUpdateWithWhereUniqueWithoutClass_subjectInput[]
+  updateMany?: Prisma.SubjectTeacherUpdateManyWithWhereWithoutClass_subjectInput | Prisma.SubjectTeacherUpdateManyWithWhereWithoutClass_subjectInput[]
   deleteMany?: Prisma.SubjectTeacherScalarWhereInput | Prisma.SubjectTeacherScalarWhereInput[]
 }
 
-export type SubjectTeacherUncheckedUpdateManyWithoutClassSubjectNestedInput = {
-  create?: Prisma.XOR<Prisma.SubjectTeacherCreateWithoutClassSubjectInput, Prisma.SubjectTeacherUncheckedCreateWithoutClassSubjectInput> | Prisma.SubjectTeacherCreateWithoutClassSubjectInput[] | Prisma.SubjectTeacherUncheckedCreateWithoutClassSubjectInput[]
-  connectOrCreate?: Prisma.SubjectTeacherCreateOrConnectWithoutClassSubjectInput | Prisma.SubjectTeacherCreateOrConnectWithoutClassSubjectInput[]
-  upsert?: Prisma.SubjectTeacherUpsertWithWhereUniqueWithoutClassSubjectInput | Prisma.SubjectTeacherUpsertWithWhereUniqueWithoutClassSubjectInput[]
-  createMany?: Prisma.SubjectTeacherCreateManyClassSubjectInputEnvelope
+export type SubjectTeacherUncheckedUpdateManyWithoutClass_subjectNestedInput = {
+  create?: Prisma.XOR<Prisma.SubjectTeacherCreateWithoutClass_subjectInput, Prisma.SubjectTeacherUncheckedCreateWithoutClass_subjectInput> | Prisma.SubjectTeacherCreateWithoutClass_subjectInput[] | Prisma.SubjectTeacherUncheckedCreateWithoutClass_subjectInput[]
+  connectOrCreate?: Prisma.SubjectTeacherCreateOrConnectWithoutClass_subjectInput | Prisma.SubjectTeacherCreateOrConnectWithoutClass_subjectInput[]
+  upsert?: Prisma.SubjectTeacherUpsertWithWhereUniqueWithoutClass_subjectInput | Prisma.SubjectTeacherUpsertWithWhereUniqueWithoutClass_subjectInput[]
+  createMany?: Prisma.SubjectTeacherCreateManyClass_subjectInputEnvelope
   set?: Prisma.SubjectTeacherWhereUniqueInput | Prisma.SubjectTeacherWhereUniqueInput[]
   disconnect?: Prisma.SubjectTeacherWhereUniqueInput | Prisma.SubjectTeacherWhereUniqueInput[]
   delete?: Prisma.SubjectTeacherWhereUniqueInput | Prisma.SubjectTeacherWhereUniqueInput[]
   connect?: Prisma.SubjectTeacherWhereUniqueInput | Prisma.SubjectTeacherWhereUniqueInput[]
-  update?: Prisma.SubjectTeacherUpdateWithWhereUniqueWithoutClassSubjectInput | Prisma.SubjectTeacherUpdateWithWhereUniqueWithoutClassSubjectInput[]
-  updateMany?: Prisma.SubjectTeacherUpdateManyWithWhereWithoutClassSubjectInput | Prisma.SubjectTeacherUpdateManyWithWhereWithoutClassSubjectInput[]
+  update?: Prisma.SubjectTeacherUpdateWithWhereUniqueWithoutClass_subjectInput | Prisma.SubjectTeacherUpdateWithWhereUniqueWithoutClass_subjectInput[]
+  updateMany?: Prisma.SubjectTeacherUpdateManyWithWhereWithoutClass_subjectInput | Prisma.SubjectTeacherUpdateManyWithWhereWithoutClass_subjectInput[]
   deleteMany?: Prisma.SubjectTeacherScalarWhereInput | Prisma.SubjectTeacherScalarWhereInput[]
 }
 
-export type SubjectTeacherCreateWithoutClassSubjectInput = {
+export type SubjectTeacherCreateWithoutClass_subjectInput = {
   id?: string
   tenant_id: string
   teacher_id: string
 }
 
-export type SubjectTeacherUncheckedCreateWithoutClassSubjectInput = {
+export type SubjectTeacherUncheckedCreateWithoutClass_subjectInput = {
   id?: string
   tenant_id: string
   teacher_id: string
 }
 
-export type SubjectTeacherCreateOrConnectWithoutClassSubjectInput = {
+export type SubjectTeacherCreateOrConnectWithoutClass_subjectInput = {
   where: Prisma.SubjectTeacherWhereUniqueInput
-  create: Prisma.XOR<Prisma.SubjectTeacherCreateWithoutClassSubjectInput, Prisma.SubjectTeacherUncheckedCreateWithoutClassSubjectInput>
+  create: Prisma.XOR<Prisma.SubjectTeacherCreateWithoutClass_subjectInput, Prisma.SubjectTeacherUncheckedCreateWithoutClass_subjectInput>
 }
 
-export type SubjectTeacherCreateManyClassSubjectInputEnvelope = {
-  data: Prisma.SubjectTeacherCreateManyClassSubjectInput | Prisma.SubjectTeacherCreateManyClassSubjectInput[]
+export type SubjectTeacherCreateManyClass_subjectInputEnvelope = {
+  data: Prisma.SubjectTeacherCreateManyClass_subjectInput | Prisma.SubjectTeacherCreateManyClass_subjectInput[]
   skipDuplicates?: boolean
 }
 
-export type SubjectTeacherUpsertWithWhereUniqueWithoutClassSubjectInput = {
+export type SubjectTeacherUpsertWithWhereUniqueWithoutClass_subjectInput = {
   where: Prisma.SubjectTeacherWhereUniqueInput
-  update: Prisma.XOR<Prisma.SubjectTeacherUpdateWithoutClassSubjectInput, Prisma.SubjectTeacherUncheckedUpdateWithoutClassSubjectInput>
-  create: Prisma.XOR<Prisma.SubjectTeacherCreateWithoutClassSubjectInput, Prisma.SubjectTeacherUncheckedCreateWithoutClassSubjectInput>
+  update: Prisma.XOR<Prisma.SubjectTeacherUpdateWithoutClass_subjectInput, Prisma.SubjectTeacherUncheckedUpdateWithoutClass_subjectInput>
+  create: Prisma.XOR<Prisma.SubjectTeacherCreateWithoutClass_subjectInput, Prisma.SubjectTeacherUncheckedCreateWithoutClass_subjectInput>
 }
 
-export type SubjectTeacherUpdateWithWhereUniqueWithoutClassSubjectInput = {
+export type SubjectTeacherUpdateWithWhereUniqueWithoutClass_subjectInput = {
   where: Prisma.SubjectTeacherWhereUniqueInput
-  data: Prisma.XOR<Prisma.SubjectTeacherUpdateWithoutClassSubjectInput, Prisma.SubjectTeacherUncheckedUpdateWithoutClassSubjectInput>
+  data: Prisma.XOR<Prisma.SubjectTeacherUpdateWithoutClass_subjectInput, Prisma.SubjectTeacherUncheckedUpdateWithoutClass_subjectInput>
 }
 
-export type SubjectTeacherUpdateManyWithWhereWithoutClassSubjectInput = {
+export type SubjectTeacherUpdateManyWithWhereWithoutClass_subjectInput = {
   where: Prisma.SubjectTeacherScalarWhereInput
-  data: Prisma.XOR<Prisma.SubjectTeacherUpdateManyMutationInput, Prisma.SubjectTeacherUncheckedUpdateManyWithoutClassSubjectInput>
+  data: Prisma.XOR<Prisma.SubjectTeacherUpdateManyMutationInput, Prisma.SubjectTeacherUncheckedUpdateManyWithoutClass_subjectInput>
 }
 
 export type SubjectTeacherScalarWhereInput = {
@@ -392,25 +392,25 @@ export type SubjectTeacherScalarWhereInput = {
   teacher_id?: Prisma.StringFilter<"SubjectTeacher"> | string
 }
 
-export type SubjectTeacherCreateManyClassSubjectInput = {
+export type SubjectTeacherCreateManyClass_subjectInput = {
   id?: string
   tenant_id: string
   teacher_id: string
 }
 
-export type SubjectTeacherUpdateWithoutClassSubjectInput = {
+export type SubjectTeacherUpdateWithoutClass_subjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type SubjectTeacherUncheckedUpdateWithoutClassSubjectInput = {
+export type SubjectTeacherUncheckedUpdateWithoutClass_subjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type SubjectTeacherUncheckedUpdateManyWithoutClassSubjectInput = {
+export type SubjectTeacherUncheckedUpdateManyWithoutClass_subjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   teacher_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -423,7 +423,7 @@ export type SubjectTeacherSelect<ExtArgs extends runtime.Types.Extensions.Intern
   tenant_id?: boolean
   class_subject_id?: boolean
   teacher_id?: boolean
-  classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
+  class_subject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectTeacher"]>
 
 export type SubjectTeacherSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -431,7 +431,7 @@ export type SubjectTeacherSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   tenant_id?: boolean
   class_subject_id?: boolean
   teacher_id?: boolean
-  classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
+  class_subject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectTeacher"]>
 
 export type SubjectTeacherSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -439,7 +439,7 @@ export type SubjectTeacherSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   tenant_id?: boolean
   class_subject_id?: boolean
   teacher_id?: boolean
-  classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
+  class_subject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectTeacher"]>
 
 export type SubjectTeacherSelectScalar = {
@@ -451,19 +451,19 @@ export type SubjectTeacherSelectScalar = {
 
 export type SubjectTeacherOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "class_subject_id" | "teacher_id", ExtArgs["result"]["subjectTeacher"]>
 export type SubjectTeacherInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
+  class_subject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
 }
 export type SubjectTeacherIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
+  class_subject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
 }
 export type SubjectTeacherIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
+  class_subject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
 }
 
 export type $SubjectTeacherPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SubjectTeacher"
   objects: {
-    classSubject: Prisma.$ClassSubjectPayload<ExtArgs>
+    class_subject: Prisma.$ClassSubjectPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -864,7 +864,7 @@ readonly fields: SubjectTeacherFieldRefs;
  */
 export interface Prisma__SubjectTeacherClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  classSubject<T extends Prisma.ClassSubjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClassSubjectDefaultArgs<ExtArgs>>): Prisma.Prisma__ClassSubjectClient<runtime.Types.Result.GetResult<Prisma.$ClassSubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  class_subject<T extends Prisma.ClassSubjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClassSubjectDefaultArgs<ExtArgs>>): Prisma.Prisma__ClassSubjectClient<runtime.Types.Result.GetResult<Prisma.$ClassSubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

@@ -242,10 +242,10 @@ export type ClassSubjectCreateInput = {
   id?: string
   tenant_id: string
   subject_type?: $Enums.SubjectType
-  class: Prisma.ClassCreateNestedOneWithoutClassSubjectsInput
-  subject: Prisma.SubjectCreateNestedOneWithoutClassSubjectsInput
-  teachers?: Prisma.SubjectTeacherCreateNestedManyWithoutClassSubjectInput
-  student_subject_registrations?: Prisma.StudentSubjectRegistrationCreateNestedManyWithoutClassSubjectInput
+  class: Prisma.ClassCreateNestedOneWithoutClass_subjectsInput
+  subject: Prisma.SubjectCreateNestedOneWithoutClass_subjectsInput
+  teachers?: Prisma.SubjectTeacherCreateNestedManyWithoutClass_subjectInput
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationCreateNestedManyWithoutClass_subjectInput
 }
 
 export type ClassSubjectUncheckedCreateInput = {
@@ -254,18 +254,18 @@ export type ClassSubjectUncheckedCreateInput = {
   class_id: string
   subject_id: string
   subject_type?: $Enums.SubjectType
-  teachers?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutClassSubjectInput
-  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedCreateNestedManyWithoutClassSubjectInput
+  teachers?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutClass_subjectInput
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedCreateNestedManyWithoutClass_subjectInput
 }
 
 export type ClassSubjectUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   subject_type?: Prisma.EnumSubjectTypeFieldUpdateOperationsInput | $Enums.SubjectType
-  class?: Prisma.ClassUpdateOneRequiredWithoutClassSubjectsNestedInput
-  subject?: Prisma.SubjectUpdateOneRequiredWithoutClassSubjectsNestedInput
-  teachers?: Prisma.SubjectTeacherUpdateManyWithoutClassSubjectNestedInput
-  student_subject_registrations?: Prisma.StudentSubjectRegistrationUpdateManyWithoutClassSubjectNestedInput
+  class?: Prisma.ClassUpdateOneRequiredWithoutClass_subjectsNestedInput
+  subject?: Prisma.SubjectUpdateOneRequiredWithoutClass_subjectsNestedInput
+  teachers?: Prisma.SubjectTeacherUpdateManyWithoutClass_subjectNestedInput
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUpdateManyWithoutClass_subjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateInput = {
@@ -274,8 +274,8 @@ export type ClassSubjectUncheckedUpdateInput = {
   class_id?: Prisma.StringFieldUpdateOperationsInput | string
   subject_id?: Prisma.StringFieldUpdateOperationsInput | string
   subject_type?: Prisma.EnumSubjectTypeFieldUpdateOperationsInput | $Enums.SubjectType
-  teachers?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutClassSubjectNestedInput
-  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedUpdateManyWithoutClassSubjectNestedInput
+  teachers?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutClass_subjectNestedInput
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedUpdateManyWithoutClass_subjectNestedInput
 }
 
 export type ClassSubjectCreateManyInput = {
@@ -465,9 +465,9 @@ export type ClassSubjectCreateWithoutClassInput = {
   id?: string
   tenant_id: string
   subject_type?: $Enums.SubjectType
-  subject: Prisma.SubjectCreateNestedOneWithoutClassSubjectsInput
-  teachers?: Prisma.SubjectTeacherCreateNestedManyWithoutClassSubjectInput
-  student_subject_registrations?: Prisma.StudentSubjectRegistrationCreateNestedManyWithoutClassSubjectInput
+  subject: Prisma.SubjectCreateNestedOneWithoutClass_subjectsInput
+  teachers?: Prisma.SubjectTeacherCreateNestedManyWithoutClass_subjectInput
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationCreateNestedManyWithoutClass_subjectInput
 }
 
 export type ClassSubjectUncheckedCreateWithoutClassInput = {
@@ -475,8 +475,8 @@ export type ClassSubjectUncheckedCreateWithoutClassInput = {
   tenant_id: string
   subject_id: string
   subject_type?: $Enums.SubjectType
-  teachers?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutClassSubjectInput
-  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedCreateNestedManyWithoutClassSubjectInput
+  teachers?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutClass_subjectInput
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedCreateNestedManyWithoutClass_subjectInput
 }
 
 export type ClassSubjectCreateOrConnectWithoutClassInput = {
@@ -520,9 +520,9 @@ export type ClassSubjectCreateWithoutSubjectInput = {
   id?: string
   tenant_id: string
   subject_type?: $Enums.SubjectType
-  class: Prisma.ClassCreateNestedOneWithoutClassSubjectsInput
-  teachers?: Prisma.SubjectTeacherCreateNestedManyWithoutClassSubjectInput
-  student_subject_registrations?: Prisma.StudentSubjectRegistrationCreateNestedManyWithoutClassSubjectInput
+  class: Prisma.ClassCreateNestedOneWithoutClass_subjectsInput
+  teachers?: Prisma.SubjectTeacherCreateNestedManyWithoutClass_subjectInput
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationCreateNestedManyWithoutClass_subjectInput
 }
 
 export type ClassSubjectUncheckedCreateWithoutSubjectInput = {
@@ -530,8 +530,8 @@ export type ClassSubjectUncheckedCreateWithoutSubjectInput = {
   tenant_id: string
   class_id: string
   subject_type?: $Enums.SubjectType
-  teachers?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutClassSubjectInput
-  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedCreateNestedManyWithoutClassSubjectInput
+  teachers?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutClass_subjectInput
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedCreateNestedManyWithoutClass_subjectInput
 }
 
 export type ClassSubjectCreateOrConnectWithoutSubjectInput = {
@@ -564,9 +564,9 @@ export type ClassSubjectCreateWithoutTeachersInput = {
   id?: string
   tenant_id: string
   subject_type?: $Enums.SubjectType
-  class: Prisma.ClassCreateNestedOneWithoutClassSubjectsInput
-  subject: Prisma.SubjectCreateNestedOneWithoutClassSubjectsInput
-  student_subject_registrations?: Prisma.StudentSubjectRegistrationCreateNestedManyWithoutClassSubjectInput
+  class: Prisma.ClassCreateNestedOneWithoutClass_subjectsInput
+  subject: Prisma.SubjectCreateNestedOneWithoutClass_subjectsInput
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationCreateNestedManyWithoutClass_subjectInput
 }
 
 export type ClassSubjectUncheckedCreateWithoutTeachersInput = {
@@ -575,7 +575,7 @@ export type ClassSubjectUncheckedCreateWithoutTeachersInput = {
   class_id: string
   subject_id: string
   subject_type?: $Enums.SubjectType
-  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedCreateNestedManyWithoutClassSubjectInput
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedCreateNestedManyWithoutClass_subjectInput
 }
 
 export type ClassSubjectCreateOrConnectWithoutTeachersInput = {
@@ -598,9 +598,9 @@ export type ClassSubjectUpdateWithoutTeachersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   subject_type?: Prisma.EnumSubjectTypeFieldUpdateOperationsInput | $Enums.SubjectType
-  class?: Prisma.ClassUpdateOneRequiredWithoutClassSubjectsNestedInput
-  subject?: Prisma.SubjectUpdateOneRequiredWithoutClassSubjectsNestedInput
-  student_subject_registrations?: Prisma.StudentSubjectRegistrationUpdateManyWithoutClassSubjectNestedInput
+  class?: Prisma.ClassUpdateOneRequiredWithoutClass_subjectsNestedInput
+  subject?: Prisma.SubjectUpdateOneRequiredWithoutClass_subjectsNestedInput
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUpdateManyWithoutClass_subjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateWithoutTeachersInput = {
@@ -609,16 +609,16 @@ export type ClassSubjectUncheckedUpdateWithoutTeachersInput = {
   class_id?: Prisma.StringFieldUpdateOperationsInput | string
   subject_id?: Prisma.StringFieldUpdateOperationsInput | string
   subject_type?: Prisma.EnumSubjectTypeFieldUpdateOperationsInput | $Enums.SubjectType
-  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedUpdateManyWithoutClassSubjectNestedInput
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedUpdateManyWithoutClass_subjectNestedInput
 }
 
 export type ClassSubjectCreateWithoutStudent_subject_registrationsInput = {
   id?: string
   tenant_id: string
   subject_type?: $Enums.SubjectType
-  class: Prisma.ClassCreateNestedOneWithoutClassSubjectsInput
-  subject: Prisma.SubjectCreateNestedOneWithoutClassSubjectsInput
-  teachers?: Prisma.SubjectTeacherCreateNestedManyWithoutClassSubjectInput
+  class: Prisma.ClassCreateNestedOneWithoutClass_subjectsInput
+  subject: Prisma.SubjectCreateNestedOneWithoutClass_subjectsInput
+  teachers?: Prisma.SubjectTeacherCreateNestedManyWithoutClass_subjectInput
 }
 
 export type ClassSubjectUncheckedCreateWithoutStudent_subject_registrationsInput = {
@@ -627,7 +627,7 @@ export type ClassSubjectUncheckedCreateWithoutStudent_subject_registrationsInput
   class_id: string
   subject_id: string
   subject_type?: $Enums.SubjectType
-  teachers?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutClassSubjectInput
+  teachers?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutClass_subjectInput
 }
 
 export type ClassSubjectCreateOrConnectWithoutStudent_subject_registrationsInput = {
@@ -650,9 +650,9 @@ export type ClassSubjectUpdateWithoutStudent_subject_registrationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   subject_type?: Prisma.EnumSubjectTypeFieldUpdateOperationsInput | $Enums.SubjectType
-  class?: Prisma.ClassUpdateOneRequiredWithoutClassSubjectsNestedInput
-  subject?: Prisma.SubjectUpdateOneRequiredWithoutClassSubjectsNestedInput
-  teachers?: Prisma.SubjectTeacherUpdateManyWithoutClassSubjectNestedInput
+  class?: Prisma.ClassUpdateOneRequiredWithoutClass_subjectsNestedInput
+  subject?: Prisma.SubjectUpdateOneRequiredWithoutClass_subjectsNestedInput
+  teachers?: Prisma.SubjectTeacherUpdateManyWithoutClass_subjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateWithoutStudent_subject_registrationsInput = {
@@ -661,7 +661,7 @@ export type ClassSubjectUncheckedUpdateWithoutStudent_subject_registrationsInput
   class_id?: Prisma.StringFieldUpdateOperationsInput | string
   subject_id?: Prisma.StringFieldUpdateOperationsInput | string
   subject_type?: Prisma.EnumSubjectTypeFieldUpdateOperationsInput | $Enums.SubjectType
-  teachers?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutClassSubjectNestedInput
+  teachers?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutClass_subjectNestedInput
 }
 
 export type ClassSubjectCreateManyClassInput = {
@@ -675,9 +675,9 @@ export type ClassSubjectUpdateWithoutClassInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   subject_type?: Prisma.EnumSubjectTypeFieldUpdateOperationsInput | $Enums.SubjectType
-  subject?: Prisma.SubjectUpdateOneRequiredWithoutClassSubjectsNestedInput
-  teachers?: Prisma.SubjectTeacherUpdateManyWithoutClassSubjectNestedInput
-  student_subject_registrations?: Prisma.StudentSubjectRegistrationUpdateManyWithoutClassSubjectNestedInput
+  subject?: Prisma.SubjectUpdateOneRequiredWithoutClass_subjectsNestedInput
+  teachers?: Prisma.SubjectTeacherUpdateManyWithoutClass_subjectNestedInput
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUpdateManyWithoutClass_subjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateWithoutClassInput = {
@@ -685,8 +685,8 @@ export type ClassSubjectUncheckedUpdateWithoutClassInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   subject_id?: Prisma.StringFieldUpdateOperationsInput | string
   subject_type?: Prisma.EnumSubjectTypeFieldUpdateOperationsInput | $Enums.SubjectType
-  teachers?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutClassSubjectNestedInput
-  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedUpdateManyWithoutClassSubjectNestedInput
+  teachers?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutClass_subjectNestedInput
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedUpdateManyWithoutClass_subjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateManyWithoutClassInput = {
@@ -707,9 +707,9 @@ export type ClassSubjectUpdateWithoutSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   subject_type?: Prisma.EnumSubjectTypeFieldUpdateOperationsInput | $Enums.SubjectType
-  class?: Prisma.ClassUpdateOneRequiredWithoutClassSubjectsNestedInput
-  teachers?: Prisma.SubjectTeacherUpdateManyWithoutClassSubjectNestedInput
-  student_subject_registrations?: Prisma.StudentSubjectRegistrationUpdateManyWithoutClassSubjectNestedInput
+  class?: Prisma.ClassUpdateOneRequiredWithoutClass_subjectsNestedInput
+  teachers?: Prisma.SubjectTeacherUpdateManyWithoutClass_subjectNestedInput
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUpdateManyWithoutClass_subjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateWithoutSubjectInput = {
@@ -717,8 +717,8 @@ export type ClassSubjectUncheckedUpdateWithoutSubjectInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   class_id?: Prisma.StringFieldUpdateOperationsInput | string
   subject_type?: Prisma.EnumSubjectTypeFieldUpdateOperationsInput | $Enums.SubjectType
-  teachers?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutClassSubjectNestedInput
-  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedUpdateManyWithoutClassSubjectNestedInput
+  teachers?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutClass_subjectNestedInput
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedUpdateManyWithoutClass_subjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateManyWithoutSubjectInput = {

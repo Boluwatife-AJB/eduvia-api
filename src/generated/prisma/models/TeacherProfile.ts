@@ -203,7 +203,7 @@ export type TeacherProfileWhereInput = {
   date_joined?: Prisma.DateTimeNullableFilter<"TeacherProfile"> | Date | string | null
   assigned_subject_ids?: Prisma.StringNullableListFilter<"TeacherProfile">
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  tutorialClasses?: Prisma.TutorialClassListRelationFilter
+  tutorial_classes?: Prisma.TutorialClassListRelationFilter
   lectures?: Prisma.LectureListRelationFilter
 }
 
@@ -217,7 +217,7 @@ export type TeacherProfileOrderByWithRelationInput = {
   date_joined?: Prisma.SortOrderInput | Prisma.SortOrder
   assigned_subject_ids?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
-  tutorialClasses?: Prisma.TutorialClassOrderByRelationAggregateInput
+  tutorial_classes?: Prisma.TutorialClassOrderByRelationAggregateInput
   lectures?: Prisma.LectureOrderByRelationAggregateInput
 }
 
@@ -234,7 +234,7 @@ export type TeacherProfileWhereUniqueInput = Prisma.AtLeast<{
   date_joined?: Prisma.DateTimeNullableFilter<"TeacherProfile"> | Date | string | null
   assigned_subject_ids?: Prisma.StringNullableListFilter<"TeacherProfile">
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  tutorialClasses?: Prisma.TutorialClassListRelationFilter
+  tutorial_classes?: Prisma.TutorialClassListRelationFilter
   lectures?: Prisma.LectureListRelationFilter
 }, "id" | "user_id" | "employee_id">
 
@@ -275,7 +275,7 @@ export type TeacherProfileCreateInput = {
   date_joined?: Date | string | null
   assigned_subject_ids?: Prisma.TeacherProfileCreateassigned_subject_idsInput | string[]
   user: Prisma.UserCreateNestedOneWithoutTeacher_profileInput
-  tutorialClasses?: Prisma.TutorialClassCreateNestedManyWithoutTeacherProfileInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTeacher_profileInput
   lectures?: Prisma.LectureCreateNestedManyWithoutTeacherInput
 }
 
@@ -288,7 +288,7 @@ export type TeacherProfileUncheckedCreateInput = {
   qualification?: string | null
   date_joined?: Date | string | null
   assigned_subject_ids?: Prisma.TeacherProfileCreateassigned_subject_idsInput | string[]
-  tutorialClasses?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTeacherProfileInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTeacher_profileInput
   lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTeacherInput
 }
 
@@ -301,7 +301,7 @@ export type TeacherProfileUpdateInput = {
   date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assigned_subject_ids?: Prisma.TeacherProfileUpdateassigned_subject_idsInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutTeacher_profileNestedInput
-  tutorialClasses?: Prisma.TutorialClassUpdateManyWithoutTeacherProfileNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTeacher_profileNestedInput
   lectures?: Prisma.LectureUpdateManyWithoutTeacherNestedInput
 }
 
@@ -314,7 +314,7 @@ export type TeacherProfileUncheckedUpdateInput = {
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assigned_subject_ids?: Prisma.TeacherProfileUpdateassigned_subject_idsInput | string[]
-  tutorialClasses?: Prisma.TutorialClassUncheckedUpdateManyWithoutTeacherProfileNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTeacher_profileNestedInput
   lectures?: Prisma.LectureUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
@@ -432,20 +432,20 @@ export type TeacherProfileUpdateassigned_subject_idsInput = {
   push?: string | string[]
 }
 
-export type TeacherProfileCreateNestedOneWithoutTutorialClassesInput = {
-  create?: Prisma.XOR<Prisma.TeacherProfileCreateWithoutTutorialClassesInput, Prisma.TeacherProfileUncheckedCreateWithoutTutorialClassesInput>
-  connectOrCreate?: Prisma.TeacherProfileCreateOrConnectWithoutTutorialClassesInput
+export type TeacherProfileCreateNestedOneWithoutTutorial_classesInput = {
+  create?: Prisma.XOR<Prisma.TeacherProfileCreateWithoutTutorial_classesInput, Prisma.TeacherProfileUncheckedCreateWithoutTutorial_classesInput>
+  connectOrCreate?: Prisma.TeacherProfileCreateOrConnectWithoutTutorial_classesInput
   connect?: Prisma.TeacherProfileWhereUniqueInput
 }
 
-export type TeacherProfileUpdateOneWithoutTutorialClassesNestedInput = {
-  create?: Prisma.XOR<Prisma.TeacherProfileCreateWithoutTutorialClassesInput, Prisma.TeacherProfileUncheckedCreateWithoutTutorialClassesInput>
-  connectOrCreate?: Prisma.TeacherProfileCreateOrConnectWithoutTutorialClassesInput
-  upsert?: Prisma.TeacherProfileUpsertWithoutTutorialClassesInput
+export type TeacherProfileUpdateOneWithoutTutorial_classesNestedInput = {
+  create?: Prisma.XOR<Prisma.TeacherProfileCreateWithoutTutorial_classesInput, Prisma.TeacherProfileUncheckedCreateWithoutTutorial_classesInput>
+  connectOrCreate?: Prisma.TeacherProfileCreateOrConnectWithoutTutorial_classesInput
+  upsert?: Prisma.TeacherProfileUpsertWithoutTutorial_classesInput
   disconnect?: Prisma.TeacherProfileWhereInput | boolean
   delete?: Prisma.TeacherProfileWhereInput | boolean
   connect?: Prisma.TeacherProfileWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TeacherProfileUpdateToOneWithWhereWithoutTutorialClassesInput, Prisma.TeacherProfileUpdateWithoutTutorialClassesInput>, Prisma.TeacherProfileUncheckedUpdateWithoutTutorialClassesInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TeacherProfileUpdateToOneWithWhereWithoutTutorial_classesInput, Prisma.TeacherProfileUpdateWithoutTutorial_classesInput>, Prisma.TeacherProfileUncheckedUpdateWithoutTutorial_classesInput>
 }
 
 export type TeacherProfileCreateNestedOneWithoutLecturesInput = {
@@ -470,7 +470,7 @@ export type TeacherProfileCreateWithoutUserInput = {
   qualification?: string | null
   date_joined?: Date | string | null
   assigned_subject_ids?: Prisma.TeacherProfileCreateassigned_subject_idsInput | string[]
-  tutorialClasses?: Prisma.TutorialClassCreateNestedManyWithoutTeacherProfileInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTeacher_profileInput
   lectures?: Prisma.LectureCreateNestedManyWithoutTeacherInput
 }
 
@@ -482,7 +482,7 @@ export type TeacherProfileUncheckedCreateWithoutUserInput = {
   qualification?: string | null
   date_joined?: Date | string | null
   assigned_subject_ids?: Prisma.TeacherProfileCreateassigned_subject_idsInput | string[]
-  tutorialClasses?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTeacherProfileInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTeacher_profileInput
   lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTeacherInput
 }
 
@@ -510,7 +510,7 @@ export type TeacherProfileUpdateWithoutUserInput = {
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assigned_subject_ids?: Prisma.TeacherProfileUpdateassigned_subject_idsInput | string[]
-  tutorialClasses?: Prisma.TutorialClassUpdateManyWithoutTeacherProfileNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTeacher_profileNestedInput
   lectures?: Prisma.LectureUpdateManyWithoutTeacherNestedInput
 }
 
@@ -522,11 +522,11 @@ export type TeacherProfileUncheckedUpdateWithoutUserInput = {
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assigned_subject_ids?: Prisma.TeacherProfileUpdateassigned_subject_idsInput | string[]
-  tutorialClasses?: Prisma.TutorialClassUncheckedUpdateManyWithoutTeacherProfileNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTeacher_profileNestedInput
   lectures?: Prisma.LectureUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
-export type TeacherProfileCreateWithoutTutorialClassesInput = {
+export type TeacherProfileCreateWithoutTutorial_classesInput = {
   id?: string
   tenant_id: string
   employee_id: string
@@ -538,7 +538,7 @@ export type TeacherProfileCreateWithoutTutorialClassesInput = {
   lectures?: Prisma.LectureCreateNestedManyWithoutTeacherInput
 }
 
-export type TeacherProfileUncheckedCreateWithoutTutorialClassesInput = {
+export type TeacherProfileUncheckedCreateWithoutTutorial_classesInput = {
   id?: string
   user_id: string
   tenant_id: string
@@ -550,23 +550,23 @@ export type TeacherProfileUncheckedCreateWithoutTutorialClassesInput = {
   lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTeacherInput
 }
 
-export type TeacherProfileCreateOrConnectWithoutTutorialClassesInput = {
+export type TeacherProfileCreateOrConnectWithoutTutorial_classesInput = {
   where: Prisma.TeacherProfileWhereUniqueInput
-  create: Prisma.XOR<Prisma.TeacherProfileCreateWithoutTutorialClassesInput, Prisma.TeacherProfileUncheckedCreateWithoutTutorialClassesInput>
+  create: Prisma.XOR<Prisma.TeacherProfileCreateWithoutTutorial_classesInput, Prisma.TeacherProfileUncheckedCreateWithoutTutorial_classesInput>
 }
 
-export type TeacherProfileUpsertWithoutTutorialClassesInput = {
-  update: Prisma.XOR<Prisma.TeacherProfileUpdateWithoutTutorialClassesInput, Prisma.TeacherProfileUncheckedUpdateWithoutTutorialClassesInput>
-  create: Prisma.XOR<Prisma.TeacherProfileCreateWithoutTutorialClassesInput, Prisma.TeacherProfileUncheckedCreateWithoutTutorialClassesInput>
+export type TeacherProfileUpsertWithoutTutorial_classesInput = {
+  update: Prisma.XOR<Prisma.TeacherProfileUpdateWithoutTutorial_classesInput, Prisma.TeacherProfileUncheckedUpdateWithoutTutorial_classesInput>
+  create: Prisma.XOR<Prisma.TeacherProfileCreateWithoutTutorial_classesInput, Prisma.TeacherProfileUncheckedCreateWithoutTutorial_classesInput>
   where?: Prisma.TeacherProfileWhereInput
 }
 
-export type TeacherProfileUpdateToOneWithWhereWithoutTutorialClassesInput = {
+export type TeacherProfileUpdateToOneWithWhereWithoutTutorial_classesInput = {
   where?: Prisma.TeacherProfileWhereInput
-  data: Prisma.XOR<Prisma.TeacherProfileUpdateWithoutTutorialClassesInput, Prisma.TeacherProfileUncheckedUpdateWithoutTutorialClassesInput>
+  data: Prisma.XOR<Prisma.TeacherProfileUpdateWithoutTutorial_classesInput, Prisma.TeacherProfileUncheckedUpdateWithoutTutorial_classesInput>
 }
 
-export type TeacherProfileUpdateWithoutTutorialClassesInput = {
+export type TeacherProfileUpdateWithoutTutorial_classesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   employee_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -578,7 +578,7 @@ export type TeacherProfileUpdateWithoutTutorialClassesInput = {
   lectures?: Prisma.LectureUpdateManyWithoutTeacherNestedInput
 }
 
-export type TeacherProfileUncheckedUpdateWithoutTutorialClassesInput = {
+export type TeacherProfileUncheckedUpdateWithoutTutorial_classesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -599,7 +599,7 @@ export type TeacherProfileCreateWithoutLecturesInput = {
   date_joined?: Date | string | null
   assigned_subject_ids?: Prisma.TeacherProfileCreateassigned_subject_idsInput | string[]
   user: Prisma.UserCreateNestedOneWithoutTeacher_profileInput
-  tutorialClasses?: Prisma.TutorialClassCreateNestedManyWithoutTeacherProfileInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTeacher_profileInput
 }
 
 export type TeacherProfileUncheckedCreateWithoutLecturesInput = {
@@ -611,7 +611,7 @@ export type TeacherProfileUncheckedCreateWithoutLecturesInput = {
   qualification?: string | null
   date_joined?: Date | string | null
   assigned_subject_ids?: Prisma.TeacherProfileCreateassigned_subject_idsInput | string[]
-  tutorialClasses?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTeacherProfileInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTeacher_profileInput
 }
 
 export type TeacherProfileCreateOrConnectWithoutLecturesInput = {
@@ -639,7 +639,7 @@ export type TeacherProfileUpdateWithoutLecturesInput = {
   date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assigned_subject_ids?: Prisma.TeacherProfileUpdateassigned_subject_idsInput | string[]
   user?: Prisma.UserUpdateOneRequiredWithoutTeacher_profileNestedInput
-  tutorialClasses?: Prisma.TutorialClassUpdateManyWithoutTeacherProfileNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTeacher_profileNestedInput
 }
 
 export type TeacherProfileUncheckedUpdateWithoutLecturesInput = {
@@ -651,7 +651,7 @@ export type TeacherProfileUncheckedUpdateWithoutLecturesInput = {
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assigned_subject_ids?: Prisma.TeacherProfileUpdateassigned_subject_idsInput | string[]
-  tutorialClasses?: Prisma.TutorialClassUncheckedUpdateManyWithoutTeacherProfileNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTeacher_profileNestedInput
 }
 
 
@@ -660,12 +660,12 @@ export type TeacherProfileUncheckedUpdateWithoutLecturesInput = {
  */
 
 export type TeacherProfileCountOutputType = {
-  tutorialClasses: number
+  tutorial_classes: number
   lectures: number
 }
 
 export type TeacherProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tutorialClasses?: boolean | TeacherProfileCountOutputTypeCountTutorialClassesArgs
+  tutorial_classes?: boolean | TeacherProfileCountOutputTypeCountTutorial_classesArgs
   lectures?: boolean | TeacherProfileCountOutputTypeCountLecturesArgs
 }
 
@@ -682,7 +682,7 @@ export type TeacherProfileCountOutputTypeDefaultArgs<ExtArgs extends runtime.Typ
 /**
  * TeacherProfileCountOutputType without action
  */
-export type TeacherProfileCountOutputTypeCountTutorialClassesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TeacherProfileCountOutputTypeCountTutorial_classesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TutorialClassWhereInput
 }
 
@@ -704,7 +704,7 @@ export type TeacherProfileSelect<ExtArgs extends runtime.Types.Extensions.Intern
   date_joined?: boolean
   assigned_subject_ids?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  tutorialClasses?: boolean | Prisma.TeacherProfile$tutorialClassesArgs<ExtArgs>
+  tutorial_classes?: boolean | Prisma.TeacherProfile$tutorial_classesArgs<ExtArgs>
   lectures?: boolean | Prisma.TeacherProfile$lecturesArgs<ExtArgs>
   _count?: boolean | Prisma.TeacherProfileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teacherProfile"]>
@@ -747,7 +747,7 @@ export type TeacherProfileSelectScalar = {
 export type TeacherProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "tenant_id" | "employee_id" | "department_id" | "qualification" | "date_joined" | "assigned_subject_ids", ExtArgs["result"]["teacherProfile"]>
 export type TeacherProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  tutorialClasses?: boolean | Prisma.TeacherProfile$tutorialClassesArgs<ExtArgs>
+  tutorial_classes?: boolean | Prisma.TeacherProfile$tutorial_classesArgs<ExtArgs>
   lectures?: boolean | Prisma.TeacherProfile$lecturesArgs<ExtArgs>
   _count?: boolean | Prisma.TeacherProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -762,7 +762,7 @@ export type $TeacherProfilePayload<ExtArgs extends runtime.Types.Extensions.Inte
   name: "TeacherProfile"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
-    tutorialClasses: Prisma.$TutorialClassPayload<ExtArgs>[]
+    tutorial_classes: Prisma.$TutorialClassPayload<ExtArgs>[]
     lectures: Prisma.$LecturePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1172,7 +1172,7 @@ readonly fields: TeacherProfileFieldRefs;
 export interface Prisma__TeacherProfileClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  tutorialClasses<T extends Prisma.TeacherProfile$tutorialClassesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeacherProfile$tutorialClassesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TutorialClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tutorial_classes<T extends Prisma.TeacherProfile$tutorial_classesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeacherProfile$tutorial_classesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TutorialClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   lectures<T extends Prisma.TeacherProfile$lecturesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeacherProfile$lecturesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LecturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1612,9 +1612,9 @@ export type TeacherProfileDeleteManyArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
- * TeacherProfile.tutorialClasses
+ * TeacherProfile.tutorial_classes
  */
-export type TeacherProfile$tutorialClassesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TeacherProfile$tutorial_classesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the TutorialClass
    */
