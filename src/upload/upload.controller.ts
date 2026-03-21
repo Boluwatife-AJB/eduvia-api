@@ -4,6 +4,7 @@ import {
   HttpCode,
   Post,
   UploadedFile,
+  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
 import {
@@ -16,10 +17,12 @@ import {
 } from '@nestjs/swagger';
 import { LARGE_FILE_THRESHOLD, UploadService } from './upload.service';
 import { ClsService } from 'nestjs-cls';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import {
+  ConfirmManyUploadsDto,
   ConfirmPresignedUploadDto,
+  GetManyPresignedUrlsDto,
   GetPresignedUrlDto,
 } from './dto/upload.dto';
 
@@ -79,6 +82,45 @@ export class UploadController {
     };
   }
 
+  // Bulk small file upload
+  @Post('bulk')
+  @UseInterceptors(
+    FilesInterceptor('files', 20, {
+      // max 20 files per request
+      storage: memoryStorage(),
+      limits: { fileSize: LARGE_FILE_THRESHOLD },
+    }),
+  )
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        files: {
+          type: 'array',
+          items: { type: 'string', format: 'binary' },
+        },
+        folder: { type: 'string', example: 'repository' },
+      },
+    },
+  })
+  @ApiOperation({
+    summary: 'Upload multiple files at once (each under 50MB)',
+    description:
+      'Send up to 20 files in one request. Returns success/failure per file. Partial success is valid — some files may succeed while others fail.',
+  })
+  async uploadManySmallFiles(
+    @UploadedFiles() files: Express.Multer.File[],
+    @Body('folder') folder: string,
+  ) {
+    const tenantId = this.cls.get<string>('tenantId');
+    return this.uploadService.uploadManySmallFiles(
+      files,
+      folder ?? 'general',
+      tenantId,
+    );
+  }
+
   // Step 1: Large file upload
   @Post('presigned-url')
   @HttpCode(200)
@@ -102,6 +144,23 @@ export class UploadController {
     );
   }
 
+  //  Bulk presigned url
+  @Post('presigned-url/bulk')
+  @HttpCode(200)
+  @ApiOperation({
+    summary: 'Get presigned URLs for multiple large files at once',
+    description:
+      'Step 1 of 2 for bulk large file uploads. Returns an uploadUrl per file. PUT each file to its uploadUrl in parallel, then call /upload/confirm/bulk.',
+  })
+  getManyPresignedUrls(@Body() dto: GetManyPresignedUrlsDto) {
+    const tenantId = this.cls.get<string>('tenantId');
+    return this.uploadService.getManyPresignedUrls(
+      dto.files,
+      dto.folder,
+      tenantId,
+    );
+  }
+
   // Step 2: Confirm large file upload
   @Post('confirm')
   @HttpCode(200)
@@ -119,5 +178,16 @@ export class UploadController {
       dto.file_key,
       dto.file_name,
     );
+  }
+
+  // Bulk confirm large file uploads@Post('confirm/bulk')
+  @HttpCode(200)
+  @ApiOperation({
+    summary: 'Confirm multiple large file uploads at once — step 2 of 2',
+    description:
+      'Call after all PUT requests to R2 have completed. Returns fileUrl per file to use in your create requests.',
+  })
+  confirmManyPresignedUploads(@Body() dto: ConfirmManyUploadsDto) {
+    return this.uploadService.confirmManyPresignedUploads(dto.uploads);
   }
 }

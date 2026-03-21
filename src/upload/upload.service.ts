@@ -82,10 +82,49 @@ export interface PresignedUrlResult {
   file_key: string;
   public_url: string;
   expires_in: number;
+  mime_type: string;
+  file_name: string;
   required_headers: {
     'Content-Type': string;
-    // 'x-amz-content-sha256': string
+    'x-amz-content-sha256': string;
   };
+}
+
+export interface BulkUploadResultItem {
+  file_name: string;
+  status: 'success' | 'failed';
+  file_url?: string;
+  file_key?: string;
+  mime_type?: string;
+  file_size_bytes?: number;
+  error?: string;
+}
+
+export interface BulkUploadResult {
+  total: number;
+  succeeded: number;
+  failed: number;
+  files: BulkUploadResultItem[];
+}
+
+export interface BulkPresignedUrlResultItem {
+  file_name: string;
+  status: 'ready' | 'failed';
+  upload_url?: string;
+  file_key?: string;
+  public_url?: string;
+  required_headers?: {
+    'Content-Type': string;
+    'x-amz-content-sha256': string;
+  };
+  error?: string;
+}
+
+export interface BulkPresignedUrlResult {
+  total: number;
+  ready: number;
+  failed: number;
+  files: BulkPresignedUrlResultItem[];
 }
 
 @Injectable()
@@ -157,6 +196,58 @@ export class UploadService {
     };
   }
 
+  async uploadManySmallFiles(
+    files: Express.Multer.File[],
+    folder: string,
+    tenantId: string,
+  ): Promise<BulkUploadResult> {
+    const results: BulkUploadResultItem[] = [];
+
+    const settled = await Promise.allSettled(
+      files.map((file) => this.uploadSmallFile(file, folder, tenantId)),
+    );
+
+    for (let i = 0; i < settled.length; i++) {
+      const file = files[i];
+      const result = settled[i];
+
+      if (result.status === 'fulfilled') {
+        results.push({
+          file_name: file.originalname,
+          status: 'success',
+          file_url: result.value.file_url,
+          file_key: result.value.file_key,
+          mime_type: result.value.mime_type,
+          file_size_bytes: result.value.file_size_bytes,
+        });
+      } else {
+        results.push({
+          file_name: file.originalname,
+          status: 'failed',
+          error: (result.reason as Error)?.message ?? 'Upload failed',
+        });
+      }
+    }
+
+    const succeeded = results.filter(
+      (result) => result.status === 'success',
+    ).length;
+    const failed = results.filter(
+      (result) => result.status === 'failed',
+    ).length;
+
+    this.logger.log(
+      `Bulk upload: ${succeeded} files uploaded successfully, ${failed} files failed in this school ${tenantId}`,
+    );
+
+    return {
+      total: files.length,
+      succeeded: succeeded,
+      failed: failed,
+      files: results,
+    };
+  }
+
   // Part B: Upload large files (> 50MB)
   async getPresignedUrl(
     folder: string,
@@ -188,11 +279,73 @@ export class UploadService {
       upload_url: uploadUrl,
       file_key: fileKey,
       public_url: `${this.publicUrl}/${fileKey}`,
+      file_name: fileName,
+      mime_type: mimeType,
       expires_in: expiresIn,
       required_headers: {
         'Content-Type': mimeType,
-        // 'x-amz-content-sha256': 'UNSIGNED-PAYLOAD',
+        'x-amz-content-sha256': 'UNSIGNED-PAYLOAD',
       },
+    };
+  }
+
+  async getManyPresignedUrls(
+    files: Array<{
+      file_name: string;
+      mime_type: string;
+      file_size_bytes: number;
+    }>,
+    folder: string,
+    tenantId: string,
+  ): Promise<BulkPresignedUrlResult> {
+    const results: BulkPresignedUrlResultItem[] = [];
+
+    const settled = await Promise.allSettled(
+      files.map((file) =>
+        this.getPresignedUrl(
+          folder,
+          tenantId,
+          file.mime_type,
+          file.file_size_bytes,
+          file.file_name,
+        ),
+      ),
+    );
+
+    for (let i = 0; i < settled.length; i++) {
+      const file = files[i];
+      const result = settled[i];
+
+      if (result.status === 'fulfilled') {
+        results.push({
+          file_name: file.file_name,
+          status: 'ready',
+          upload_url: result.value.upload_url,
+          file_key: result.value.file_key,
+          public_url: result.value.public_url,
+          required_headers: result.value.required_headers,
+        });
+      } else {
+        results.push({
+          file_name: file.file_name,
+          status: 'failed',
+          error:
+            (result.reason as Error)?.message ??
+            'Could not generate upload URL',
+        });
+      }
+    }
+
+    const ready = results.filter((result) => result.status === 'ready').length;
+    const failed = results.filter(
+      (result) => result.status === 'failed',
+    ).length;
+
+    return {
+      total: files.length,
+      ready: ready,
+      failed: failed,
+      files: results,
     };
   }
 
@@ -226,6 +379,58 @@ export class UploadService {
       mime_type: head.ContentType ?? 'application/octet-stream',
       file_size_bytes: head.ContentLength ?? 0,
       file_name: fileName,
+    };
+  }
+
+  async confirmManyPresignedUploads(
+    uploads: Array<{ file_key: string; file_name: string }>,
+  ): Promise<BulkUploadResult> {
+    const settled = await Promise.allSettled(
+      uploads.map((upload) =>
+        this.confirmPresignedUpload(upload.file_key, upload.file_name),
+      ),
+    );
+
+    const results: BulkUploadResultItem[] = [];
+
+    for (let i = 0; i < settled.length; i++) {
+      const upload = uploads[i];
+      const result = settled[i];
+
+      if (result.status === 'fulfilled') {
+        results.push({
+          file_name: upload.file_name,
+          status: 'success',
+          file_url: result.value.file_url,
+          file_key: result.value.file_key,
+          mime_type: result.value.mime_type,
+          file_size_bytes: result.value.file_size_bytes,
+        });
+      } else {
+        results.push({
+          file_name: upload.file_name,
+          status: 'failed',
+          error: (result.reason as Error)?.message ?? 'Confirmation failed',
+        });
+      }
+    }
+
+    const succeeded = results.filter(
+      (result) => result.status === 'success',
+    ).length;
+    const failed = results.filter(
+      (result) => result.status === 'failed',
+    ).length;
+
+    this.logger.log(
+      `Bulk confirmation: ${succeeded} uploads confirmed successfully, ${failed} uploads failed`,
+    );
+
+    return {
+      total: uploads.length,
+      succeeded: succeeded,
+      failed: failed,
+      files: results,
     };
   }
 

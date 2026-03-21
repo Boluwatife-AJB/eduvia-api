@@ -17,19 +17,16 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { LecturesService } from './lectures.service';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from 'src/generated/prisma/enums';
 import {
-  ConfirmUploadDto,
   CreateLectureDto,
   QueryLecturesDto,
-  RequestUploadUrlDto,
   UpdateLectureDto,
   UpdateViewProgressDto,
 } from './dto/lecture.dto.ts';
-import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
-import { ACCEPTED_MIME_TYPES } from 'src/storage/storage.service';
+import { LecturesService } from './lectures.service';
 
 const TEACHER_ROLES = [
   UserRole.TEACHER,
