@@ -15,6 +15,7 @@ import { LectureContentType, LectureStatus } from 'src/generated/prisma/enums';
 import { UploadService } from 'src/upload/upload.service';
 import {
   CreateLectureDto,
+  QueryLecturesAsStudentDto,
   QueryLecturesDto,
   UpdateLectureDto,
   UpdateViewProgressDto,
@@ -298,7 +299,10 @@ export class LecturesService {
   }
 
   // Fetch lectures for a student: Student can only see lectures that are published, assigned to their class and registered for the subject
-  async getStudentLectures(studentUserId: string, query: QueryLecturesDto) {
+  async getStudentLectures(
+    studentUserId: string,
+    query: QueryLecturesAsStudentDto,
+  ) {
     const tenantId = this.cls.get<string>('tenantId');
 
     const studentProfile = await this.prisma.studentProfile.findFirst({
@@ -398,6 +402,7 @@ export class LecturesService {
       update: { viewed_at: new Date() },
       create: {
         tenant_id: tenantId,
+        lecture_id: lectureId,
         student_id: studentUserId,
         progress_percentage: 0,
       },

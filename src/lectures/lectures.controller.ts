@@ -139,7 +139,7 @@ export class LecturesController {
   })
   getMyLecturesAsStudent(
     @CurrentUser() user: { id: string },
-    @Query() query: QueryLecturesDto,
+    @Query() query: QueryLecturesAsStudentDto,
   ) {
     return this.lecturesService.getStudentLectures(user.id, query);
   }

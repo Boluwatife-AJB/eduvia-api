@@ -180,10 +180,26 @@ export class QueryLecturesDto {
   @IsOptional()
   subject_id?: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    example: '123e4567-e89b-12d3-a456-426614174000',
+    description: 'Class ID',
+  })
   @IsString()
   @IsOptional()
   class_id?: string;
+
+  @ApiPropertyOptional({ enum: LectureContentType })
+  @IsEnum(LectureContentType)
+  @IsOptional()
+  content_type?: LectureContentType;
+}
+
+// Student queries lectures
+export class QueryLecturesAsStudentDto {
+  @ApiPropertyOptional({ description: 'Filter by subject ID' })
+  @IsString()
+  @IsOptional()
+  subject_id?: string;
 
   @ApiPropertyOptional({ enum: LectureContentType })
   @IsEnum(LectureContentType)
