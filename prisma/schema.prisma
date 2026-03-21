@@ -9,21 +9,21 @@ datasource db {
 }
 
 model Tenant {
-  id                String            @id @default(uuid())
+  id                String             @id @default(uuid())
   name              String
-  slug              String            @unique
+  slug              String             @unique
   /// Short code used in matric/employee IDs (e.g. GFA for Greenfield Academy). Falls back to slug if not set.
   initials          String?
   email             String?
   phone             String?
   address           String?
   logo              String?
-  status            TenantStatus      @default(ACTIVE)
-  plan              String            @default("free")
-  config            Json              @default("{}")
-  created_at        DateTime          @default(now())
+  status            TenantStatus       @default(ACTIVE)
+  plan              String             @default("free")
+  config            Json               @default("{}")
+  created_at        DateTime           @default(now())
   deleted_at        DateTime?
-  updated_at        DateTime          @updatedAt
+  updated_at        DateTime           @updatedAt
   users             User[]
   academic_sessions AcademicSession[]
   academic_terms    AcademicTerm[]
@@ -33,6 +33,9 @@ model Tenant {
   timeTableSlots    TimeTableSlot[]
   tutorialClasses   TutorialClass[]
   lectures          Lecture[]
+  repository_folders RepositoryFolder[]
+  repository_files   RepositoryFile[]
+  tenant_storage     TenantStorage?
 
   @@map("tenants")
 }
@@ -373,18 +376,134 @@ model Lecture {
 }
 
 model LectureView {
-  id            String   @id @default(uuid())
-  tenant_id     String
-  lecture_id    String
-  student_id       String
-  viewed_at     DateTime @default(now())
-  progress_percentage Int @default(0)
+  id                  String   @id @default(uuid())
+  tenant_id           String
+  lecture_id          String
+  student_id          String
+  viewed_at           DateTime @default(now())
+  progress_percentage Int      @default(0)
 
+  lecture Lecture? @relation(fields: [lecture_id], references: [id], onDelete: Cascade)
 
-  lecture       Lecture? @relation(fields: [lecture_id], references: [id], onDelete: Cascade)
- 
   @@unique([lecture_id, student_id])
   @@map("lecture_views")
+}
+
+model RepositoryFolder {
+  id               String          @id @default(uuid())
+  tenant_id        String
+  name             String
+  scope            RepositoryScope
+  scope_id         String?
+  parent_folder_id String?
+  depth            Int             @default(0)
+  status           FileStatus      @default(ACTIVE)
+  created_by       String
+  created_at       DateTime        @default(now())
+  updated_at       DateTime        @updatedAt
+
+  tenant   Tenant             @relation(fields: [tenant_id], references: [id])
+  parent   RepositoryFolder?  @relation("FolderChildren", fields: [parent_folder_id], references: [id])
+  children RepositoryFolder[] @relation("FolderChildren")
+  files    RepositoryFile[]
+
+  @@unique([tenant_id, name, parent_folder_id, scope_id, scope])
+  @@map("repository_folders")
+}
+
+model RepositoryFile {
+  id                 String          @id @default(uuid())
+  tenant_id          String
+  folder_id          String
+  scope_id           String?
+  scope              RepositoryScope
+  name               String
+  description        String?
+  tags               String[]        @default([])
+  current_version_id String?
+  total_versions     Int             @default(0)
+  status             FileStatus      @default(ACTIVE)
+  is_global_search   Boolean         @default(false)
+  expires_at         DateTime?
+  retention_until    DateTime?
+  uploaded_by        String
+  link_record_type   String?
+  link_record_id     String?
+  created_at         DateTime        @default(now())
+  updated_at         DateTime        @updatedAt
+
+  tenant      Tenant                    @relation(fields: [tenant_id], references: [id])
+  folder      RepositoryFolder          @relation(fields: [folder_id], references: [id])
+  versions    RepositoryFileVersion[]
+  share_links RepositoryShareLink[]
+  access_logs RepositoryFileAccessLog[]
+
+  @@map("repository_files")
+}
+
+model RepositoryFileVersion {
+  id              String   @id @default(uuid())
+  tenant_id       String
+  file_id         String
+  version_number  Int
+  file_key        String
+  file_url        String
+  mime_type       String
+  file_size_bytes BigInt
+  uploaded_by     String
+  change_note     String?
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  file RepositoryFile @relation(fields: [file_id], references: [id], onDelete: Cascade)
+
+  @@unique([file_id, version_number])
+  @@map("repository_file_versions")
+}
+
+model RepositoryShareLink {
+  id               String    @id @default(uuid())
+  tenant_id        String
+  file_id          String
+  token            String    @unique
+  created_by       String
+  expires_at       DateTime?
+  access_count     Int       @default(0)
+  max_access_count Int?
+  created_at       DateTime  @default(now())
+
+  file RepositoryFile @relation(fields: [file_id], references: [id], onDelete: Cascade)
+
+  @@map("repository_share_links")
+}
+
+model RepositoryFileAccessLog {
+  id          String   @id @default(uuid())
+  tenant_id   String
+  file_id     String
+  user_id     String?
+  share_token String?
+  action      String
+  accessed_at DateTime @default(now())
+  ip_address  String?
+  user_agent  String
+
+  file RepositoryFile @relation(fields: [file_id], references: [id], onDelete: Cascade)
+
+  @@map("repository_file_access_logs")
+}
+
+model TenantStorage {
+  id          String   @id @default(uuid())
+  tenant_id   String   @unique
+  used_bytes  BigInt   @default(0)
+  quota_bytes BigInt
+  plan        TenantStoragePlan @default(FREE)
+  updated_at  DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenant_id], references: [id])
+
+  @@map("tenant_storage")
 }
 
 enum UserRole {
@@ -456,4 +575,43 @@ enum LectureStatus {
   PUBLISHED
   UNPUBLISHED
   ARCHIVED
+}
+
+enum RepositoryScope {
+  CLASS_DOCUMENTS
+  SUBJECT_DOCUMENTS
+  PAST_QUESTIONS
+  DEPARTMENT_DOCUMENTS
+  SCHOOL_DOCUMENTS
+  STAFF_RECORDS
+  TUITION_PAYMENTS
+  STAFF_SALARY
+  SCHOOL_EXPENSES
+  HEALTH_RECORDS
+  COUNSELING_RECORDS
+  DISCIPLINARY_RECORDS
+  LIBRARY_RECORDS
+  LABORATORY_RECORDS
+  INVENTORY_RECORDS
+  MAINTENANCE_RECORDS
+  VISITOR_LOGS
+  PTA_MEETINGS
+  STAFF_MEETINGS
+  SCHOOL_EVENTS
+  EXTRACURRICULAR
+  SPORT_RECORDS
+  OTHER
+}
+
+enum FileStatus {
+  ACTIVE
+  ARCHIVED
+  DELETED
+}
+
+enum TenantStoragePlan {
+  FREE
+  BASIC
+  PRO
+  ENTERPRISE
 }
