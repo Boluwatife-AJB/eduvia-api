@@ -416,3 +416,153 @@ export class TeacherProfileNotFoundException extends AppException {
     });
   }
 }
+
+// REPOSITORY EXCEPTIONS
+export class RepositoryAccessDeniedException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.REPOSITORY_ACCESS_DENIED,
+      statusCode: HttpStatus.FORBIDDEN,
+      message: 'You do not have permission to access this repository section.',
+      action: 'Contact your administrator if you believe this is an error.',
+    });
+  }
+}
+
+export class FolderNotFoundException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.FOLDER_NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
+      message: 'Folder not found.',
+    });
+  }
+}
+
+export class FolderNotEmptyException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.FOLDER_NOT_EMPTY,
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: 'Cannot delete a folder that still contains files.',
+      action: 'Move or delete all files inside the folder first.',
+    });
+  }
+}
+
+export class FolderMaxDepthException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.FOLDER_MAX_DEPTH_REACHED,
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: 'Folders can only be nested up to 3 levels deep.',
+    });
+  }
+}
+
+export class FolderAlreadyExistsException extends AppException {
+  constructor(name: string) {
+    super({
+      code: ErrorCode.FOLDER_ALREADY_EXISTS,
+      statusCode: HttpStatus.CONFLICT,
+      message: `A folder named '${name}' already exists here.`,
+    });
+  }
+}
+
+export class RepositoryFileNotFoundException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.FILE_NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
+      message: 'File not found.',
+    });
+  }
+}
+
+export class FileUnderRetentionException extends AppException {
+  constructor(retentionUntil: Date) {
+    super({
+      code: ErrorCode.FILE_UNDER_RETENTION,
+      statusCode: HttpStatus.FORBIDDEN,
+      message: `This file cannot be deleted until ${retentionUntil.toDateString()} due to retention policy.`,
+      action: 'Only a Super Admin can override the retention policy.',
+    });
+  }
+}
+
+export class FileArchivedException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.FILE_ARCHIVED,
+      statusCode: HttpStatus.GONE,
+      message: 'This file has been archived and is no longer accessible.',
+      action: 'Contact your administrator to restore the file.',
+    });
+  }
+}
+
+export class FileVersionNotFoundException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.FILE_VERSION_NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
+      message: 'File version not found.',
+    });
+  }
+}
+
+export class ShareLinkNotFoundException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.SHARE_LINK_NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
+      message: 'Share link not found or has been revoked.',
+    });
+  }
+}
+
+export class ShareLinkExpiredException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.SHARE_LINK_EXPIRED,
+      statusCode: HttpStatus.GONE,
+      message: 'This share link has expired.',
+      action: 'Request a new share link from the file owner.',
+    });
+  }
+}
+
+export class ShareLinkMaxAccessException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.SHARE_LINK_MAX_ACCESS_REACHED,
+      statusCode: HttpStatus.FORBIDDEN,
+      message: 'This share link has reached its maximum number of uses.',
+      action: 'Request a new share link from the file owner.',
+    });
+  }
+}
+
+export class ShareLinkNotAllowedException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.SHARE_LINK_NOT_ALLOWED,
+      statusCode: HttpStatus.FORBIDDEN,
+      message: 'Share links cannot be generated for this type of document.',
+      action:
+        'Sensitive records must always be accessed through authenticated sessions.',
+    });
+  }
+}
+
+export class StorageQuotaExceededException extends AppException {
+  constructor(quotaGB: number) {
+    super({
+      code: ErrorCode.STORAGE_QUOTA_EXCEEDED,
+      statusCode: HttpStatus.FORBIDDEN,
+      message: `Your school has reached its ${quotaGB}GB storage limit.`,
+      action: 'Upgrade your plan or delete unused files to free up space.',
+    });
+  }
+}

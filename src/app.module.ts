@@ -11,21 +11,21 @@ import { RolesGuard } from './auth/guards/roles.guard';
 import { validationSchema } from './config/env.validation';
 import { DatabaseModule } from './database/database.module';
 import { ErrorsModule } from './errors/errors.module';
+import { LecturesController } from './lectures/lectures.controller';
+import { LecturesModule } from './lectures/lectures.module';
+import { LecturesService } from './lectures/lectures.service';
 import { SchoolSetupController } from './school-setup/school-setup.controller';
 import { SchoolSetupModule } from './school-setup/school-setup.module';
 import { TenantModule } from './tenant/tenant.module';
+import { TimetableController } from './timetable/timetable.controller';
+import { TimetableModule } from './timetable/timetable.module';
+import { TimetableService } from './timetable/timetable.service';
+import { UploadController } from './upload/upload.controller';
+import { UploadModule } from './upload/upload.module';
+import { UploadService } from './upload/upload.service';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
 import { UsersService } from './users/users.service';
-import { TimetableService } from './timetable/timetable.service';
-import { TimetableController } from './timetable/timetable.controller';
-import { TimetableModule } from './timetable/timetable.module';
-import { LecturesService } from './lectures/lectures.service';
-import { LecturesController } from './lectures/lectures.controller';
-import { LecturesModule } from './lectures/lectures.module';
-import { UploadService } from './upload/upload.service';
-import { UploadController } from './upload/upload.controller';
-import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -90,6 +90,14 @@ import { UploadModule } from './upload/upload.module';
     LecturesService,
 
     UploadService,
+
+    // RepositoryAccessService,
+
+    // RepositoryQuotaService,
+
+    // RepositoryFileService,
+
+    // RepositoryFolderService,
 
     // SchoolSetupService,
   ],
