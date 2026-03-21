@@ -1,9 +1,9 @@
 import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { ClsService } from 'nestjs-cls';
 import { PrismaService } from 'src/database/prisma.service';
+import { AppException } from 'src/errors/exceptions/app.exception';
 import {
   ActiveTermRequiredException,
-  FileNotFoundInStorageException,
   LectureAccessDeniedException,
   LectureAlreadyPublishedException,
   LectureNotFoundException,
@@ -12,16 +12,13 @@ import {
 } from 'src/errors/exceptions/business.exception';
 import { ErrorCode } from 'src/errors/types/error-codes.enum';
 import { LectureContentType, LectureStatus } from 'src/generated/prisma/enums';
-import { AllowedMimeType, StorageService } from 'src/storage/storage.service';
+import { UploadService } from 'src/upload/upload.service';
 import {
-  ConfirmUploadDto,
   CreateLectureDto,
   QueryLecturesDto,
-  RequestUploadUrlDto,
   UpdateLectureDto,
   UpdateViewProgressDto,
 } from './dto/lecture.dto.ts';
-import { AppException } from 'src/errors/exceptions/app.exception';
 
 // Fields returned with every lecture response
 const LECTURE_SELECT = {
@@ -51,53 +48,8 @@ export class LecturesService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly cls: ClsService,
-    private readonly storage: StorageService,
+    private readonly uploadService: UploadService,
   ) {}
-
-  // STEP 1: Upload flow: Request presigned upload URL -> Upload file to S3 -> Confirm upload -> Create lecture
-  async requestUploadUrl(teacherUserId: string, dto: RequestUploadUrlDto) {
-    const tenantId = this.cls.get<string>('tenantId');
-
-    const allowedMimes: AllowedMimeType[] = [
-      'video/mp4',
-      'video/webm',
-      'application/pdf',
-      'audio/mpeg',
-      'audio/mp3',
-      'application/vnd.ms-powerpoint',
-      'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-      'image/jpeg',
-      'image/png',
-      'image/webp',
-    ];
-
-    if (!allowedMimes.includes(dto.mime_type as AllowedMimeType)) {
-      throw new AppException({
-        code: ErrorCode.INVALID_CONTENT_TYPE,
-        message: `File type '${dto.mime_type}' is not allowed.`,
-        statusCode: HttpStatus.BAD_REQUEST,
-        action: `Please use a supported file type. Allowed types are: ${allowedMimes.join(', ')}`,
-      });
-    }
-
-    const result = await this.storage.generatePresignedUploadUrl(
-      'lectures',
-      tenantId,
-      dto.mime_type as AllowedMimeType,
-      dto.file_size_bytes,
-      dto.file_name,
-    );
-
-    return {
-      upload_url: result.upload_url,
-      file_key: result.file_key,
-      public_url: result.public_url,
-      expires_in: result.expires_in,
-      file_size_bytes: result.file_size_bytes,
-      mime_type: result.mime_type,
-      upload_instructions: result.upload_instructions,
-    };
-  }
 
   // Create lecture
   async createLecture(teacherUserId: string, dto: CreateLectureDto) {
@@ -143,39 +95,6 @@ export class LecturesService {
     );
 
     return lecture;
-  }
-
-  // STEP 2: Confirm upload
-  async confirmUpload(
-    teacherUserId: string,
-    lectureId: string,
-    dto: ConfirmUploadDto,
-  ) {
-    const tenantId = this.cls.get<string>('tenantId');
-    await this.validateLectureOwnership(lectureId, tenantId, teacherUserId);
-
-    // Verify the file actually landed in storage before linking it
-    const fileExists = await this.storage.verifyFileExists(dto.file_key);
-    if (!fileExists) throw new FileNotFoundInStorageException();
-
-    const fileUrl = this.storage.getPublicUrl(dto.file_key);
-    const fileSize = fileExists.ContentLength ?? 0;
-
-    await this.prisma.lecture.update({
-      where: { id: lectureId },
-      data: {
-        file_key: dto.file_key,
-        file_url: fileUrl,
-        file_size: fileSize,
-      },
-    });
-
-    return {
-      // ...lecture,
-      file_url: fileUrl,
-      file_size: fileSize,
-      message: 'File confirmed and linked to lecture.',
-    };
   }
 
   // Publish a lecture
@@ -303,7 +222,7 @@ export class LecturesService {
     );
 
     if (lecture.file_key) {
-      await this.storage.deleteFile(lecture.file_key);
+      await this.uploadService.deleteFile(lecture.file_key);
     }
 
     await this.prisma.lecture.delete({
