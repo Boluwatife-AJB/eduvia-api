@@ -27,7 +27,7 @@ export class ResponseInterceptors implements NestInterceptor {
 
     return next.handle().pipe(
       map((data: unknown): SuccessResponse => {
-        let message = 'Request processed successfully';
+        // let message = 'Request processed successfully';
         let bodyData: unknown = data;
         let meta: PaginationMeta | undefined;
 
@@ -37,7 +37,7 @@ export class ResponseInterceptors implements NestInterceptor {
             typeof data.message === 'string' && 'data' in data;
 
           if (hasMessageAndData) {
-            message = data.message as string;
+            // message = data.message as string;
             bodyData = data['data'];
             if (hasDataAndMeta && isRecord(data.meta)) {
               meta = data.meta as unknown as PaginationMeta;
@@ -51,7 +51,7 @@ export class ResponseInterceptors implements NestInterceptor {
         return {
           success: true,
           status_code: statusCode,
-          message,
+          // message,
           data: bodyData,
           ...(meta !== undefined ? { meta } : {}),
         };

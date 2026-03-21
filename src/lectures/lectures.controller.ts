@@ -39,7 +39,7 @@ const TEACHER_ROLES = [
 @ApiBearerAuth()
 @Controller('lectures')
 export class LecturesController {
-  constructor(private readonly lecturesService: LecturesService) {}
+  constructor(private readonly lecturesService: LecturesService) { }
 
   // TEACHER ENDPOINTS
 
@@ -64,6 +64,14 @@ export class LecturesController {
     @CurrentUser() user: { id: string },
   ) {
     return this.lecturesService.createLecture(user.id, dto);
+  }
+
+  @Patch(':id/publish')
+  @Roles(...TEACHER_ROLES)
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Publish a lecture — makes it visible to students' })
+  publish(@Param('id') id: string, @CurrentUser() user: { id: string }) {
+    return this.lecturesService.publishLecture(user.id, id);
   }
 
   @Patch(':id/unpublish')

@@ -114,7 +114,10 @@ export class LecturesService {
       lecture.content_type !== LectureContentType.TEXT &&
       lecture.content_type !== LectureContentType.LINK;
 
-    if (requiresFile && !lecture.file_key) {
+    // console.log('requiresFile', requiresFile);
+    // console.log('lecture.file_key', lecture.file_key);
+
+    if (requiresFile && !lecture.file_url) {
       throw new AppException({
         code: ErrorCode.FILE_NOT_FOUND_IN_STORAGE,
         message: 'Cannot publish a lecture without a confirmed file upload.',
