@@ -14,6 +14,7 @@ import { ErrorsModule } from './errors/errors.module';
 import { LecturesController } from './lectures/lectures.controller';
 import { LecturesModule } from './lectures/lectures.module';
 import { LecturesService } from './lectures/lectures.service';
+import { RepositoryController } from './repository/repository.controller';
 import { SchoolSetupController } from './school-setup/school-setup.controller';
 import { SchoolSetupModule } from './school-setup/school-setup.module';
 import { TenantModule } from './tenant/tenant.module';
@@ -26,6 +27,12 @@ import { UploadService } from './upload/upload.service';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
 import { UsersService } from './users/users.service';
+// import { RepositoryModule } from './repository/repository.module';
+import { RepositoryAccessService } from './repository/repository-access.service';
+import { RepositoryQuotaService } from './repository/repository-quota.service';
+import { RepositoryFileService } from './repository/repository-file.service';
+import { RepositoryFolderService } from './repository/repository-folder.service';
+import { RepositoryModule } from './repository/repository.module';
 
 @Module({
   imports: [
@@ -52,7 +59,8 @@ import { UsersService } from './users/users.service';
     SchoolSetupModule, // School setup module
     TimetableModule,
     LecturesModule,
-    UploadModule, // Lectures module
+    UploadModule,
+    RepositoryModule,
   ],
   controllers: [
     AppController,
@@ -62,6 +70,7 @@ import { UsersService } from './users/users.service';
     TimetableController,
     LecturesController,
     UploadController,
+    RepositoryController,
   ],
   providers: [
     AppService,
@@ -91,13 +100,13 @@ import { UsersService } from './users/users.service';
 
     UploadService,
 
-    // RepositoryAccessService,
+    RepositoryAccessService,
 
-    // RepositoryQuotaService,
+    RepositoryQuotaService,
 
-    // RepositoryFileService,
+    RepositoryFileService,
 
-    // RepositoryFolderService,
+    RepositoryFolderService,
 
     // SchoolSetupService,
   ],

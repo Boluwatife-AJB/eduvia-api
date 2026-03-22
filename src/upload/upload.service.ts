@@ -449,6 +449,18 @@ export class UploadService {
     }
   }
 
+  // Verify file exists in R2
+  async verifyFileInStorage(fileKey: string) {
+    try {
+      const result = await this.s3.send(
+        new HeadObjectCommand({ Bucket: this.bucket, Key: fileKey }),
+      );
+      return result; // { ContentLength, ContentType, ... }
+    } catch {
+      return null;
+    }
+  }
+
   // Private Helper Methods
   private validateMimeType(mimeType: string): void {
     if (!ACCEPTED_MIME_TYPES[mimeType]) {

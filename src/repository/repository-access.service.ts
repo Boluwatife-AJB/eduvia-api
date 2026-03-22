@@ -3,7 +3,13 @@ import { PrismaService } from 'src/database/prisma.service';
 import { RepositoryAccessDeniedException } from 'src/errors/exceptions/business.exception';
 import { RepositoryScope, UserRole } from 'src/generated/prisma/enums';
 
-export type RepositoryAction = 'VIEW' | 'UPLOAD' | 'DELETE' | 'CREATE_FOLDER';
+export type RepositoryAction =
+  | 'VIEW'
+  | 'UPLOAD'
+  | 'DELETE'
+  | 'CREATE_FOLDER'
+  | 'ARCHIVE'
+  | 'RENAME_FOLDER';
 
 interface AccessContext {
   userId: string;
