@@ -408,7 +408,8 @@ export const ModelName = {
   RepositoryFileVersion: 'RepositoryFileVersion',
   RepositoryShareLink: 'RepositoryShareLink',
   RepositoryFileAccessLog: 'RepositoryFileAccessLog',
-  TenantStorage: 'TenantStorage'
+  TenantStorage: 'TenantStorage',
+  SchoolRegistration: 'SchoolRegistration'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -424,7 +425,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "tenant" | "user" | "refreshToken" | "studentProfile" | "teacherProfile" | "guardianProfile" | "staffProfile" | "academicSession" | "academicTerm" | "department" | "class" | "subject" | "classSubject" | "subjectTeacher" | "studentSubjectRegistration" | "timeTableSlot" | "tutorialClass" | "lecture" | "lectureView" | "repositoryFolder" | "repositoryFile" | "repositoryFileVersion" | "repositoryShareLink" | "repositoryFileAccessLog" | "tenantStorage"
+    modelProps: "tenant" | "user" | "refreshToken" | "studentProfile" | "teacherProfile" | "guardianProfile" | "staffProfile" | "academicSession" | "academicTerm" | "department" | "class" | "subject" | "classSubject" | "subjectTeacher" | "studentSubjectRegistration" | "timeTableSlot" | "tutorialClass" | "lecture" | "lectureView" | "repositoryFolder" | "repositoryFile" | "repositoryFileVersion" | "repositoryShareLink" | "repositoryFileAccessLog" | "tenantStorage" | "schoolRegistration"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2278,6 +2279,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SchoolRegistration: {
+      payload: Prisma.$SchoolRegistrationPayload<ExtArgs>
+      fields: Prisma.SchoolRegistrationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SchoolRegistrationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolRegistrationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SchoolRegistrationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolRegistrationPayload>
+        }
+        findFirst: {
+          args: Prisma.SchoolRegistrationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolRegistrationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SchoolRegistrationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolRegistrationPayload>
+        }
+        findMany: {
+          args: Prisma.SchoolRegistrationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolRegistrationPayload>[]
+        }
+        create: {
+          args: Prisma.SchoolRegistrationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolRegistrationPayload>
+        }
+        createMany: {
+          args: Prisma.SchoolRegistrationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SchoolRegistrationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolRegistrationPayload>[]
+        }
+        delete: {
+          args: Prisma.SchoolRegistrationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolRegistrationPayload>
+        }
+        update: {
+          args: Prisma.SchoolRegistrationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolRegistrationPayload>
+        }
+        deleteMany: {
+          args: Prisma.SchoolRegistrationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SchoolRegistrationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SchoolRegistrationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolRegistrationPayload>[]
+        }
+        upsert: {
+          args: Prisma.SchoolRegistrationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolRegistrationPayload>
+        }
+        aggregate: {
+          args: Prisma.SchoolRegistrationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSchoolRegistration>
+        }
+        groupBy: {
+          args: Prisma.SchoolRegistrationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SchoolRegistrationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SchoolRegistrationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SchoolRegistrationCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2707,6 +2782,37 @@ export const TenantStorageScalarFieldEnum = {
 export type TenantStorageScalarFieldEnum = (typeof TenantStorageScalarFieldEnum)[keyof typeof TenantStorageScalarFieldEnum]
 
 
+export const SchoolRegistrationScalarFieldEnum = {
+  id: 'id',
+  school_name: 'school_name',
+  slug: 'slug',
+  owner_first_name: 'owner_first_name',
+  owner_last_name: 'owner_last_name',
+  owner_email: 'owner_email',
+  owner_phone: 'owner_phone',
+  address: 'address',
+  city: 'city',
+  state: 'state',
+  zip: 'zip',
+  country: 'country',
+  student_count: 'student_count',
+  plan: 'plan',
+  status: 'status',
+  email_verification_token: 'email_verification_token',
+  email_verified_at: 'email_verified_at',
+  payment_ref: 'payment_ref',
+  paid_at: 'paid_at',
+  tenant_id: 'tenant_id',
+  rejected_reason: 'rejected_reason',
+  reviewed_by: 'reviewed_by',
+  reviewed_at: 'reviewed_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type SchoolRegistrationScalarFieldEnum = (typeof SchoolRegistrationScalarFieldEnum)[keyof typeof SchoolRegistrationScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2971,6 +3077,34 @@ export type ListEnumTenantStoragePlanFieldRefInput<$PrismaModel> = FieldRefInput
 
 
 /**
+ * Reference to a field of type 'TenantPlan'
+ */
+export type EnumTenantPlanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TenantPlan'>
+    
+
+
+/**
+ * Reference to a field of type 'TenantPlan[]'
+ */
+export type ListEnumTenantPlanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TenantPlan[]'>
+    
+
+
+/**
+ * Reference to a field of type 'OnboardingStatus'
+ */
+export type EnumOnboardingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OnboardingStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'OnboardingStatus[]'
+ */
+export type ListEnumOnboardingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OnboardingStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -3103,6 +3237,7 @@ export type GlobalOmitConfig = {
   repositoryShareLink?: Prisma.RepositoryShareLinkOmit
   repositoryFileAccessLog?: Prisma.RepositoryFileAccessLogOmit
   tenantStorage?: Prisma.TenantStorageOmit
+  schoolRegistration?: Prisma.SchoolRegistrationOmit
 }
 
 /* Types for Logging */

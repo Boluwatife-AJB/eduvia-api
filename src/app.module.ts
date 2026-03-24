@@ -33,6 +33,7 @@ import { RepositoryQuotaService } from './repository/repository-quota.service';
 import { RepositoryFileService } from './repository/repository-file.service';
 import { RepositoryFolderService } from './repository/repository-folder.service';
 import { RepositoryModule } from './repository/repository.module';
+import { OnboardingService } from './onboarding/onboarding.service';
 
 @Module({
   imports: [
@@ -107,6 +108,8 @@ import { RepositoryModule } from './repository/repository.module';
     RepositoryFileService,
 
     RepositoryFolderService,
+
+    OnboardingService,
 
     // SchoolSetupService,
   ],

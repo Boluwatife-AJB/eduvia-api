@@ -75,7 +75,8 @@ export const ModelName = {
   RepositoryFileVersion: 'RepositoryFileVersion',
   RepositoryShareLink: 'RepositoryShareLink',
   RepositoryFileAccessLog: 'RepositoryFileAccessLog',
-  TenantStorage: 'TenantStorage'
+  TenantStorage: 'TenantStorage',
+  SchoolRegistration: 'SchoolRegistration'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -482,6 +483,37 @@ export const TenantStorageScalarFieldEnum = {
 } as const
 
 export type TenantStorageScalarFieldEnum = (typeof TenantStorageScalarFieldEnum)[keyof typeof TenantStorageScalarFieldEnum]
+
+
+export const SchoolRegistrationScalarFieldEnum = {
+  id: 'id',
+  school_name: 'school_name',
+  slug: 'slug',
+  owner_first_name: 'owner_first_name',
+  owner_last_name: 'owner_last_name',
+  owner_email: 'owner_email',
+  owner_phone: 'owner_phone',
+  address: 'address',
+  city: 'city',
+  state: 'state',
+  zip: 'zip',
+  country: 'country',
+  student_count: 'student_count',
+  plan: 'plan',
+  status: 'status',
+  email_verification_token: 'email_verification_token',
+  email_verified_at: 'email_verified_at',
+  payment_ref: 'payment_ref',
+  paid_at: 'paid_at',
+  tenant_id: 'tenant_id',
+  rejected_reason: 'rejected_reason',
+  reviewed_by: 'reviewed_by',
+  reviewed_at: 'reviewed_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type SchoolRegistrationScalarFieldEnum = (typeof SchoolRegistrationScalarFieldEnum)[keyof typeof SchoolRegistrationScalarFieldEnum]
 
 
 export const SortOrder = {

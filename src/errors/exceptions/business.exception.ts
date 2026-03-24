@@ -2,6 +2,26 @@ import { HttpStatus } from '@nestjs/common';
 import { ErrorCode } from '../types/error-codes.enum';
 import { AppException } from './app.exception';
 
+// Tenant Exception
+export class TenantNotFoundException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.TENANT_NOT_FOUND,
+      message: 'Tenant not found.',
+      statusCode: HttpStatus.NOT_FOUND,
+    });
+  }
+}
+
+export class TenantSuspendedException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.TENANT_SUSPENDED,
+      message: 'Tenant is suspended.',
+      statusCode: HttpStatus.FORBIDDEN,
+    });
+  }
+}
 // Auth Exception
 // Invalid Credentials Exception
 export class InvalidCredentialsException extends AppException {

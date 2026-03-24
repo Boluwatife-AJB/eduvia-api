@@ -1,0 +1,14 @@
+-- Optional: "migration was modified after it was applied" (checksum mismatch only)
+--
+-- 1) Compute SHA-256 of the migration file (must match exactly, including line endings):
+--    node -e "console.log(require('crypto').createHash('sha256').update(require('fs').readFileSync('prisma/migrations/20260324012250_add_school_onboarding/migration.sql','utf8')).digest('hex'))"
+--
+-- 2) Update the row:
+--    UPDATE "_prisma_migrations"
+--    SET "checksum" = '<paste-hash-here>'
+--    WHERE "migration_name" = '20260324012250_add_school_onboarding';
+--
+-- If Prisma reports the migration as FAILED (see `npx prisma migrate status`), checksum
+-- alone is not enough — mark it rolled back, then re-run migrate dev:
+--    npx prisma migrate resolve --rolled-back "20260324012250_add_school_onboarding"
+--    npx prisma migrate dev

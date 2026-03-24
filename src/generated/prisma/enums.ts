@@ -147,3 +147,23 @@ export const TenantStoragePlan = {
 } as const
 
 export type TenantStoragePlan = (typeof TenantStoragePlan)[keyof typeof TenantStoragePlan]
+
+
+export const OnboardingStatus = {
+  PENDING_VERIFICATION: 'PENDING_VERIFICATION',
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
+  PENDING_APPROVAL: 'PENDING_APPROVAL',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type OnboardingStatus = (typeof OnboardingStatus)[keyof typeof OnboardingStatus]
+
+
+export const TenantPlan = {
+  BASIC: 'BASIC',
+  STANDARD: 'STANDARD',
+  PREMIUM: 'PREMIUM'
+} as const
+
+export type TenantPlan = (typeof TenantPlan)[keyof typeof TenantPlan]

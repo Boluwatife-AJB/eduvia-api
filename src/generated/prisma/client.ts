@@ -164,3 +164,8 @@ export type RepositoryFileAccessLog = Prisma.RepositoryFileAccessLogModel
  * 
  */
 export type TenantStorage = Prisma.TenantStorageModel
+/**
+ * Model SchoolRegistration
+ * 
+ */
+export type SchoolRegistration = Prisma.SchoolRegistrationModel

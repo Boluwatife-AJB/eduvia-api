@@ -1,6 +1,8 @@
 import { Global, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TenantMiddleware } from './tenant.middleware';
 import { ClsModule, ClsMiddleware } from 'nestjs-cls';
+import { TenantController } from './tenant.controller';
+import { TenantService } from './tenant.service';
 
 @Global()
 @Module({
@@ -14,8 +16,9 @@ import { ClsModule, ClsMiddleware } from 'nestjs-cls';
       },
     }),
   ],
-  providers: [TenantMiddleware],
+  providers: [TenantMiddleware, TenantService],
   exports: [ClsModule],
+  controllers: [TenantController],
 })
 export class TenantModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

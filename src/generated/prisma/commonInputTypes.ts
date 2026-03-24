@@ -467,6 +467,40 @@ export type EnumTenantStoragePlanWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumTenantStoragePlanFilter<$PrismaModel>
 }
 
+export type EnumTenantPlanFilter<$PrismaModel = never> = {
+  equals?: $Enums.TenantPlan | Prisma.EnumTenantPlanFieldRefInput<$PrismaModel>
+  in?: $Enums.TenantPlan[] | Prisma.ListEnumTenantPlanFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TenantPlan[] | Prisma.ListEnumTenantPlanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTenantPlanFilter<$PrismaModel> | $Enums.TenantPlan
+}
+
+export type EnumOnboardingStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.OnboardingStatus | Prisma.EnumOnboardingStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.OnboardingStatus[] | Prisma.ListEnumOnboardingStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.OnboardingStatus[] | Prisma.ListEnumOnboardingStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumOnboardingStatusFilter<$PrismaModel> | $Enums.OnboardingStatus
+}
+
+export type EnumTenantPlanWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TenantPlan | Prisma.EnumTenantPlanFieldRefInput<$PrismaModel>
+  in?: $Enums.TenantPlan[] | Prisma.ListEnumTenantPlanFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TenantPlan[] | Prisma.ListEnumTenantPlanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTenantPlanWithAggregatesFilter<$PrismaModel> | $Enums.TenantPlan
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTenantPlanFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTenantPlanFilter<$PrismaModel>
+}
+
+export type EnumOnboardingStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.OnboardingStatus | Prisma.EnumOnboardingStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.OnboardingStatus[] | Prisma.ListEnumOnboardingStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.OnboardingStatus[] | Prisma.ListEnumOnboardingStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumOnboardingStatusWithAggregatesFilter<$PrismaModel> | $Enums.OnboardingStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumOnboardingStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumOnboardingStatusFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -904,6 +938,40 @@ export type NestedEnumTenantStoragePlanWithAggregatesFilter<$PrismaModel = never
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumTenantStoragePlanFilter<$PrismaModel>
   _max?: Prisma.NestedEnumTenantStoragePlanFilter<$PrismaModel>
+}
+
+export type NestedEnumTenantPlanFilter<$PrismaModel = never> = {
+  equals?: $Enums.TenantPlan | Prisma.EnumTenantPlanFieldRefInput<$PrismaModel>
+  in?: $Enums.TenantPlan[] | Prisma.ListEnumTenantPlanFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TenantPlan[] | Prisma.ListEnumTenantPlanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTenantPlanFilter<$PrismaModel> | $Enums.TenantPlan
+}
+
+export type NestedEnumOnboardingStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.OnboardingStatus | Prisma.EnumOnboardingStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.OnboardingStatus[] | Prisma.ListEnumOnboardingStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.OnboardingStatus[] | Prisma.ListEnumOnboardingStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumOnboardingStatusFilter<$PrismaModel> | $Enums.OnboardingStatus
+}
+
+export type NestedEnumTenantPlanWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TenantPlan | Prisma.EnumTenantPlanFieldRefInput<$PrismaModel>
+  in?: $Enums.TenantPlan[] | Prisma.ListEnumTenantPlanFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TenantPlan[] | Prisma.ListEnumTenantPlanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTenantPlanWithAggregatesFilter<$PrismaModel> | $Enums.TenantPlan
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTenantPlanFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTenantPlanFilter<$PrismaModel>
+}
+
+export type NestedEnumOnboardingStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.OnboardingStatus | Prisma.EnumOnboardingStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.OnboardingStatus[] | Prisma.ListEnumOnboardingStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.OnboardingStatus[] | Prisma.ListEnumOnboardingStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumOnboardingStatusWithAggregatesFilter<$PrismaModel> | $Enums.OnboardingStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumOnboardingStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumOnboardingStatusFilter<$PrismaModel>
 }
 
 

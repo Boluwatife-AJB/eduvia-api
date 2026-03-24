@@ -9,30 +9,30 @@ datasource db {
 }
 
 model Tenant {
-  id                String             @id @default(uuid())
-  name              String
-  slug              String             @unique
+  id                 String             @id @default(uuid())
+  name               String
+  slug               String             @unique
   /// Short code used in matric/employee IDs (e.g. GFA for Greenfield Academy). Falls back to slug if not set.
-  initials          String?
-  email             String?
-  phone             String?
-  address           String?
-  logo              String?
-  status            TenantStatus       @default(ACTIVE)
-  plan              String             @default("free")
-  config            Json               @default("{}")
-  created_at        DateTime           @default(now())
-  deleted_at        DateTime?
-  updated_at        DateTime           @updatedAt
-  users             User[]
-  academic_sessions AcademicSession[]
-  academic_terms    AcademicTerm[]
-  departments       Department[]
-  classes           Class[]
-  subjects          Subject[]
+  initials           String?
+  email              String?
+  phone              String?
+  address            String?
+  logo               String?
+  status             TenantStatus       @default(ACTIVE)
+  plan               String             @default("free")
+  config             Json               @default("{}")
+  created_at         DateTime           @default(now())
+  deleted_at         DateTime?
+  updated_at         DateTime           @updatedAt
+  users              User[]
+  academic_sessions  AcademicSession[]
+  academic_terms     AcademicTerm[]
+  departments        Department[]
+  classes            Class[]
+  subjects           Subject[]
   timetable_slots    TimeTableSlot[]
   tutorial_classes   TutorialClass[]
-  lectures          Lecture[]
+  lectures           Lecture[]
   repository_folders RepositoryFolder[]
   repository_files   RepositoryFile[]
   tenant_storage     TenantStorage?
@@ -84,16 +84,16 @@ model RefreshToken {
 
 /// id = internal UUID. userId = FK to User. matricNumber = display ID (e.g. GFA/2026/0001), same as User.identifier for students.
 model StudentProfile {
-  id                          String                       @id @default(uuid())
-  user_id                     String                       @unique
-  tenant_id                   String
-  matric_number               String                       @unique
-  class_id                    String?
-  admission_date              DateTime?
-  date_of_birth               DateTime?
-  guardian_ids                String[]                     @default([])
+  id                            String                       @id @default(uuid())
+  user_id                       String                       @unique
+  tenant_id                     String
+  matric_number                 String                       @unique
+  class_id                      String?
+  admission_date                DateTime?
+  date_of_birth                 DateTime?
+  guardian_ids                  String[]                     @default([])
   /// Denormalized Subject.id list; keep in sync with StudentSubjectRegistration or derive via query.
-  registered_subject_ids      String[]                     @default([])
+  registered_subject_ids        String[]                     @default([])
   student_subject_registrations StudentSubjectRegistration[]
 
   user  User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
@@ -114,9 +114,9 @@ model TeacherProfile {
   /// Denormalized Subject.id list; keep in sync with SubjectTeacher → ClassSubject or derive via query.
   assigned_subject_ids String[]  @default([])
 
-  user            User            @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user             User            @relation(fields: [user_id], references: [id], onDelete: Cascade)
   tutorial_classes TutorialClass[]
-  lectures        Lecture[]
+  lectures         Lecture[]
 
   @@map("teacher_profiles")
 }
@@ -178,11 +178,11 @@ model AcademicTerm {
   updated_at            DateTime                     @updatedAt
   subject_registrations StudentSubjectRegistration[]
 
-  tenant          Tenant          @relation(fields: [tenant_id], references: [id])
-  academicSession AcademicSession @relation(fields: [academic_session_id], references: [id], onDelete: Cascade)
+  tenant           Tenant          @relation(fields: [tenant_id], references: [id])
+  academicSession  AcademicSession @relation(fields: [academic_session_id], references: [id], onDelete: Cascade)
   timetable_slots  TimeTableSlot[]
   tutorial_classes TutorialClass[]
-  lectures        Lecture[]
+  lectures         Lecture[]
 
   @@unique([academic_session_id, name]) // can't have two terms with same name in one session
   @@map("academic_terms")
@@ -215,13 +215,13 @@ model Class {
   /// Denormalized Subject.id list; keep in sync with ClassSubject or derive via query.
   subject_ids      String[] @default([])
 
-  tenant         Tenant           @relation(fields: [tenant_id], references: [id])
-  department     Department?      @relation(fields: [department_id], references: [id])
-  students       StudentProfile[]
+  tenant     Tenant           @relation(fields: [tenant_id], references: [id])
+  department Department?      @relation(fields: [department_id], references: [id])
+  students   StudentProfile[]
 
   class_subjects  ClassSubject[] // subjects offered in this class
   timetable_slots TimeTableSlot[]
-  lectures       Lecture[]
+  lectures        Lecture[]
 
   @@unique([tenant_id, name])
   @@map("classes")
@@ -236,12 +236,12 @@ model Subject {
   description   String?
   department_id String?
 
-  tenant          Tenant          @relation(fields: [tenant_id], references: [id])
-  department      Department?     @relation(fields: [department_id], references: [id])
+  tenant           Tenant          @relation(fields: [tenant_id], references: [id])
+  department       Department?     @relation(fields: [department_id], references: [id])
   class_subjects   ClassSubject[] // which classes offer this subject
-  timetable_slots TimeTableSlot[]
+  timetable_slots  TimeTableSlot[]
   tutorial_classes TutorialClass[]
-  lectures        Lecture[]
+  lectures         Lecture[]
 
   @@unique([tenant_id, code, department_id])
   @@map("subjects")
@@ -283,9 +283,9 @@ model StudentSubjectRegistration {
   term_id           String
   registration_date DateTime @default(now())
 
-  student      StudentProfile @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  student       StudentProfile @relation(fields: [student_id], references: [id], onDelete: Cascade)
   class_subject ClassSubject   @relation(fields: [class_subject_id], references: [id])
-  term         AcademicTerm   @relation(fields: [term_id], references: [id])
+  term          AcademicTerm   @relation(fields: [term_id], references: [id])
 
   @@unique([tenant_id, student_id, class_subject_id, term_id])
   @@map("student_subject_registrations")
@@ -334,10 +334,10 @@ model TutorialClass {
   created_at       DateTime   @default(now())
   updated_at       DateTime   @updatedAt
 
-  tenant           Tenant          @relation(fields: [tenant_id], references: [id])
-  subject          Subject         @relation(fields: [subject_id], references: [id])
-  term             AcademicTerm    @relation(fields: [academic_term_id], references: [id])
-  teacher_profile   TeacherProfile? @relation(fields: [teacher_profile_id], references: [id])
+  tenant             Tenant          @relation(fields: [tenant_id], references: [id])
+  subject            Subject         @relation(fields: [subject_id], references: [id])
+  term               AcademicTerm    @relation(fields: [academic_term_id], references: [id])
+  teacher_profile    TeacherProfile? @relation(fields: [teacher_profile_id], references: [id])
   teacher_profile_id String?
 
   @@map("tutorial_classes")
@@ -494,16 +494,47 @@ model RepositoryFileAccessLog {
 }
 
 model TenantStorage {
-  id          String   @id @default(uuid())
-  tenant_id   String   @unique
-  used_bytes  BigInt   @default(0)
+  id          String            @id @default(uuid())
+  tenant_id   String            @unique
+  used_bytes  BigInt            @default(0)
   quota_bytes BigInt
   plan        TenantStoragePlan @default(FREE)
-  updated_at  DateTime @updatedAt
+  updated_at  DateTime          @updatedAt
 
   tenant Tenant @relation(fields: [tenant_id], references: [id])
 
   @@map("tenant_storage")
+}
+
+model SchoolRegistration {
+  id                       String           @id @default(uuid())
+  school_name              String
+  slug                     String           @unique
+  owner_first_name         String
+  owner_last_name          String
+  owner_email              String
+  owner_phone              String
+  address                  String
+  city                     String
+  state                    String
+  zip                      String
+  country                  String
+  student_count            String
+  plan                     TenantPlan       @default(BASIC)
+  status                   OnboardingStatus @default(PENDING_VERIFICATION)
+  email_verification_token String?
+  email_verified_at        DateTime?
+  payment_ref              String?
+  paid_at                  DateTime?
+  tenant_id                String?
+  rejected_reason          String?
+  reviewed_by              String?
+  reviewed_at              DateTime?
+  created_at               DateTime         @default(now())
+  updated_at               DateTime         @updatedAt
+
+  @@unique([school_name, slug])
+  @@map("school_registrations")
 }
 
 enum UserRole {
@@ -614,4 +645,18 @@ enum TenantStoragePlan {
   BASIC
   PRO
   ENTERPRISE
+}
+
+enum OnboardingStatus {
+  PENDING_VERIFICATION
+  PENDING_PAYMENT
+  PENDING_APPROVAL
+  APPROVED
+  REJECTED
+}
+
+enum TenantPlan {
+  BASIC
+  STANDARD
+  PREMIUM
 }
