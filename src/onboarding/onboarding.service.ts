@@ -31,8 +31,7 @@ export class OnboardingService {
     // private readonly email: EmailService,
   ) {}
 
-  // ─── STEP 1: Check slug availability ──────────────────────────────────────
-
+  // Check slug availability
   async checkSlugAvailability(slug: string) {
     const existingTenant = await this.prisma.tenant.findUnique({
       where: { slug },
@@ -49,7 +48,7 @@ export class OnboardingService {
 
     return {
       slug,
-      isAvailable,
+      is_available: isAvailable,
       message: isAvailable
         ? `"${slug}" is available`
         : `"${slug}" is already taken. Try "${slug}-school" or "${slug}-academy"`,
@@ -59,12 +58,12 @@ export class OnboardingService {
     };
   }
 
-  // ─── STEP 2: Register a new school ────────────────────────────────────────
+  // Register a new school
 
   async register(dto: RegisterSchoolDto) {
     // Check slug availability
     const slugCheck = await this.checkSlugAvailability(dto.school_slug);
-    if (!slugCheck.isAvailable) {
+    if (!slugCheck.is_available) {
       throw new ConflictException(
         `The slug "${dto.school_slug}" is already taken.`,
       );
@@ -117,12 +116,13 @@ export class OnboardingService {
     return {
       message:
         'Registration received. Please check your email to verify your address.',
-      registrationId: registration.id,
-      nextStep: 'Check your email and click the verification link to continue.',
+      registration_id: registration.id,
+      next_step:
+        'Check your email and click the verification link to continue.',
     };
   }
 
-  // ─── STEP 3: Verify email ──────────────────────────────────────────────────
+  // Verify email
 
   async verifyEmail(token: string) {
     const registration = await this.prisma.schoolRegistration.findFirst({
@@ -156,7 +156,7 @@ export class OnboardingService {
     };
   }
 
-  // ─── STEP 4: Confirm payment ───────────────────────────────────────────────
+  // TODO: The payment should be handled by the payment service
 
   async confirmPayment(registrationId: string, paymentRef: string) {
     const registration = await this.prisma.schoolRegistration.findUnique({
@@ -198,7 +198,7 @@ export class OnboardingService {
     };
   }
 
-  // ─── STEP 5: Super admin reviews registration ──────────────────────────────
+  // Super admin reviews registration
 
   async reviewRegistration(
     registrationId: string,
@@ -326,7 +326,7 @@ export class OnboardingService {
     };
   }
 
-  // ─── Super admin: list all registrations ──────────────────────────────────
+  // Super admin: list all registrations
 
   async listRegistrations(status?: string) {
     return this.prisma.schoolRegistration.findMany({
@@ -354,7 +354,7 @@ export class OnboardingService {
     });
   }
 
-  // ─── Email templates ───────────────────────────────────────────────────────
+  // Email templates
 
   // private buildVerificationEmail(dto: RegisterSchoolDto, token: string) {
   //   const verifyUrl = `${process.env.FRONTEND_URL}/onboarding/verify-email?token=${token}`;

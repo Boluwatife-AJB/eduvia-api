@@ -27,13 +27,15 @@ import { UploadService } from './upload/upload.service';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
 import { UsersService } from './users/users.service';
-// import { RepositoryModule } from './repository/repository.module';
+import { OnboardingController } from './onboarding/onboarding.controller';
+import { OnboardingModule } from './onboarding/onboarding.module';
+import { OnboardingService } from './onboarding/onboarding.service';
 import { RepositoryAccessService } from './repository/repository-access.service';
-import { RepositoryQuotaService } from './repository/repository-quota.service';
 import { RepositoryFileService } from './repository/repository-file.service';
 import { RepositoryFolderService } from './repository/repository-folder.service';
+import { RepositoryQuotaService } from './repository/repository-quota.service';
 import { RepositoryModule } from './repository/repository.module';
-import { OnboardingService } from './onboarding/onboarding.service';
+import { TenantGuard } from './tenant/tenant.guard';
 
 @Module({
   imports: [
@@ -62,6 +64,7 @@ import { OnboardingService } from './onboarding/onboarding.service';
     LecturesModule,
     UploadModule,
     RepositoryModule,
+    OnboardingModule,
   ],
   controllers: [
     AppController,
@@ -72,6 +75,7 @@ import { OnboardingService } from './onboarding/onboarding.service';
     LecturesController,
     UploadController,
     RepositoryController,
+    OnboardingController,
   ],
   providers: [
     AppService,
@@ -91,6 +95,11 @@ import { OnboardingService } from './onboarding/onboarding.service';
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
+    },
+
+    {
+      provide: APP_GUARD,
+      useClass: TenantGuard,
     },
 
     UsersService,

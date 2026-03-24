@@ -22,7 +22,7 @@ import { TenantService } from './tenant.service';
 })
 export class TenantModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    // ClsMiddleware must run before TenantMiddleware so CLS context exists
-    consumer.apply(ClsMiddleware, TenantMiddleware).forRoutes('*path');
+    // Only mount ClsMiddleware for async context; tenant resolution is in TenantGuard
+    consumer.apply(ClsMiddleware).forRoutes('*path');
   }
 }

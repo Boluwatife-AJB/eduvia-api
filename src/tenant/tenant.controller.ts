@@ -2,7 +2,9 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { TenantService } from './tenant.service';
+import { BypassTenant } from './decorators/bypass-tenant.decorator';
 
+@BypassTenant()
 @ApiTags('Tenant')
 @Controller('tenant')
 export class TenantController {
