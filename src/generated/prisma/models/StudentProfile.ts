@@ -28,6 +28,7 @@ export type StudentProfileMinAggregateOutputType = {
   id: string | null
   user_id: string | null
   tenant_id: string | null
+  gender: $Enums.Gender | null
   matric_number: string | null
   class_id: string | null
   admission_date: Date | null
@@ -38,6 +39,7 @@ export type StudentProfileMaxAggregateOutputType = {
   id: string | null
   user_id: string | null
   tenant_id: string | null
+  gender: $Enums.Gender | null
   matric_number: string | null
   class_id: string | null
   admission_date: Date | null
@@ -48,6 +50,7 @@ export type StudentProfileCountAggregateOutputType = {
   id: number
   user_id: number
   tenant_id: number
+  gender: number
   matric_number: number
   class_id: number
   admission_date: number
@@ -62,6 +65,7 @@ export type StudentProfileMinAggregateInputType = {
   id?: true
   user_id?: true
   tenant_id?: true
+  gender?: true
   matric_number?: true
   class_id?: true
   admission_date?: true
@@ -72,6 +76,7 @@ export type StudentProfileMaxAggregateInputType = {
   id?: true
   user_id?: true
   tenant_id?: true
+  gender?: true
   matric_number?: true
   class_id?: true
   admission_date?: true
@@ -82,6 +87,7 @@ export type StudentProfileCountAggregateInputType = {
   id?: true
   user_id?: true
   tenant_id?: true
+  gender?: true
   matric_number?: true
   class_id?: true
   admission_date?: true
@@ -167,6 +173,7 @@ export type StudentProfileGroupByOutputType = {
   id: string
   user_id: string
   tenant_id: string
+  gender: $Enums.Gender
   matric_number: string
   class_id: string | null
   admission_date: Date | null
@@ -200,6 +207,7 @@ export type StudentProfileWhereInput = {
   id?: Prisma.StringFilter<"StudentProfile"> | string
   user_id?: Prisma.StringFilter<"StudentProfile"> | string
   tenant_id?: Prisma.StringFilter<"StudentProfile"> | string
+  gender?: Prisma.EnumGenderFilter<"StudentProfile"> | $Enums.Gender
   matric_number?: Prisma.StringFilter<"StudentProfile"> | string
   class_id?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
   admission_date?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
@@ -215,6 +223,7 @@ export type StudentProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   matric_number?: Prisma.SortOrder
   class_id?: Prisma.SortOrderInput | Prisma.SortOrder
   admission_date?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -234,6 +243,7 @@ export type StudentProfileWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.StudentProfileWhereInput[]
   NOT?: Prisma.StudentProfileWhereInput | Prisma.StudentProfileWhereInput[]
   tenant_id?: Prisma.StringFilter<"StudentProfile"> | string
+  gender?: Prisma.EnumGenderFilter<"StudentProfile"> | $Enums.Gender
   class_id?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
   admission_date?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
   date_of_birth?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
@@ -248,6 +258,7 @@ export type StudentProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   matric_number?: Prisma.SortOrder
   class_id?: Prisma.SortOrderInput | Prisma.SortOrder
   admission_date?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -266,6 +277,7 @@ export type StudentProfileScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"StudentProfile"> | string
   user_id?: Prisma.StringWithAggregatesFilter<"StudentProfile"> | string
   tenant_id?: Prisma.StringWithAggregatesFilter<"StudentProfile"> | string
+  gender?: Prisma.EnumGenderWithAggregatesFilter<"StudentProfile"> | $Enums.Gender
   matric_number?: Prisma.StringWithAggregatesFilter<"StudentProfile"> | string
   class_id?: Prisma.StringNullableWithAggregatesFilter<"StudentProfile"> | string | null
   admission_date?: Prisma.DateTimeNullableWithAggregatesFilter<"StudentProfile"> | Date | string | null
@@ -277,6 +289,7 @@ export type StudentProfileScalarWhereWithAggregatesInput = {
 export type StudentProfileCreateInput = {
   id?: string
   tenant_id: string
+  gender?: $Enums.Gender
   matric_number: string
   admission_date?: Date | string | null
   date_of_birth?: Date | string | null
@@ -291,6 +304,7 @@ export type StudentProfileUncheckedCreateInput = {
   id?: string
   user_id: string
   tenant_id: string
+  gender?: $Enums.Gender
   matric_number: string
   class_id?: string | null
   admission_date?: Date | string | null
@@ -303,6 +317,7 @@ export type StudentProfileUncheckedCreateInput = {
 export type StudentProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   matric_number?: Prisma.StringFieldUpdateOperationsInput | string
   admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -317,6 +332,7 @@ export type StudentProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   matric_number?: Prisma.StringFieldUpdateOperationsInput | string
   class_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -330,6 +346,7 @@ export type StudentProfileCreateManyInput = {
   id?: string
   user_id: string
   tenant_id: string
+  gender?: $Enums.Gender
   matric_number: string
   class_id?: string | null
   admission_date?: Date | string | null
@@ -341,6 +358,7 @@ export type StudentProfileCreateManyInput = {
 export type StudentProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   matric_number?: Prisma.StringFieldUpdateOperationsInput | string
   admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -352,6 +370,7 @@ export type StudentProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   matric_number?: Prisma.StringFieldUpdateOperationsInput | string
   class_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -377,6 +396,7 @@ export type StudentProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   matric_number?: Prisma.SortOrder
   class_id?: Prisma.SortOrder
   admission_date?: Prisma.SortOrder
@@ -389,6 +409,7 @@ export type StudentProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   matric_number?: Prisma.SortOrder
   class_id?: Prisma.SortOrder
   admission_date?: Prisma.SortOrder
@@ -399,6 +420,7 @@ export type StudentProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   matric_number?: Prisma.SortOrder
   class_id?: Prisma.SortOrder
   admission_date?: Prisma.SortOrder
@@ -529,6 +551,7 @@ export type StudentProfileUpdateOneRequiredWithoutStudent_subject_registrationsN
 export type StudentProfileCreateWithoutUserInput = {
   id?: string
   tenant_id: string
+  gender?: $Enums.Gender
   matric_number: string
   admission_date?: Date | string | null
   date_of_birth?: Date | string | null
@@ -541,6 +564,7 @@ export type StudentProfileCreateWithoutUserInput = {
 export type StudentProfileUncheckedCreateWithoutUserInput = {
   id?: string
   tenant_id: string
+  gender?: $Enums.Gender
   matric_number: string
   class_id?: string | null
   admission_date?: Date | string | null
@@ -569,6 +593,7 @@ export type StudentProfileUpdateToOneWithWhereWithoutUserInput = {
 export type StudentProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   matric_number?: Prisma.StringFieldUpdateOperationsInput | string
   admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -581,6 +606,7 @@ export type StudentProfileUpdateWithoutUserInput = {
 export type StudentProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   matric_number?: Prisma.StringFieldUpdateOperationsInput | string
   class_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -593,6 +619,7 @@ export type StudentProfileUncheckedUpdateWithoutUserInput = {
 export type StudentProfileCreateWithoutClassInput = {
   id?: string
   tenant_id: string
+  gender?: $Enums.Gender
   matric_number: string
   admission_date?: Date | string | null
   date_of_birth?: Date | string | null
@@ -606,6 +633,7 @@ export type StudentProfileUncheckedCreateWithoutClassInput = {
   id?: string
   user_id: string
   tenant_id: string
+  gender?: $Enums.Gender
   matric_number: string
   admission_date?: Date | string | null
   date_of_birth?: Date | string | null
@@ -647,6 +675,7 @@ export type StudentProfileScalarWhereInput = {
   id?: Prisma.StringFilter<"StudentProfile"> | string
   user_id?: Prisma.StringFilter<"StudentProfile"> | string
   tenant_id?: Prisma.StringFilter<"StudentProfile"> | string
+  gender?: Prisma.EnumGenderFilter<"StudentProfile"> | $Enums.Gender
   matric_number?: Prisma.StringFilter<"StudentProfile"> | string
   class_id?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
   admission_date?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
@@ -658,6 +687,7 @@ export type StudentProfileScalarWhereInput = {
 export type StudentProfileCreateWithoutStudent_subject_registrationsInput = {
   id?: string
   tenant_id: string
+  gender?: $Enums.Gender
   matric_number: string
   admission_date?: Date | string | null
   date_of_birth?: Date | string | null
@@ -671,6 +701,7 @@ export type StudentProfileUncheckedCreateWithoutStudent_subject_registrationsInp
   id?: string
   user_id: string
   tenant_id: string
+  gender?: $Enums.Gender
   matric_number: string
   class_id?: string | null
   admission_date?: Date | string | null
@@ -698,6 +729,7 @@ export type StudentProfileUpdateToOneWithWhereWithoutStudent_subject_registratio
 export type StudentProfileUpdateWithoutStudent_subject_registrationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   matric_number?: Prisma.StringFieldUpdateOperationsInput | string
   admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -711,6 +743,7 @@ export type StudentProfileUncheckedUpdateWithoutStudent_subject_registrationsInp
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   matric_number?: Prisma.StringFieldUpdateOperationsInput | string
   class_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -723,6 +756,7 @@ export type StudentProfileCreateManyClassInput = {
   id?: string
   user_id: string
   tenant_id: string
+  gender?: $Enums.Gender
   matric_number: string
   admission_date?: Date | string | null
   date_of_birth?: Date | string | null
@@ -733,6 +767,7 @@ export type StudentProfileCreateManyClassInput = {
 export type StudentProfileUpdateWithoutClassInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   matric_number?: Prisma.StringFieldUpdateOperationsInput | string
   admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -746,6 +781,7 @@ export type StudentProfileUncheckedUpdateWithoutClassInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   matric_number?: Prisma.StringFieldUpdateOperationsInput | string
   admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -758,6 +794,7 @@ export type StudentProfileUncheckedUpdateManyWithoutClassInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   matric_number?: Prisma.StringFieldUpdateOperationsInput | string
   admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -800,6 +837,7 @@ export type StudentProfileSelect<ExtArgs extends runtime.Types.Extensions.Intern
   id?: boolean
   user_id?: boolean
   tenant_id?: boolean
+  gender?: boolean
   matric_number?: boolean
   class_id?: boolean
   admission_date?: boolean
@@ -816,6 +854,7 @@ export type StudentProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   id?: boolean
   user_id?: boolean
   tenant_id?: boolean
+  gender?: boolean
   matric_number?: boolean
   class_id?: boolean
   admission_date?: boolean
@@ -830,6 +869,7 @@ export type StudentProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   id?: boolean
   user_id?: boolean
   tenant_id?: boolean
+  gender?: boolean
   matric_number?: boolean
   class_id?: boolean
   admission_date?: boolean
@@ -844,6 +884,7 @@ export type StudentProfileSelectScalar = {
   id?: boolean
   user_id?: boolean
   tenant_id?: boolean
+  gender?: boolean
   matric_number?: boolean
   class_id?: boolean
   admission_date?: boolean
@@ -852,7 +893,7 @@ export type StudentProfileSelectScalar = {
   registered_subject_ids?: boolean
 }
 
-export type StudentProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "tenant_id" | "matric_number" | "class_id" | "admission_date" | "date_of_birth" | "guardian_ids" | "registered_subject_ids", ExtArgs["result"]["studentProfile"]>
+export type StudentProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "tenant_id" | "gender" | "matric_number" | "class_id" | "admission_date" | "date_of_birth" | "guardian_ids" | "registered_subject_ids", ExtArgs["result"]["studentProfile"]>
 export type StudentProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   student_subject_registrations?: boolean | Prisma.StudentProfile$student_subject_registrationsArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -879,6 +920,7 @@ export type $StudentProfilePayload<ExtArgs extends runtime.Types.Extensions.Inte
     id: string
     user_id: string
     tenant_id: string
+    gender: $Enums.Gender
     matric_number: string
     class_id: string | null
     admission_date: Date | null
@@ -1317,6 +1359,7 @@ export interface StudentProfileFieldRefs {
   readonly id: Prisma.FieldRef<"StudentProfile", 'String'>
   readonly user_id: Prisma.FieldRef<"StudentProfile", 'String'>
   readonly tenant_id: Prisma.FieldRef<"StudentProfile", 'String'>
+  readonly gender: Prisma.FieldRef<"StudentProfile", 'Gender'>
   readonly matric_number: Prisma.FieldRef<"StudentProfile", 'String'>
   readonly class_id: Prisma.FieldRef<"StudentProfile", 'String'>
   readonly admission_date: Prisma.FieldRef<"StudentProfile", 'DateTime'>

@@ -244,6 +244,15 @@ export class SchoolSetupController {
     return this.service.getClasses(level);
   }
 
+  // Get classes with just id and the name of the class
+  @Get('classes/names')
+  @ApiOperation({
+    summary: 'Get all classes with just id and the name of the class',
+  })
+  getClassesWithIdAndName() {
+    return this.service.getClassesWithIdAndName();
+  }
+
   // Get Class by ID
   @Get('classes/:id')
   @ApiOperation({ summary: 'Get a class with its students and subjects' })

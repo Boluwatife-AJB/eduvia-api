@@ -11,7 +11,7 @@ import {
   MinLength,
   ValidateIf,
 } from 'class-validator';
-import { UserRole } from '../../generated/prisma/client';
+import { Gender, UserRole } from '../../generated/prisma/client';
 
 export class CreateUserDto {
   @ApiProperty({ enum: UserRole, example: UserRole.STUDENT })
@@ -47,6 +47,11 @@ export class CreateUserDto {
   @IsString()
   @IsOptional()
   phone?: string;
+
+  @ApiProperty({ enum: Gender, example: Gender.MALE })
+  @IsEnum(Gender)
+  @IsNotEmpty()
+  gender: Gender;
 
   @ApiProperty({
     example: '2007-02-21',

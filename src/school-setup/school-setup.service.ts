@@ -489,6 +489,16 @@ export class SchoolSetupService {
     });
   }
 
+  // Get classes with just id and the name of the class
+  async getClassesWithIdAndName() {
+    const tenantId = this.cls.get<string>('tenantId');
+    return this.prisma.class.findMany({
+      where: { tenant_id: tenantId },
+      select: { id: true, name: true },
+      orderBy: { name: 'asc' },
+    });
+  }
+
   // Get class by id
   async getClassById(classId: string) {
     const tenantId = this.cls.get<string>('tenantId');

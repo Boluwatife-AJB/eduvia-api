@@ -194,6 +194,7 @@ export class AuthService {
             name: true,
             slug: true,
             logo: true,
+            academic_sessions: { select: { name: true } },
           },
         },
       },

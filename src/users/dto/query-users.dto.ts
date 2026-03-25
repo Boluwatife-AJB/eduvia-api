@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
 import { Type } from 'class-transformer';
-import { UserRole, UserStatus } from '../../generated/prisma/client';
+import { Gender, UserRole, UserStatus } from '../../generated/prisma/client';
 
 export class QueryUsersDto {
   @ApiPropertyOptional({ default: 1 })
@@ -40,4 +40,9 @@ export class QueryUsersDto {
   @IsString()
   @IsOptional()
   class_id?: string;
+
+  @ApiPropertyOptional({ description: 'Filter by gender' })
+  @IsEnum(Gender)
+  @IsOptional()
+  gender?: Gender;
 }

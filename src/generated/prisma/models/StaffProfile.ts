@@ -28,6 +28,7 @@ export type StaffProfileMinAggregateOutputType = {
   id: string | null
   user_id: string | null
   tenant_id: string | null
+  gender: $Enums.Gender | null
   employee_id: string | null
   staff_type: string | null
   department_id: string | null
@@ -38,6 +39,7 @@ export type StaffProfileMaxAggregateOutputType = {
   id: string | null
   user_id: string | null
   tenant_id: string | null
+  gender: $Enums.Gender | null
   employee_id: string | null
   staff_type: string | null
   department_id: string | null
@@ -48,6 +50,7 @@ export type StaffProfileCountAggregateOutputType = {
   id: number
   user_id: number
   tenant_id: number
+  gender: number
   employee_id: number
   staff_type: number
   department_id: number
@@ -60,6 +63,7 @@ export type StaffProfileMinAggregateInputType = {
   id?: true
   user_id?: true
   tenant_id?: true
+  gender?: true
   employee_id?: true
   staff_type?: true
   department_id?: true
@@ -70,6 +74,7 @@ export type StaffProfileMaxAggregateInputType = {
   id?: true
   user_id?: true
   tenant_id?: true
+  gender?: true
   employee_id?: true
   staff_type?: true
   department_id?: true
@@ -80,6 +85,7 @@ export type StaffProfileCountAggregateInputType = {
   id?: true
   user_id?: true
   tenant_id?: true
+  gender?: true
   employee_id?: true
   staff_type?: true
   department_id?: true
@@ -163,6 +169,7 @@ export type StaffProfileGroupByOutputType = {
   id: string
   user_id: string
   tenant_id: string
+  gender: $Enums.Gender
   employee_id: string
   staff_type: string
   department_id: string | null
@@ -194,6 +201,7 @@ export type StaffProfileWhereInput = {
   id?: Prisma.StringFilter<"StaffProfile"> | string
   user_id?: Prisma.StringFilter<"StaffProfile"> | string
   tenant_id?: Prisma.StringFilter<"StaffProfile"> | string
+  gender?: Prisma.EnumGenderFilter<"StaffProfile"> | $Enums.Gender
   employee_id?: Prisma.StringFilter<"StaffProfile"> | string
   staff_type?: Prisma.StringFilter<"StaffProfile"> | string
   department_id?: Prisma.StringNullableFilter<"StaffProfile"> | string | null
@@ -205,6 +213,7 @@ export type StaffProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   employee_id?: Prisma.SortOrder
   staff_type?: Prisma.SortOrder
   department_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -220,6 +229,7 @@ export type StaffProfileWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.StaffProfileWhereInput[]
   NOT?: Prisma.StaffProfileWhereInput | Prisma.StaffProfileWhereInput[]
   tenant_id?: Prisma.StringFilter<"StaffProfile"> | string
+  gender?: Prisma.EnumGenderFilter<"StaffProfile"> | $Enums.Gender
   staff_type?: Prisma.StringFilter<"StaffProfile"> | string
   department_id?: Prisma.StringNullableFilter<"StaffProfile"> | string | null
   date_joined?: Prisma.DateTimeNullableFilter<"StaffProfile"> | Date | string | null
@@ -230,6 +240,7 @@ export type StaffProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   employee_id?: Prisma.SortOrder
   staff_type?: Prisma.SortOrder
   department_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -246,6 +257,7 @@ export type StaffProfileScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
   user_id?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
   tenant_id?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
+  gender?: Prisma.EnumGenderWithAggregatesFilter<"StaffProfile"> | $Enums.Gender
   employee_id?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
   staff_type?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
   department_id?: Prisma.StringNullableWithAggregatesFilter<"StaffProfile"> | string | null
@@ -255,6 +267,7 @@ export type StaffProfileScalarWhereWithAggregatesInput = {
 export type StaffProfileCreateInput = {
   id?: string
   tenant_id: string
+  gender?: $Enums.Gender
   employee_id: string
   staff_type: string
   department_id?: string | null
@@ -266,6 +279,7 @@ export type StaffProfileUncheckedCreateInput = {
   id?: string
   user_id: string
   tenant_id: string
+  gender?: $Enums.Gender
   employee_id: string
   staff_type: string
   department_id?: string | null
@@ -275,6 +289,7 @@ export type StaffProfileUncheckedCreateInput = {
 export type StaffProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   employee_id?: Prisma.StringFieldUpdateOperationsInput | string
   staff_type?: Prisma.StringFieldUpdateOperationsInput | string
   department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -286,6 +301,7 @@ export type StaffProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   employee_id?: Prisma.StringFieldUpdateOperationsInput | string
   staff_type?: Prisma.StringFieldUpdateOperationsInput | string
   department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -296,6 +312,7 @@ export type StaffProfileCreateManyInput = {
   id?: string
   user_id: string
   tenant_id: string
+  gender?: $Enums.Gender
   employee_id: string
   staff_type: string
   department_id?: string | null
@@ -305,6 +322,7 @@ export type StaffProfileCreateManyInput = {
 export type StaffProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   employee_id?: Prisma.StringFieldUpdateOperationsInput | string
   staff_type?: Prisma.StringFieldUpdateOperationsInput | string
   department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -315,6 +333,7 @@ export type StaffProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   employee_id?: Prisma.StringFieldUpdateOperationsInput | string
   staff_type?: Prisma.StringFieldUpdateOperationsInput | string
   department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -330,6 +349,7 @@ export type StaffProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   employee_id?: Prisma.SortOrder
   staff_type?: Prisma.SortOrder
   department_id?: Prisma.SortOrder
@@ -340,6 +360,7 @@ export type StaffProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   employee_id?: Prisma.SortOrder
   staff_type?: Prisma.SortOrder
   department_id?: Prisma.SortOrder
@@ -350,6 +371,7 @@ export type StaffProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   employee_id?: Prisma.SortOrder
   staff_type?: Prisma.SortOrder
   department_id?: Prisma.SortOrder
@@ -391,6 +413,7 @@ export type StaffProfileUncheckedUpdateOneWithoutUserNestedInput = {
 export type StaffProfileCreateWithoutUserInput = {
   id?: string
   tenant_id: string
+  gender?: $Enums.Gender
   employee_id: string
   staff_type: string
   department_id?: string | null
@@ -400,6 +423,7 @@ export type StaffProfileCreateWithoutUserInput = {
 export type StaffProfileUncheckedCreateWithoutUserInput = {
   id?: string
   tenant_id: string
+  gender?: $Enums.Gender
   employee_id: string
   staff_type: string
   department_id?: string | null
@@ -425,6 +449,7 @@ export type StaffProfileUpdateToOneWithWhereWithoutUserInput = {
 export type StaffProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   employee_id?: Prisma.StringFieldUpdateOperationsInput | string
   staff_type?: Prisma.StringFieldUpdateOperationsInput | string
   department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -434,6 +459,7 @@ export type StaffProfileUpdateWithoutUserInput = {
 export type StaffProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   employee_id?: Prisma.StringFieldUpdateOperationsInput | string
   staff_type?: Prisma.StringFieldUpdateOperationsInput | string
   department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -446,6 +472,7 @@ export type StaffProfileSelect<ExtArgs extends runtime.Types.Extensions.Internal
   id?: boolean
   user_id?: boolean
   tenant_id?: boolean
+  gender?: boolean
   employee_id?: boolean
   staff_type?: boolean
   department_id?: boolean
@@ -457,6 +484,7 @@ export type StaffProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   user_id?: boolean
   tenant_id?: boolean
+  gender?: boolean
   employee_id?: boolean
   staff_type?: boolean
   department_id?: boolean
@@ -468,6 +496,7 @@ export type StaffProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   user_id?: boolean
   tenant_id?: boolean
+  gender?: boolean
   employee_id?: boolean
   staff_type?: boolean
   department_id?: boolean
@@ -479,13 +508,14 @@ export type StaffProfileSelectScalar = {
   id?: boolean
   user_id?: boolean
   tenant_id?: boolean
+  gender?: boolean
   employee_id?: boolean
   staff_type?: boolean
   department_id?: boolean
   date_joined?: boolean
 }
 
-export type StaffProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "tenant_id" | "employee_id" | "staff_type" | "department_id" | "date_joined", ExtArgs["result"]["staffProfile"]>
+export type StaffProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "tenant_id" | "gender" | "employee_id" | "staff_type" | "department_id" | "date_joined", ExtArgs["result"]["staffProfile"]>
 export type StaffProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -505,6 +535,7 @@ export type $StaffProfilePayload<ExtArgs extends runtime.Types.Extensions.Intern
     id: string
     user_id: string
     tenant_id: string
+    gender: $Enums.Gender
     employee_id: string
     staff_type: string
     department_id: string | null
@@ -936,6 +967,7 @@ export interface StaffProfileFieldRefs {
   readonly id: Prisma.FieldRef<"StaffProfile", 'String'>
   readonly user_id: Prisma.FieldRef<"StaffProfile", 'String'>
   readonly tenant_id: Prisma.FieldRef<"StaffProfile", 'String'>
+  readonly gender: Prisma.FieldRef<"StaffProfile", 'Gender'>
   readonly employee_id: Prisma.FieldRef<"StaffProfile", 'String'>
   readonly staff_type: Prisma.FieldRef<"StaffProfile", 'String'>
   readonly department_id: Prisma.FieldRef<"StaffProfile", 'String'>

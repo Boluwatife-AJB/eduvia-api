@@ -34,6 +34,7 @@ export type UserMinAggregateOutputType = {
   status: $Enums.UserStatus | null
   first_name: string | null
   last_name: string | null
+  gender: $Enums.Gender | null
   mfa_enabled: boolean | null
   mfa_secret: string | null
   password_hash: string | null
@@ -54,6 +55,7 @@ export type UserMaxAggregateOutputType = {
   status: $Enums.UserStatus | null
   first_name: string | null
   last_name: string | null
+  gender: $Enums.Gender | null
   mfa_enabled: boolean | null
   mfa_secret: string | null
   password_hash: string | null
@@ -74,6 +76,7 @@ export type UserCountAggregateOutputType = {
   status: number
   first_name: number
   last_name: number
+  gender: number
   mfa_enabled: number
   mfa_secret: number
   password_hash: number
@@ -96,6 +99,7 @@ export type UserMinAggregateInputType = {
   status?: true
   first_name?: true
   last_name?: true
+  gender?: true
   mfa_enabled?: true
   mfa_secret?: true
   password_hash?: true
@@ -116,6 +120,7 @@ export type UserMaxAggregateInputType = {
   status?: true
   first_name?: true
   last_name?: true
+  gender?: true
   mfa_enabled?: true
   mfa_secret?: true
   password_hash?: true
@@ -136,6 +141,7 @@ export type UserCountAggregateInputType = {
   status?: true
   first_name?: true
   last_name?: true
+  gender?: true
   mfa_enabled?: true
   mfa_secret?: true
   password_hash?: true
@@ -229,6 +235,7 @@ export type UserGroupByOutputType = {
   status: $Enums.UserStatus
   first_name: string
   last_name: string
+  gender: $Enums.Gender
   mfa_enabled: boolean
   mfa_secret: string | null
   password_hash: string
@@ -270,6 +277,7 @@ export type UserWhereInput = {
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   first_name?: Prisma.StringFilter<"User"> | string
   last_name?: Prisma.StringFilter<"User"> | string
+  gender?: Prisma.EnumGenderFilter<"User"> | $Enums.Gender
   mfa_enabled?: Prisma.BoolFilter<"User"> | boolean
   mfa_secret?: Prisma.StringNullableFilter<"User"> | string | null
   password_hash?: Prisma.StringFilter<"User"> | string
@@ -296,6 +304,7 @@ export type UserOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   mfa_enabled?: Prisma.SortOrder
   mfa_secret?: Prisma.SortOrderInput | Prisma.SortOrder
   password_hash?: Prisma.SortOrder
@@ -327,6 +336,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   first_name?: Prisma.StringFilter<"User"> | string
   last_name?: Prisma.StringFilter<"User"> | string
+  gender?: Prisma.EnumGenderFilter<"User"> | $Enums.Gender
   mfa_enabled?: Prisma.BoolFilter<"User"> | boolean
   mfa_secret?: Prisma.StringNullableFilter<"User"> | string | null
   password_hash?: Prisma.StringFilter<"User"> | string
@@ -353,6 +363,7 @@ export type UserOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   mfa_enabled?: Prisma.SortOrder
   mfa_secret?: Prisma.SortOrderInput | Prisma.SortOrder
   password_hash?: Prisma.SortOrder
@@ -379,6 +390,7 @@ export type UserScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
   first_name?: Prisma.StringWithAggregatesFilter<"User"> | string
   last_name?: Prisma.StringWithAggregatesFilter<"User"> | string
+  gender?: Prisma.EnumGenderWithAggregatesFilter<"User"> | $Enums.Gender
   mfa_enabled?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   mfa_secret?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   password_hash?: Prisma.StringWithAggregatesFilter<"User"> | string
@@ -399,6 +411,7 @@ export type UserCreateInput = {
   status?: $Enums.UserStatus
   first_name: string
   last_name: string
+  gender?: $Enums.Gender
   mfa_enabled?: boolean
   mfa_secret?: string | null
   password_hash: string
@@ -424,6 +437,7 @@ export type UserUncheckedCreateInput = {
   status?: $Enums.UserStatus
   first_name: string
   last_name: string
+  gender?: $Enums.Gender
   mfa_enabled?: boolean
   mfa_secret?: string | null
   password_hash: string
@@ -449,6 +463,7 @@ export type UserUpdateInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   mfa_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -474,6 +489,7 @@ export type UserUncheckedUpdateInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   mfa_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -499,6 +515,7 @@ export type UserCreateManyInput = {
   status?: $Enums.UserStatus
   first_name: string
   last_name: string
+  gender?: $Enums.Gender
   mfa_enabled?: boolean
   mfa_secret?: string | null
   password_hash: string
@@ -519,6 +536,7 @@ export type UserUpdateManyMutationInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   mfa_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -538,6 +556,7 @@ export type UserUncheckedUpdateManyInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   mfa_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -578,6 +597,7 @@ export type UserCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   mfa_enabled?: Prisma.SortOrder
   mfa_secret?: Prisma.SortOrder
   password_hash?: Prisma.SortOrder
@@ -598,6 +618,7 @@ export type UserMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   mfa_enabled?: Prisma.SortOrder
   mfa_secret?: Prisma.SortOrder
   password_hash?: Prisma.SortOrder
@@ -618,6 +639,7 @@ export type UserMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   first_name?: Prisma.SortOrder
   last_name?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   mfa_enabled?: Prisma.SortOrder
   mfa_secret?: Prisma.SortOrder
   password_hash?: Prisma.SortOrder
@@ -681,6 +703,10 @@ export type EnumUserRoleFieldUpdateOperationsInput = {
 
 export type EnumUserStatusFieldUpdateOperationsInput = {
   set?: $Enums.UserStatus
+}
+
+export type EnumGenderFieldUpdateOperationsInput = {
+  set?: $Enums.Gender
 }
 
 export type BoolFieldUpdateOperationsInput = {
@@ -767,6 +793,7 @@ export type UserCreateWithoutTenantInput = {
   status?: $Enums.UserStatus
   first_name: string
   last_name: string
+  gender?: $Enums.Gender
   mfa_enabled?: boolean
   mfa_secret?: string | null
   password_hash: string
@@ -791,6 +818,7 @@ export type UserUncheckedCreateWithoutTenantInput = {
   status?: $Enums.UserStatus
   first_name: string
   last_name: string
+  gender?: $Enums.Gender
   mfa_enabled?: boolean
   mfa_secret?: string | null
   password_hash: string
@@ -844,6 +872,7 @@ export type UserScalarWhereInput = {
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   first_name?: Prisma.StringFilter<"User"> | string
   last_name?: Prisma.StringFilter<"User"> | string
+  gender?: Prisma.EnumGenderFilter<"User"> | $Enums.Gender
   mfa_enabled?: Prisma.BoolFilter<"User"> | boolean
   mfa_secret?: Prisma.StringNullableFilter<"User"> | string | null
   password_hash?: Prisma.StringFilter<"User"> | string
@@ -864,6 +893,7 @@ export type UserCreateWithoutRefresh_tokensInput = {
   status?: $Enums.UserStatus
   first_name: string
   last_name: string
+  gender?: $Enums.Gender
   mfa_enabled?: boolean
   mfa_secret?: string | null
   password_hash: string
@@ -888,6 +918,7 @@ export type UserUncheckedCreateWithoutRefresh_tokensInput = {
   status?: $Enums.UserStatus
   first_name: string
   last_name: string
+  gender?: $Enums.Gender
   mfa_enabled?: boolean
   mfa_secret?: string | null
   password_hash: string
@@ -928,6 +959,7 @@ export type UserUpdateWithoutRefresh_tokensInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   mfa_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -952,6 +984,7 @@ export type UserUncheckedUpdateWithoutRefresh_tokensInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   mfa_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -976,6 +1009,7 @@ export type UserCreateWithoutStudent_profileInput = {
   status?: $Enums.UserStatus
   first_name: string
   last_name: string
+  gender?: $Enums.Gender
   mfa_enabled?: boolean
   mfa_secret?: string | null
   password_hash: string
@@ -1000,6 +1034,7 @@ export type UserUncheckedCreateWithoutStudent_profileInput = {
   status?: $Enums.UserStatus
   first_name: string
   last_name: string
+  gender?: $Enums.Gender
   mfa_enabled?: boolean
   mfa_secret?: string | null
   password_hash: string
@@ -1040,6 +1075,7 @@ export type UserUpdateWithoutStudent_profileInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   mfa_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1064,6 +1100,7 @@ export type UserUncheckedUpdateWithoutStudent_profileInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   mfa_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1088,6 +1125,7 @@ export type UserCreateWithoutTeacher_profileInput = {
   status?: $Enums.UserStatus
   first_name: string
   last_name: string
+  gender?: $Enums.Gender
   mfa_enabled?: boolean
   mfa_secret?: string | null
   password_hash: string
@@ -1112,6 +1150,7 @@ export type UserUncheckedCreateWithoutTeacher_profileInput = {
   status?: $Enums.UserStatus
   first_name: string
   last_name: string
+  gender?: $Enums.Gender
   mfa_enabled?: boolean
   mfa_secret?: string | null
   password_hash: string
@@ -1152,6 +1191,7 @@ export type UserUpdateWithoutTeacher_profileInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   mfa_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1176,6 +1216,7 @@ export type UserUncheckedUpdateWithoutTeacher_profileInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   mfa_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1200,6 +1241,7 @@ export type UserCreateWithoutGuardian_profileInput = {
   status?: $Enums.UserStatus
   first_name: string
   last_name: string
+  gender?: $Enums.Gender
   mfa_enabled?: boolean
   mfa_secret?: string | null
   password_hash: string
@@ -1224,6 +1266,7 @@ export type UserUncheckedCreateWithoutGuardian_profileInput = {
   status?: $Enums.UserStatus
   first_name: string
   last_name: string
+  gender?: $Enums.Gender
   mfa_enabled?: boolean
   mfa_secret?: string | null
   password_hash: string
@@ -1264,6 +1307,7 @@ export type UserUpdateWithoutGuardian_profileInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   mfa_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1288,6 +1332,7 @@ export type UserUncheckedUpdateWithoutGuardian_profileInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   mfa_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1312,6 +1357,7 @@ export type UserCreateWithoutStaff_profileInput = {
   status?: $Enums.UserStatus
   first_name: string
   last_name: string
+  gender?: $Enums.Gender
   mfa_enabled?: boolean
   mfa_secret?: string | null
   password_hash: string
@@ -1336,6 +1382,7 @@ export type UserUncheckedCreateWithoutStaff_profileInput = {
   status?: $Enums.UserStatus
   first_name: string
   last_name: string
+  gender?: $Enums.Gender
   mfa_enabled?: boolean
   mfa_secret?: string | null
   password_hash: string
@@ -1376,6 +1423,7 @@ export type UserUpdateWithoutStaff_profileInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   mfa_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1400,6 +1448,7 @@ export type UserUncheckedUpdateWithoutStaff_profileInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   mfa_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1424,6 +1473,7 @@ export type UserCreateManyTenantInput = {
   status?: $Enums.UserStatus
   first_name: string
   last_name: string
+  gender?: $Enums.Gender
   mfa_enabled?: boolean
   mfa_secret?: string | null
   password_hash: string
@@ -1443,6 +1493,7 @@ export type UserUpdateWithoutTenantInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   mfa_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1467,6 +1518,7 @@ export type UserUncheckedUpdateWithoutTenantInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   mfa_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1491,6 +1543,7 @@ export type UserUncheckedUpdateManyWithoutTenantInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   first_name?: Prisma.StringFieldUpdateOperationsInput | string
   last_name?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
   mfa_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1541,6 +1594,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   status?: boolean
   first_name?: boolean
   last_name?: boolean
+  gender?: boolean
   mfa_enabled?: boolean
   mfa_secret?: boolean
   password_hash?: boolean
@@ -1568,6 +1622,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   status?: boolean
   first_name?: boolean
   last_name?: boolean
+  gender?: boolean
   mfa_enabled?: boolean
   mfa_secret?: boolean
   password_hash?: boolean
@@ -1589,6 +1644,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   status?: boolean
   first_name?: boolean
   last_name?: boolean
+  gender?: boolean
   mfa_enabled?: boolean
   mfa_secret?: boolean
   password_hash?: boolean
@@ -1610,6 +1666,7 @@ export type UserSelectScalar = {
   status?: boolean
   first_name?: boolean
   last_name?: boolean
+  gender?: boolean
   mfa_enabled?: boolean
   mfa_secret?: boolean
   password_hash?: boolean
@@ -1620,7 +1677,7 @@ export type UserSelectScalar = {
   updated_at?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "role" | "identifier" | "email" | "phone" | "avatar" | "status" | "first_name" | "last_name" | "mfa_enabled" | "mfa_secret" | "password_hash" | "relationship" | "created_at" | "last_login_at" | "tenant_id" | "updated_at", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "role" | "identifier" | "email" | "phone" | "avatar" | "status" | "first_name" | "last_name" | "gender" | "mfa_enabled" | "mfa_secret" | "password_hash" | "relationship" | "created_at" | "last_login_at" | "tenant_id" | "updated_at", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   guardian_profile?: boolean | Prisma.User$guardian_profileArgs<ExtArgs>
   refresh_tokens?: boolean | Prisma.User$refresh_tokensArgs<ExtArgs>
@@ -1660,6 +1717,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     status: $Enums.UserStatus
     first_name: string
     last_name: string
+    gender: $Enums.Gender
     mfa_enabled: boolean
     mfa_secret: string | null
     password_hash: string
@@ -2106,6 +2164,7 @@ export interface UserFieldRefs {
   readonly status: Prisma.FieldRef<"User", 'UserStatus'>
   readonly first_name: Prisma.FieldRef<"User", 'String'>
   readonly last_name: Prisma.FieldRef<"User", 'String'>
+  readonly gender: Prisma.FieldRef<"User", 'Gender'>
   readonly mfa_enabled: Prisma.FieldRef<"User", 'Boolean'>
   readonly mfa_secret: Prisma.FieldRef<"User", 'String'>
   readonly password_hash: Prisma.FieldRef<"User", 'String'>

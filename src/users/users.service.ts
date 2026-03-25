@@ -33,6 +33,7 @@ const USER_SELECT = {
   identifier: true,
   first_name: true,
   last_name: true,
+  gender: true,
   email: true,
   phone: true,
   avatar: true,
@@ -125,6 +126,7 @@ export class UsersService {
           last_name: dto.last_name,
           email: dto.email,
           phone: dto.phone,
+          gender: dto.gender,
           password_hash: passwordHash,
           status: 'ACTIVE',
         },
@@ -555,15 +557,17 @@ export class UsersService {
   async getSchoolStats() {
     const tenantId = this.cls.get<string>('tenantId');
 
+    // TODO: Add performance metrics for each query
     // Count all roles in parallel
     const [
       studentCount,
       teacherCount,
       guardianCount,
       staffCount,
-      activeCount,
-      suspendedCount,
-      deletedCount,
+      classCount,
+      // activeCount,
+      // suspendedCount,
+      // deletedCount,
     ] = await Promise.all([
       this.prisma.user.count({
         where: { tenant_id: tenantId, role: UserRole.STUDENT },
@@ -590,15 +594,18 @@ export class UsersService {
           },
         },
       }),
-      this.prisma.user.count({
-        where: { tenant_id: tenantId, status: UserStatus.ACTIVE },
+      this.prisma.class.count({
+        where: { tenant_id: tenantId },
       }),
-      this.prisma.user.count({
-        where: { tenant_id: tenantId, status: UserStatus.SUSPENDED },
-      }),
-      this.prisma.user.count({
-        where: { tenant_id: tenantId, status: UserStatus.DELETED },
-      }),
+      // this.prisma.user.count({
+      //   where: { tenant_id: tenantId, status: UserStatus.ACTIVE },
+      // }),
+      // this.prisma.user.count({
+      //   where: { tenant_id: tenantId, status: UserStatus.SUSPENDED },
+      // }),
+      // this.prisma.user.count({
+      //   where: { tenant_id: tenantId, status: UserStatus.DELETED },
+      // }),
     ]);
 
     return {
@@ -606,12 +613,27 @@ export class UsersService {
       total_teachers: teacherCount,
       total_parents: guardianCount,
       total_staff: staffCount,
-      total_active: activeCount,
-      total_suspended: suspendedCount,
-      total_deleted: deletedCount,
-      total: studentCount + teacherCount + guardianCount + staffCount,
+      total_classes: classCount,
+      // total_active: activeCount,
+      // total_suspended: suspendedCount,
+      // total_deleted: deletedCount,
+      // total: studentCount + teacherCount + guardianCount + staffCount,
     };
   }
+
+  // // Get Class Distribution Statistics by Level
+  // async getClassDistributionStats() {
+  //   const tenantId = this.cls.get<string>('tenantId');
+  //   const [classCount, studentCount] = await Promise.all([
+  //     this.prisma.class.count({
+  //       where: { tenant_id: tenantId },
+  //     }),
+  //     this.prisma.studentProfile.count({
+  //       where: { tenant_id: tenantId },
+  //     }),
+  //   ]);
+  //   return { total_classes: classCount, total_students: studentCount };
+  // }
 
   /** Resolves User.identifier and optional matricNumber/employeeId; auto-generates when not provided (students/teachers/staff). */
   private async resolveIdentifierAndProfileCodes(
@@ -765,6 +787,7 @@ export class UsersService {
             date_of_birth: dto.date_of_birth
               ? new Date(dto.date_of_birth)
               : null,
+            gender: dto.gender,
           },
         });
         break;
@@ -806,6 +829,7 @@ export class UsersService {
             tenant_id: tenantId,
             employee_id: resolved.employeeId ?? resolved.identifier,
             staff_type: dto.staff_type ?? dto.role.toLowerCase(),
+            gender: dto.gender,
           },
         });
         break;

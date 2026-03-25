@@ -51,6 +51,7 @@ model User {
   status           UserStatus       @default(PENDING)
   first_name       String
   last_name        String
+  gender           Gender           @default(MALE)
   mfa_enabled      Boolean          @default(false)
   mfa_secret       String?
   password_hash    String
@@ -87,6 +88,7 @@ model StudentProfile {
   id                            String                       @id @default(uuid())
   user_id                       String                       @unique
   tenant_id                     String
+  gender                        Gender                       @default(MALE)
   matric_number                 String                       @unique
   class_id                      String?
   admission_date                DateTime?
@@ -107,6 +109,7 @@ model TeacherProfile {
   id                   String    @id @default(uuid())
   user_id              String    @unique
   tenant_id            String
+  gender               Gender    @default(MALE)
   employee_id          String    @unique
   department_id        String?
   qualification        String?
@@ -139,6 +142,7 @@ model StaffProfile {
   id            String    @id @default(uuid())
   user_id       String    @unique
   tenant_id     String
+  gender        Gender    @default(MALE)
   employee_id   String    @unique
   staff_type    String
   department_id String?
@@ -659,4 +663,9 @@ enum TenantPlan {
   BASIC
   STANDARD
   PREMIUM
+}
+
+enum Gender {
+  MALE
+  FEMALE
 }

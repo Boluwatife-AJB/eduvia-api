@@ -2422,6 +2422,7 @@ export const UserScalarFieldEnum = {
   status: 'status',
   first_name: 'first_name',
   last_name: 'last_name',
+  gender: 'gender',
   mfa_enabled: 'mfa_enabled',
   mfa_secret: 'mfa_secret',
   password_hash: 'password_hash',
@@ -2450,6 +2451,7 @@ export const StudentProfileScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
   tenant_id: 'tenant_id',
+  gender: 'gender',
   matric_number: 'matric_number',
   class_id: 'class_id',
   admission_date: 'admission_date',
@@ -2465,6 +2467,7 @@ export const TeacherProfileScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
   tenant_id: 'tenant_id',
+  gender: 'gender',
   employee_id: 'employee_id',
   department_id: 'department_id',
   qualification: 'qualification',
@@ -2491,6 +2494,7 @@ export const StaffProfileScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
   tenant_id: 'tenant_id',
+  gender: 'gender',
   employee_id: 'employee_id',
   staff_type: 'staff_type',
   department_id: 'department_id',
@@ -2940,6 +2944,20 @@ export type EnumUserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
  * Reference to a field of type 'UserStatus[]'
  */
 export type ListEnumUserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Gender'
+ */
+export type EnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Gender'>
+    
+
+
+/**
+ * Reference to a field of type 'Gender[]'
+ */
+export type ListEnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Gender[]'>
     
 
 

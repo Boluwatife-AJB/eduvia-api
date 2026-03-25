@@ -167,3 +167,11 @@ export const TenantPlan = {
 } as const
 
 export type TenantPlan = (typeof TenantPlan)[keyof typeof TenantPlan]
+
+
+export const Gender = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE'
+} as const
+
+export type Gender = (typeof Gender)[keyof typeof Gender]
