@@ -42,6 +42,7 @@ const USER_SELECT = {
   last_login_at: true,
   created_at: true,
   updated_at: true,
+
   // studentProfile: true,
   // teacherProfile: true,
   // guardianProfile: true,
@@ -51,11 +52,35 @@ const USER_SELECT = {
 type UserWithProfiles = Prisma.UserGetPayload<{ select: typeof USER_SELECT }>;
 
 const PROFILE_KEYS = [
-  'studentProfile',
-  'teacherProfile',
-  'guardianProfile',
-  'staffProfile',
+  'student_profile',
+  'teacher_profile',
+  'guardian_profile',
+  'staff_profile',
 ] as const;
+
+/** Extra fields when listing users who may be students (keeps teacher/guardian lists lean). */
+const USER_LIST_STUDENT_PROFILE_SELECT = {
+  matric_number: true,
+  class_id: true,
+
+  class: {
+    select: {
+      id: true,
+      name: true,
+      level: true,
+      department_id: true,
+    },
+  },
+} satisfies Prisma.StudentProfileSelect;
+
+const USER_LIST_WITH_STUDENT_DETAILS = {
+  ...USER_SELECT,
+  student_profile: { select: USER_LIST_STUDENT_PROFILE_SELECT },
+} satisfies Prisma.UserSelect;
+
+type UserListRowWithStudent = Prisma.UserGetPayload<{
+  select: typeof USER_LIST_WITH_STUDENT_DETAILS;
+}>;
 
 /** Returns user without nested profile objects to avoid duplicating id, tenantId, identifier, etc. */
 function shapeUserByRole(user: UserWithProfiles): Record<string, unknown> {
@@ -63,6 +88,28 @@ function shapeUserByRole(user: UserWithProfiles): Record<string, unknown> {
   const base = { ...rest };
   PROFILE_KEYS.forEach((key) => delete base[key]);
   return base as Record<string, unknown>;
+}
+
+function shouldIncludeStudentListDetails(role: UserRole | undefined): boolean {
+  return role == null || role === UserRole.STUDENT;
+}
+
+/** List row when student_profile (+ class) was loaded for students. */
+function shapeUserListRowWithStudent(
+  user: UserListRowWithStudent,
+): Record<string, unknown> {
+  const { student_profile, ...rest } = user;
+  const base = shapeUserByRole(rest as UserWithProfiles);
+  return {
+    ...base,
+    student_profile: student_profile
+      ? {
+          matric_number: student_profile.matric_number,
+          class_id: student_profile.class_id,
+          class: student_profile.class,
+        }
+      : null,
+  };
 }
 
 @Injectable()
@@ -194,9 +241,13 @@ export class UsersService {
       ...(class_id &&
         (!role || role === UserRole.STUDENT) && {
           role: UserRole.STUDENT,
-          studentProfile: { class_id },
+          student_profile: { class_id },
         }),
     };
+
+    const listSelect = shouldIncludeStudentListDetails(role)
+      ? USER_LIST_WITH_STUDENT_DETAILS
+      : USER_SELECT;
 
     // Run count and data fetch in parallel using Promise.all
     const [total, users] = await Promise.all([
@@ -205,20 +256,24 @@ export class UsersService {
         where,
         skip: (page - 1) * limit,
         take: limit,
-        select: USER_SELECT,
+        select: listSelect,
         orderBy: { created_at: 'desc' },
       }),
     ]);
 
     return {
-      data: users.map((u) => shapeUserByRole(u)),
+      data: shouldIncludeStudentListDetails(role)
+        ? (users as UserListRowWithStudent[]).map((u) =>
+            shapeUserListRowWithStudent(u),
+          )
+        : users.map((u) => shapeUserByRole(u)),
       meta: {
         total,
         page,
         limit,
-        totalPages: Math.ceil(total / limit),
-        hasNextPage: page < Math.ceil(total / limit),
-        hasPreviousPage: page > 1,
+        total_pages: Math.ceil(total / limit),
+        has_next_page: page < Math.ceil(total / limit),
+        has_previous_page: page > 1,
       },
     };
   }

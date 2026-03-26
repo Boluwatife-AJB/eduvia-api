@@ -15,6 +15,47 @@ function isRecord(v: unknown): v is Record<string, unknown> {
   return v !== null && typeof v === 'object' && !Array.isArray(v);
 }
 
+/** Ensures pagination meta is always snake_case (handles camelCase from any source). */
+function normalizePaginationMeta(raw: unknown): PaginationMeta | undefined {
+  if (!isRecord(raw)) return undefined;
+  const total = raw['total'];
+  if (typeof total !== 'number' || !Number.isFinite(total)) return undefined;
+
+  const page =
+    typeof raw['page'] === 'number' && Number.isFinite(raw['page'])
+      ? raw['page']
+      : 1;
+  const limit =
+    typeof raw['limit'] === 'number' && Number.isFinite(raw['limit'])
+      ? raw['limit']
+      : 20;
+
+  const totalPagesRaw = raw['total_pages'] ?? raw['totalPages'];
+  const total_pages =
+    typeof totalPagesRaw === 'number' && Number.isFinite(totalPagesRaw)
+      ? totalPagesRaw
+      : Math.ceil(total / limit) || 0;
+
+  const hasNextRaw = raw['has_next_page'] ?? raw['hasNextPage'];
+  const has_next_page =
+    typeof hasNextRaw === 'boolean'
+      ? hasNextRaw
+      : page < (Math.ceil(total / limit) || 1);
+
+  const hasPrevRaw = raw['has_previous_page'] ?? raw['hasPreviousPage'];
+  const has_previous_page =
+    typeof hasPrevRaw === 'boolean' ? hasPrevRaw : page > 1;
+
+  return {
+    total,
+    page,
+    limit,
+    total_pages,
+    has_next_page,
+    has_previous_page,
+  };
+}
+
 @Injectable()
 export class ResponseInterceptors implements NestInterceptor {
   intercept(
@@ -39,12 +80,12 @@ export class ResponseInterceptors implements NestInterceptor {
           if (hasMessageAndData) {
             // message = data.message as string;
             bodyData = data['data'];
-            if (hasDataAndMeta && isRecord(data.meta)) {
-              meta = data.meta as unknown as PaginationMeta;
+            if (hasDataAndMeta) {
+              meta = normalizePaginationMeta(data['meta']);
             }
           } else if (hasDataAndMeta) {
             bodyData = data['data'];
-            meta = data.meta as PaginationMeta;
+            meta = normalizePaginationMeta(data['meta']);
           }
         }
 
