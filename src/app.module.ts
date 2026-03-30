@@ -36,6 +36,22 @@ import { RepositoryFolderService } from './repository/repository-folder.service'
 import { RepositoryQuotaService } from './repository/repository-quota.service';
 import { RepositoryModule } from './repository/repository.module';
 import { TenantGuard } from './tenant/tenant.guard';
+import { AssessmentService } from './assessment/assessment.service';
+import { QueueModule } from './queue/queue.module';
+import { EmailService } from './email/email.service';
+import { GradingService } from './assessment/grading.service';
+import { NotificationsService } from './notifications/notifications.service';
+import { NotificationsController } from './notifications/notifications.controller';
+import { SchoolConfigService } from './school-config/school-config.service';
+import { SchoolConfigController } from './school-config/school-config.controller';
+import { ApprovalModule } from './approval/approval.module';
+import { ResultEngineService } from './result-engine/result-engine.service';
+import { AssessmentController } from './assessment/assessment.controller';
+import { GpaCalculatorService } from './assessment/gpa-calculator.service';
+import { SchoolConfigModule } from './school-config/school-config.module';
+import { AssessmentModule } from './assessment/assessment.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -65,6 +81,12 @@ import { TenantGuard } from './tenant/tenant.guard';
     UploadModule,
     RepositoryModule,
     OnboardingModule,
+    QueueModule,
+    ApprovalModule,
+    SchoolConfigModule,
+    AssessmentModule,
+    NotificationsModule,
+    EmailModule,
   ],
   controllers: [
     AppController,
@@ -76,6 +98,9 @@ import { TenantGuard } from './tenant/tenant.guard';
     UploadController,
     RepositoryController,
     OnboardingController,
+    NotificationsController,
+    SchoolConfigController,
+    AssessmentController,
   ],
   providers: [
     AppService,
@@ -119,6 +144,20 @@ import { TenantGuard } from './tenant/tenant.guard';
     RepositoryFolderService,
 
     OnboardingService,
+
+    AssessmentService,
+
+    EmailService,
+
+    GradingService,
+
+    NotificationsService,
+
+    SchoolConfigService,
+
+    ResultEngineService,
+
+    GpaCalculatorService,
 
     // SchoolSetupService,
   ],

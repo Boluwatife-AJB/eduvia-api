@@ -586,3 +586,84 @@ export class StorageQuotaExceededException extends AppException {
     });
   }
 }
+
+// ASSESSMENT EXCEPTIONS
+export class AssessmentNotFoundException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.ASSESSMENT_NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
+      message: 'Assessment not found.',
+    });
+  }
+}
+
+export class AssessmentQuestionNotFoundException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.ASSESSMENT_QUESTION_NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
+      message: 'Assessment question not found.',
+    });
+  }
+}
+
+export class AssessmentSubmissionNotFoundException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.ASSESSMENT_SUBMISSION_NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
+      message: 'Assessment submission not found.',
+    });
+  }
+}
+
+export class AssessmentNotStartedException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.ASSESSMENT_NOT_STARTED,
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: 'Assessment has not started yet.',
+    });
+  }
+}
+
+export class AssessmentEndedException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.ASSESSMENT_ENDED,
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: 'Assessment has ended.',
+    });
+  }
+}
+
+export class AssessmentMaxAttemptsReachedException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.ASSESSMENT_MAX_ATTEMPTS_REACHED,
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: 'Maximum number of attempts reached.',
+    });
+  }
+}
+
+export class AssessmentLateSubmissionException extends AppException {
+  constructor() {
+    super({
+      code: ErrorCode.ASSESSMENT_LATE_SUBMISSION,
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: 'Assessment submission is late.',
+    });
+  }
+}
+// SCHOOL CONFIG EXCEPTIONS
+export class InvalidConfigurationException extends AppException {
+  constructor(message: string) {
+    super({
+      code: ErrorCode.INVALID_CONFIGURATION,
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: message,
+    });
+  }
+}

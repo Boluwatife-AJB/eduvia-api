@@ -36,6 +36,9 @@ model Tenant {
   repository_folders RepositoryFolder[]
   repository_files   RepositoryFile[]
   tenant_storage     TenantStorage?
+  schoolConfigs      SchoolConfig[]
+  assessments        Assessment[]
+  paymentConfig      PaymentConfig?
 
   @@map("tenants")
 }
@@ -66,6 +69,7 @@ model User {
   student_profile  StudentProfile?
   teacher_profile  TeacherProfile?
   tenant           Tenant           @relation(fields: [tenant_id], references: [id])
+  notifications    Notification[]
 
   @@unique([tenant_id, identifier])
   @@unique([tenant_id, email])
@@ -187,6 +191,7 @@ model AcademicTerm {
   timetable_slots  TimeTableSlot[]
   tutorial_classes TutorialClass[]
   lectures         Lecture[]
+  assessments      Assessment[]
 
   @@unique([academic_session_id, name]) // can't have two terms with same name in one session
   @@map("academic_terms")
@@ -226,6 +231,7 @@ model Class {
   class_subjects  ClassSubject[] // subjects offered in this class
   timetable_slots TimeTableSlot[]
   lectures        Lecture[]
+  assessments     Assessment[]
 
   @@unique([tenant_id, name])
   @@map("classes")
@@ -246,6 +252,7 @@ model Subject {
   timetable_slots  TimeTableSlot[]
   tutorial_classes TutorialClass[]
   lectures         Lecture[]
+  assessments      Assessment[]
 
   @@unique([tenant_id, code, department_id])
   @@map("subjects")
@@ -293,6 +300,107 @@ model StudentSubjectRegistration {
 
   @@unique([tenant_id, student_id, class_subject_id, term_id])
   @@map("student_subject_registrations")
+}
+
+model SubjectRegistration {
+  id         String @id @default(uuid())
+  tenant_id  String
+  student_id String
+  subject_id String
+  class_id   String
+  term_id    String
+  session_id String
+
+  credit_units Int @default(3)
+
+  ca1_score      Float?
+  ca2_score      Float?
+  ca3_score      Float?
+  ca4_score      Float?
+  ca5_score      Float?
+  ca_total_score Float?
+
+  exam_score  Float?
+  // CA + Exam
+  total_score Float?
+
+  grade        String?
+  grade_points Float?
+  remark       String?
+  is_passed    Boolean?
+
+  is_approval Boolean   @default(false)
+  approved_by String?
+  approved_at DateTime?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([student_id, subject_id, term_id, session_id])
+  @@map("subject_registrations")
+}
+
+model TermResult {
+  id         String @id @default(uuid())
+  tenant_id  String
+  student_id String
+  class_id   String
+  term_id    String
+  session_id String
+
+  // Aggregate scores
+  total_score        Float? // sum of all subject final scores
+  average            Float? // total_score / subjectCount
+  total_credit_units Int?
+
+  // GPA for this term
+  term_gpa Float?
+
+  // Position in class
+  position Int?
+  out_of   Int?
+
+  // Status
+  is_published Boolean   @default(false)
+  published_at DateTime?
+  is_approved  Boolean   @default(false)
+  approved_by  String?
+  approved_at  DateTime?
+
+  // PDF
+  pdf_key          String? // R2 file key once generated
+  pdf_url          String?
+  pdf_generated_at DateTime?
+
+  principal_comment String?
+  teacher_comment   String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([student_id, term_id])
+  @@map("term_results")
+}
+
+model CumulativeResult {
+  id         String @id @default(uuid())
+  tenant_id  String
+  student_id String
+  session_id String
+
+  // CGPA across all terms in this session
+  session_cgpa Float?
+
+  // Lifetime CGPA (across all sessions)
+  lifetime_cgpa Float?
+
+  total_credit_units_earned    Int?
+  total_credit_units_attempted Int?
+
+  updated_at DateTime @updatedAt
+
+  @@unique([student_id, session_id])
+  @@map("cumulative_results")
 }
 
 model TimeTableSlot {
@@ -541,6 +649,378 @@ model SchoolRegistration {
   @@map("school_registrations")
 }
 
+model SchoolConfig {
+  id          String     @id @default(uuid())
+  tenant_id   String     @unique
+  school_type SchoolType @default(PRIVATE)
+  ca_weight   Int        @default(40)
+  exam_weight Int        @default(60)
+
+  grading_scale           Json
+  gpa_scale               Float   @default(5.0)
+  pass_mark               Int     @default(40)
+  require_result_approval Boolean @default(true)
+  require_exam_approval   Boolean @default(true)
+  email_sender_name       String?
+
+  // Currency
+  currency_code   String  @default("NGN")
+  currency_symbol String? @default("₦")
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenant_id], references: [id])
+
+  @@map("school_configs")
+}
+
+model Assessment {
+  id           String           @id @default(uuid())
+  tenant_id    String
+  title        String
+  instructions String?
+  type         AssessmentType
+  status       AssessmentStatus @default(DRAFT)
+
+  // Academic Context
+  class_id   String
+  subject_id String
+  teacher_id String[]
+  term_id    String
+
+  // Timing
+  start_time    DateTime?
+  end_time      DateTime?
+  duration_mins Int?
+
+  // Scoring
+  total_marks Float
+  pass_mark   Float?
+
+  is_exam_component Boolean     @default(false)
+  ca_component      CAComponent? 
+
+  // Attempt control
+  max_attempts      Int?    @default(1)
+  shuffle_questions Boolean @default(false)
+  shuffle_options   Boolean @default(false)
+
+  // Anti-cheating
+  prevent_tab_switch Boolean @default(false)
+  prevent_screenshot Boolean @default(false)
+  require_camera     Boolean @default(false)
+
+  // Approval
+  submitted_for_approval DateTime?
+  approved_by            String?
+  approved_at            DateTime?
+  rejected_by            String?
+  rejected_at            DateTime?
+  rejected_reason        String?
+
+  // Result generation
+  result_generated_at DateTime?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  tenant                Tenant                 @relation(fields: [tenant_id], references: [id])
+  class                 Class                  @relation(fields: [class_id], references: [id])
+  subject               Subject                @relation(fields: [subject_id], references: [id])
+  term                  AcademicTerm           @relation(fields: [term_id], references: [id])
+  assessmentQuestions   AssessmentQuestion[]
+  assessmentSubmissions AssessmentSubmission[]
+  approvalLogs          ApprovalLog[]
+
+  @@map("assessments")
+}
+
+model AssessmentQuestion {
+  id             String       @id @default(uuid())
+  assessment_id  String
+  tenant_id      String
+  type           QuestionType
+  question_text  String
+  question_image String?
+  marks          Float
+  order          Int
+
+  // For Multiple Choice and True/False
+  options Json?
+
+  // For Fill in the Blank
+  correct_answer   String?
+  accepted_answers Json?
+
+  // For Essay and Short Answer no correct answer, teacher grades manually
+  marking_guide  String?
+  max_word_count Int?
+
+  // Auto gradable
+  is_auto_gradable Boolean @default(false)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  assessment        Assessment         @relation(fields: [assessment_id], references: [id], onDelete: Cascade)
+  submissionAnswers SubmissionAnswer[]
+
+  @@map("assessment_questions")
+}
+
+model AssessmentSubmission {
+  id             String @id @default(uuid())
+  tenant_id      String
+  assessment_id  String
+  student_id     String
+  attempt_number Int    @default(1)
+
+  // Timing
+  started_at      DateTime  @default(now())
+  submitted_at    DateTime?
+  time_spent_mins Int?
+
+  // Status
+  is_submitted Boolean @default(false)
+  is_late      Boolean @default(false)
+
+  // Scores
+  auto_scores      Float?
+  manual_scores    Float?
+  total_scores     Float?
+  percentage_score Float?
+  grade            String?
+  grade_points     Float?
+  is_passed        Boolean?
+
+  // Grading
+  graded_by String?
+  graded_at DateTime?
+  feedback  String?
+
+  // Anti-cheating log
+  tab_switch_count Int       @default(0)
+  screenshot_count Int       @default(0)
+  camera_count     Int       @default(0)
+  flagged_at       DateTime?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  assessment Assessment @relation(fields: [assessment_id], references: [id])
+
+  answers SubmissionAnswer[]
+
+  @@unique([assessment_id, student_id, attempt_number])
+  @@map("assessment_submissions")
+}
+
+model SubmissionAnswer {
+  id            String @id @default(uuid())
+  submission_id String
+  question_id   String
+  tenant_id     String
+
+  // Student Answer
+  selected_option_id String?
+  text_answer        String?
+
+  // Scoring
+  marks_awarded   Float?
+  is_correct      Boolean?
+  teacher_comment String?
+
+  graded_by String?
+  graded_at DateTime?
+
+  submission AssessmentSubmission @relation(fields: [submission_id], references: [id], onDelete: Cascade)
+  question   AssessmentQuestion   @relation(fields: [question_id], references: [id])
+
+  @@unique([submission_id, question_id])
+  @@map("submission_answers")
+}
+
+model PaymentConfig {
+  id        String @id @default(uuid())
+  tenant_id String @unique
+
+  // Payment gateway
+  paystack_secret_key    String? // encrypted at rest
+  flutterwave_secret_key String? // encrypted at rest
+  active_gateway         String  @default("paystack")
+
+  // Late payment penalty
+  enable_late_fee     Boolean @default(false)
+  late_fee_percent    Float   @default(0)
+  late_fee_grace_days Int     @default(7)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenant_id], references: [id])
+
+  @@map("payment_configs")
+}
+
+model StudentPayment {
+  id               String          @id @default(uuid())
+  tenant_id        String
+  student_id       String
+  fee_item_id      String
+  category         PaymentCategory
+  amount           Float
+  amount_paid      Float           @default(0)
+  balance          Float
+  currency         String          @default("NGN")
+  reference        String          @unique
+  gateway_ref      String?
+  gateway          String?
+  status           PaymentStatus   @default(PENDING)
+  paid_at          DateTime?
+  due_date         DateTime?
+  is_late_pay      Boolean         @default(false)
+  late_fee_applied Float           @default(0)
+
+  // Receipt
+  receipt_number  String? @unique
+  receipt_pdf_key String?
+  receipt_pdf_url String?
+
+  // For public schools — auto-waived
+  is_waived     Boolean @default(false)
+  waived_by     String?
+  waived_reason String?
+
+  metadata Json?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("student_payments")
+}
+
+model FeeItem {
+  id          String          @id @default(uuid())
+  tenant_id   String
+  name        String // "First Term Tuition 2024/2025"
+  category    PaymentCategory
+  amount      Float
+  class_id    String? // null means school-wide
+  term_id     String?
+  session_id  String?
+  due_date    DateTime?
+  is_optional Boolean         @default(false)
+
+  created_at DateTime @default(now())
+
+  @@map("fee_items")
+}
+
+model StaffSalary {
+  id        String @id @default(uuid())
+  tenant_id String
+  staff_id  String // User ID
+  month     String // "2025-01"
+
+  basic_salary Float
+  allowances   Json // [{ label, amount }]
+  gross_salary Float
+
+  deductions       Json // [{ label, amount, type: "tax|pension|loan" }]
+  total_deductions Float
+
+  net_salary Float
+
+  // Loan deductions reference
+  loan_deduction_ids String[]
+
+  status         SalaryStatus @default(SCHEDULED)
+  scheduled_date DateTime
+  processed_at   DateTime?
+
+  // Payslip
+  payslip_pdf_key String?
+  payslip_pdf_url String?
+
+  reference   String  @unique
+  gateway     String?
+  gateway_ref String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  bonuses StaffBonus[]
+
+  @@unique([staff_id, month])
+  @@map("staff_salaries")
+}
+
+model StaffBonus {
+  id        String       @id @default(uuid())
+  tenant_id String
+  staff_id  String
+  salary_id String?
+  amount    Float
+  reason    String
+  paid_at   DateTime?
+  status    SalaryStatus @default(SCHEDULED)
+
+  salary StaffSalary? @relation(fields: [salary_id], references: [id])
+
+  @@map("staff_bonuses")
+}
+
+model ApprovalLog {
+  id            String         @id @default(uuid())
+  tenant_id     String
+  resource_type String // "assessment" | "result"
+  resource_id   String
+  action        ApprovalAction
+  actor_id      String // who performed this action
+  comment       String?
+  timestamp     DateTime       @default(now())
+
+  assessment Assessment? @relation(fields: [resource_id], references: [id])
+
+  @@map("approval_logs")
+}
+
+model EmailLog {
+  id              String      @id @default(uuid())
+  tenant_id       String? // null for platform-level emails
+  to              String[]
+  subject         String
+  template        String // template name e.g. "fee-receipt"
+  payload         Json // data passed to template
+  status          EmailStatus @default(QUEUED)
+  attempts        Int         @default(0)
+  last_attempt_at DateTime?
+  sent_at         DateTime?
+  error_log       Json? // last error details
+  message_id      String? // Resend message ID on success
+  job_id          String? // BullMQ job ID
+  timestamp       DateTime    @default(now())
+
+  @@map("email_logs")
+}
+
+model Notification {
+  id         String           @id @default(uuid())
+  tenant_id  String
+  user_id    String
+  type       NotificationType
+  title      String
+  body       String
+  data       Json?
+  is_read    Boolean          @default(false)
+  created_at DateTime         @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
 enum UserRole {
   STUDENT
   TEACHER
@@ -668,4 +1148,107 @@ enum TenantPlan {
 enum Gender {
   MALE
   FEMALE
+}
+
+enum SchoolType {
+  PRIVATE
+  PUBLIC
+  MIXED
+}
+
+enum AssessmentType {
+  TEST
+  EXAM
+  ASSIGNMENT
+  POP_QUIZ
+  CLASSWORK
+  PROJECT
+  PRESENTATION
+}
+
+enum AssessmentStatus {
+  DRAFT // draft assessment visible to teacher only
+  PENDING_APPROVAL // only used for EXAM type
+  APPROVED // only used for EXAM type
+  REJECTED // only used for EXAM type
+  PUBLISHED // visible to students
+  ONGOING // student currently taking the assessment
+  ENDED // submission window closed
+  GRADED // teacher has graded the assessment
+  UNPUBLISHED // unpublished assessment
+  ARCHIVED // archived assessment
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  TRUE_FALSE
+  FILL_IN_THE_BLANK
+  ESSAY
+  SHORT_ANSWER
+}
+
+enum CAComponent {
+  CA1
+  CA2
+  CA3
+  CA4
+  CA5
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+  WAIVED
+}
+
+enum PaymentCategory {
+  TUITION
+  MATERIALS
+  FIELD_TRIP
+  EXAM_FEE
+  LIBRARY_FEE
+  SPORTS_FEE
+  OTHER
+}
+
+enum SalaryStatus {
+  SCHEDULED
+  PROCESSING
+  PAID
+  FAILED
+}
+
+enum ApprovalAction {
+  SUBMITTED_FOR_REVIEW
+  APPROVED
+  REJECTED
+  REVISION_REQUESTED
+  RECALLED // teacher withdraws before review
+  REPUBLISHED // after being rejected and revised
+}
+
+enum EmailStatus {
+  QUEUED
+  PROCESSING
+  SENT
+  FAILED
+  CANCELLED
+}
+
+enum NotificationType {
+  CLASS
+  EXAM
+  ASSIGNMENT
+  FEE
+  MESSAGE
+  MEETING
+  ANNOUNCEMENT
+  DISCIPLINARY
+  RESULT
+  ATTENDANCE
+  LEAVE
+  EVENT
+  OTHER
 }

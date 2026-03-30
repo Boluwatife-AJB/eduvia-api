@@ -175,3 +175,139 @@ export const Gender = {
 } as const
 
 export type Gender = (typeof Gender)[keyof typeof Gender]
+
+
+export const SchoolType = {
+  PRIVATE: 'PRIVATE',
+  PUBLIC: 'PUBLIC',
+  MIXED: 'MIXED'
+} as const
+
+export type SchoolType = (typeof SchoolType)[keyof typeof SchoolType]
+
+
+export const AssessmentType = {
+  TEST: 'TEST',
+  EXAM: 'EXAM',
+  ASSIGNMENT: 'ASSIGNMENT',
+  POP_QUIZ: 'POP_QUIZ',
+  CLASSWORK: 'CLASSWORK',
+  PROJECT: 'PROJECT',
+  PRESENTATION: 'PRESENTATION'
+} as const
+
+export type AssessmentType = (typeof AssessmentType)[keyof typeof AssessmentType]
+
+
+export const AssessmentStatus = {
+  DRAFT: 'DRAFT',
+  PENDING_APPROVAL: 'PENDING_APPROVAL',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  PUBLISHED: 'PUBLISHED',
+  ONGOING: 'ONGOING',
+  ENDED: 'ENDED',
+  GRADED: 'GRADED',
+  UNPUBLISHED: 'UNPUBLISHED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type AssessmentStatus = (typeof AssessmentStatus)[keyof typeof AssessmentStatus]
+
+
+export const QuestionType = {
+  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE',
+  TRUE_FALSE: 'TRUE_FALSE',
+  FILL_IN_THE_BLANK: 'FILL_IN_THE_BLANK',
+  ESSAY: 'ESSAY',
+  SHORT_ANSWER: 'SHORT_ANSWER'
+} as const
+
+export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType]
+
+
+export const CAComponent = {
+  CA1: 'CA1',
+  CA2: 'CA2',
+  CA3: 'CA3',
+  CA4: 'CA4',
+  CA5: 'CA5'
+} as const
+
+export type CAComponent = (typeof CAComponent)[keyof typeof CAComponent]
+
+
+export const PaymentStatus = {
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED',
+  WAIVED: 'WAIVED'
+} as const
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
+export const PaymentCategory = {
+  TUITION: 'TUITION',
+  MATERIALS: 'MATERIALS',
+  FIELD_TRIP: 'FIELD_TRIP',
+  EXAM_FEE: 'EXAM_FEE',
+  LIBRARY_FEE: 'LIBRARY_FEE',
+  SPORTS_FEE: 'SPORTS_FEE',
+  OTHER: 'OTHER'
+} as const
+
+export type PaymentCategory = (typeof PaymentCategory)[keyof typeof PaymentCategory]
+
+
+export const SalaryStatus = {
+  SCHEDULED: 'SCHEDULED',
+  PROCESSING: 'PROCESSING',
+  PAID: 'PAID',
+  FAILED: 'FAILED'
+} as const
+
+export type SalaryStatus = (typeof SalaryStatus)[keyof typeof SalaryStatus]
+
+
+export const ApprovalAction = {
+  SUBMITTED_FOR_REVIEW: 'SUBMITTED_FOR_REVIEW',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  REVISION_REQUESTED: 'REVISION_REQUESTED',
+  RECALLED: 'RECALLED',
+  REPUBLISHED: 'REPUBLISHED'
+} as const
+
+export type ApprovalAction = (typeof ApprovalAction)[keyof typeof ApprovalAction]
+
+
+export const EmailStatus = {
+  QUEUED: 'QUEUED',
+  PROCESSING: 'PROCESSING',
+  SENT: 'SENT',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type EmailStatus = (typeof EmailStatus)[keyof typeof EmailStatus]
+
+
+export const NotificationType = {
+  CLASS: 'CLASS',
+  EXAM: 'EXAM',
+  ASSIGNMENT: 'ASSIGNMENT',
+  FEE: 'FEE',
+  MESSAGE: 'MESSAGE',
+  MEETING: 'MEETING',
+  ANNOUNCEMENT: 'ANNOUNCEMENT',
+  DISCIPLINARY: 'DISCIPLINARY',
+  RESULT: 'RESULT',
+  ATTENDANCE: 'ATTENDANCE',
+  LEAVE: 'LEAVE',
+  EVENT: 'EVENT',
+  OTHER: 'OTHER'
+} as const
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]

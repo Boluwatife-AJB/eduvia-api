@@ -66,6 +66,9 @@ export const ModelName = {
   ClassSubject: 'ClassSubject',
   SubjectTeacher: 'SubjectTeacher',
   StudentSubjectRegistration: 'StudentSubjectRegistration',
+  SubjectRegistration: 'SubjectRegistration',
+  TermResult: 'TermResult',
+  CumulativeResult: 'CumulativeResult',
   TimeTableSlot: 'TimeTableSlot',
   TutorialClass: 'TutorialClass',
   Lecture: 'Lecture',
@@ -76,7 +79,20 @@ export const ModelName = {
   RepositoryShareLink: 'RepositoryShareLink',
   RepositoryFileAccessLog: 'RepositoryFileAccessLog',
   TenantStorage: 'TenantStorage',
-  SchoolRegistration: 'SchoolRegistration'
+  SchoolRegistration: 'SchoolRegistration',
+  SchoolConfig: 'SchoolConfig',
+  Assessment: 'Assessment',
+  AssessmentQuestion: 'AssessmentQuestion',
+  AssessmentSubmission: 'AssessmentSubmission',
+  SubmissionAnswer: 'SubmissionAnswer',
+  PaymentConfig: 'PaymentConfig',
+  StudentPayment: 'StudentPayment',
+  FeeItem: 'FeeItem',
+  StaffSalary: 'StaffSalary',
+  StaffBonus: 'StaffBonus',
+  ApprovalLog: 'ApprovalLog',
+  EmailLog: 'EmailLog',
+  Notification: 'Notification'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -307,6 +323,82 @@ export const StudentSubjectRegistrationScalarFieldEnum = {
 export type StudentSubjectRegistrationScalarFieldEnum = (typeof StudentSubjectRegistrationScalarFieldEnum)[keyof typeof StudentSubjectRegistrationScalarFieldEnum]
 
 
+export const SubjectRegistrationScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  student_id: 'student_id',
+  subject_id: 'subject_id',
+  class_id: 'class_id',
+  term_id: 'term_id',
+  session_id: 'session_id',
+  credit_units: 'credit_units',
+  ca1_score: 'ca1_score',
+  ca2_score: 'ca2_score',
+  ca3_score: 'ca3_score',
+  ca4_score: 'ca4_score',
+  ca5_score: 'ca5_score',
+  ca_total_score: 'ca_total_score',
+  exam_score: 'exam_score',
+  total_score: 'total_score',
+  grade: 'grade',
+  grade_points: 'grade_points',
+  remark: 'remark',
+  is_passed: 'is_passed',
+  is_approval: 'is_approval',
+  approved_by: 'approved_by',
+  approved_at: 'approved_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type SubjectRegistrationScalarFieldEnum = (typeof SubjectRegistrationScalarFieldEnum)[keyof typeof SubjectRegistrationScalarFieldEnum]
+
+
+export const TermResultScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  student_id: 'student_id',
+  class_id: 'class_id',
+  term_id: 'term_id',
+  session_id: 'session_id',
+  total_score: 'total_score',
+  average: 'average',
+  total_credit_units: 'total_credit_units',
+  term_gpa: 'term_gpa',
+  position: 'position',
+  out_of: 'out_of',
+  is_published: 'is_published',
+  published_at: 'published_at',
+  is_approved: 'is_approved',
+  approved_by: 'approved_by',
+  approved_at: 'approved_at',
+  pdf_key: 'pdf_key',
+  pdf_url: 'pdf_url',
+  pdf_generated_at: 'pdf_generated_at',
+  principal_comment: 'principal_comment',
+  teacher_comment: 'teacher_comment',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type TermResultScalarFieldEnum = (typeof TermResultScalarFieldEnum)[keyof typeof TermResultScalarFieldEnum]
+
+
+export const CumulativeResultScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  student_id: 'student_id',
+  session_id: 'session_id',
+  session_cgpa: 'session_cgpa',
+  lifetime_cgpa: 'lifetime_cgpa',
+  total_credit_units_earned: 'total_credit_units_earned',
+  total_credit_units_attempted: 'total_credit_units_attempted',
+  updated_at: 'updated_at'
+} as const
+
+export type CumulativeResultScalarFieldEnum = (typeof CumulativeResultScalarFieldEnum)[keyof typeof CumulativeResultScalarFieldEnum]
+
+
 export const TimeTableSlotScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
@@ -520,6 +612,291 @@ export const SchoolRegistrationScalarFieldEnum = {
 export type SchoolRegistrationScalarFieldEnum = (typeof SchoolRegistrationScalarFieldEnum)[keyof typeof SchoolRegistrationScalarFieldEnum]
 
 
+export const SchoolConfigScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  school_type: 'school_type',
+  ca_weight: 'ca_weight',
+  exam_weight: 'exam_weight',
+  grading_scale: 'grading_scale',
+  gpa_scale: 'gpa_scale',
+  pass_mark: 'pass_mark',
+  require_result_approval: 'require_result_approval',
+  require_exam_approval: 'require_exam_approval',
+  email_sender_name: 'email_sender_name',
+  currency_code: 'currency_code',
+  currency_symbol: 'currency_symbol',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type SchoolConfigScalarFieldEnum = (typeof SchoolConfigScalarFieldEnum)[keyof typeof SchoolConfigScalarFieldEnum]
+
+
+export const AssessmentScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  title: 'title',
+  instructions: 'instructions',
+  type: 'type',
+  status: 'status',
+  class_id: 'class_id',
+  subject_id: 'subject_id',
+  teacher_id: 'teacher_id',
+  term_id: 'term_id',
+  start_time: 'start_time',
+  end_time: 'end_time',
+  duration_mins: 'duration_mins',
+  total_marks: 'total_marks',
+  pass_mark: 'pass_mark',
+  is_exam_component: 'is_exam_component',
+  ca_component: 'ca_component',
+  max_attempts: 'max_attempts',
+  shuffle_questions: 'shuffle_questions',
+  shuffle_options: 'shuffle_options',
+  prevent_tab_switch: 'prevent_tab_switch',
+  prevent_screenshot: 'prevent_screenshot',
+  require_camera: 'require_camera',
+  submitted_for_approval: 'submitted_for_approval',
+  approved_by: 'approved_by',
+  approved_at: 'approved_at',
+  rejected_by: 'rejected_by',
+  rejected_at: 'rejected_at',
+  rejected_reason: 'rejected_reason',
+  result_generated_at: 'result_generated_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type AssessmentScalarFieldEnum = (typeof AssessmentScalarFieldEnum)[keyof typeof AssessmentScalarFieldEnum]
+
+
+export const AssessmentQuestionScalarFieldEnum = {
+  id: 'id',
+  assessment_id: 'assessment_id',
+  tenant_id: 'tenant_id',
+  type: 'type',
+  question_text: 'question_text',
+  question_image: 'question_image',
+  marks: 'marks',
+  order: 'order',
+  options: 'options',
+  correct_answer: 'correct_answer',
+  accepted_answers: 'accepted_answers',
+  marking_guide: 'marking_guide',
+  max_word_count: 'max_word_count',
+  is_auto_gradable: 'is_auto_gradable',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type AssessmentQuestionScalarFieldEnum = (typeof AssessmentQuestionScalarFieldEnum)[keyof typeof AssessmentQuestionScalarFieldEnum]
+
+
+export const AssessmentSubmissionScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  assessment_id: 'assessment_id',
+  student_id: 'student_id',
+  attempt_number: 'attempt_number',
+  started_at: 'started_at',
+  submitted_at: 'submitted_at',
+  time_spent_mins: 'time_spent_mins',
+  is_submitted: 'is_submitted',
+  is_late: 'is_late',
+  auto_scores: 'auto_scores',
+  manual_scores: 'manual_scores',
+  total_scores: 'total_scores',
+  percentage_score: 'percentage_score',
+  grade: 'grade',
+  grade_points: 'grade_points',
+  is_passed: 'is_passed',
+  graded_by: 'graded_by',
+  graded_at: 'graded_at',
+  feedback: 'feedback',
+  tab_switch_count: 'tab_switch_count',
+  screenshot_count: 'screenshot_count',
+  camera_count: 'camera_count',
+  flagged_at: 'flagged_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type AssessmentSubmissionScalarFieldEnum = (typeof AssessmentSubmissionScalarFieldEnum)[keyof typeof AssessmentSubmissionScalarFieldEnum]
+
+
+export const SubmissionAnswerScalarFieldEnum = {
+  id: 'id',
+  submission_id: 'submission_id',
+  question_id: 'question_id',
+  tenant_id: 'tenant_id',
+  selected_option_id: 'selected_option_id',
+  text_answer: 'text_answer',
+  marks_awarded: 'marks_awarded',
+  is_correct: 'is_correct',
+  teacher_comment: 'teacher_comment',
+  graded_by: 'graded_by',
+  graded_at: 'graded_at'
+} as const
+
+export type SubmissionAnswerScalarFieldEnum = (typeof SubmissionAnswerScalarFieldEnum)[keyof typeof SubmissionAnswerScalarFieldEnum]
+
+
+export const PaymentConfigScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  paystack_secret_key: 'paystack_secret_key',
+  flutterwave_secret_key: 'flutterwave_secret_key',
+  active_gateway: 'active_gateway',
+  enable_late_fee: 'enable_late_fee',
+  late_fee_percent: 'late_fee_percent',
+  late_fee_grace_days: 'late_fee_grace_days',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type PaymentConfigScalarFieldEnum = (typeof PaymentConfigScalarFieldEnum)[keyof typeof PaymentConfigScalarFieldEnum]
+
+
+export const StudentPaymentScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  student_id: 'student_id',
+  fee_item_id: 'fee_item_id',
+  category: 'category',
+  amount: 'amount',
+  amount_paid: 'amount_paid',
+  balance: 'balance',
+  currency: 'currency',
+  reference: 'reference',
+  gateway_ref: 'gateway_ref',
+  gateway: 'gateway',
+  status: 'status',
+  paid_at: 'paid_at',
+  due_date: 'due_date',
+  is_late_pay: 'is_late_pay',
+  late_fee_applied: 'late_fee_applied',
+  receipt_number: 'receipt_number',
+  receipt_pdf_key: 'receipt_pdf_key',
+  receipt_pdf_url: 'receipt_pdf_url',
+  is_waived: 'is_waived',
+  waived_by: 'waived_by',
+  waived_reason: 'waived_reason',
+  metadata: 'metadata',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type StudentPaymentScalarFieldEnum = (typeof StudentPaymentScalarFieldEnum)[keyof typeof StudentPaymentScalarFieldEnum]
+
+
+export const FeeItemScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  name: 'name',
+  category: 'category',
+  amount: 'amount',
+  class_id: 'class_id',
+  term_id: 'term_id',
+  session_id: 'session_id',
+  due_date: 'due_date',
+  is_optional: 'is_optional',
+  created_at: 'created_at'
+} as const
+
+export type FeeItemScalarFieldEnum = (typeof FeeItemScalarFieldEnum)[keyof typeof FeeItemScalarFieldEnum]
+
+
+export const StaffSalaryScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  staff_id: 'staff_id',
+  month: 'month',
+  basic_salary: 'basic_salary',
+  allowances: 'allowances',
+  gross_salary: 'gross_salary',
+  deductions: 'deductions',
+  total_deductions: 'total_deductions',
+  net_salary: 'net_salary',
+  loan_deduction_ids: 'loan_deduction_ids',
+  status: 'status',
+  scheduled_date: 'scheduled_date',
+  processed_at: 'processed_at',
+  payslip_pdf_key: 'payslip_pdf_key',
+  payslip_pdf_url: 'payslip_pdf_url',
+  reference: 'reference',
+  gateway: 'gateway',
+  gateway_ref: 'gateway_ref',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type StaffSalaryScalarFieldEnum = (typeof StaffSalaryScalarFieldEnum)[keyof typeof StaffSalaryScalarFieldEnum]
+
+
+export const StaffBonusScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  staff_id: 'staff_id',
+  salary_id: 'salary_id',
+  amount: 'amount',
+  reason: 'reason',
+  paid_at: 'paid_at',
+  status: 'status'
+} as const
+
+export type StaffBonusScalarFieldEnum = (typeof StaffBonusScalarFieldEnum)[keyof typeof StaffBonusScalarFieldEnum]
+
+
+export const ApprovalLogScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  resource_type: 'resource_type',
+  resource_id: 'resource_id',
+  action: 'action',
+  actor_id: 'actor_id',
+  comment: 'comment',
+  timestamp: 'timestamp'
+} as const
+
+export type ApprovalLogScalarFieldEnum = (typeof ApprovalLogScalarFieldEnum)[keyof typeof ApprovalLogScalarFieldEnum]
+
+
+export const EmailLogScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  to: 'to',
+  subject: 'subject',
+  template: 'template',
+  payload: 'payload',
+  status: 'status',
+  attempts: 'attempts',
+  last_attempt_at: 'last_attempt_at',
+  sent_at: 'sent_at',
+  error_log: 'error_log',
+  message_id: 'message_id',
+  job_id: 'job_id',
+  timestamp: 'timestamp'
+} as const
+
+export type EmailLogScalarFieldEnum = (typeof EmailLogScalarFieldEnum)[keyof typeof EmailLogScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  user_id: 'user_id',
+  type: 'type',
+  title: 'title',
+  body: 'body',
+  data: 'data',
+  is_read: 'is_read',
+  created_at: 'created_at'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -533,6 +910,14 @@ export const JsonNullValueInput = {
 } as const
 
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {

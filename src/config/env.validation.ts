@@ -18,4 +18,8 @@ export const validationSchema = Joi.object({
   S3_SECRET_ACCESS_KEY: Joi.string().required(),
   S3_PUBLIC_URL: Joi.string().required(),
   CORS_ORIGINS: Joi.string().required(),
+
+  // Email
+  RESEND_API_KEY: Joi.string().required(),
+  EMAIL_FROM_NAME: Joi.string().default('Eduvia'),
 });

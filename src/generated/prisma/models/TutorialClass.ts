@@ -803,14 +803,6 @@ export type NullableEnumDayOfWeekFieldUpdateOperationsInput = {
   set?: $Enums.DayOfWeek | null
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type TutorialClassCreateWithoutTenantInput = {
   id?: string
   teacher_id: string
