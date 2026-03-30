@@ -146,7 +146,7 @@ export class AssessmentController {
     return this.assessmentService.publishApprovedAssessment(id);
   }
 
-  // STUDENT: TAKE ASSESSMENT
+  // STUDENT: TAKE ASSESSMENT AND SUBMIT ANSWERS
 
   @Post(':id/start')
   @Roles(UserRole.STUDENT)
