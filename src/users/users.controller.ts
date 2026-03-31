@@ -37,7 +37,7 @@ import { UserRole } from '../generated/prisma/client';
 import { AdminResetPasswordDto } from './dto/admin-reset-password.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import { QueryUsersDto } from './dto/query-users.dto';
+import { QueryTeachersDto, QueryUsersDto } from './dto/query-users.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 
@@ -139,6 +139,26 @@ export class UsersController {
   findAll(@Query() query: QueryUsersDto) {
     return this.usersService.findAll(query);
   }
+
+  // Get all students
+  @Get('students')
+  @Roles(...ADMIN_ROLES)
+  @ApiOperation({ summary: 'Get all students by query parameters' })
+  @ApiResponse({ status: 200, description: 'All students' })
+  findAllStudents(@Query() query: QueryUsersDto) {
+    return this.usersService.findAllStudents(query);
+  }
+
+  // Get all teachers
+  @Get('teachers')
+  @Roles(...ADMIN_ROLES)
+  @ApiOperation({ summary: 'Get all teachers by query parameters' })
+  @ApiResponse({ status: 200, description: 'All teachers' })
+  findAllTeachers(@Query() query: QueryTeachersDto) {
+    return this.usersService.findAllTeachers(query);
+  }
+
+  // Teachers should be able to fetch students assigned to them, students in their class or students offering the subject they teach
 
   // Download template (static path before :id)
   @Get('templates/:role')

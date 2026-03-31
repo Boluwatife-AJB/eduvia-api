@@ -23,7 +23,7 @@ import { Prisma, UserRole, UserStatus } from '../generated/prisma/client';
 import { AdminResetPasswordDto } from './dto/admin-reset-password.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import { QueryUsersDto } from './dto/query-users.dto';
+import { QueryTeachersDto, QueryUsersDto } from './dto/query-users.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 const USER_SELECT = {
@@ -80,6 +80,23 @@ const USER_LIST_WITH_STUDENT_DETAILS = {
 
 type UserListRowWithStudent = Prisma.UserGetPayload<{
   select: typeof USER_LIST_WITH_STUDENT_DETAILS;
+}>;
+
+const USER_LIST_TEACHER_PROFILE_SELECT = {
+  employee_id: true,
+  qualification: true,
+  class_of_degree: true,
+  course_of_study: true,
+  year_of_graduation: true,
+} satisfies Prisma.TeacherProfileSelect;
+
+const USER_LIST_WITH_TEACHER_DETAILS = {
+  ...USER_SELECT,
+  teacher_profile: { select: USER_LIST_TEACHER_PROFILE_SELECT },
+} satisfies Prisma.UserSelect;
+
+type UserListRowWithTeacher = Prisma.UserGetPayload<{
+  select: typeof USER_LIST_WITH_TEACHER_DETAILS;
 }>;
 
 /** Returns user without nested profile objects to avoid duplicating id, tenantId, identifier, etc. */
@@ -221,29 +238,34 @@ export class UsersService {
           { identifier: { contains: search, mode: 'insensitive' } },
           {
             student_profile: {
-              matric_number: { contains: search, mode: 'insensitive' },
+              is: {
+                matric_number: { contains: search, mode: 'insensitive' },
+              },
             },
           },
           {
             teacher_profile: {
-              employee_id: { contains: search, mode: 'insensitive' },
+              is: {
+                employee_id: { contains: search, mode: 'insensitive' },
+              },
             },
           },
           {
             guardian_profile: {
-              user_id: { contains: search, mode: 'insensitive' },
+              is: {
+                user_id: { contains: search, mode: 'insensitive' },
+              },
             },
           },
         ],
       }),
-
-      // Filter students by classId when class_id is provided (only when role is not set or role is STUDENT)
-      ...(class_id &&
-        (!role || role === UserRole.STUDENT) && {
-          role: UserRole.STUDENT,
-          student_profile: { class_id },
-        }),
     };
+
+    // Filter students by classId when class_id is provided (only when role is not set or role is STUDENT)
+    if (class_id && (!role || role === UserRole.STUDENT)) {
+      where.role = UserRole.STUDENT;
+      where.student_profile = { is: { class_id } };
+    }
 
     const listSelect = shouldIncludeStudentListDetails(role)
       ? USER_LIST_WITH_STUDENT_DETAILS
@@ -267,6 +289,168 @@ export class UsersService {
             shapeUserListRowWithStudent(u),
           )
         : users.map((u) => shapeUserByRole(u)),
+      meta: {
+        total,
+        page,
+        limit,
+        total_pages: Math.ceil(total / limit),
+        has_next_page: page < Math.ceil(total / limit),
+        has_previous_page: page > 1,
+      },
+    };
+  }
+
+  // Find all students
+  async findAllStudents(dto: QueryUsersDto) {
+    const tenantId = this.cls.get<string>('tenantId');
+    const { page = 1, limit = 20, search, status, class_id } = dto;
+
+    const where: Prisma.UserWhereInput = {
+      tenant_id: tenantId,
+      role: UserRole.STUDENT,
+      ...(status && { status }),
+      ...(search && {
+        OR: [
+          { first_name: { contains: search, mode: 'insensitive' } },
+          { last_name: { contains: search, mode: 'insensitive' } },
+          { email: { contains: search, mode: 'insensitive' } },
+          { identifier: { contains: search, mode: 'insensitive' } },
+          {
+            student_profile: {
+              matric_number: { contains: search, mode: 'insensitive' },
+            },
+          },
+        ],
+      }),
+      ...(class_id && {
+        student_profile: { class_id },
+      }),
+    };
+
+    const [total, users] = await Promise.all([
+      this.prisma.user.count({ where }),
+      this.prisma.user.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { created_at: 'desc' },
+        select: {
+          ...USER_SELECT,
+          student_profile: {
+            select: {
+              matric_number: true,
+              class_id: true,
+              class: {
+                select: {
+                  id: true,
+                  name: true,
+                  level: true,
+                  department_id: true,
+                },
+              },
+            },
+          },
+        },
+      }),
+    ]);
+
+    return {
+      data: users.map((user) => ({
+        ...shapeUserByRole(user as UserWithProfiles),
+        student_profile: user.student_profile
+          ? {
+              matric_number: user.student_profile.matric_number,
+              class_id: user.student_profile.class_id,
+              class: user.student_profile.class,
+            }
+          : null,
+      })),
+      meta: {
+        total,
+        page,
+        limit,
+        total_pages: Math.ceil(total / limit),
+        has_next_page: page < Math.ceil(total / limit),
+        has_previous_page: page > 1,
+      },
+    };
+  }
+
+  // Find all teachers
+  async findAllTeachers(dto: QueryTeachersDto) {
+    const tenantId = this.cls.get<string>('tenantId');
+    const {
+      page = 1,
+      limit = 20,
+      search,
+      status,
+      qualification,
+      class_of_degree,
+      course_of_study,
+      year_of_graduation,
+    } = dto;
+
+    const where: Prisma.UserWhereInput = {
+      tenant_id: tenantId,
+      role: UserRole.TEACHER,
+      ...(status && { status }),
+      ...(search && {
+        OR: [
+          { first_name: { contains: search, mode: 'insensitive' } },
+          { last_name: { contains: search, mode: 'insensitive' } },
+          { email: { contains: search, mode: 'insensitive' } },
+          { identifier: { contains: search, mode: 'insensitive' } },
+          {
+            teacher_profile: {
+              employee_id: { contains: search, mode: 'insensitive' },
+            },
+          },
+        ],
+      }),
+      teacher_profile: {
+        ...(qualification && {
+          qualification: { contains: qualification, mode: 'insensitive' },
+        }),
+        ...(class_of_degree && {
+          class_of_degree: { contains: class_of_degree, mode: 'insensitive' },
+        }),
+        ...(course_of_study && {
+          course_of_study: { contains: course_of_study, mode: 'insensitive' },
+        }),
+        ...(year_of_graduation && {
+          year_of_graduation: {
+            contains: year_of_graduation,
+            mode: 'insensitive',
+          },
+        }),
+      },
+    };
+
+    const [total, users] = await Promise.all([
+      this.prisma.user.count({ where }),
+      this.prisma.user.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { created_at: 'desc' },
+        select: USER_LIST_WITH_TEACHER_DETAILS,
+      }),
+    ]);
+
+    return {
+      data: (users as UserListRowWithTeacher[]).map((user) => ({
+        ...shapeUserByRole(user as UserWithProfiles),
+        identifier: user.identifier,
+        teacher_profile: user.teacher_profile
+          ? {
+              staff_id: user.teacher_profile.employee_id ?? user.identifier,
+              qualification: user.teacher_profile.qualification,
+              class_of_degree: user.teacher_profile.class_of_degree,
+              course_of_study: user.teacher_profile.course_of_study,
+              graduation_year: user.teacher_profile.year_of_graduation,
+            }
+          : null,
+      })),
       meta: {
         total,
         page,
@@ -867,6 +1051,11 @@ export class UsersService {
             tenant_id: tenantId,
             employee_id: resolved.employeeId ?? resolved.identifier,
             qualification: dto.qualification ?? null,
+            course_of_study: dto.course_of_study ?? null,
+            class_of_degree: dto.class_of_degree ?? null,
+            year_of_graduation:
+              dto.year_of_graduation ?? dto.graduation_date ?? null,
+            assigned_subject_ids: dto.subject_ids ?? [],
           },
         });
         break;

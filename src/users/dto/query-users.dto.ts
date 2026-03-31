@@ -45,4 +45,46 @@ export class QueryUsersDto {
   @IsEnum(Gender)
   @IsOptional()
   gender?: Gender;
+
+  // @ApiPropertyOptional({ description: 'Filter by qualification' })
+  // @IsString()
+  // @IsOptional()
+  // qualification?: string;
+
+  // @ApiPropertyOptional({ description: 'Filter by course of study' })
+  // @IsString()
+  // @IsOptional()
+  // course_of_study?: string;
+
+  // @ApiPropertyOptional({ description: 'Filter by class of degree' })
+  // @IsString()
+  // @IsOptional()
+  // class_of_degree?: string;
+
+  // @ApiPropertyOptional({ description: 'Filter by year of graduation' })
+  // @IsString()
+  // @IsOptional()
+  // year_of_graduation?: string;
+}
+
+export class QueryTeachersDto extends QueryUsersDto {
+  @ApiPropertyOptional({ description: 'Filter by qualification' })
+  @IsString()
+  @IsOptional()
+  qualification?: string;
+
+  @ApiPropertyOptional({ description: 'Filter by course of study' })
+  @IsString()
+  @IsOptional()
+  course_of_study?: string;
+
+  @ApiPropertyOptional({ description: 'Filter by class of degree' })
+  @IsString()
+  @IsOptional()
+  class_of_degree?: string;
+
+  @ApiPropertyOptional({ description: 'Filter by year of graduation' })
+  @IsString()
+  @IsOptional()
+  year_of_graduation?: string;
 }

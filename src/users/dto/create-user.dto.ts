@@ -118,6 +118,15 @@ export class CreateUserDto {
   @IsOptional()
   year_of_graduation?: string;
 
+  @ApiPropertyOptional({
+    example: '2026',
+    description:
+      'Alternative to year_of_graduation (stored as year_of_graduation on teacher profile)',
+  })
+  @IsString()
+  @IsOptional()
+  graduation_date?: string;
+
   @ApiPropertyOptional({ example: ['subject-id-1', 'subject-id-2'] })
   @IsArray()
   @IsOptional()
