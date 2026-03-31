@@ -3671,6 +3671,9 @@ export const TeacherProfileScalarFieldEnum = {
   employee_id: 'employee_id',
   department_id: 'department_id',
   qualification: 'qualification',
+  course_of_study: 'course_of_study',
+  class_of_degree: 'class_of_degree',
+  year_of_graduation: 'year_of_graduation',
   date_joined: 'date_joined',
   assigned_subject_ids: 'assigned_subject_ids'
 } as const

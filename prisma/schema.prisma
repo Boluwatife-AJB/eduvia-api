@@ -117,6 +117,9 @@ model TeacherProfile {
   employee_id          String    @unique
   department_id        String?
   qualification        String?
+  course_of_study       String?
+  class_of_degree       String?
+  year_of_graduation    String?
   date_joined          DateTime?
   /// Denormalized Subject.id list; keep in sync with SubjectTeacher → ClassSubject or derive via query.
   assigned_subject_ids String[]  @default([])

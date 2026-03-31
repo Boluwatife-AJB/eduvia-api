@@ -316,6 +316,9 @@ export class UsersService {
     // Split profile-only fields; map DTO snake_case to Prisma camelCase for base user
     const {
       qualification,
+      course_of_study,
+      class_of_degree,
+      year_of_graduation,
       subject_ids,
       department_id,
       class_id,
@@ -339,7 +342,14 @@ export class UsersService {
         data: baseUserData,
       });
 
-      if (qualification || subject_ids || department_id) {
+      if (
+        qualification ||
+        subject_ids ||
+        department_id ||
+        course_of_study ||
+        class_of_degree ||
+        year_of_graduation
+      ) {
         await tx.teacherProfile.updateMany({
           where: { user_id: id },
           data: {
@@ -348,6 +358,9 @@ export class UsersService {
             ...(department_id !== undefined && {
               department_id: department_id,
             }),
+            ...(course_of_study !== undefined && { course_of_study }),
+            ...(class_of_degree !== undefined && { class_of_degree }),
+            ...(year_of_graduation !== undefined && { year_of_graduation }),
           },
         });
       }

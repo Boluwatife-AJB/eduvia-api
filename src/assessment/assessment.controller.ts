@@ -12,7 +12,6 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { UserRole } from '@prisma/client';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { AssessmentService } from './assessment.service';
@@ -23,6 +22,7 @@ import {
 import { GradeManualAnswersDto } from './dto/grade-manual.dto';
 import { AutoSaveDto, SubmitAnswersDto } from './dto/submit-answer.dto';
 import { GradingService } from './grading.service';
+import { UserRole } from 'src/generated/prisma/enums';
 
 const TEACHER_ROLES = [UserRole.TEACHER];
 const ADMIN_ROLES = [
