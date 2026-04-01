@@ -25,7 +25,7 @@ async function main() {
   const tenant = await prisma.tenant.upsert({
     where: { slug: 'greenfield-academy' },
     update: { initials: 'GFA' },
-    create: {
+    create: { 
       name: 'Greenfield Academy',
       slug: 'greenfield-academy',
       initials: 'GFA',

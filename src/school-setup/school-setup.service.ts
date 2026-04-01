@@ -361,6 +361,11 @@ export class SchoolSetupService {
 
     if (dto.hod_id) {
       await this.validateTeacherBelongsToTenant(dto.hod_id, tenantId);
+      await this.assertHodNotDuplicatedAcrossDepartments(tenantId, dto.hod_id);
+      await this.assertTeacherProfileClearForNewHodAppointment(
+        tenantId,
+        dto.hod_id,
+      );
     }
 
     return this.prisma.department.create({
@@ -380,13 +385,41 @@ export class SchoolSetupService {
       include: {
         subjects: { select: { id: true, name: true, code: true } },
         classes: { select: { id: true, name: true, level: true } },
-        // TODO: Uncomment this when we have staff profiles
-        // hod: { select: { id: true, name: true, email: true } },
       },
       orderBy: { name: 'asc' },
     });
 
-    return departments;
+    const hodIds = [
+      ...new Set(
+        departments
+          .map((d) => d.hod_id)
+          .filter((id): id is string => Boolean(id)),
+      ),
+    ];
+
+    const hodUsers =
+      hodIds.length > 0
+        ? await this.prisma.user.findMany({
+            where: { id: { in: hodIds }, tenant_id: tenantId },
+            select: { id: true, first_name: true, last_name: true },
+          })
+        : [];
+
+    const hodById = new Map(hodUsers.map((u) => [u.id, u]));
+
+    return departments.map((d) => {
+      const hodUser = d.hod_id ? hodById.get(d.hod_id) : undefined;
+      return {
+        ...d,
+        hod: hodUser
+          ? {
+              user_id: hodUser.id,
+              first_name: hodUser.first_name,
+              last_name: hodUser.last_name,
+            }
+          : null,
+      };
+    });
   }
 
   // Update department
@@ -396,6 +429,16 @@ export class SchoolSetupService {
 
     if (dto.hod_id) {
       await this.validateTeacherBelongsToTenant(dto.hod_id, tenantId);
+      await this.assertHodNotDuplicatedAcrossDepartments(
+        tenantId,
+        dto.hod_id,
+        departmentId,
+      );
+      await this.assertTeacherProfileDepartmentMatchesHodDepartment(
+        tenantId,
+        dto.hod_id,
+        departmentId,
+      );
     }
 
     return this.prisma.department.update({
@@ -473,7 +516,7 @@ export class SchoolSetupService {
   async getClasses(level?: string) {
     const tenantId = this.cls.get<string>('tenantId');
 
-    return this.prisma.class.findMany({
+    const classes = await this.prisma.class.findMany({
       where: { tenant_id: tenantId, ...(level && { level }) },
       include: {
         department: { select: { id: true, name: true } },
@@ -482,10 +525,60 @@ export class SchoolSetupService {
             subject: { select: { id: true, name: true, code: true } },
           },
         },
-        _count: { select: { students: true } },
+        students: {
+          include: {
+            user: { select: { id: true, first_name: true, last_name: true } },
+          },
+          orderBy: { matric_number: 'asc' },
+        },
+        _count: { select: { students: true, class_subjects: true } },
       },
-
       orderBy: [{ name: 'asc' }, { level: 'asc' }],
+    });
+
+    const teacherIds = [
+      ...new Set(
+        classes
+          .map((c) => c.class_teacher_id)
+          .filter((id): id is string => Boolean(id)),
+      ),
+    ];
+
+    const teachers =
+      teacherIds.length > 0
+        ? await this.prisma.user.findMany({
+            where: { id: { in: teacherIds }, tenant_id: tenantId },
+            select: { id: true, first_name: true, last_name: true },
+          })
+        : [];
+
+    const teacherById = new Map(teachers.map((t) => [t.id, t]));
+
+    return classes.map((c) => {
+      const { students, _count, subject_ids, ...rest } = c;
+      void subject_ids;
+      const teacher = c.class_teacher_id
+        ? teacherById.get(c.class_teacher_id)
+        : undefined;
+
+      return {
+        ...rest,
+        class_teacher: teacher
+          ? {
+              user_id: teacher.id,
+              first_name: teacher.first_name,
+              last_name: teacher.last_name,
+            }
+          : null,
+        students: students.map((s) => ({
+          user_id: s.user_id,
+          first_name: s.user.first_name,
+          last_name: s.user.last_name,
+          matric_number: s.matric_number,
+        })),
+        student_count: _count.students,
+        subject_count: _count.class_subjects,
+      };
     });
   }
 
@@ -1525,6 +1618,63 @@ export class SchoolSetupService {
       throw new NotFoundException('Department not found');
     }
     return dept;
+  }
+
+  /** A user may be HOD of at most one department per tenant. */
+  private async assertHodNotDuplicatedAcrossDepartments(
+    tenantId: string,
+    hodUserId: string,
+    excludeDepartmentId?: string,
+  ): Promise<void> {
+    const existing = await this.prisma.department.findFirst({
+      where: {
+        tenant_id: tenantId,
+        hod_id: hodUserId,
+        ...(excludeDepartmentId ? { NOT: { id: excludeDepartmentId } } : {}),
+      },
+      select: { id: true, name: true },
+    });
+    if (existing) {
+      throw new ConflictException(
+        `This teacher is already head of department "${existing.name}". A teacher can only head one department.`,
+      );
+    }
+  }
+
+  /** New department + HOD: teacher must not already be tied to another department on their profile. */
+  private async assertTeacherProfileClearForNewHodAppointment(
+    tenantId: string,
+    teacherUserId: string,
+  ): Promise<void> {
+    const profile = await this.prisma.teacherProfile.findFirst({
+      where: { user_id: teacherUserId, tenant_id: tenantId },
+      select: { department_id: true },
+    });
+    if (profile?.department_id) {
+      throw new ConflictException(
+        'This teacher is already assigned to a department on their profile. Clear that assignment before appointing them as head of a new department.',
+      );
+    }
+  }
+
+  /** Appointing / keeping HOD: profile department must match this department (or be unset). */
+  private async assertTeacherProfileDepartmentMatchesHodDepartment(
+    tenantId: string,
+    teacherUserId: string,
+    departmentId: string,
+  ): Promise<void> {
+    const profile = await this.prisma.teacherProfile.findFirst({
+      where: { user_id: teacherUserId, tenant_id: tenantId },
+      select: { department_id: true },
+    });
+    if (
+      profile?.department_id != null &&
+      profile.department_id !== departmentId
+    ) {
+      throw new ConflictException(
+        'This teacher is assigned to a different department on their profile. Align their profile department with this department before appointing them as HOD.',
+      );
+    }
   }
 
   private async validateTeacherBelongsToTenant(

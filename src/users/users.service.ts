@@ -911,6 +911,14 @@ export class UsersService {
       ...rest
     } = dto;
 
+    if (department_id !== undefined) {
+      await this.assertTeacherDepartmentUpdateAllowed(
+        id,
+        tenantId,
+        department_id ?? null,
+      );
+    }
+
     const baseUserData: Prisma.UserUpdateInput = {
       ...(first_name !== undefined && { first_name: first_name }),
       ...(last_name !== undefined && { last_name: last_name }),
@@ -1411,6 +1419,27 @@ export class UsersService {
    * Writes each student’s guardian_ids to this parent’s user id.
    * At most one parent/guardian per student; throws if the student is already linked to someone else.
    */
+  /**
+   * One department per teacher via `teacher_profiles.department_id`.
+   * HODs must keep their profile aligned with the department they head.
+   */
+  private async assertTeacherDepartmentUpdateAllowed(
+    userId: string,
+    tenantId: string,
+    newDepartmentId: string | null,
+  ): Promise<void> {
+    const hodDept = await this.prisma.department.findFirst({
+      where: { tenant_id: tenantId, hod_id: userId },
+      select: { id: true, name: true },
+    });
+
+    if (hodDept && newDepartmentId !== hodDept.id) {
+      throw new ConflictException(
+        `This user is head of department "${hodDept.name}". Their teacher profile must stay in that department, or remove them as HOD before changing department.`,
+      );
+    }
+  }
+
   private async linkParentToStudentWards(
     tx: Prisma.TransactionClient,
     tenantId: string,
