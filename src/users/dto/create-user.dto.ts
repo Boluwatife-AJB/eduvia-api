@@ -28,13 +28,18 @@ export class CreateUserDto {
   @IsNotEmpty()
   last_name: string;
 
+  // Image URL
+
   @ApiPropertyOptional({
     example: 'GFA/2026/0001',
     description:
       'Optional for students/teachers/staff (auto-generated if omitted). Required for guardians. Matric or employee ID format.',
   })
-  @ValidateIf((o: CreateUserDto) => o.role === UserRole.GUARDIAN)
-  @IsNotEmpty({ message: 'identifier is required for guardians' })
+  @ValidateIf(
+    (o: CreateUserDto) =>
+      o.role === UserRole.GUARDIAN || o.role === UserRole.PARENT,
+  )
+  @IsNotEmpty({ message: 'identifier is required for guardians and parents' })
   @IsString()
   identifier?: string;
 
@@ -155,33 +160,44 @@ export class CreateUserDto {
   @IsString()
   staff_type?: string;
 
-  // Guardian Specific Fields
+  // Guardian / parent specific fields
   @ApiPropertyOptional({ description: 'Required when role is GUARDIAN' })
   @ValidateIf((object: CreateUserDto) => object.role === UserRole.GUARDIAN)
   @IsNotEmpty()
   @IsString()
   guardian_id?: string;
 
-  @ApiPropertyOptional({ description: 'Required when role is GUARDIAN' })
-  @ValidateIf((object: CreateUserDto) => object.role === UserRole.GUARDIAN)
-  @IsNotEmpty()
+  @ApiPropertyOptional({
+    description:
+      'Relationship to ward (e.g. father, mother) for GUARDIAN or PARENT',
+  })
+  @ValidateIf(
+    (object: CreateUserDto) =>
+      object.role === UserRole.GUARDIAN || object.role === UserRole.PARENT,
+  )
+  @IsOptional()
   @IsString()
-  relationship?: string; // father/ mother/ guardian
+  relationship?: string;
 
-  @ApiPropertyOptional({ description: 'Required when role is GUARDIAN' })
-  @ValidateIf((object: CreateUserDto) => object.role === UserRole.GUARDIAN)
-  @IsNotEmpty()
-  @IsString()
+  @ApiPropertyOptional({
+    description: 'Student user IDs linked to this parent/guardian',
+  })
+  @ValidateIf(
+    (object: CreateUserDto) =>
+      object.role === UserRole.GUARDIAN || object.role === UserRole.PARENT,
+  )
   @IsArray()
   @IsOptional()
-  ward_ids?: string[]; // student ids
+  ward_ids?: string[];
 
-  // Staff Specific Fields
   @ApiPropertyOptional({
-    description: 'Required when role is a guardian role',
+    description: 'Occupation for GUARDIAN or PARENT',
   })
-  @ValidateIf((object: CreateUserDto) => object.role === UserRole.GUARDIAN)
-  @IsNotEmpty()
+  @ValidateIf(
+    (object: CreateUserDto) =>
+      object.role === UserRole.GUARDIAN || object.role === UserRole.PARENT,
+  )
+  @IsOptional()
   @IsString()
   occupation?: string;
 }

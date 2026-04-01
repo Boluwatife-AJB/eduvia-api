@@ -23,7 +23,11 @@ import { Prisma, UserRole, UserStatus } from '../generated/prisma/client';
 import { AdminResetPasswordDto } from './dto/admin-reset-password.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import { QueryTeachersDto, QueryUsersDto } from './dto/query-users.dto';
+import {
+  QueryParentsDto,
+  QueryTeachersDto,
+  QueryUsersDto,
+} from './dto/query-users.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 const USER_SELECT = {
@@ -99,6 +103,39 @@ type UserListRowWithTeacher = Prisma.UserGetPayload<{
   select: typeof USER_LIST_WITH_TEACHER_DETAILS;
 }>;
 
+const USER_LIST_GUARDIAN_PROFILE_SELECT = {
+  occupation: true,
+  relationship: true,
+  ward_ids: true,
+} satisfies Prisma.GuardianProfileSelect;
+
+const USER_LIST_WITH_GUARDIAN_DETAILS = {
+  ...USER_SELECT,
+  relationship: true,
+  guardian_profile: { select: USER_LIST_GUARDIAN_PROFILE_SELECT },
+} satisfies Prisma.UserSelect;
+
+type UserListRowWithGuardian = Prisma.UserGetPayload<{
+  select: typeof USER_LIST_WITH_GUARDIAN_DETAILS;
+}>;
+
+const USER_LIST_STAFF_PROFILE_SELECT = {
+  employee_id: true,
+  staff_type: true,
+  department_id: true,
+  gender: true,
+  date_joined: true,
+} satisfies Prisma.StaffProfileSelect;
+
+const USER_LIST_WITH_STAFF_DETAILS = {
+  ...USER_SELECT,
+  staff_profile: { select: USER_LIST_STAFF_PROFILE_SELECT },
+} satisfies Prisma.UserSelect;
+
+type UserListRowWithStaff = Prisma.UserGetPayload<{
+  select: typeof USER_LIST_WITH_STAFF_DETAILS;
+}>;
+
 /** Returns user without nested profile objects to avoid duplicating id, tenantId, identifier, etc. */
 function shapeUserByRole(user: UserWithProfiles): Record<string, unknown> {
   const { ...rest } = user;
@@ -142,9 +179,18 @@ export class UsersService {
   async create(dto: CreateUserDto, createdBy?: string) {
     const tenantId = this.cls.get<string>('tenantId');
 
-    // Guardians must provide identifier
-    if (dto.role === UserRole.GUARDIAN && !dto.identifier?.trim()) {
-      throw new BadRequestException('identifier is required for guardians');
+    // Guardians and parents must provide identifier
+    if (
+      (dto.role === UserRole.GUARDIAN || dto.role === UserRole.PARENT) &&
+      !dto.identifier?.trim()
+    ) {
+      throw new BadRequestException(
+        'identifier is required for guardians and parents',
+      );
+    }
+
+    if (dto.role === UserRole.GUARDIAN && !dto.relationship?.trim()) {
+      throw new BadRequestException('relationship is required for guardians');
     }
 
     // Check the email is not already taken within this school (only when email is provided)
@@ -193,6 +239,9 @@ export class UsersService {
           gender: dto.gender,
           password_hash: passwordHash,
           status: 'ACTIVE',
+          ...(dto.role === UserRole.PARENT || dto.role === UserRole.GUARDIAN
+            ? { relationship: dto.relationship?.trim() ?? null }
+            : {}),
         },
       });
 
@@ -204,6 +253,15 @@ export class UsersService {
         dto,
         resolved,
       );
+
+      if (dto.role === UserRole.PARENT || dto.role === UserRole.GUARDIAN) {
+        await this.linkParentToStudentWards(
+          tx,
+          tenantId,
+          newUser.id,
+          dto.ward_ids,
+        );
+      }
 
       return newUser;
     });
@@ -448,6 +506,251 @@ export class UsersService {
               class_of_degree: user.teacher_profile.class_of_degree,
               course_of_study: user.teacher_profile.course_of_study,
               graduation_year: user.teacher_profile.year_of_graduation,
+            }
+          : null,
+      })),
+      meta: {
+        total,
+        page,
+        limit,
+        total_pages: Math.ceil(total / limit),
+        has_next_page: page < Math.ceil(total / limit),
+        has_previous_page: page > 1,
+      },
+    };
+  }
+
+  // Parents / guardians (PARENT or GUARDIAN role)
+  async findAllParents(dto: QueryParentsDto) {
+    const tenantId = this.cls.get<string>('tenantId');
+    const {
+      page = 1,
+      limit = 20,
+      search,
+      status,
+      gender,
+      occupation,
+      relationship,
+    } = dto;
+
+    const guardianFilters: Prisma.GuardianProfileWhereInput = {
+      ...(occupation && {
+        occupation: { contains: occupation, mode: 'insensitive' },
+      }),
+      ...(relationship && {
+        relationship: { contains: relationship, mode: 'insensitive' },
+      }),
+    };
+
+    const hasGuardianFieldFilters = occupation != null || relationship != null;
+
+    const where: Prisma.UserWhereInput = {
+      tenant_id: tenantId,
+      role: { in: [UserRole.PARENT, UserRole.GUARDIAN] },
+      ...(status && { status }),
+      ...(gender && { gender }),
+      ...(hasGuardianFieldFilters && {
+        guardian_profile: { is: guardianFilters },
+      }),
+      ...(search && {
+        OR: [
+          { first_name: { contains: search, mode: 'insensitive' } },
+          { last_name: { contains: search, mode: 'insensitive' } },
+          { email: { contains: search, mode: 'insensitive' } },
+          { identifier: { contains: search, mode: 'insensitive' } },
+          {
+            relationship: { contains: search, mode: 'insensitive' },
+          },
+          {
+            guardian_profile: {
+              is: {
+                occupation: { contains: search, mode: 'insensitive' },
+              },
+            },
+          },
+          {
+            guardian_profile: {
+              is: {
+                relationship: { contains: search, mode: 'insensitive' },
+              },
+            },
+          },
+        ],
+      }),
+    };
+
+    const [total, users] = await Promise.all([
+      this.prisma.user.count({ where }),
+      this.prisma.user.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { created_at: 'desc' },
+        select: USER_LIST_WITH_GUARDIAN_DETAILS,
+      }),
+    ]);
+
+    const wardIdSet = new Set<string>();
+    for (const u of users as UserListRowWithGuardian[]) {
+      for (const id of u.guardian_profile?.ward_ids ?? []) {
+        if (id?.trim()) wardIdSet.add(id.trim());
+      }
+    }
+
+    const wardUsers =
+      wardIdSet.size > 0
+        ? await this.prisma.user.findMany({
+            where: {
+              tenant_id: tenantId,
+              role: UserRole.STUDENT,
+              id: { in: [...wardIdSet] },
+            },
+            select: { id: true, first_name: true, last_name: true },
+          })
+        : [];
+
+    const wardById = new Map(
+      wardUsers.map((w) => [
+        w.id,
+        { id: w.id, first_name: w.first_name, last_name: w.last_name },
+      ]),
+    );
+
+    const resolveWards = (wardIds: string[]) =>
+      wardIds.map((wardUserId) => {
+        const row = wardById.get(wardUserId);
+        if (row) return row;
+        return {
+          id: wardUserId,
+          first_name: null,
+          last_name: null,
+        };
+      });
+
+    return {
+      data: (users as UserListRowWithGuardian[]).map((user) => ({
+        ...shapeUserByRole(user as UserWithProfiles),
+        guardian_profile: user.guardian_profile
+          ? {
+              occupation: user.guardian_profile.occupation,
+              relationship:
+                user.guardian_profile.relationship ?? user.relationship,
+              wards: resolveWards(user.guardian_profile.ward_ids ?? []),
+            }
+          : null,
+      })),
+      meta: {
+        total,
+        page,
+        limit,
+        total_pages: Math.ceil(total / limit),
+        has_next_page: page < Math.ceil(total / limit),
+        has_previous_page: page > 1,
+      },
+    };
+  }
+
+  /**
+   * Non-teaching staff: users with a staff_profile and role !== TEACHER.
+   * Query params mirror teachers; filters map to staff_profile where possible:
+   * qualification → staff_type (contains), class_of_degree → staff_type (contains),
+   * course_of_study → department_id (exact), year_of_graduation → date_joined calendar year.
+   */
+  async findAllStaffExcludingTeachers(dto: QueryTeachersDto) {
+    const tenantId = this.cls.get<string>('tenantId');
+    const {
+      page = 1,
+      limit = 20,
+      search,
+      status,
+      gender,
+      qualification,
+      class_of_degree,
+      course_of_study,
+      year_of_graduation,
+    } = dto;
+
+    const staffParts: Prisma.StaffProfileWhereInput[] = [];
+
+    if (qualification?.trim()) {
+      staffParts.push({
+        staff_type: {
+          contains: qualification.trim(),
+          mode: 'insensitive',
+        },
+      });
+    }
+    if (class_of_degree?.trim()) {
+      staffParts.push({
+        staff_type: {
+          contains: class_of_degree.trim(),
+          mode: 'insensitive',
+        },
+      });
+    }
+    if (course_of_study?.trim()) {
+      staffParts.push({ department_id: course_of_study.trim() });
+    }
+    if (year_of_graduation?.trim()) {
+      const y = parseInt(year_of_graduation.trim(), 10);
+      if (!Number.isNaN(y)) {
+        staffParts.push({
+          date_joined: {
+            gte: new Date(Date.UTC(y, 0, 1)),
+            lt: new Date(Date.UTC(y + 1, 0, 1)),
+          },
+        });
+      }
+    }
+
+    const staffProfileIs: Prisma.StaffProfileWhereInput =
+      staffParts.length > 0 ? { AND: staffParts } : {};
+
+    const where: Prisma.UserWhereInput = {
+      tenant_id: tenantId,
+      role: { not: UserRole.TEACHER },
+      ...(status && { status }),
+      ...(gender && { gender }),
+      staff_profile: { is: staffProfileIs },
+      ...(search && {
+        OR: [
+          { first_name: { contains: search, mode: 'insensitive' } },
+          { last_name: { contains: search, mode: 'insensitive' } },
+          { email: { contains: search, mode: 'insensitive' } },
+          { identifier: { contains: search, mode: 'insensitive' } },
+          {
+            staff_profile: {
+              is: {
+                employee_id: { contains: search, mode: 'insensitive' },
+              },
+            },
+          },
+        ],
+      }),
+    };
+
+    const [total, users] = await Promise.all([
+      this.prisma.user.count({ where }),
+      this.prisma.user.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { created_at: 'desc' },
+        select: USER_LIST_WITH_STAFF_DETAILS,
+      }),
+    ]);
+
+    return {
+      data: (users as UserListRowWithStaff[]).map((user) => ({
+        ...shapeUserByRole(user as UserWithProfiles),
+        identifier: user.identifier,
+        staff_profile: user.staff_profile
+          ? {
+              staff_id: user.staff_profile.employee_id ?? user.identifier,
+              staff_type: user.staff_profile.staff_type,
+              department_id: user.staff_profile.department_id,
+              gender: user.staff_profile.gender,
+              date_joined: user.staff_profile.date_joined,
             }
           : null,
       })),
@@ -933,12 +1236,23 @@ export class UsersService {
       return { identifier: employeeId, employeeId };
     }
 
-    // GUARDIAN: identifier required (validated in create())
-    const identifier = dto.identifier?.trim();
-    if (!identifier) {
-      throw new BadRequestException('identifier is required for guardians');
+    // GUARDIAN / PARENT: identifier required (validated in create())
+    if (dto.role === UserRole.GUARDIAN || dto.role === UserRole.PARENT) {
+      const identifier = dto.identifier?.trim();
+      if (!identifier) {
+        throw new BadRequestException(
+          'identifier is required for guardians and parents',
+        );
+      }
+      return { identifier };
     }
-    return { identifier };
+
+    // Other roles (e.g. school admin): require explicit identifier
+    const fallbackIdentifier = dto.identifier?.trim();
+    if (!fallbackIdentifier) {
+      throw new BadRequestException('identifier is required');
+    }
+    return { identifier: fallbackIdentifier };
   }
 
   /** Returns tenant initials (e.g. GFA) or slug when initials not set. Used for matric/employee ID prefixes. */
@@ -1013,6 +1327,65 @@ export class UsersService {
     return `${empPrefix}${String(nextNum).padStart(3, '0')}`;
   }
 
+  /**
+   * Writes each student’s guardian_ids to this parent’s user id.
+   * At most one parent/guardian per student; throws if the student is already linked to someone else.
+   */
+  private async linkParentToStudentWards(
+    tx: Prisma.TransactionClient,
+    tenantId: string,
+    parentUserId: string,
+    wardIds: string[] | undefined,
+  ): Promise<void> {
+    if (!wardIds?.length) return;
+
+    const uniqueWardIds = [
+      ...new Set(wardIds.map((id) => id?.trim()).filter(Boolean)),
+    ] as string[];
+
+    for (const studentUserId of uniqueWardIds) {
+      const studentUser = await tx.user.findFirst({
+        where: {
+          id: studentUserId,
+          tenant_id: tenantId,
+          role: UserRole.STUDENT,
+        },
+        select: { id: true },
+      });
+      if (!studentUser) {
+        throw new BadRequestException(
+          `Ward "${studentUserId}" is not a student in this school.`,
+        );
+      }
+
+      const profile = await tx.studentProfile.findUnique({
+        where: { user_id: studentUserId },
+        select: { guardian_ids: true },
+      });
+      if (!profile) {
+        throw new BadRequestException(
+          `Student profile is missing for ward "${studentUserId}".`,
+        );
+      }
+
+      const current = profile.guardian_ids ?? [];
+      if (current.length === 0) {
+        await tx.studentProfile.update({
+          where: { user_id: studentUserId },
+          data: { guardian_ids: [parentUserId] },
+        });
+        continue;
+      }
+      if (current.length === 1 && current[0] === parentUserId) {
+        continue;
+      }
+
+      throw new ConflictException(
+        'Each student may have only one parent/guardian account; this student is already linked to another parent.',
+      );
+    }
+  }
+
   // Creates the role-specific profile after creating the base user
   private async createRoleSpecificProfile(
     tx: Prisma.TransactionClient,
@@ -1060,13 +1433,14 @@ export class UsersService {
         });
         break;
 
+      case UserRole.PARENT:
       case UserRole.GUARDIAN:
         await tx.guardianProfile.create({
           data: {
             user_id: userId,
             tenant_id: tenantId,
-            occupation: dto.occupation ?? '',
-            relationship: dto.relationship ?? '',
+            occupation: dto.occupation?.trim() || null,
+            relationship: dto.relationship?.trim() || null,
             ward_ids: dto.ward_ids ?? [],
           },
         });

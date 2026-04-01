@@ -37,7 +37,11 @@ import { UserRole } from '../generated/prisma/client';
 import { AdminResetPasswordDto } from './dto/admin-reset-password.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import { QueryTeachersDto, QueryUsersDto } from './dto/query-users.dto';
+import {
+  QueryParentsDto,
+  QueryTeachersDto,
+  QueryUsersDto,
+} from './dto/query-users.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 
@@ -156,6 +160,30 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'All teachers' })
   findAllTeachers(@Query() query: QueryTeachersDto) {
     return this.usersService.findAllTeachers(query);
+  }
+
+  // Get all parents / guardians
+  @Get('parents')
+  @Roles(...ADMIN_ROLES)
+  @ApiOperation({
+    summary:
+      'Get all parents/guardians (PARENT or GUARDIAN) with optional occupation, relationship, gender filters',
+  })
+  @ApiResponse({ status: 200, description: 'All parents/guardians' })
+  findAllParents(@Query() query: QueryParentsDto) {
+    return this.usersService.findAllParents(query);
+  }
+
+  // Get non-teaching staff (users with staff_profile, role !== TEACHER)
+  @Get('staff')
+  @Roles(...ADMIN_ROLES)
+  @ApiOperation({
+    summary:
+      'Get staff with staff_profile excluding TEACHER; query params align with teachers (mapped to staff fields)',
+  })
+  @ApiResponse({ status: 200, description: 'Non-teaching staff' })
+  findAllStaff(@Query() query: QueryTeachersDto) {
+    return this.usersService.findAllStaffExcludingTeachers(query);
   }
 
   // Teachers should be able to fetch students assigned to them, students in their class or students offering the subject they teach
