@@ -112,8 +112,12 @@ export class QueryTeachersDto extends OmitType(QueryUsersDto, [
   year_of_graduation?: string;
 }
 
-// export class QueryStudentsDto extends OmitType(QueryUsersDto, [
+// export class QueryStaffDto extends OmitType(QueryUsersDto, [
 //   'role',
+//   'class_id',
 // ] as const) {
-
+//   @ApiPropertyOptional({ description: 'Filter by staff type' })
+//   @IsString()
+//   @IsOptional()
+//   staff_type?: NonTeachingStaffRole;
 // }

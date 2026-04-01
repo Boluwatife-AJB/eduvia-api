@@ -29,6 +29,7 @@ import {
   QueryUsersDto,
 } from './dto/query-users.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { assertCanAssignUserRole } from './policies/user-role-assignment.policy';
 
 const USER_SELECT = {
   id: true,
@@ -176,8 +177,10 @@ export class UsersService {
   ) {}
 
   // CREATE USER
-  async create(dto: CreateUserDto, createdBy?: string) {
+  async create(dto: CreateUserDto, createdBy: { id: string; role: UserRole }) {
     const tenantId = this.cls.get<string>('tenantId');
+
+    assertCanAssignUserRole(createdBy.role, dto.role);
 
     // Guardians and parents must provide identifier
     if (
@@ -267,7 +270,7 @@ export class UsersService {
     });
 
     this.logger.log(
-      `User '${user.identifier}' (${user.role}) created in school '${tenantId}' by '${createdBy ?? 'system'}'`,
+      `User '${user.identifier}' (${user.role}) created in school '${tenantId}' by '${createdBy.id}'`,
     );
 
     const created = await this.prisma.user.findUnique({
@@ -1000,8 +1003,10 @@ export class UsersService {
   }
 
   // Bulk Upload Users from CSV
-  async bulkImport(fileBuffer: Buffer, role: UserRole) {
+  async bulkImport(fileBuffer: Buffer, role: UserRole, creatorRole: UserRole) {
     const tenantId = this.cls.get<string>('tenantId');
+
+    assertCanAssignUserRole(creatorRole, role);
     const results: {
       success: { identifier: string; role: UserRole }[];
       failed: { row: number; reason: string }[];

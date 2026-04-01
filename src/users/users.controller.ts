@@ -32,8 +32,14 @@ import {
 import type { Response } from 'express';
 import { join } from 'path';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import type { JwtAuthUser } from 'src/auth/strategies/jwt.strategy';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from '../generated/prisma/client';
+import {
+  ADMIN_ROLES,
+  isTenantAdminRole,
+  USER_CREATE_ROLES,
+} from './policies/user-role-assignment.policy';
 import { AdminResetPasswordDto } from './dto/admin-reset-password.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -44,15 +50,6 @@ import {
 } from './dto/query-users.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
-
-// Admin Roles
-const ADMIN_ROLES = [
-  UserRole.SCHOOL_OWNER,
-  UserRole.PRINCIPAL,
-  UserRole.HEAD_TEACHER,
-  UserRole.VICE_PRINCIPAL,
-  UserRole.ASST_HEAD_TEACHER,
-];
 
 @ApiTags('Users')
 @Controller('users')
@@ -71,8 +68,11 @@ export class UsersController {
 
   // Create User
   @Post()
-  @Roles(...ADMIN_ROLES)
-  @ApiOperation({ summary: 'Create a new user (any role)' })
+  @Roles(...USER_CREATE_ROLES)
+  @ApiOperation({
+    summary:
+      "Create a new user (assignable roles depend on the caller's own role)",
+  })
   @ApiResponse({ status: 201, description: 'User created successfully' })
   @ApiResponse({
     status: 400,
@@ -92,14 +92,17 @@ export class UsersController {
       'Identifier or email already exists. Please use a different identifier or email.',
   })
   @ApiBody({ type: CreateUserDto })
-  create(@Body() dto: CreateUserDto, @CurrentUser() admin: { id: string }) {
-    return this.usersService.create(dto, admin.id);
+  create(@Body() dto: CreateUserDto, @CurrentUser() admin: JwtAuthUser) {
+    return this.usersService.create(dto, {
+      id: admin.id,
+      role: admin.role,
+    });
   }
 
   // Bulk import users (must be before :id routes)
   // TODO: This route is not working as expected. It is not accepting the CSV file.
   @Post('bulk-import')
-  @Roles(...ADMIN_ROLES)
+  @Roles(...USER_CREATE_ROLES)
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
   @HttpCode(HttpStatus.OK)
@@ -130,8 +133,9 @@ export class UsersController {
     )
     file: Express.Multer.File,
     @Query('role') role: UserRole,
+    @CurrentUser() admin: JwtAuthUser,
   ) {
-    return this.usersService.bulkImport(file.buffer, role);
+    return this.usersService.bulkImport(file.buffer, role, admin.role);
   }
 
   // Get all users
@@ -235,9 +239,7 @@ export class UsersController {
     @Body() dto: UpdateUserDto,
     @CurrentUser() currentUser: { id: string; role: UserRole },
   ) {
-    const isAdmin = ADMIN_ROLES.includes(
-      currentUser.role as (typeof ADMIN_ROLES)[number],
-    );
+    const isAdmin = isTenantAdminRole(currentUser.role);
     const isSelf = currentUser.id === id;
 
     if (!isAdmin && !isSelf) {
