@@ -25,6 +25,7 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import {
   QueryParentsDto,
+  QueryStaffDto,
   QueryTeachersDto,
   QueryUsersDto,
 } from './dto/query-users.dto';
@@ -177,6 +178,7 @@ export class UsersService {
   ) {}
 
   // CREATE USER
+  // TODO: Add enforce_password_change to the create user dto
   async create(dto: CreateUserDto, createdBy: { id: string; role: UserRole }) {
     const tenantId = this.cls.get<string>('tenantId');
 
@@ -242,6 +244,7 @@ export class UsersService {
           gender: dto.gender,
           password_hash: passwordHash,
           status: 'ACTIVE',
+          enforce_password_change: dto.enforce_password_change,
           ...(dto.role === UserRole.PARENT || dto.role === UserRole.GUARDIAN
             ? { relationship: dto.relationship?.trim() ?? null }
             : {}),
@@ -659,7 +662,7 @@ export class UsersService {
    * qualification → staff_type (contains), class_of_degree → staff_type (contains),
    * course_of_study → department_id (exact), year_of_graduation → date_joined calendar year.
    */
-  async findAllStaffExcludingTeachers(dto: QueryTeachersDto) {
+  async findAllStaffExcludingTeachers(dto: QueryStaffDto) {
     const tenantId = this.cls.get<string>('tenantId');
     const {
       page = 1,
@@ -671,6 +674,7 @@ export class UsersService {
       class_of_degree,
       course_of_study,
       year_of_graduation,
+      staff_role,
     } = dto;
 
     const staffParts: Prisma.StaffProfileWhereInput[] = [];
@@ -725,6 +729,16 @@ export class UsersService {
             staff_profile: {
               is: {
                 employee_id: { contains: search, mode: 'insensitive' },
+              },
+            },
+          },
+          {
+            staff_profile: {
+              is: {
+                staff_type: {
+                  contains: staff_role,
+                  mode: 'insensitive',
+                },
               },
             },
           },

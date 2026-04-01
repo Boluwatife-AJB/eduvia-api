@@ -6,6 +6,7 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsBoolean,
   IsOptional,
   IsString,
   MinLength,
@@ -72,6 +73,11 @@ export class CreateUserDto {
   @IsNotEmpty()
   @MinLength(8)
   password: string;
+
+  @ApiProperty({ example: true })
+  @IsBoolean()
+  @IsOptional()
+  enforce_password_change?: boolean;
 
   // Student Specific Fields
   @ApiPropertyOptional({

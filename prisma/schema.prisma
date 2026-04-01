@@ -44,32 +44,33 @@ model Tenant {
 }
 
 model User {
-  id               String           @id @default(uuid())
-  role             UserRole
+  id                      String           @id @default(uuid())
+  role                    UserRole
   /// Human-readable login ID: students = matricNumber, teachers/staff = employeeId, guardians = custom ID. Unique per tenant.
-  identifier       String           @unique
-  email            String?
-  phone            String?
-  avatar           String?
-  status           UserStatus       @default(PENDING)
-  first_name       String
-  last_name        String
-  gender           Gender           @default(MALE)
-  mfa_enabled      Boolean          @default(false)
-  mfa_secret       String?
-  password_hash    String
-  relationship     String?
-  created_at       DateTime         @default(now())
-  last_login_at    DateTime?
-  tenant_id        String
-  updated_at       DateTime         @updatedAt
-  guardian_profile GuardianProfile?
-  refresh_tokens   RefreshToken[]
-  staff_profile    StaffProfile?
-  student_profile  StudentProfile?
-  teacher_profile  TeacherProfile?
-  tenant           Tenant           @relation(fields: [tenant_id], references: [id])
-  notifications    Notification[]
+  identifier              String           @unique
+  email                   String?
+  phone                   String?
+  avatar                  String?
+  status                  UserStatus       @default(PENDING)
+  first_name              String
+  last_name               String
+  gender                  Gender           @default(MALE)
+  mfa_enabled             Boolean          @default(false)
+  mfa_secret              String?
+  password_hash           String
+  relationship            String?
+  enforce_password_change Boolean          @default(true)
+  created_at              DateTime         @default(now())
+  last_login_at           DateTime?
+  tenant_id               String
+  updated_at              DateTime         @updatedAt
+  guardian_profile        GuardianProfile?
+  refresh_tokens          RefreshToken[]
+  staff_profile           StaffProfile?
+  student_profile         StudentProfile?
+  teacher_profile         TeacherProfile?
+  tenant                  Tenant           @relation(fields: [tenant_id], references: [id])
+  notifications           Notification[]
 
   @@unique([tenant_id, identifier])
   @@unique([tenant_id, email])
@@ -117,9 +118,9 @@ model TeacherProfile {
   employee_id          String    @unique
   department_id        String?
   qualification        String?
-  course_of_study       String?
-  class_of_degree       String?
-  year_of_graduation    String?
+  course_of_study      String?
+  class_of_degree      String?
+  year_of_graduation   String?
   // TODO: Upload certificate
   // certificate_url      String?
   // additional_certifications
@@ -705,8 +706,8 @@ model Assessment {
   total_marks Float
   pass_mark   Float?
 
-  is_exam_component Boolean     @default(false)
-  ca_component      CAComponent? 
+  is_exam_component Boolean      @default(false)
+  ca_component      CAComponent?
 
   // Attempt control
   max_attempts      Int?    @default(1)

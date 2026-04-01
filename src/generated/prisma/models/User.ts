@@ -39,6 +39,7 @@ export type UserMinAggregateOutputType = {
   mfa_secret: string | null
   password_hash: string | null
   relationship: string | null
+  enforce_password_change: boolean | null
   created_at: Date | null
   last_login_at: Date | null
   tenant_id: string | null
@@ -60,6 +61,7 @@ export type UserMaxAggregateOutputType = {
   mfa_secret: string | null
   password_hash: string | null
   relationship: string | null
+  enforce_password_change: boolean | null
   created_at: Date | null
   last_login_at: Date | null
   tenant_id: string | null
@@ -81,6 +83,7 @@ export type UserCountAggregateOutputType = {
   mfa_secret: number
   password_hash: number
   relationship: number
+  enforce_password_change: number
   created_at: number
   last_login_at: number
   tenant_id: number
@@ -104,6 +107,7 @@ export type UserMinAggregateInputType = {
   mfa_secret?: true
   password_hash?: true
   relationship?: true
+  enforce_password_change?: true
   created_at?: true
   last_login_at?: true
   tenant_id?: true
@@ -125,6 +129,7 @@ export type UserMaxAggregateInputType = {
   mfa_secret?: true
   password_hash?: true
   relationship?: true
+  enforce_password_change?: true
   created_at?: true
   last_login_at?: true
   tenant_id?: true
@@ -146,6 +151,7 @@ export type UserCountAggregateInputType = {
   mfa_secret?: true
   password_hash?: true
   relationship?: true
+  enforce_password_change?: true
   created_at?: true
   last_login_at?: true
   tenant_id?: true
@@ -240,6 +246,7 @@ export type UserGroupByOutputType = {
   mfa_secret: string | null
   password_hash: string
   relationship: string | null
+  enforce_password_change: boolean
   created_at: Date
   last_login_at: Date | null
   tenant_id: string
@@ -282,6 +289,7 @@ export type UserWhereInput = {
   mfa_secret?: Prisma.StringNullableFilter<"User"> | string | null
   password_hash?: Prisma.StringFilter<"User"> | string
   relationship?: Prisma.StringNullableFilter<"User"> | string | null
+  enforce_password_change?: Prisma.BoolFilter<"User"> | boolean
   created_at?: Prisma.DateTimeFilter<"User"> | Date | string
   last_login_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   tenant_id?: Prisma.StringFilter<"User"> | string
@@ -310,6 +318,7 @@ export type UserOrderByWithRelationInput = {
   mfa_secret?: Prisma.SortOrderInput | Prisma.SortOrder
   password_hash?: Prisma.SortOrder
   relationship?: Prisma.SortOrderInput | Prisma.SortOrder
+  enforce_password_change?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   last_login_at?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
@@ -343,6 +352,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   mfa_secret?: Prisma.StringNullableFilter<"User"> | string | null
   password_hash?: Prisma.StringFilter<"User"> | string
   relationship?: Prisma.StringNullableFilter<"User"> | string | null
+  enforce_password_change?: Prisma.BoolFilter<"User"> | boolean
   created_at?: Prisma.DateTimeFilter<"User"> | Date | string
   last_login_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   tenant_id?: Prisma.StringFilter<"User"> | string
@@ -371,6 +381,7 @@ export type UserOrderByWithAggregationInput = {
   mfa_secret?: Prisma.SortOrderInput | Prisma.SortOrder
   password_hash?: Prisma.SortOrder
   relationship?: Prisma.SortOrderInput | Prisma.SortOrder
+  enforce_password_change?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   last_login_at?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
@@ -398,6 +409,7 @@ export type UserScalarWhereWithAggregatesInput = {
   mfa_secret?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   password_hash?: Prisma.StringWithAggregatesFilter<"User"> | string
   relationship?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  enforce_password_change?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   created_at?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   last_login_at?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   tenant_id?: Prisma.StringWithAggregatesFilter<"User"> | string
@@ -419,6 +431,7 @@ export type UserCreateInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   updated_at?: Date | string
@@ -446,6 +459,7 @@ export type UserUncheckedCreateInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   tenant_id: string
@@ -473,6 +487,7 @@ export type UserUpdateInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -500,6 +515,7 @@ export type UserUncheckedUpdateInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -527,6 +543,7 @@ export type UserCreateManyInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   tenant_id: string
@@ -548,6 +565,7 @@ export type UserUpdateManyMutationInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -568,6 +586,7 @@ export type UserUncheckedUpdateManyInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -609,6 +628,7 @@ export type UserCountOrderByAggregateInput = {
   mfa_secret?: Prisma.SortOrder
   password_hash?: Prisma.SortOrder
   relationship?: Prisma.SortOrder
+  enforce_password_change?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   last_login_at?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
@@ -630,6 +650,7 @@ export type UserMaxOrderByAggregateInput = {
   mfa_secret?: Prisma.SortOrder
   password_hash?: Prisma.SortOrder
   relationship?: Prisma.SortOrder
+  enforce_password_change?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   last_login_at?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
@@ -651,6 +672,7 @@ export type UserMinOrderByAggregateInput = {
   mfa_secret?: Prisma.SortOrder
   password_hash?: Prisma.SortOrder
   relationship?: Prisma.SortOrder
+  enforce_password_change?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   last_login_at?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
@@ -819,6 +841,7 @@ export type UserCreateWithoutTenantInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   updated_at?: Date | string
@@ -845,6 +868,7 @@ export type UserUncheckedCreateWithoutTenantInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   updated_at?: Date | string
@@ -900,6 +924,7 @@ export type UserScalarWhereInput = {
   mfa_secret?: Prisma.StringNullableFilter<"User"> | string | null
   password_hash?: Prisma.StringFilter<"User"> | string
   relationship?: Prisma.StringNullableFilter<"User"> | string | null
+  enforce_password_change?: Prisma.BoolFilter<"User"> | boolean
   created_at?: Prisma.DateTimeFilter<"User"> | Date | string
   last_login_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   tenant_id?: Prisma.StringFilter<"User"> | string
@@ -921,6 +946,7 @@ export type UserCreateWithoutRefresh_tokensInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   updated_at?: Date | string
@@ -947,6 +973,7 @@ export type UserUncheckedCreateWithoutRefresh_tokensInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   tenant_id: string
@@ -989,6 +1016,7 @@ export type UserUpdateWithoutRefresh_tokensInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1015,6 +1043,7 @@ export type UserUncheckedUpdateWithoutRefresh_tokensInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1041,6 +1070,7 @@ export type UserCreateWithoutStudent_profileInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   updated_at?: Date | string
@@ -1067,6 +1097,7 @@ export type UserUncheckedCreateWithoutStudent_profileInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   tenant_id: string
@@ -1109,6 +1140,7 @@ export type UserUpdateWithoutStudent_profileInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1135,6 +1167,7 @@ export type UserUncheckedUpdateWithoutStudent_profileInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1161,6 +1194,7 @@ export type UserCreateWithoutTeacher_profileInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   updated_at?: Date | string
@@ -1187,6 +1221,7 @@ export type UserUncheckedCreateWithoutTeacher_profileInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   tenant_id: string
@@ -1229,6 +1264,7 @@ export type UserUpdateWithoutTeacher_profileInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1255,6 +1291,7 @@ export type UserUncheckedUpdateWithoutTeacher_profileInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1281,6 +1318,7 @@ export type UserCreateWithoutGuardian_profileInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   updated_at?: Date | string
@@ -1307,6 +1345,7 @@ export type UserUncheckedCreateWithoutGuardian_profileInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   tenant_id: string
@@ -1349,6 +1388,7 @@ export type UserUpdateWithoutGuardian_profileInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1375,6 +1415,7 @@ export type UserUncheckedUpdateWithoutGuardian_profileInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1401,6 +1442,7 @@ export type UserCreateWithoutStaff_profileInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   updated_at?: Date | string
@@ -1427,6 +1469,7 @@ export type UserUncheckedCreateWithoutStaff_profileInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   tenant_id: string
@@ -1469,6 +1512,7 @@ export type UserUpdateWithoutStaff_profileInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1495,6 +1539,7 @@ export type UserUncheckedUpdateWithoutStaff_profileInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1521,6 +1566,7 @@ export type UserCreateWithoutNotificationsInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   updated_at?: Date | string
@@ -1547,6 +1593,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   tenant_id: string
@@ -1589,6 +1636,7 @@ export type UserUpdateWithoutNotificationsInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1615,6 +1663,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1641,6 +1690,7 @@ export type UserCreateManyTenantInput = {
   mfa_secret?: string | null
   password_hash: string
   relationship?: string | null
+  enforce_password_change?: boolean
   created_at?: Date | string
   last_login_at?: Date | string | null
   updated_at?: Date | string
@@ -1661,6 +1711,7 @@ export type UserUpdateWithoutTenantInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1687,6 +1738,7 @@ export type UserUncheckedUpdateWithoutTenantInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1713,6 +1765,7 @@ export type UserUncheckedUpdateManyWithoutTenantInput = {
   mfa_secret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password_hash?: Prisma.StringFieldUpdateOperationsInput | string
   relationship?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  enforce_password_change?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1773,6 +1826,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   mfa_secret?: boolean
   password_hash?: boolean
   relationship?: boolean
+  enforce_password_change?: boolean
   created_at?: boolean
   last_login_at?: boolean
   tenant_id?: boolean
@@ -1802,6 +1856,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   mfa_secret?: boolean
   password_hash?: boolean
   relationship?: boolean
+  enforce_password_change?: boolean
   created_at?: boolean
   last_login_at?: boolean
   tenant_id?: boolean
@@ -1824,6 +1879,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   mfa_secret?: boolean
   password_hash?: boolean
   relationship?: boolean
+  enforce_password_change?: boolean
   created_at?: boolean
   last_login_at?: boolean
   tenant_id?: boolean
@@ -1846,13 +1902,14 @@ export type UserSelectScalar = {
   mfa_secret?: boolean
   password_hash?: boolean
   relationship?: boolean
+  enforce_password_change?: boolean
   created_at?: boolean
   last_login_at?: boolean
   tenant_id?: boolean
   updated_at?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "role" | "identifier" | "email" | "phone" | "avatar" | "status" | "first_name" | "last_name" | "gender" | "mfa_enabled" | "mfa_secret" | "password_hash" | "relationship" | "created_at" | "last_login_at" | "tenant_id" | "updated_at", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "role" | "identifier" | "email" | "phone" | "avatar" | "status" | "first_name" | "last_name" | "gender" | "mfa_enabled" | "mfa_secret" | "password_hash" | "relationship" | "enforce_password_change" | "created_at" | "last_login_at" | "tenant_id" | "updated_at", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   guardian_profile?: boolean | Prisma.User$guardian_profileArgs<ExtArgs>
   refresh_tokens?: boolean | Prisma.User$refresh_tokensArgs<ExtArgs>
@@ -1899,6 +1956,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     mfa_secret: string | null
     password_hash: string
     relationship: string | null
+    enforce_password_change: boolean
     created_at: Date
     last_login_at: Date | null
     tenant_id: string
@@ -2347,6 +2405,7 @@ export interface UserFieldRefs {
   readonly mfa_secret: Prisma.FieldRef<"User", 'String'>
   readonly password_hash: Prisma.FieldRef<"User", 'String'>
   readonly relationship: Prisma.FieldRef<"User", 'String'>
+  readonly enforce_password_change: Prisma.FieldRef<"User", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"User", 'DateTime'>
   readonly last_login_at: Prisma.FieldRef<"User", 'DateTime'>
   readonly tenant_id: Prisma.FieldRef<"User", 'String'>

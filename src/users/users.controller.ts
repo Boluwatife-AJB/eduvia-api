@@ -45,6 +45,7 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import {
   QueryParentsDto,
+  QueryStaffDto,
   QueryTeachersDto,
   QueryUsersDto,
 } from './dto/query-users.dto';
@@ -186,7 +187,7 @@ export class UsersController {
       'Get staff with staff_profile excluding TEACHER; query params align with teachers (mapped to staff fields)',
   })
   @ApiResponse({ status: 200, description: 'Non-teaching staff' })
-  findAllStaff(@Query() query: QueryTeachersDto) {
+  findAllStaff(@Query() query: QueryStaffDto) {
     return this.usersService.findAllStaffExcludingTeachers(query);
   }
 

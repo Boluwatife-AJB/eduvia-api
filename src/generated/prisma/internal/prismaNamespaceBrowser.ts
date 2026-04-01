@@ -146,6 +146,7 @@ export const UserScalarFieldEnum = {
   mfa_secret: 'mfa_secret',
   password_hash: 'password_hash',
   relationship: 'relationship',
+  enforce_password_change: 'enforce_password_change',
   created_at: 'created_at',
   last_login_at: 'last_login_at',
   tenant_id: 'tenant_id',

@@ -3,6 +3,32 @@ import { IsEnum, IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Gender, UserRole, UserStatus } from '../../generated/prisma/client';
 
+/**
+ * Mirrors Prisma `NonTeachingStaffRole` for validation and OpenAPI.
+ * Prisma's generated client is `@ts-nocheck`, which makes type-aware ESLint
+ * treat re-exports as unsafe/error-typed when used in decorators.
+ */
+export const NonTeachingStaffRoleQuery = {
+  BURSAR: 'BURSAR',
+  COUNSELOR: 'COUNSELOR',
+  LAB_ATTENDANT: 'LAB_ATTENDANT',
+  NURSE: 'NURSE',
+  LIBRARIAN: 'LIBRARIAN',
+  JANITOR: 'JANITOR',
+  CLEANER: 'CLEANER',
+  GARDENER: 'GARDENER',
+  MAINTENANCE_STAFF: 'MAINTENANCE_STAFF',
+  CLERK: 'CLERK',
+  RECEPTIONIST: 'RECEPTIONIST',
+  SECRETARY: 'SECRETARY',
+  ADMINISTRATIVE_ASSISTANT: 'ADMINISTRATIVE_ASSISTANT',
+  ADMINISTRATIVE_STAFF: 'ADMINISTRATIVE_STAFF',
+  SECURITY_OFFICER: 'SECURITY_OFFICER',
+} as const;
+
+export type NonTeachingStaffRoleQuery =
+  (typeof NonTeachingStaffRoleQuery)[keyof typeof NonTeachingStaffRoleQuery];
+
 export class QueryUsersDto {
   @ApiPropertyOptional({ default: 1 })
   @IsInt()
@@ -112,12 +138,12 @@ export class QueryTeachersDto extends OmitType(QueryUsersDto, [
   year_of_graduation?: string;
 }
 
-// export class QueryStaffDto extends OmitType(QueryUsersDto, [
-//   'role',
-//   'class_id',
-// ] as const) {
-//   @ApiPropertyOptional({ description: 'Filter by staff type' })
-//   @IsString()
-//   @IsOptional()
-//   staff_type?: NonTeachingStaffRole;
-// }
+export class QueryStaffDto extends QueryTeachersDto {
+  @ApiPropertyOptional({
+    description: 'Filter by staff role',
+    enum: NonTeachingStaffRoleQuery,
+  })
+  @IsEnum(NonTeachingStaffRoleQuery)
+  @IsOptional()
+  staff_role?: NonTeachingStaffRoleQuery;
+}
