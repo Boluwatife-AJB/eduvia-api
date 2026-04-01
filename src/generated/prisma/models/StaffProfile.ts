@@ -29,9 +29,12 @@ export type StaffProfileMinAggregateOutputType = {
   user_id: string | null
   tenant_id: string | null
   gender: $Enums.Gender | null
+  staff_role: $Enums.NonTeachingStaffRole | null
+  qualification: string | null
+  course_of_study: string | null
+  class_of_degree: string | null
+  year_of_graduation: string | null
   employee_id: string | null
-  staff_type: string | null
-  department_id: string | null
   date_joined: Date | null
 }
 
@@ -40,9 +43,12 @@ export type StaffProfileMaxAggregateOutputType = {
   user_id: string | null
   tenant_id: string | null
   gender: $Enums.Gender | null
+  staff_role: $Enums.NonTeachingStaffRole | null
+  qualification: string | null
+  course_of_study: string | null
+  class_of_degree: string | null
+  year_of_graduation: string | null
   employee_id: string | null
-  staff_type: string | null
-  department_id: string | null
   date_joined: Date | null
 }
 
@@ -51,9 +57,12 @@ export type StaffProfileCountAggregateOutputType = {
   user_id: number
   tenant_id: number
   gender: number
+  staff_role: number
+  qualification: number
+  course_of_study: number
+  class_of_degree: number
+  year_of_graduation: number
   employee_id: number
-  staff_type: number
-  department_id: number
   date_joined: number
   _all: number
 }
@@ -64,9 +73,12 @@ export type StaffProfileMinAggregateInputType = {
   user_id?: true
   tenant_id?: true
   gender?: true
+  staff_role?: true
+  qualification?: true
+  course_of_study?: true
+  class_of_degree?: true
+  year_of_graduation?: true
   employee_id?: true
-  staff_type?: true
-  department_id?: true
   date_joined?: true
 }
 
@@ -75,9 +87,12 @@ export type StaffProfileMaxAggregateInputType = {
   user_id?: true
   tenant_id?: true
   gender?: true
+  staff_role?: true
+  qualification?: true
+  course_of_study?: true
+  class_of_degree?: true
+  year_of_graduation?: true
   employee_id?: true
-  staff_type?: true
-  department_id?: true
   date_joined?: true
 }
 
@@ -86,9 +101,12 @@ export type StaffProfileCountAggregateInputType = {
   user_id?: true
   tenant_id?: true
   gender?: true
+  staff_role?: true
+  qualification?: true
+  course_of_study?: true
+  class_of_degree?: true
+  year_of_graduation?: true
   employee_id?: true
-  staff_type?: true
-  department_id?: true
   date_joined?: true
   _all?: true
 }
@@ -170,9 +188,12 @@ export type StaffProfileGroupByOutputType = {
   user_id: string
   tenant_id: string
   gender: $Enums.Gender
+  staff_role: $Enums.NonTeachingStaffRole
+  qualification: string | null
+  course_of_study: string | null
+  class_of_degree: string | null
+  year_of_graduation: string | null
   employee_id: string
-  staff_type: string
-  department_id: string | null
   date_joined: Date | null
   _count: StaffProfileCountAggregateOutputType | null
   _min: StaffProfileMinAggregateOutputType | null
@@ -202,9 +223,12 @@ export type StaffProfileWhereInput = {
   user_id?: Prisma.StringFilter<"StaffProfile"> | string
   tenant_id?: Prisma.StringFilter<"StaffProfile"> | string
   gender?: Prisma.EnumGenderFilter<"StaffProfile"> | $Enums.Gender
+  staff_role?: Prisma.EnumNonTeachingStaffRoleFilter<"StaffProfile"> | $Enums.NonTeachingStaffRole
+  qualification?: Prisma.StringNullableFilter<"StaffProfile"> | string | null
+  course_of_study?: Prisma.StringNullableFilter<"StaffProfile"> | string | null
+  class_of_degree?: Prisma.StringNullableFilter<"StaffProfile"> | string | null
+  year_of_graduation?: Prisma.StringNullableFilter<"StaffProfile"> | string | null
   employee_id?: Prisma.StringFilter<"StaffProfile"> | string
-  staff_type?: Prisma.StringFilter<"StaffProfile"> | string
-  department_id?: Prisma.StringNullableFilter<"StaffProfile"> | string | null
   date_joined?: Prisma.DateTimeNullableFilter<"StaffProfile"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -214,9 +238,12 @@ export type StaffProfileOrderByWithRelationInput = {
   user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   gender?: Prisma.SortOrder
+  staff_role?: Prisma.SortOrder
+  qualification?: Prisma.SortOrderInput | Prisma.SortOrder
+  course_of_study?: Prisma.SortOrderInput | Prisma.SortOrder
+  class_of_degree?: Prisma.SortOrderInput | Prisma.SortOrder
+  year_of_graduation?: Prisma.SortOrderInput | Prisma.SortOrder
   employee_id?: Prisma.SortOrder
-  staff_type?: Prisma.SortOrder
-  department_id?: Prisma.SortOrderInput | Prisma.SortOrder
   date_joined?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -230,8 +257,11 @@ export type StaffProfileWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.StaffProfileWhereInput | Prisma.StaffProfileWhereInput[]
   tenant_id?: Prisma.StringFilter<"StaffProfile"> | string
   gender?: Prisma.EnumGenderFilter<"StaffProfile"> | $Enums.Gender
-  staff_type?: Prisma.StringFilter<"StaffProfile"> | string
-  department_id?: Prisma.StringNullableFilter<"StaffProfile"> | string | null
+  staff_role?: Prisma.EnumNonTeachingStaffRoleFilter<"StaffProfile"> | $Enums.NonTeachingStaffRole
+  qualification?: Prisma.StringNullableFilter<"StaffProfile"> | string | null
+  course_of_study?: Prisma.StringNullableFilter<"StaffProfile"> | string | null
+  class_of_degree?: Prisma.StringNullableFilter<"StaffProfile"> | string | null
+  year_of_graduation?: Prisma.StringNullableFilter<"StaffProfile"> | string | null
   date_joined?: Prisma.DateTimeNullableFilter<"StaffProfile"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "user_id" | "employee_id">
@@ -241,9 +271,12 @@ export type StaffProfileOrderByWithAggregationInput = {
   user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   gender?: Prisma.SortOrder
+  staff_role?: Prisma.SortOrder
+  qualification?: Prisma.SortOrderInput | Prisma.SortOrder
+  course_of_study?: Prisma.SortOrderInput | Prisma.SortOrder
+  class_of_degree?: Prisma.SortOrderInput | Prisma.SortOrder
+  year_of_graduation?: Prisma.SortOrderInput | Prisma.SortOrder
   employee_id?: Prisma.SortOrder
-  staff_type?: Prisma.SortOrder
-  department_id?: Prisma.SortOrderInput | Prisma.SortOrder
   date_joined?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.StaffProfileCountOrderByAggregateInput
   _max?: Prisma.StaffProfileMaxOrderByAggregateInput
@@ -258,9 +291,12 @@ export type StaffProfileScalarWhereWithAggregatesInput = {
   user_id?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
   tenant_id?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
   gender?: Prisma.EnumGenderWithAggregatesFilter<"StaffProfile"> | $Enums.Gender
+  staff_role?: Prisma.EnumNonTeachingStaffRoleWithAggregatesFilter<"StaffProfile"> | $Enums.NonTeachingStaffRole
+  qualification?: Prisma.StringNullableWithAggregatesFilter<"StaffProfile"> | string | null
+  course_of_study?: Prisma.StringNullableWithAggregatesFilter<"StaffProfile"> | string | null
+  class_of_degree?: Prisma.StringNullableWithAggregatesFilter<"StaffProfile"> | string | null
+  year_of_graduation?: Prisma.StringNullableWithAggregatesFilter<"StaffProfile"> | string | null
   employee_id?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
-  staff_type?: Prisma.StringWithAggregatesFilter<"StaffProfile"> | string
-  department_id?: Prisma.StringNullableWithAggregatesFilter<"StaffProfile"> | string | null
   date_joined?: Prisma.DateTimeNullableWithAggregatesFilter<"StaffProfile"> | Date | string | null
 }
 
@@ -268,9 +304,12 @@ export type StaffProfileCreateInput = {
   id?: string
   tenant_id: string
   gender?: $Enums.Gender
+  staff_role: $Enums.NonTeachingStaffRole
+  qualification?: string | null
+  course_of_study?: string | null
+  class_of_degree?: string | null
+  year_of_graduation?: string | null
   employee_id: string
-  staff_type: string
-  department_id?: string | null
   date_joined?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutStaff_profileInput
 }
@@ -280,9 +319,12 @@ export type StaffProfileUncheckedCreateInput = {
   user_id: string
   tenant_id: string
   gender?: $Enums.Gender
+  staff_role: $Enums.NonTeachingStaffRole
+  qualification?: string | null
+  course_of_study?: string | null
+  class_of_degree?: string | null
+  year_of_graduation?: string | null
   employee_id: string
-  staff_type: string
-  department_id?: string | null
   date_joined?: Date | string | null
 }
 
@@ -290,9 +332,12 @@ export type StaffProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  staff_role?: Prisma.EnumNonTeachingStaffRoleFieldUpdateOperationsInput | $Enums.NonTeachingStaffRole
+  qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  course_of_study?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_of_degree?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year_of_graduation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employee_id?: Prisma.StringFieldUpdateOperationsInput | string
-  staff_type?: Prisma.StringFieldUpdateOperationsInput | string
-  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutStaff_profileNestedInput
 }
@@ -302,9 +347,12 @@ export type StaffProfileUncheckedUpdateInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  staff_role?: Prisma.EnumNonTeachingStaffRoleFieldUpdateOperationsInput | $Enums.NonTeachingStaffRole
+  qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  course_of_study?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_of_degree?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year_of_graduation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employee_id?: Prisma.StringFieldUpdateOperationsInput | string
-  staff_type?: Prisma.StringFieldUpdateOperationsInput | string
-  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -313,9 +361,12 @@ export type StaffProfileCreateManyInput = {
   user_id: string
   tenant_id: string
   gender?: $Enums.Gender
+  staff_role: $Enums.NonTeachingStaffRole
+  qualification?: string | null
+  course_of_study?: string | null
+  class_of_degree?: string | null
+  year_of_graduation?: string | null
   employee_id: string
-  staff_type: string
-  department_id?: string | null
   date_joined?: Date | string | null
 }
 
@@ -323,9 +374,12 @@ export type StaffProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  staff_role?: Prisma.EnumNonTeachingStaffRoleFieldUpdateOperationsInput | $Enums.NonTeachingStaffRole
+  qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  course_of_study?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_of_degree?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year_of_graduation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employee_id?: Prisma.StringFieldUpdateOperationsInput | string
-  staff_type?: Prisma.StringFieldUpdateOperationsInput | string
-  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -334,9 +388,12 @@ export type StaffProfileUncheckedUpdateManyInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  staff_role?: Prisma.EnumNonTeachingStaffRoleFieldUpdateOperationsInput | $Enums.NonTeachingStaffRole
+  qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  course_of_study?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_of_degree?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year_of_graduation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employee_id?: Prisma.StringFieldUpdateOperationsInput | string
-  staff_type?: Prisma.StringFieldUpdateOperationsInput | string
-  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -350,9 +407,12 @@ export type StaffProfileCountOrderByAggregateInput = {
   user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   gender?: Prisma.SortOrder
+  staff_role?: Prisma.SortOrder
+  qualification?: Prisma.SortOrder
+  course_of_study?: Prisma.SortOrder
+  class_of_degree?: Prisma.SortOrder
+  year_of_graduation?: Prisma.SortOrder
   employee_id?: Prisma.SortOrder
-  staff_type?: Prisma.SortOrder
-  department_id?: Prisma.SortOrder
   date_joined?: Prisma.SortOrder
 }
 
@@ -361,9 +421,12 @@ export type StaffProfileMaxOrderByAggregateInput = {
   user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   gender?: Prisma.SortOrder
+  staff_role?: Prisma.SortOrder
+  qualification?: Prisma.SortOrder
+  course_of_study?: Prisma.SortOrder
+  class_of_degree?: Prisma.SortOrder
+  year_of_graduation?: Prisma.SortOrder
   employee_id?: Prisma.SortOrder
-  staff_type?: Prisma.SortOrder
-  department_id?: Prisma.SortOrder
   date_joined?: Prisma.SortOrder
 }
 
@@ -372,9 +435,12 @@ export type StaffProfileMinOrderByAggregateInput = {
   user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   gender?: Prisma.SortOrder
+  staff_role?: Prisma.SortOrder
+  qualification?: Prisma.SortOrder
+  course_of_study?: Prisma.SortOrder
+  class_of_degree?: Prisma.SortOrder
+  year_of_graduation?: Prisma.SortOrder
   employee_id?: Prisma.SortOrder
-  staff_type?: Prisma.SortOrder
-  department_id?: Prisma.SortOrder
   date_joined?: Prisma.SortOrder
 }
 
@@ -410,13 +476,20 @@ export type StaffProfileUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StaffProfileUpdateToOneWithWhereWithoutUserInput, Prisma.StaffProfileUpdateWithoutUserInput>, Prisma.StaffProfileUncheckedUpdateWithoutUserInput>
 }
 
+export type EnumNonTeachingStaffRoleFieldUpdateOperationsInput = {
+  set?: $Enums.NonTeachingStaffRole
+}
+
 export type StaffProfileCreateWithoutUserInput = {
   id?: string
   tenant_id: string
   gender?: $Enums.Gender
+  staff_role: $Enums.NonTeachingStaffRole
+  qualification?: string | null
+  course_of_study?: string | null
+  class_of_degree?: string | null
+  year_of_graduation?: string | null
   employee_id: string
-  staff_type: string
-  department_id?: string | null
   date_joined?: Date | string | null
 }
 
@@ -424,9 +497,12 @@ export type StaffProfileUncheckedCreateWithoutUserInput = {
   id?: string
   tenant_id: string
   gender?: $Enums.Gender
+  staff_role: $Enums.NonTeachingStaffRole
+  qualification?: string | null
+  course_of_study?: string | null
+  class_of_degree?: string | null
+  year_of_graduation?: string | null
   employee_id: string
-  staff_type: string
-  department_id?: string | null
   date_joined?: Date | string | null
 }
 
@@ -450,9 +526,12 @@ export type StaffProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  staff_role?: Prisma.EnumNonTeachingStaffRoleFieldUpdateOperationsInput | $Enums.NonTeachingStaffRole
+  qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  course_of_study?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_of_degree?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year_of_graduation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employee_id?: Prisma.StringFieldUpdateOperationsInput | string
-  staff_type?: Prisma.StringFieldUpdateOperationsInput | string
-  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -460,9 +539,12 @@ export type StaffProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  staff_role?: Prisma.EnumNonTeachingStaffRoleFieldUpdateOperationsInput | $Enums.NonTeachingStaffRole
+  qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  course_of_study?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  class_of_degree?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year_of_graduation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employee_id?: Prisma.StringFieldUpdateOperationsInput | string
-  staff_type?: Prisma.StringFieldUpdateOperationsInput | string
-  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_joined?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -473,9 +555,12 @@ export type StaffProfileSelect<ExtArgs extends runtime.Types.Extensions.Internal
   user_id?: boolean
   tenant_id?: boolean
   gender?: boolean
+  staff_role?: boolean
+  qualification?: boolean
+  course_of_study?: boolean
+  class_of_degree?: boolean
+  year_of_graduation?: boolean
   employee_id?: boolean
-  staff_type?: boolean
-  department_id?: boolean
   date_joined?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["staffProfile"]>
@@ -485,9 +570,12 @@ export type StaffProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   user_id?: boolean
   tenant_id?: boolean
   gender?: boolean
+  staff_role?: boolean
+  qualification?: boolean
+  course_of_study?: boolean
+  class_of_degree?: boolean
+  year_of_graduation?: boolean
   employee_id?: boolean
-  staff_type?: boolean
-  department_id?: boolean
   date_joined?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["staffProfile"]>
@@ -497,9 +585,12 @@ export type StaffProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   user_id?: boolean
   tenant_id?: boolean
   gender?: boolean
+  staff_role?: boolean
+  qualification?: boolean
+  course_of_study?: boolean
+  class_of_degree?: boolean
+  year_of_graduation?: boolean
   employee_id?: boolean
-  staff_type?: boolean
-  department_id?: boolean
   date_joined?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["staffProfile"]>
@@ -509,13 +600,16 @@ export type StaffProfileSelectScalar = {
   user_id?: boolean
   tenant_id?: boolean
   gender?: boolean
+  staff_role?: boolean
+  qualification?: boolean
+  course_of_study?: boolean
+  class_of_degree?: boolean
+  year_of_graduation?: boolean
   employee_id?: boolean
-  staff_type?: boolean
-  department_id?: boolean
   date_joined?: boolean
 }
 
-export type StaffProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "tenant_id" | "gender" | "employee_id" | "staff_type" | "department_id" | "date_joined", ExtArgs["result"]["staffProfile"]>
+export type StaffProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "tenant_id" | "gender" | "staff_role" | "qualification" | "course_of_study" | "class_of_degree" | "year_of_graduation" | "employee_id" | "date_joined", ExtArgs["result"]["staffProfile"]>
 export type StaffProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -536,9 +630,12 @@ export type $StaffProfilePayload<ExtArgs extends runtime.Types.Extensions.Intern
     user_id: string
     tenant_id: string
     gender: $Enums.Gender
+    staff_role: $Enums.NonTeachingStaffRole
+    qualification: string | null
+    course_of_study: string | null
+    class_of_degree: string | null
+    year_of_graduation: string | null
     employee_id: string
-    staff_type: string
-    department_id: string | null
     date_joined: Date | null
   }, ExtArgs["result"]["staffProfile"]>
   composites: {}
@@ -968,9 +1065,12 @@ export interface StaffProfileFieldRefs {
   readonly user_id: Prisma.FieldRef<"StaffProfile", 'String'>
   readonly tenant_id: Prisma.FieldRef<"StaffProfile", 'String'>
   readonly gender: Prisma.FieldRef<"StaffProfile", 'Gender'>
+  readonly staff_role: Prisma.FieldRef<"StaffProfile", 'NonTeachingStaffRole'>
+  readonly qualification: Prisma.FieldRef<"StaffProfile", 'String'>
+  readonly course_of_study: Prisma.FieldRef<"StaffProfile", 'String'>
+  readonly class_of_degree: Prisma.FieldRef<"StaffProfile", 'String'>
+  readonly year_of_graduation: Prisma.FieldRef<"StaffProfile", 'String'>
   readonly employee_id: Prisma.FieldRef<"StaffProfile", 'String'>
-  readonly staff_type: Prisma.FieldRef<"StaffProfile", 'String'>
-  readonly department_id: Prisma.FieldRef<"StaffProfile", 'String'>
   readonly date_joined: Prisma.FieldRef<"StaffProfile", 'DateTime'>
 }
     

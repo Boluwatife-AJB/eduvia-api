@@ -3699,9 +3699,12 @@ export const StaffProfileScalarFieldEnum = {
   user_id: 'user_id',
   tenant_id: 'tenant_id',
   gender: 'gender',
+  staff_role: 'staff_role',
+  qualification: 'qualification',
+  course_of_study: 'course_of_study',
+  class_of_degree: 'class_of_degree',
+  year_of_graduation: 'year_of_graduation',
   employee_id: 'employee_id',
-  staff_type: 'staff_type',
-  department_id: 'department_id',
   date_joined: 'date_joined'
 } as const
 
@@ -4538,6 +4541,20 @@ export type ListEnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'NonTeachingStaffRole'
+ */
+export type EnumNonTeachingStaffRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NonTeachingStaffRole'>
+    
+
+
+/**
+ * Reference to a field of type 'NonTeachingStaffRole[]'
+ */
+export type ListEnumNonTeachingStaffRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NonTeachingStaffRole[]'>
     
 
 

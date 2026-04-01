@@ -659,7 +659,7 @@ export class RepositoryAccessService {
       where: {
         user_id: userId,
         tenant_id: tenantId,
-        department_id: departmentId,
+        course_of_study: departmentId,
       },
     });
     return !!profile;

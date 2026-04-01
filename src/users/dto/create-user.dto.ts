@@ -158,6 +158,8 @@ export class CreateUserDto {
         UserRole.BURSAR,
         UserRole.SUPPORT_STAFF,
         UserRole.SECURITY_OFFICER,
+        UserRole.ADMINISTRATIVE_ASSISTANT,
+        UserRole.ADMINISTRATIVE_STAFF,
         UserRole.OTHER,
       ] as UserRole[]
     ).includes(object.role),

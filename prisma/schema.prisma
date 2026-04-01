@@ -151,15 +151,20 @@ model GuardianProfile {
 
 /// id = internal UUID. userId = FK to User. employeeId = display ID (e.g. GFA/EMP/001), same as User.identifier for staff.
 model StaffProfile {
-  id            String    @id @default(uuid())
-  user_id       String    @unique
-  tenant_id     String
-  gender        Gender    @default(MALE)
-  employee_id   String    @unique
-  staff_type    String
-  department_id String?
-  date_joined   DateTime?
-  user          User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  id                 String               @id @default(uuid())
+  user_id            String               @unique
+  tenant_id          String
+  gender             Gender               @default(MALE)
+  staff_role         NonTeachingStaffRole
+  qualification      String?
+  course_of_study    String?
+  class_of_degree    String?
+  year_of_graduation String?
+  employee_id        String               @unique
+  // staff_type         String
+  // department_id      String?
+  date_joined        DateTime?
+  user               User                 @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("staff_profiles")
 }

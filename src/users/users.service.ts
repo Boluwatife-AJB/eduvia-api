@@ -123,8 +123,11 @@ type UserListRowWithGuardian = Prisma.UserGetPayload<{
 
 const USER_LIST_STAFF_PROFILE_SELECT = {
   employee_id: true,
-  staff_type: true,
-  department_id: true,
+  staff_role: true,
+  qualification: true,
+  course_of_study: true,
+  class_of_degree: true,
+  year_of_graduation: true,
   gender: true,
   date_joined: true,
 } satisfies Prisma.StaffProfileSelect;
@@ -148,6 +151,80 @@ function shapeUserByRole(user: UserWithProfiles): Record<string, unknown> {
 
 function shouldIncludeStudentListDetails(role: UserRole | undefined): boolean {
   return role == null || role === UserRole.STUDENT;
+}
+
+function isNonTeachingStaffRole(role: UserRole): boolean {
+  switch (role) {
+    case UserRole.COUNSELOR:
+    case UserRole.LAB_ATTENDANT:
+    case UserRole.NURSE:
+    case UserRole.LIBRARIAN:
+    case UserRole.BURSAR:
+    case UserRole.SECURITY_OFFICER:
+    case UserRole.SUPPORT_STAFF:
+    case UserRole.ADMINISTRATIVE_ASSISTANT:
+    case UserRole.ADMINISTRATIVE_STAFF:
+    case UserRole.OTHER:
+      return true;
+    default:
+      return false;
+  }
+}
+
+type StaffRoleValue =
+  | 'BURSAR'
+  | 'COUNSELOR'
+  | 'LAB_ATTENDANT'
+  | 'NURSE'
+  | 'LIBRARIAN'
+  | 'JANITOR'
+  | 'CLEANER'
+  | 'GARDENER'
+  | 'MAINTENANCE_STAFF'
+  | 'CLERK'
+  | 'RECEPTIONIST'
+  | 'SECRETARY'
+  | 'ADMINISTRATIVE_ASSISTANT'
+  | 'ADMINISTRATIVE_STAFF'
+  | 'SECURITY_OFFICER';
+
+function toNonTeachingStaffRole(role: UserRole): StaffRoleValue {
+  switch (role) {
+    case UserRole.COUNSELOR:
+      return 'COUNSELOR';
+    case UserRole.LAB_ATTENDANT:
+      return 'LAB_ATTENDANT';
+    case UserRole.NURSE:
+      return 'NURSE';
+    case UserRole.LIBRARIAN:
+      return 'LIBRARIAN';
+    case UserRole.BURSAR:
+      return 'BURSAR';
+    case UserRole.SECURITY_OFFICER:
+      return 'SECURITY_OFFICER';
+    case UserRole.ADMINISTRATIVE_ASSISTANT:
+      return 'ADMINISTRATIVE_ASSISTANT';
+    case UserRole.ADMINISTRATIVE_STAFF:
+      return 'ADMINISTRATIVE_STAFF';
+    case UserRole.SUPPORT_STAFF:
+    case UserRole.OTHER:
+    default:
+      return 'ADMINISTRATIVE_STAFF';
+  }
+}
+
+function parseStaffDateJoined(dto: CreateUserDto): Date | null {
+  const year = dto.year_of_graduation?.trim();
+  if (year) {
+    const y = parseInt(year, 10);
+    if (!Number.isNaN(y)) return new Date(Date.UTC(y, 0, 1));
+  }
+  const graduationDate = dto.graduation_date?.trim();
+  if (graduationDate) {
+    const parsed = new Date(graduationDate);
+    if (!Number.isNaN(parsed.getTime())) return parsed;
+  }
+  return null;
 }
 
 /** List row when student_profile (+ class) was loaded for students. */
@@ -658,9 +735,7 @@ export class UsersService {
 
   /**
    * Non-teaching staff: users with a staff_profile and role !== TEACHER.
-   * Query params mirror teachers; filters map to staff_profile where possible:
-   * qualification → staff_type (contains), class_of_degree → staff_type (contains),
-   * course_of_study → department_id (exact), year_of_graduation → date_joined calendar year.
+   * Query params mirror teacher fields and now map directly to StaffProfile columns.
    */
   async findAllStaffExcludingTeachers(dto: QueryStaffDto) {
     const tenantId = this.cls.get<string>('tenantId');
@@ -681,7 +756,7 @@ export class UsersService {
 
     if (qualification?.trim()) {
       staffParts.push({
-        staff_type: {
+        qualification: {
           contains: qualification.trim(),
           mode: 'insensitive',
         },
@@ -689,29 +764,52 @@ export class UsersService {
     }
     if (class_of_degree?.trim()) {
       staffParts.push({
-        staff_type: {
+        class_of_degree: {
           contains: class_of_degree.trim(),
           mode: 'insensitive',
         },
       });
     }
     if (course_of_study?.trim()) {
-      staffParts.push({ department_id: course_of_study.trim() });
+      staffParts.push({
+        course_of_study: {
+          contains: course_of_study.trim(),
+          mode: 'insensitive',
+        },
+      });
     }
     if (year_of_graduation?.trim()) {
-      const y = parseInt(year_of_graduation.trim(), 10);
-      if (!Number.isNaN(y)) {
-        staffParts.push({
-          date_joined: {
-            gte: new Date(Date.UTC(y, 0, 1)),
-            lt: new Date(Date.UTC(y + 1, 0, 1)),
-          },
-        });
-      }
+      staffParts.push({ year_of_graduation: year_of_graduation.trim() });
+    }
+    if (staff_role) {
+      staffParts.push({ staff_role: { equals: staff_role as never } });
     }
 
     const staffProfileIs: Prisma.StaffProfileWhereInput =
       staffParts.length > 0 ? { AND: staffParts } : {};
+
+    const searchClauses: Prisma.UserWhereInput[] = [
+      { first_name: { contains: search, mode: 'insensitive' } },
+      { last_name: { contains: search, mode: 'insensitive' } },
+      { email: { contains: search, mode: 'insensitive' } },
+      { identifier: { contains: search, mode: 'insensitive' } },
+      {
+        staff_profile: {
+          is: {
+            employee_id: { contains: search, mode: 'insensitive' },
+          },
+        },
+      },
+    ];
+    if (staff_role) {
+      searchClauses.push({
+        staff_profile: {
+          is: {
+            staff_role: { equals: staff_role as never },
+          },
+        },
+      });
+    }
 
     const where: Prisma.UserWhereInput = {
       tenant_id: tenantId,
@@ -720,29 +818,7 @@ export class UsersService {
       ...(gender && { gender }),
       staff_profile: { is: staffProfileIs },
       ...(search && {
-        OR: [
-          { first_name: { contains: search, mode: 'insensitive' } },
-          { last_name: { contains: search, mode: 'insensitive' } },
-          { email: { contains: search, mode: 'insensitive' } },
-          { identifier: { contains: search, mode: 'insensitive' } },
-          {
-            staff_profile: {
-              is: {
-                employee_id: { contains: search, mode: 'insensitive' },
-              },
-            },
-          },
-          {
-            staff_profile: {
-              is: {
-                staff_type: {
-                  contains: staff_role,
-                  mode: 'insensitive',
-                },
-              },
-            },
-          },
-        ],
+        OR: searchClauses,
       }),
     };
 
@@ -764,8 +840,11 @@ export class UsersService {
         staff_profile: user.staff_profile
           ? {
               staff_id: user.staff_profile.employee_id ?? user.identifier,
-              staff_type: user.staff_profile.staff_type,
-              department_id: user.staff_profile.department_id,
+              staff_role: user.staff_profile.staff_role,
+              qualification: user.staff_profile.qualification,
+              class_of_degree: user.staff_profile.class_of_degree,
+              course_of_study: user.staff_profile.course_of_study,
+              year_of_graduation: user.staff_profile.year_of_graduation,
               gender: user.staff_profile.gender,
               date_joined: user.staff_profile.date_joined,
             }
@@ -1060,23 +1139,13 @@ export class UsersService {
 
         await this.prisma.$transaction(async (tx) => {
           const identifier = row.identifier;
-          const staffRoles: UserRole[] = [
-            UserRole.COUNSELOR,
-            UserRole.LAB_ATTENDANT,
-            UserRole.NURSE,
-            UserRole.LIBRARIAN,
-            UserRole.BURSAR,
-            UserRole.SECURITY_OFFICER,
-            UserRole.SUPPORT_STAFF,
-            UserRole.OTHER,
-          ];
           const resolved =
             role === UserRole.STUDENT
               ? {
                   identifier,
                   matricNumber: row.matricNumber ?? identifier,
                 }
-              : role === UserRole.TEACHER || staffRoles.includes(role)
+              : role === UserRole.TEACHER || isNonTeachingStaffRole(role)
                 ? {
                     identifier,
                     employeeId: row.employeeId ?? identifier,
@@ -1164,6 +1233,8 @@ export class UsersService {
               UserRole.BURSAR,
               UserRole.SECURITY_OFFICER,
               UserRole.SUPPORT_STAFF,
+              UserRole.ADMINISTRATIVE_ASSISTANT,
+              UserRole.ADMINISTRATIVE_STAFF,
             ],
           },
         },
@@ -1237,17 +1308,7 @@ export class UsersService {
       return { identifier: employeeId, employeeId };
     }
 
-    const staffRoles: UserRole[] = [
-      UserRole.COUNSELOR,
-      UserRole.LAB_ATTENDANT,
-      UserRole.NURSE,
-      UserRole.LIBRARIAN,
-      UserRole.BURSAR,
-      UserRole.SECURITY_OFFICER,
-      UserRole.SUPPORT_STAFF,
-      UserRole.OTHER,
-    ];
-    if (staffRoles.includes(dto.role)) {
+    if (isNonTeachingStaffRole(dto.role)) {
       const employeeId =
         dto.employee_id?.trim() ||
         dto.identifier?.trim() ||
@@ -1472,13 +1533,21 @@ export class UsersService {
       case UserRole.BURSAR:
       case UserRole.SECURITY_OFFICER:
       case UserRole.SUPPORT_STAFF:
+      case UserRole.ADMINISTRATIVE_ASSISTANT:
+      case UserRole.ADMINISTRATIVE_STAFF:
       case UserRole.OTHER:
         await tx.staffProfile.create({
           data: {
             user_id: userId,
             tenant_id: tenantId,
             employee_id: resolved.employeeId ?? resolved.identifier,
-            staff_type: dto.staff_type ?? dto.role.toLowerCase(),
+            staff_role: toNonTeachingStaffRole(dto.role),
+            qualification: dto.qualification ?? null,
+            course_of_study: dto.course_of_study ?? null,
+            class_of_degree: dto.class_of_degree ?? null,
+            year_of_graduation:
+              dto.year_of_graduation ?? dto.graduation_date ?? null,
+            date_joined: parseStaffDateJoined(dto),
             gender: dto.gender,
           },
         });

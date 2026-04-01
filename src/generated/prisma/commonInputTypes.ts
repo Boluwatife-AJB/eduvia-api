@@ -267,6 +267,23 @@ export type BoolWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
+export type EnumNonTeachingStaffRoleFilter<$PrismaModel = never> = {
+  equals?: $Enums.NonTeachingStaffRole | Prisma.EnumNonTeachingStaffRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.NonTeachingStaffRole[] | Prisma.ListEnumNonTeachingStaffRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.NonTeachingStaffRole[] | Prisma.ListEnumNonTeachingStaffRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumNonTeachingStaffRoleFilter<$PrismaModel> | $Enums.NonTeachingStaffRole
+}
+
+export type EnumNonTeachingStaffRoleWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.NonTeachingStaffRole | Prisma.EnumNonTeachingStaffRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.NonTeachingStaffRole[] | Prisma.ListEnumNonTeachingStaffRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.NonTeachingStaffRole[] | Prisma.ListEnumNonTeachingStaffRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumNonTeachingStaffRoleWithAggregatesFilter<$PrismaModel> | $Enums.NonTeachingStaffRole
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumNonTeachingStaffRoleFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumNonTeachingStaffRoleFilter<$PrismaModel>
+}
+
 export type IntFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
@@ -1060,6 +1077,23 @@ export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedBoolFilter<$PrismaModel>
   _max?: Prisma.NestedBoolFilter<$PrismaModel>
+}
+
+export type NestedEnumNonTeachingStaffRoleFilter<$PrismaModel = never> = {
+  equals?: $Enums.NonTeachingStaffRole | Prisma.EnumNonTeachingStaffRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.NonTeachingStaffRole[] | Prisma.ListEnumNonTeachingStaffRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.NonTeachingStaffRole[] | Prisma.ListEnumNonTeachingStaffRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumNonTeachingStaffRoleFilter<$PrismaModel> | $Enums.NonTeachingStaffRole
+}
+
+export type NestedEnumNonTeachingStaffRoleWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.NonTeachingStaffRole | Prisma.EnumNonTeachingStaffRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.NonTeachingStaffRole[] | Prisma.ListEnumNonTeachingStaffRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.NonTeachingStaffRole[] | Prisma.ListEnumNonTeachingStaffRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumNonTeachingStaffRoleWithAggregatesFilter<$PrismaModel> | $Enums.NonTeachingStaffRole
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumNonTeachingStaffRoleFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumNonTeachingStaffRoleFilter<$PrismaModel>
 }
 
 export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
