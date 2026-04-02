@@ -307,6 +307,12 @@ export class SchoolSetupController {
     return this.service.getSubjects(departmentId);
   }
 
+  @Get('subjects/:id')
+  @ApiOperation({ summary: 'Get a subject by id' })
+  getSubjectsById(@Param('id') id: string) {
+    return this.service.getSubjectById(id);
+  }
+
   @Put('subjects/:id')
   @Roles(...ADMIN_ROLES)
   @ApiOperation({ summary: 'Update subject name, title or description' })

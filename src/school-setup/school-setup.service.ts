@@ -599,8 +599,21 @@ export class SchoolSetupService {
     const cls = await this.prisma.class.findUnique({
       where: { id: classId, tenant_id: tenantId },
       include: {
-        department: true,
-        class_subjects: { include: { subject: true } },
+        department: { select: { id: true, name: true } },
+        class_subjects: {
+          include: {
+            subject: {
+              select: {
+                id: true,
+                name: true,
+                code: true,
+                title: true,
+                description: true,
+                department: { select: { id: true, name: true } },
+              },
+            },
+          },
+        },
         students: {
           include: {
             user: {
@@ -614,14 +627,117 @@ export class SchoolSetupService {
               },
             },
           },
+          orderBy: { matric_number: 'asc' },
         },
         _count: { select: { students: true, class_subjects: true } },
       },
     });
+
     if (!cls) {
       throw new NotFoundException('Class not found');
     }
-    return cls;
+
+    const classTeacher = cls.class_teacher_id
+      ? await this.prisma.user.findFirst({
+          where: {
+            id: cls.class_teacher_id,
+            tenant_id: tenantId,
+          },
+          select: { id: true, first_name: true, last_name: true },
+        })
+      : null;
+
+    const registeredSubjectIds = [
+      ...new Set(
+        cls.students.flatMap((student) => student.registered_subject_ids),
+      ),
+    ];
+
+    const registeredSubjects =
+      registeredSubjectIds.length > 0
+        ? await this.prisma.subject.findMany({
+            where: {
+              tenant_id: tenantId,
+              id: { in: registeredSubjectIds },
+            },
+            select: {
+              id: true,
+              name: true,
+              code: true,
+              title: true,
+              department: { select: { id: true, name: true } },
+            },
+          })
+        : [];
+
+    const registeredSubjectById = new Map(
+      registeredSubjects.map((subject) => [subject.id, subject]),
+    );
+
+    const {
+      _count,
+      students,
+      class_subjects,
+      class_teacher_id,
+      subject_ids,
+      department_id,
+      ...classBase
+    } = cls;
+    void class_teacher_id;
+    void subject_ids;
+    void department_id;
+
+    return {
+      ...classBase,
+      class_teacher: classTeacher
+        ? {
+            user_id: classTeacher.id,
+            first_name: classTeacher.first_name,
+            last_name: classTeacher.last_name,
+          }
+        : null,
+      class_subjects: class_subjects.map((classSubject) => ({
+        id: classSubject.id,
+        subject_id: classSubject.subject_id,
+        subject_type: classSubject.subject_type,
+        name: classSubject.subject.name,
+        code: classSubject.subject.code,
+        title: classSubject.subject.title,
+        description: classSubject.subject.description,
+        department: classSubject.subject.department,
+      })),
+      students: students.map((student) => ({
+        user_id: student.user_id,
+        gender: student.gender,
+        first_name: student.user.first_name,
+        last_name: student.user.last_name,
+        matric_number: student.matric_number,
+        avatar: student.user.avatar,
+        email: student.user.email,
+        registered_subjects: student.registered_subject_ids
+          .map((subjectId) => registeredSubjectById.get(subjectId))
+          .filter(
+            (
+              subject,
+            ): subject is {
+              id: string;
+              name: string;
+              code: string;
+              title: string;
+              department: { id: string; name: string } | null;
+            } => Boolean(subject),
+          )
+          .map((subject) => ({
+            id: subject.id,
+            name: subject.name,
+            code: subject.code,
+            title: subject.title,
+            department: subject.department,
+          })),
+      })),
+      student_count: _count.students,
+      subject_count: _count.class_subjects,
+    };
   }
 
   // Update class
@@ -931,7 +1047,7 @@ export class SchoolSetupService {
   async getSubjects(departmentId?: string) {
     const tenantId = this.cls.get<string>('tenantId');
 
-    return this.prisma.subject.findMany({
+    const subjects = await this.prisma.subject.findMany({
       where: {
         tenant_id: tenantId,
         ...(departmentId && { department_id: departmentId }),
@@ -941,16 +1057,87 @@ export class SchoolSetupService {
         class_subjects: {
           include: {
             class: { select: { id: true, name: true, level: true } },
-            teachers: true,
+            teachers: { select: { teacher_id: true } },
           },
         },
       },
       orderBy: [{ name: 'asc' }, { code: 'asc' }],
     });
+
+    const teacherIds = [
+      ...new Set(
+        subjects
+          .flatMap((subject) =>
+            subject.class_subjects.flatMap((classSubject) =>
+              classSubject.teachers.map((teacher) => teacher.teacher_id),
+            ),
+          )
+          .filter((id): id is string => Boolean(id)),
+      ),
+    ];
+
+    const teachers =
+      teacherIds.length > 0
+        ? await this.prisma.user.findMany({
+            where: { id: { in: teacherIds }, tenant_id: tenantId },
+            select: { id: true, first_name: true, last_name: true },
+          })
+        : [];
+
+    const teacherById = new Map(
+      teachers.map((teacher) => [teacher.id, teacher]),
+    );
+
+    return subjects.map((subject) => {
+      const classesAssigned = [
+        ...new Map(
+          subject.class_subjects.map((classSubject) => [
+            classSubject.class.id,
+            {
+              id: classSubject.class.id,
+              name: classSubject.class.name,
+              level: classSubject.class.level,
+            },
+          ]),
+        ).values(),
+      ];
+
+      const teacherIdsForSubject = [
+        ...new Set(
+          subject.class_subjects.flatMap((classSubject) =>
+            classSubject.teachers.map((teacher) => teacher.teacher_id),
+          ),
+        ),
+      ];
+
+      const teachersAssigned = teacherIdsForSubject
+        .map((teacherId) => teacherById.get(teacherId))
+        .filter(
+          (
+            teacher,
+          ): teacher is { id: string; first_name: string; last_name: string } =>
+            Boolean(teacher),
+        )
+        .map((teacher) => ({
+          user_id: teacher.id,
+          first_name: teacher.first_name,
+          last_name: teacher.last_name,
+        }));
+
+      const { class_subjects, department_id, ...subjectBase } = subject;
+      void class_subjects;
+      void department_id;
+
+      return {
+        ...subjectBase,
+        classes_assigned: classesAssigned,
+        teachers_assigned: teachersAssigned,
+      };
+    });
   }
 
   // Get Subject by ID
-  async getSubjectsById(id: string) {
+  async getSubjectById(id: string) {
     const tenantId = this.cls.get<string>('tenantId');
 
     const subject = await this.prisma.subject.findUnique({
@@ -960,6 +1147,7 @@ export class SchoolSetupService {
         class_subjects: {
           include: {
             class: { select: { id: true, name: true, level: true } },
+            teachers: { select: { teacher_id: true } },
           },
         },
       },
@@ -969,7 +1157,112 @@ export class SchoolSetupService {
       throw new NotFoundException('Subject not found');
     }
 
-    return subject;
+    const teacherIds = [
+      ...new Set(
+        subject.class_subjects
+          .flatMap((classSubject) =>
+            classSubject.teachers.map((teacher) => teacher.teacher_id),
+          )
+          .filter((id): id is string => Boolean(id)),
+      ),
+    ];
+
+    const teachers =
+      teacherIds.length > 0
+        ? await this.prisma.user.findMany({
+            where: { id: { in: teacherIds }, tenant_id: tenantId },
+            select: {
+              id: true,
+              first_name: true,
+              last_name: true,
+              avatar: true,
+            },
+          })
+        : [];
+
+    const teacherById = new Map(
+      teachers.map((teacher) => [teacher.id, teacher]),
+    );
+
+    const studentRegistrations =
+      await this.prisma.studentSubjectRegistration.findMany({
+        where: {
+          class_subject: { subject_id: id },
+          tenant_id: tenantId,
+        },
+        include: {
+          student: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  first_name: true,
+                  last_name: true,
+                  avatar: true,
+                  identifier: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+    const uniqueStudents = [
+      ...new Map(
+        studentRegistrations.map((reg) => [
+          reg.student.user_id,
+          reg.student.user,
+        ]),
+      ).values(),
+    ];
+
+    const classesAssigned = subject.class_subjects.map((classSubject) => ({
+      id: classSubject.id,
+      class_id: classSubject.class_id,
+      name: classSubject.class.name,
+      level: classSubject.class.level,
+    }));
+
+    const teachersAssigned = teacherIds
+      .map((teacherId) => teacherById.get(teacherId))
+      .filter(
+        (
+          teacher,
+        ): teacher is {
+          id: string;
+          first_name: string;
+          last_name: string;
+          avatar: string | null;
+        } => Boolean(teacher),
+      )
+      .map((teacher) => ({
+        user_id: teacher.id,
+        first_name: teacher.first_name,
+        last_name: teacher.last_name,
+        avatar_url: teacher.avatar,
+      }));
+
+    const studentOffering = uniqueStudents.map((student) => ({
+      user_id: student.id,
+      first_name: student.first_name,
+      last_name: student.last_name,
+      avatar_url: student.avatar,
+      matric_number: student.identifier,
+    }));
+
+    const { class_subjects, department_id, ...subjectBase } = subject;
+    void class_subjects;
+    void department_id;
+
+    return {
+      ...subjectBase,
+      classes_assigned: classesAssigned,
+      teachers_assigned: teachersAssigned,
+      student_offering: studentOffering,
+      classes_count: classesAssigned.length,
+      teachers_count: teachersAssigned.length,
+      student_count: uniqueStudents.length,
+    };
   }
 
   // Update subject
