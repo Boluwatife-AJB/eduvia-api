@@ -270,11 +270,71 @@ export class TimetableService {
         ...(query.teacher_id && { teacher_id: query.teacher_id }),
         ...(query.day_of_week && { day_of_week: query.day_of_week }),
       },
-      include: this.slotIncludes(),
+      include: {
+        ...this.slotIncludes(),
+        term: {
+          select: {
+            id: true,
+            name: true,
+            start_date: true,
+            end_date: true,
+            is_current: true,
+            academicSession: {
+              select: {
+                id: true,
+                name: true,
+                start_date: true,
+                end_date: true,
+                is_current: true,
+              },
+            },
+          },
+        },
+      },
       orderBy: [{ day_of_week: 'asc' }, { start_time: 'asc' }],
     });
 
-    return slots;
+    const teacherIds = [...new Set(slots.map((slot) => slot.teacher_id))];
+    const teachers = await this.prisma.user.findMany({
+      where: {
+        tenant_id: tenantId,
+        role: 'TEACHER',
+        id: { in: teacherIds },
+      },
+      select: {
+        id: true,
+        first_name: true,
+        last_name: true,
+      },
+    });
+
+    const teacherMap = new Map(
+      teachers.map((teacher) => [teacher.id, teacher]),
+    );
+
+    return slots.map(
+      ({
+        term,
+        class_id,
+        subject_id,
+        teacher_id,
+        academic_term_id,
+        ...slot
+      }) => ({
+        ...(void class_id, {}),
+        ...(void subject_id, {}),
+        ...(void academic_term_id, {}),
+        ...slot,
+        teacher: teacherMap.has(teacher_id)
+          ? {
+              user_id: teacher_id,
+              first_name: teacherMap.get(teacher_id)?.first_name,
+              last_name: teacherMap.get(teacher_id)?.last_name,
+            }
+          : null,
+        academic_term: term,
+      }),
+    );
   }
 
   // TUTORIAL CLASSES

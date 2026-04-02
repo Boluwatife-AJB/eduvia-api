@@ -427,6 +427,7 @@ model TimeTableSlot {
   start_time       String // HH:MM
   end_time         String
   venue            String?
+  color            String?
   is_active        Boolean   @default(true)
   created_at       DateTime  @default(now())
   updated_at       DateTime  @updatedAt
@@ -675,6 +676,10 @@ model SchoolConfig {
   require_result_approval Boolean @default(true)
   require_exam_approval   Boolean @default(true)
   email_sender_name       String?
+
+  // Operating hours
+  start_time DateTime
+  end_time   DateTime
 
   // Currency
   currency_code   String  @default("NGN")
