@@ -58,6 +58,16 @@ export class UpdateTimetableSlotDto {
   @IsOptional()
   day_of_week?: DayOfWeek;
 
+  @ApiPropertyOptional({ description: 'Class ID' })
+  @IsString()
+  @IsOptional()
+  class_id?: string;
+
+  @ApiPropertyOptional({ description: 'Subject ID' })
+  @IsString()
+  @IsOptional()
+  subject_id?: string;
+
   @ApiPropertyOptional({ example: '09:00' })
   @IsString()
   @Matches(TIME_REGEX, { message: 'startTime must be in HH:MM format' })

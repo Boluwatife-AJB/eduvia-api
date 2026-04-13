@@ -181,7 +181,14 @@ export class SchoolSetupController {
     return this.service.updateTerm(id, dto);
   }
 
-  // TODO: Delete Term
+  // Delete Term
+  @Delete('terms/:id')
+  @Roles(UserRole.SCHOOL_OWNER, UserRole.SUPER_ADMIN, UserRole.PRINCIPAL)
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Delete a term' })
+  async deleteTerm(@Param('id') id: string) {
+    return await this.service.deleteTerm(id);
+  }
 
   // DEPARTMENTS
   // Create Department

@@ -344,6 +344,73 @@ export class SchoolSetupService {
     });
   }
 
+  // Delete academic term
+  async deleteTerm(termId: string) {
+    const tenantId = this.cls.get<string>('tenantId');
+    const term = await this.validateAcademicTermBelongsToTenant(
+      termId,
+      tenantId,
+    );
+
+    if (term.is_current) {
+      throw new BadRequestException('Cannot delete the current term');
+    }
+
+    const assessments = await this.prisma.assessment.findMany({
+      where: { tenant_id: tenantId, term_id: termId },
+      select: { id: true },
+    });
+    const assessmentIds = assessments.map((assessment) => assessment.id);
+
+    await this.prisma.$transaction([
+      ...(assessmentIds.length > 0
+        ? [
+            this.prisma.approvalLog.deleteMany({
+              where: {
+                resource_type: 'assessment',
+                resource_id: { in: assessmentIds },
+              },
+            }),
+            this.prisma.assessmentSubmission.deleteMany({
+              where: { assessment_id: { in: assessmentIds } },
+            }),
+            this.prisma.assessment.deleteMany({
+              where: { id: { in: assessmentIds } },
+            }),
+          ]
+        : []),
+      this.prisma.timeTableSlot.deleteMany({
+        where: { tenant_id: tenantId, academic_term_id: termId },
+      }),
+      this.prisma.tutorialClass.deleteMany({
+        where: { tenant_id: tenantId, academic_term_id: termId },
+      }),
+      this.prisma.lecture.deleteMany({
+        where: { tenant_id: tenantId, academic_term_id: termId },
+      }),
+      this.prisma.studentSubjectRegistration.deleteMany({
+        where: { tenant_id: tenantId, term_id: termId },
+      }),
+      this.prisma.subjectRegistration.deleteMany({
+        where: { tenant_id: tenantId, term_id: termId },
+      }),
+      this.prisma.termResult.deleteMany({
+        where: { tenant_id: tenantId, term_id: termId },
+      }),
+      this.prisma.feeItem.updateMany({
+        where: { tenant_id: tenantId, term_id: termId },
+        data: { term_id: null },
+      }),
+      this.prisma.academicTerm.delete({
+        where: { id: termId },
+      }),
+    ]);
+
+    return {
+      message: 'Academic term deleted successfully',
+    };
+  }
+
   // Departments
   // Create department
   async createDepartment(dto: CreateDepartmentDto) {

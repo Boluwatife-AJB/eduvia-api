@@ -107,6 +107,8 @@ export class TimetableService {
     const startTime = dto.start_time ?? existing.start_time;
     const endTime = dto.end_time ?? existing.end_time;
     const teacherId = dto.teacher_id ?? existing.teacher_id;
+    const classId = dto.class_id ?? existing.class_id;
+    // const subjectId = dto.subject_id ?? existing.subject_id;
 
     if (dto.start_time || dto.end_time) {
       this.validateTimeRange(startTime, endTime);
@@ -114,7 +116,14 @@ export class TimetableService {
     }
 
     // Recheck for conflicts, excluding the existing slot so that it doesn't conflict with itself
-    if (dto.day_of_week || dto.start_time || dto.end_time || dto.teacher_id) {
+    if (
+      dto.day_of_week ||
+      dto.start_time ||
+      dto.end_time ||
+      dto.teacher_id ||
+      dto.class_id ||
+      dto.subject_id
+    ) {
       await this.checkTeacherConflict(
         teacherId,
         dayOfWeek,
@@ -124,7 +133,7 @@ export class TimetableService {
         slotId,
       );
       await this.checkClassConflict(
-        existing.class_id,
+        classId,
         dayOfWeek,
         startTime,
         endTime,
@@ -140,6 +149,8 @@ export class TimetableService {
         ...(dto.start_time && { start_time: dto.start_time }),
         ...(dto.end_time && { end_time: dto.end_time }),
         ...(dto.teacher_id && { teacher_id: dto.teacher_id }),
+        ...(dto.class_id && { class_id: dto.class_id }),
+        ...(dto.subject_id && { subject_id: dto.subject_id }),
         ...(dto.venue !== undefined && { venue: dto.venue }),
         ...(dto.is_active !== undefined && { is_active: dto.is_active }),
       },
