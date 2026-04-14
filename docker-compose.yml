@@ -11,5 +11,21 @@ services:
     ports:
       - 5432:5432
 
+  redis:
+    image: redis:8.6-alpine
+    container_name: eduvia_redis
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 volumes:
   postgres:
+  redis_data:

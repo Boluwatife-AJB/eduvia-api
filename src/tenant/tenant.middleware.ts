@@ -5,8 +5,16 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { PrismaService } from '../database/prisma.service.js';
+import { PrismaService } from '../database/prisma.service';
 import { ClsService } from 'nestjs-cls';
+
+/** Pathname only; supports sign-in page call without x-tenant-slug on localhost */
+const PUBLIC_TENANT_PROFILE_PATH = /^\/api\/v1\/tenant\/([^/]+)\/public\/?$/;
+
+function requestPathname(req: Request): string {
+  const raw = req.originalUrl ?? req.url ?? '';
+  return raw.split('?')[0] ?? '';
+}
 
 @Injectable()
 export class TenantMiddleware implements NestMiddleware {
@@ -22,21 +30,32 @@ export class TenantMiddleware implements NestMiddleware {
       return next();
     }
 
-    // Extract the subdomain from the request host
-    const host = req.hostname;
-    const parts = host.split('.');
-    const subdomain = parts[0];
+    const pathname = requestPathname(req);
+    const publicMatch = pathname.match(PUBLIC_TENANT_PROFILE_PATH);
 
-    // If the subdomain is localhost or api, use the tenant slug from the request header
-    // Otherwise, use the subdomain as the tenant slug
-    const tenantSlug =
-      subdomain === 'localhost' || subdomain === 'api'
-        ? (req.headers['x-tenant-slug'] as string)
-        : subdomain;
+    let tenantSlug: string | undefined;
 
-    if (!tenantSlug) {
+    if (publicMatch) {
+      tenantSlug = decodeURIComponent(publicMatch[1]);
+    } else {
+      // Extract the subdomain from the request host
+      const host = req.hostname;
+      const parts = host.split('.');
+      const subdomain = parts[0];
+
+      // If the subdomain is localhost or api, use the tenant slug from the request header
+      // Otherwise, use the subdomain as the tenant slug
+      tenantSlug =
+        subdomain === 'localhost' || subdomain === 'api'
+          ? (req.headers['x-tenant-slug'] as string | undefined)
+          : subdomain;
+    }
+
+    if (!tenantSlug?.trim()) {
       throw new NotFoundException('Could not identify school from request');
     }
+
+    tenantSlug = tenantSlug.trim();
 
     const tenant = await this.prisma.tenant.findUnique({
       where: { slug: tenantSlug },

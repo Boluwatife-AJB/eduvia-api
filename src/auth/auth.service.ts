@@ -38,17 +38,17 @@ export class AuthService {
     }
 
     const user = await this.prisma.user.findFirst({
-      where: { identifier, tenantId },
+      where: { identifier, tenant_id: tenantId },
       select: {
         id: true,
-        tenantId: true,
+        tenant_id: true,
         role: true,
         identifier: true,
-        firstName: true,
-        lastName: true,
+        first_name: true,
+        last_name: true,
         email: true,
         avatar: true,
-        passwordHash: true,
+        password_hash: true,
         status: true,
       },
     });
@@ -74,7 +74,7 @@ export class AuthService {
       );
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
+    const isPasswordValid = await bcrypt.compare(password, user.password_hash);
 
     if (!isPasswordValid) {
       this.logger.warn(
@@ -86,29 +86,30 @@ export class AuthService {
     // Record login time
     await this.prisma.user.update({
       where: { id: user.id },
-      data: { lastLoginAt: new Date() },
+      data: { last_login_at: new Date() },
     });
 
     // Generate JWT token
     const tokens = await this.generateTokens({
       sub: user.id,
-      tenantId: user.tenantId,
+      tenantId: user.tenant_id,
       role: user.role,
     });
 
     this.logger.log(`User ${user.id} logged in from ${tenantId}`);
 
     return {
-      user: {
-        id: user.id,
-        role: user.role,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        identifier: user.identifier,
-        email: user.email,
-        avatar: user.avatar,
+      message: 'Login successful',
+      data: {
+        user: {
+          id: user.id,
+          role: user.role,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          identifier: user.identifier,
+        },
+        ...tokens,
       },
-      ...tokens,
     };
   }
 
@@ -126,7 +127,7 @@ export class AuthService {
       throw new RefreshTokenInvalidException();
     }
 
-    if (storedToken.expiresAt < new Date()) {
+    if (storedToken.expires_at < new Date()) {
       await this.prisma.refreshToken.delete({
         where: { id: storedToken.id },
       });
@@ -147,7 +148,7 @@ export class AuthService {
     // Issue a fresh pair of tokens
     return this.generateTokens({
       sub: storedToken.user.id,
-      tenantId: storedToken.user.tenantId,
+      tenantId: storedToken.user.tenant_id,
       role: storedToken.user.role,
     });
   }
@@ -155,7 +156,7 @@ export class AuthService {
   // LOGOUT
   async logout(refreshToken: string, userId: string) {
     await this.prisma.refreshToken.deleteMany({
-      where: { token: refreshToken, userId },
+      where: { token: refreshToken, user_id: userId },
     });
     this.logger.log(`User ${userId} logged out`);
     return { message: 'Logged out successfully' };
@@ -164,7 +165,7 @@ export class AuthService {
   // LOGOUT ALL DEVICES
   async logoutAllDevices(userId: string) {
     await this.prisma.refreshToken.deleteMany({
-      where: { userId },
+      where: { user_id: userId },
     });
     this.logger.log(`User ${userId} logged out all devices`);
     return { message: 'All devices logged out successfully' };
@@ -177,23 +178,23 @@ export class AuthService {
       select: {
         id: true,
         role: true,
-        firstName: true,
-        lastName: true,
+        first_name: true,
+        last_name: true,
         identifier: true,
         email: true,
         phone: true,
         avatar: true,
-        mfaEnabled: true,
+        mfa_enabled: true,
         status: true,
-        lastLoginAt: true,
-        createdAt: true,
-        updatedAt: true,
+        created_at: true,
+        updated_at: true,
         tenant: {
           select: {
             id: true,
             name: true,
             slug: true,
             logo: true,
+            academic_sessions: { select: { name: true } },
           },
         },
       },
@@ -222,11 +223,13 @@ export class AuthService {
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + 7);
 
+    console.log(payload.sub, refresh_token, expiresAt);
+
     await this.prisma.refreshToken.create({
       data: {
-        userId: payload.sub,
+        user_id: payload.sub,
         token: refresh_token,
-        expiresAt,
+        expires_at: expiresAt,
       },
     });
 

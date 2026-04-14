@@ -1,98 +1,261 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Eduvia API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Eduvia API is a multi-tenant school management backend built with NestJS, TypeScript, and Prisma (PostgreSQL). It is designed as a modular monolith, with each school isolated by tenant context while sharing one deployable API service.
 
-## Description
+The platform supports core academic and administrative workflows: school setup, user and profile management, timetable, lectures, assessments, result computation, repository/file storage, onboarding, notifications, and background processing.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Table of Contents
 
-## Project setup
+- [Overview](#overview)
+- [Core Features](#core-features)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+- [Modules](#modules)
+- [Data Model](#data-model)
+- [Getting Started](#getting-started)
+- [Development Workflow](#development-workflow)
+- [API Conventions](#api-conventions)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Overview
+
+Eduvia API provides a tenant-aware backend for schools with:
+
+- Role-based authentication and authorization
+- Tenant isolation and tenant-aware request handling
+- Academic setup and operational modules
+- Async job processing for email, notifications, and grading
+- File and document repository support with S3-compatible storage
+
+Primary stakeholders in the platform include:
+
+- Super admins (platform-level onboarding/approval)
+- School admins
+- Teachers
+- Students
+- Guardians/parents
+- Non-teaching/support staff
+
+## Core Features
+
+- **Authentication and Authorization**
+  - JWT access/refresh token flow
+  - Role-based endpoint access
+  - Tenant-aware request guard (`x-tenant-slug`)
+- **School Setup**
+  - Academic sessions and terms
+  - Departments, classes, subjects
+  - Class-subject and teacher-subject assignment
+  - Student subject registration
+- **User Management**
+  - Unified user model with role-specific profiles
+  - Student, teacher, guardian, and staff lifecycle handling
+  - Bulk operations/import support
+- **Learning and Delivery**
+  - Timetable and tutorial class scheduling
+  - Lecture publishing and tracking
+- **Assessment and Results**
+  - Assessments, questions, submissions
+  - Grading and result-engine components
+  - Approval workflow support
+- **Repository and Storage**
+  - Tenant-scoped folders/files and sharing
+  - S3-compatible upload strategy (including large file presigned URLs)
+- **Notifications**
+  - In-app notification events
+  - Email dispatch through queue workers
+- **Onboarding**
+  - School registration and approval lifecycle
+
+## Tech Stack
+
+- **Framework:** NestJS 11
+- **Language:** TypeScript
+- **Database:** PostgreSQL + Prisma
+- **Queue:** BullMQ + Redis
+- **Storage:** S3-compatible providers (AWS SDK)
+- **Auth/Security:** JWT, Passport, Helmet, Throttler
+- **Docs:** Swagger/OpenAPI
+- **Email:** Resend + templates
+
+## Architecture
+
+Eduvia is structured as a modular monolith under `src`, composed by `AppModule`.
+
+- Global API prefix: `/api/v1`
+- API docs endpoint: `/api/docs`
+- Global validation via `ValidationPipe` (whitelist, transform)
+- Global guards for throttling, JWT auth, roles, and tenant enforcement
+- Prisma as centralized data access layer
+
+Request flow:
+
+1. Resolve tenant context (subdomain/header)
+2. Validate auth token and role access
+3. Validate/transform DTO payload
+4. Execute domain service logic
+5. Return standardized API response envelope
+
+## Modules
+
+| Module | Responsibility |
+| --- | --- |
+| `auth` | Login, refresh, logout, auth session flow |
+| `tenant` | Tenant resolution and request scoping |
+| `users` | User/profile management and role operations |
+| `school-setup` | Academic structure and configuration workflows |
+| `timetable` | Scheduling and timetable operations |
+| `lectures` | Lecture creation, publishing, and student access |
+| `assessment` | Assessments, submissions, grading, results support |
+| `approval` | Approval pipeline for moderated actions |
+| `result-engine` | Result computation utilities |
+| `repository` | Repository folders/files, permissions, quotas |
+| `upload` | S3 upload lifecycle and file validation |
+| `notifications` | Notification event handling |
+| `email` | Email processing and delivery logging |
+| `queue` | BullMQ configuration and background workers |
+| `onboarding` | School onboarding and approval workflow |
+| `school-config` | Tenant-specific school configuration |
+| `payment` | Payment/payroll DTO and domain scaffolding |
+
+## Data Model
+
+Prisma schema is in `prisma/schema.prisma`, with generated client in `src/generated/prisma`.
+
+### Core Domain Groups
+
+- **Tenant and Identity:** `Tenant`, `User`, `RefreshToken`, profile models
+- **Academic Core:** `AcademicSession`, `AcademicTerm`, `Department`, `Class`, `Subject`
+- **Teaching:** `TimeTableSlot`, `TutorialClass`, `Lecture`, `LectureView`
+- **Assessment:** `Assessment`, `AssessmentQuestion`, `AssessmentSubmission`, `SubmissionAnswer`
+- **Operational:** notifications, email logs, repository/storage, onboarding, finance-related models
+
+Most models are tenant-scoped using `tenant_id` to maintain data isolation.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 22+
+- npm
+- Docker + Docker Compose
+
+### 1) Install dependencies
 
 ```bash
-$ npm install
+npm ci
 ```
 
-## Compile and run the project
+### 2) Copy environment file
+
+Use the provided `.env.example` and create your local `.env`:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+cp .env.example .env
 ```
 
-## Run tests
+On Windows PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Update values in `.env` for your local environment.
+
+### 3) Start local infrastructure
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker compose up -d
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 4) Generate Prisma client and run migrations
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npx prisma generate
+npx prisma migrate dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 5) (Optional) Seed the database
 
-## Resources
+```bash
+npx prisma db seed
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+### 6) Start development server
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+npm run start:dev
+```
 
-## Support
+### Local URLs
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- API base: `http://localhost:8000/api/v1`
+- Swagger docs: `http://localhost:8000/api/docs`
 
-## Stay in touch
+## Development Workflow
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Common scripts:
+
+- `npm run start:dev` - run API in watch mode
+- `npm run build` - compile production build
+- `npm run start:prod` - run compiled build
+- `npm run format` - apply Prettier formatting
+- `npm run format:check` - verify formatting
+- `npm run lint` - run ESLint with fixes
+- `npm run type-check` - run TypeScript checks
+- `npm run test` - run unit/integration tests
+- `npm run test:e2e` - run end-to-end tests
+- `npm run verify` - run format, lint, type-check, and tests
+
+Recommended pre-PR check:
+
+```bash
+npm run verify
+```
+
+## API Conventions
+
+- All routes are prefixed with `/api/v1`
+- OpenAPI docs available at `/api/docs`
+- Most school-facing endpoints require `x-tenant-slug`
+- Validation and transformation are globally enforced
+- Auth uses Bearer JWT tokens
+
+## Roadmap
+
+The following are planned or actively evolving areas:
+
+- **Payments**
+  - Harden and complete payment gateway integration
+  - Payment reconciliation and failure recovery workflows
+  - Better fee lifecycle visibility and reporting
+- **Email Notifications**
+  - Expand template catalog and localization
+  - Add richer event triggers and admin controls
+  - Improve observability for email delivery and retries
+- **Messaging**
+  - In-app direct messaging and thread model
+  - Role-aware communication channels (teacher-student, school-guardian)
+  - Moderation, message history, and notification preferences
+
+Future roadmap details may be tracked in GitHub issues/projects as the implementation evolves.
+
+## Contributing
+
+Contributions are welcome.
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit focused changes with tests
+4. Run `npm run verify`
+5. Open a pull request
+
+Please keep PRs small, documented, and aligned with existing module boundaries.
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is currently marked as `UNLICENSED` in `package.json`. Add a license file and update this section when licensing is finalized.
+

@@ -35,9 +35,9 @@ export type TenantMinAggregateOutputType = {
   logo: string | null
   status: $Enums.TenantStatus | null
   plan: string | null
-  createdAt: Date | null
-  deletedAt: Date | null
-  updatedAt: Date | null
+  created_at: Date | null
+  deleted_at: Date | null
+  updated_at: Date | null
 }
 
 export type TenantMaxAggregateOutputType = {
@@ -51,9 +51,9 @@ export type TenantMaxAggregateOutputType = {
   logo: string | null
   status: $Enums.TenantStatus | null
   plan: string | null
-  createdAt: Date | null
-  deletedAt: Date | null
-  updatedAt: Date | null
+  created_at: Date | null
+  deleted_at: Date | null
+  updated_at: Date | null
 }
 
 export type TenantCountAggregateOutputType = {
@@ -68,9 +68,9 @@ export type TenantCountAggregateOutputType = {
   status: number
   plan: number
   config: number
-  createdAt: number
-  deletedAt: number
-  updatedAt: number
+  created_at: number
+  deleted_at: number
+  updated_at: number
   _all: number
 }
 
@@ -86,9 +86,9 @@ export type TenantMinAggregateInputType = {
   logo?: true
   status?: true
   plan?: true
-  createdAt?: true
-  deletedAt?: true
-  updatedAt?: true
+  created_at?: true
+  deleted_at?: true
+  updated_at?: true
 }
 
 export type TenantMaxAggregateInputType = {
@@ -102,9 +102,9 @@ export type TenantMaxAggregateInputType = {
   logo?: true
   status?: true
   plan?: true
-  createdAt?: true
-  deletedAt?: true
-  updatedAt?: true
+  created_at?: true
+  deleted_at?: true
+  updated_at?: true
 }
 
 export type TenantCountAggregateInputType = {
@@ -119,9 +119,9 @@ export type TenantCountAggregateInputType = {
   status?: true
   plan?: true
   config?: true
-  createdAt?: true
-  deletedAt?: true
-  updatedAt?: true
+  created_at?: true
+  deleted_at?: true
+  updated_at?: true
   _all?: true
 }
 
@@ -209,9 +209,9 @@ export type TenantGroupByOutputType = {
   status: $Enums.TenantStatus
   plan: string
   config: runtime.JsonValue
-  createdAt: Date
-  deletedAt: Date | null
-  updatedAt: Date
+  created_at: Date
+  deleted_at: Date | null
+  updated_at: Date
   _count: TenantCountAggregateOutputType | null
   _min: TenantMinAggregateOutputType | null
   _max: TenantMaxAggregateOutputType | null
@@ -247,15 +247,24 @@ export type TenantWhereInput = {
   status?: Prisma.EnumTenantStatusFilter<"Tenant"> | $Enums.TenantStatus
   plan?: Prisma.StringFilter<"Tenant"> | string
   config?: Prisma.JsonFilter<"Tenant">
-  createdAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
-  deletedAt?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
-  updatedAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
+  created_at?: Prisma.DateTimeFilter<"Tenant"> | Date | string
+  deleted_at?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
+  updated_at?: Prisma.DateTimeFilter<"Tenant"> | Date | string
   users?: Prisma.UserListRelationFilter
-  academicSessions?: Prisma.AcademicSessionListRelationFilter
-  academicTerms?: Prisma.AcademicTermListRelationFilter
+  academic_sessions?: Prisma.AcademicSessionListRelationFilter
+  academic_terms?: Prisma.AcademicTermListRelationFilter
   departments?: Prisma.DepartmentListRelationFilter
   classes?: Prisma.ClassListRelationFilter
   subjects?: Prisma.SubjectListRelationFilter
+  timetable_slots?: Prisma.TimeTableSlotListRelationFilter
+  tutorial_classes?: Prisma.TutorialClassListRelationFilter
+  lectures?: Prisma.LectureListRelationFilter
+  repository_folders?: Prisma.RepositoryFolderListRelationFilter
+  repository_files?: Prisma.RepositoryFileListRelationFilter
+  tenant_storage?: Prisma.XOR<Prisma.TenantStorageNullableScalarRelationFilter, Prisma.TenantStorageWhereInput> | null
+  schoolConfigs?: Prisma.SchoolConfigListRelationFilter
+  assessments?: Prisma.AssessmentListRelationFilter
+  paymentConfig?: Prisma.XOR<Prisma.PaymentConfigNullableScalarRelationFilter, Prisma.PaymentConfigWhereInput> | null
 }
 
 export type TenantOrderByWithRelationInput = {
@@ -270,15 +279,24 @@ export type TenantOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   config?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
   users?: Prisma.UserOrderByRelationAggregateInput
-  academicSessions?: Prisma.AcademicSessionOrderByRelationAggregateInput
-  academicTerms?: Prisma.AcademicTermOrderByRelationAggregateInput
+  academic_sessions?: Prisma.AcademicSessionOrderByRelationAggregateInput
+  academic_terms?: Prisma.AcademicTermOrderByRelationAggregateInput
   departments?: Prisma.DepartmentOrderByRelationAggregateInput
   classes?: Prisma.ClassOrderByRelationAggregateInput
   subjects?: Prisma.SubjectOrderByRelationAggregateInput
+  timetable_slots?: Prisma.TimeTableSlotOrderByRelationAggregateInput
+  tutorial_classes?: Prisma.TutorialClassOrderByRelationAggregateInput
+  lectures?: Prisma.LectureOrderByRelationAggregateInput
+  repository_folders?: Prisma.RepositoryFolderOrderByRelationAggregateInput
+  repository_files?: Prisma.RepositoryFileOrderByRelationAggregateInput
+  tenant_storage?: Prisma.TenantStorageOrderByWithRelationInput
+  schoolConfigs?: Prisma.SchoolConfigOrderByRelationAggregateInput
+  assessments?: Prisma.AssessmentOrderByRelationAggregateInput
+  paymentConfig?: Prisma.PaymentConfigOrderByWithRelationInput
 }
 
 export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -296,15 +314,24 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumTenantStatusFilter<"Tenant"> | $Enums.TenantStatus
   plan?: Prisma.StringFilter<"Tenant"> | string
   config?: Prisma.JsonFilter<"Tenant">
-  createdAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
-  deletedAt?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
-  updatedAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
+  created_at?: Prisma.DateTimeFilter<"Tenant"> | Date | string
+  deleted_at?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
+  updated_at?: Prisma.DateTimeFilter<"Tenant"> | Date | string
   users?: Prisma.UserListRelationFilter
-  academicSessions?: Prisma.AcademicSessionListRelationFilter
-  academicTerms?: Prisma.AcademicTermListRelationFilter
+  academic_sessions?: Prisma.AcademicSessionListRelationFilter
+  academic_terms?: Prisma.AcademicTermListRelationFilter
   departments?: Prisma.DepartmentListRelationFilter
   classes?: Prisma.ClassListRelationFilter
   subjects?: Prisma.SubjectListRelationFilter
+  timetable_slots?: Prisma.TimeTableSlotListRelationFilter
+  tutorial_classes?: Prisma.TutorialClassListRelationFilter
+  lectures?: Prisma.LectureListRelationFilter
+  repository_folders?: Prisma.RepositoryFolderListRelationFilter
+  repository_files?: Prisma.RepositoryFileListRelationFilter
+  tenant_storage?: Prisma.XOR<Prisma.TenantStorageNullableScalarRelationFilter, Prisma.TenantStorageWhereInput> | null
+  schoolConfigs?: Prisma.SchoolConfigListRelationFilter
+  assessments?: Prisma.AssessmentListRelationFilter
+  paymentConfig?: Prisma.XOR<Prisma.PaymentConfigNullableScalarRelationFilter, Prisma.PaymentConfigWhereInput> | null
 }, "id" | "slug">
 
 export type TenantOrderByWithAggregationInput = {
@@ -319,9 +346,9 @@ export type TenantOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   config?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
   _count?: Prisma.TenantCountOrderByAggregateInput
   _max?: Prisma.TenantMaxOrderByAggregateInput
   _min?: Prisma.TenantMinOrderByAggregateInput
@@ -342,9 +369,9 @@ export type TenantScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumTenantStatusWithAggregatesFilter<"Tenant"> | $Enums.TenantStatus
   plan?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
   config?: Prisma.JsonWithAggregatesFilter<"Tenant">
-  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Tenant"> | Date | string
-  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Tenant"> | Date | string | null
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Tenant"> | Date | string
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"Tenant"> | Date | string
+  deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"Tenant"> | Date | string | null
+  updated_at?: Prisma.DateTimeWithAggregatesFilter<"Tenant"> | Date | string
 }
 
 export type TenantCreateInput = {
@@ -359,15 +386,24 @@ export type TenantCreateInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigCreateNestedOneWithoutTenantInput
 }
 
 export type TenantUncheckedCreateInput = {
@@ -382,15 +418,24 @@ export type TenantUncheckedCreateInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileUncheckedCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageUncheckedCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedCreateNestedOneWithoutTenantInput
 }
 
 export type TenantUpdateInput = {
@@ -405,15 +450,24 @@ export type TenantUpdateInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUpdateOneWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateInput = {
@@ -428,15 +482,24 @@ export type TenantUncheckedUpdateInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUncheckedUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUncheckedUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUncheckedUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedUpdateOneWithoutTenantNestedInput
 }
 
 export type TenantCreateManyInput = {
@@ -451,9 +514,9 @@ export type TenantCreateManyInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
 }
 
 export type TenantUpdateManyMutationInput = {
@@ -468,9 +531,9 @@ export type TenantUpdateManyMutationInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TenantUncheckedUpdateManyInput = {
@@ -485,9 +548,9 @@ export type TenantUncheckedUpdateManyInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TenantCountOrderByAggregateInput = {
@@ -502,9 +565,9 @@ export type TenantCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   config?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
 }
 
 export type TenantMaxOrderByAggregateInput = {
@@ -518,9 +581,9 @@ export type TenantMaxOrderByAggregateInput = {
   logo?: Prisma.SortOrder
   status?: Prisma.SortOrder
   plan?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
 }
 
 export type TenantMinOrderByAggregateInput = {
@@ -534,9 +597,9 @@ export type TenantMinOrderByAggregateInput = {
   logo?: Prisma.SortOrder
   status?: Prisma.SortOrder
   plan?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
 }
 
 export type TenantScalarRelationFilter = {
@@ -578,32 +641,32 @@ export type TenantUpdateOneRequiredWithoutUsersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutUsersInput, Prisma.TenantUpdateWithoutUsersInput>, Prisma.TenantUncheckedUpdateWithoutUsersInput>
 }
 
-export type TenantCreateNestedOneWithoutAcademicSessionsInput = {
-  create?: Prisma.XOR<Prisma.TenantCreateWithoutAcademicSessionsInput, Prisma.TenantUncheckedCreateWithoutAcademicSessionsInput>
-  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAcademicSessionsInput
+export type TenantCreateNestedOneWithoutAcademic_sessionsInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutAcademic_sessionsInput, Prisma.TenantUncheckedCreateWithoutAcademic_sessionsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAcademic_sessionsInput
   connect?: Prisma.TenantWhereUniqueInput
 }
 
-export type TenantUpdateOneRequiredWithoutAcademicSessionsNestedInput = {
-  create?: Prisma.XOR<Prisma.TenantCreateWithoutAcademicSessionsInput, Prisma.TenantUncheckedCreateWithoutAcademicSessionsInput>
-  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAcademicSessionsInput
-  upsert?: Prisma.TenantUpsertWithoutAcademicSessionsInput
+export type TenantUpdateOneRequiredWithoutAcademic_sessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutAcademic_sessionsInput, Prisma.TenantUncheckedCreateWithoutAcademic_sessionsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAcademic_sessionsInput
+  upsert?: Prisma.TenantUpsertWithoutAcademic_sessionsInput
   connect?: Prisma.TenantWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutAcademicSessionsInput, Prisma.TenantUpdateWithoutAcademicSessionsInput>, Prisma.TenantUncheckedUpdateWithoutAcademicSessionsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutAcademic_sessionsInput, Prisma.TenantUpdateWithoutAcademic_sessionsInput>, Prisma.TenantUncheckedUpdateWithoutAcademic_sessionsInput>
 }
 
-export type TenantCreateNestedOneWithoutAcademicTermsInput = {
-  create?: Prisma.XOR<Prisma.TenantCreateWithoutAcademicTermsInput, Prisma.TenantUncheckedCreateWithoutAcademicTermsInput>
-  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAcademicTermsInput
+export type TenantCreateNestedOneWithoutAcademic_termsInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutAcademic_termsInput, Prisma.TenantUncheckedCreateWithoutAcademic_termsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAcademic_termsInput
   connect?: Prisma.TenantWhereUniqueInput
 }
 
-export type TenantUpdateOneRequiredWithoutAcademicTermsNestedInput = {
-  create?: Prisma.XOR<Prisma.TenantCreateWithoutAcademicTermsInput, Prisma.TenantUncheckedCreateWithoutAcademicTermsInput>
-  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAcademicTermsInput
-  upsert?: Prisma.TenantUpsertWithoutAcademicTermsInput
+export type TenantUpdateOneRequiredWithoutAcademic_termsNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutAcademic_termsInput, Prisma.TenantUncheckedCreateWithoutAcademic_termsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAcademic_termsInput
+  upsert?: Prisma.TenantUpsertWithoutAcademic_termsInput
   connect?: Prisma.TenantWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutAcademicTermsInput, Prisma.TenantUpdateWithoutAcademicTermsInput>, Prisma.TenantUncheckedUpdateWithoutAcademicTermsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutAcademic_termsInput, Prisma.TenantUpdateWithoutAcademic_termsInput>, Prisma.TenantUncheckedUpdateWithoutAcademic_termsInput>
 }
 
 export type TenantCreateNestedOneWithoutDepartmentsInput = {
@@ -648,6 +711,132 @@ export type TenantUpdateOneRequiredWithoutSubjectsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutSubjectsInput, Prisma.TenantUpdateWithoutSubjectsInput>, Prisma.TenantUncheckedUpdateWithoutSubjectsInput>
 }
 
+export type TenantCreateNestedOneWithoutTimetable_slotsInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutTimetable_slotsInput, Prisma.TenantUncheckedCreateWithoutTimetable_slotsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutTimetable_slotsInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutTimetable_slotsNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutTimetable_slotsInput, Prisma.TenantUncheckedCreateWithoutTimetable_slotsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutTimetable_slotsInput
+  upsert?: Prisma.TenantUpsertWithoutTimetable_slotsInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutTimetable_slotsInput, Prisma.TenantUpdateWithoutTimetable_slotsInput>, Prisma.TenantUncheckedUpdateWithoutTimetable_slotsInput>
+}
+
+export type TenantCreateNestedOneWithoutTutorial_classesInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutTutorial_classesInput, Prisma.TenantUncheckedCreateWithoutTutorial_classesInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutTutorial_classesInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutTutorial_classesNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutTutorial_classesInput, Prisma.TenantUncheckedCreateWithoutTutorial_classesInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutTutorial_classesInput
+  upsert?: Prisma.TenantUpsertWithoutTutorial_classesInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutTutorial_classesInput, Prisma.TenantUpdateWithoutTutorial_classesInput>, Prisma.TenantUncheckedUpdateWithoutTutorial_classesInput>
+}
+
+export type TenantCreateNestedOneWithoutLecturesInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutLecturesInput, Prisma.TenantUncheckedCreateWithoutLecturesInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutLecturesInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutLecturesNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutLecturesInput, Prisma.TenantUncheckedCreateWithoutLecturesInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutLecturesInput
+  upsert?: Prisma.TenantUpsertWithoutLecturesInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutLecturesInput, Prisma.TenantUpdateWithoutLecturesInput>, Prisma.TenantUncheckedUpdateWithoutLecturesInput>
+}
+
+export type TenantCreateNestedOneWithoutRepository_foldersInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutRepository_foldersInput, Prisma.TenantUncheckedCreateWithoutRepository_foldersInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutRepository_foldersInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutRepository_foldersNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutRepository_foldersInput, Prisma.TenantUncheckedCreateWithoutRepository_foldersInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutRepository_foldersInput
+  upsert?: Prisma.TenantUpsertWithoutRepository_foldersInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutRepository_foldersInput, Prisma.TenantUpdateWithoutRepository_foldersInput>, Prisma.TenantUncheckedUpdateWithoutRepository_foldersInput>
+}
+
+export type TenantCreateNestedOneWithoutRepository_filesInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutRepository_filesInput, Prisma.TenantUncheckedCreateWithoutRepository_filesInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutRepository_filesInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutRepository_filesNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutRepository_filesInput, Prisma.TenantUncheckedCreateWithoutRepository_filesInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutRepository_filesInput
+  upsert?: Prisma.TenantUpsertWithoutRepository_filesInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutRepository_filesInput, Prisma.TenantUpdateWithoutRepository_filesInput>, Prisma.TenantUncheckedUpdateWithoutRepository_filesInput>
+}
+
+export type TenantCreateNestedOneWithoutTenant_storageInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutTenant_storageInput, Prisma.TenantUncheckedCreateWithoutTenant_storageInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutTenant_storageInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutTenant_storageNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutTenant_storageInput, Prisma.TenantUncheckedCreateWithoutTenant_storageInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutTenant_storageInput
+  upsert?: Prisma.TenantUpsertWithoutTenant_storageInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutTenant_storageInput, Prisma.TenantUpdateWithoutTenant_storageInput>, Prisma.TenantUncheckedUpdateWithoutTenant_storageInput>
+}
+
+export type TenantCreateNestedOneWithoutSchoolConfigsInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutSchoolConfigsInput, Prisma.TenantUncheckedCreateWithoutSchoolConfigsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutSchoolConfigsInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutSchoolConfigsNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutSchoolConfigsInput, Prisma.TenantUncheckedCreateWithoutSchoolConfigsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutSchoolConfigsInput
+  upsert?: Prisma.TenantUpsertWithoutSchoolConfigsInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutSchoolConfigsInput, Prisma.TenantUpdateWithoutSchoolConfigsInput>, Prisma.TenantUncheckedUpdateWithoutSchoolConfigsInput>
+}
+
+export type TenantCreateNestedOneWithoutAssessmentsInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutAssessmentsInput, Prisma.TenantUncheckedCreateWithoutAssessmentsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAssessmentsInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutAssessmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutAssessmentsInput, Prisma.TenantUncheckedCreateWithoutAssessmentsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutAssessmentsInput
+  upsert?: Prisma.TenantUpsertWithoutAssessmentsInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutAssessmentsInput, Prisma.TenantUpdateWithoutAssessmentsInput>, Prisma.TenantUncheckedUpdateWithoutAssessmentsInput>
+}
+
+export type TenantCreateNestedOneWithoutPaymentConfigInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutPaymentConfigInput, Prisma.TenantUncheckedCreateWithoutPaymentConfigInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutPaymentConfigInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutPaymentConfigNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutPaymentConfigInput, Prisma.TenantUncheckedCreateWithoutPaymentConfigInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutPaymentConfigInput
+  upsert?: Prisma.TenantUpsertWithoutPaymentConfigInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutPaymentConfigInput, Prisma.TenantUpdateWithoutPaymentConfigInput>, Prisma.TenantUncheckedUpdateWithoutPaymentConfigInput>
+}
+
 export type TenantCreateWithoutUsersInput = {
   id?: string
   name: string
@@ -660,14 +849,23 @@ export type TenantCreateWithoutUsersInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
-  academicSessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigCreateNestedOneWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutUsersInput = {
@@ -682,14 +880,23 @@ export type TenantUncheckedCreateWithoutUsersInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
-  academicSessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileUncheckedCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageUncheckedCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedCreateNestedOneWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutUsersInput = {
@@ -720,14 +927,23 @@ export type TenantUpdateWithoutUsersInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  academicSessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUpdateOneWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -742,17 +958,26 @@ export type TenantUncheckedUpdateWithoutUsersInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  academicSessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUncheckedUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUncheckedUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUncheckedUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedUpdateOneWithoutTenantNestedInput
 }
 
-export type TenantCreateWithoutAcademicSessionsInput = {
+export type TenantCreateWithoutAcademic_sessionsInput = {
   id?: string
   name: string
   slug: string
@@ -764,17 +989,26 @@ export type TenantCreateWithoutAcademicSessionsInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigCreateNestedOneWithoutTenantInput
 }
 
-export type TenantUncheckedCreateWithoutAcademicSessionsInput = {
+export type TenantUncheckedCreateWithoutAcademic_sessionsInput = {
   id?: string
   name: string
   slug: string
@@ -786,33 +1020,42 @@ export type TenantUncheckedCreateWithoutAcademicSessionsInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileUncheckedCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageUncheckedCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedCreateNestedOneWithoutTenantInput
 }
 
-export type TenantCreateOrConnectWithoutAcademicSessionsInput = {
+export type TenantCreateOrConnectWithoutAcademic_sessionsInput = {
   where: Prisma.TenantWhereUniqueInput
-  create: Prisma.XOR<Prisma.TenantCreateWithoutAcademicSessionsInput, Prisma.TenantUncheckedCreateWithoutAcademicSessionsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutAcademic_sessionsInput, Prisma.TenantUncheckedCreateWithoutAcademic_sessionsInput>
 }
 
-export type TenantUpsertWithoutAcademicSessionsInput = {
-  update: Prisma.XOR<Prisma.TenantUpdateWithoutAcademicSessionsInput, Prisma.TenantUncheckedUpdateWithoutAcademicSessionsInput>
-  create: Prisma.XOR<Prisma.TenantCreateWithoutAcademicSessionsInput, Prisma.TenantUncheckedCreateWithoutAcademicSessionsInput>
+export type TenantUpsertWithoutAcademic_sessionsInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutAcademic_sessionsInput, Prisma.TenantUncheckedUpdateWithoutAcademic_sessionsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutAcademic_sessionsInput, Prisma.TenantUncheckedCreateWithoutAcademic_sessionsInput>
   where?: Prisma.TenantWhereInput
 }
 
-export type TenantUpdateToOneWithWhereWithoutAcademicSessionsInput = {
+export type TenantUpdateToOneWithWhereWithoutAcademic_sessionsInput = {
   where?: Prisma.TenantWhereInput
-  data: Prisma.XOR<Prisma.TenantUpdateWithoutAcademicSessionsInput, Prisma.TenantUncheckedUpdateWithoutAcademicSessionsInput>
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutAcademic_sessionsInput, Prisma.TenantUncheckedUpdateWithoutAcademic_sessionsInput>
 }
 
-export type TenantUpdateWithoutAcademicSessionsInput = {
+export type TenantUpdateWithoutAcademic_sessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -824,17 +1067,26 @@ export type TenantUpdateWithoutAcademicSessionsInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUpdateOneWithoutTenantNestedInput
 }
 
-export type TenantUncheckedUpdateWithoutAcademicSessionsInput = {
+export type TenantUncheckedUpdateWithoutAcademic_sessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -846,17 +1098,26 @@ export type TenantUncheckedUpdateWithoutAcademicSessionsInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUncheckedUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUncheckedUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUncheckedUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedUpdateOneWithoutTenantNestedInput
 }
 
-export type TenantCreateWithoutAcademicTermsInput = {
+export type TenantCreateWithoutAcademic_termsInput = {
   id?: string
   name: string
   slug: string
@@ -868,17 +1129,26 @@ export type TenantCreateWithoutAcademicTermsInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigCreateNestedOneWithoutTenantInput
 }
 
-export type TenantUncheckedCreateWithoutAcademicTermsInput = {
+export type TenantUncheckedCreateWithoutAcademic_termsInput = {
   id?: string
   name: string
   slug: string
@@ -890,33 +1160,42 @@ export type TenantUncheckedCreateWithoutAcademicTermsInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileUncheckedCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageUncheckedCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedCreateNestedOneWithoutTenantInput
 }
 
-export type TenantCreateOrConnectWithoutAcademicTermsInput = {
+export type TenantCreateOrConnectWithoutAcademic_termsInput = {
   where: Prisma.TenantWhereUniqueInput
-  create: Prisma.XOR<Prisma.TenantCreateWithoutAcademicTermsInput, Prisma.TenantUncheckedCreateWithoutAcademicTermsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutAcademic_termsInput, Prisma.TenantUncheckedCreateWithoutAcademic_termsInput>
 }
 
-export type TenantUpsertWithoutAcademicTermsInput = {
-  update: Prisma.XOR<Prisma.TenantUpdateWithoutAcademicTermsInput, Prisma.TenantUncheckedUpdateWithoutAcademicTermsInput>
-  create: Prisma.XOR<Prisma.TenantCreateWithoutAcademicTermsInput, Prisma.TenantUncheckedCreateWithoutAcademicTermsInput>
+export type TenantUpsertWithoutAcademic_termsInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutAcademic_termsInput, Prisma.TenantUncheckedUpdateWithoutAcademic_termsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutAcademic_termsInput, Prisma.TenantUncheckedCreateWithoutAcademic_termsInput>
   where?: Prisma.TenantWhereInput
 }
 
-export type TenantUpdateToOneWithWhereWithoutAcademicTermsInput = {
+export type TenantUpdateToOneWithWhereWithoutAcademic_termsInput = {
   where?: Prisma.TenantWhereInput
-  data: Prisma.XOR<Prisma.TenantUpdateWithoutAcademicTermsInput, Prisma.TenantUncheckedUpdateWithoutAcademicTermsInput>
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutAcademic_termsInput, Prisma.TenantUncheckedUpdateWithoutAcademic_termsInput>
 }
 
-export type TenantUpdateWithoutAcademicTermsInput = {
+export type TenantUpdateWithoutAcademic_termsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -928,17 +1207,26 @@ export type TenantUpdateWithoutAcademicTermsInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUpdateOneWithoutTenantNestedInput
 }
 
-export type TenantUncheckedUpdateWithoutAcademicTermsInput = {
+export type TenantUncheckedUpdateWithoutAcademic_termsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -950,14 +1238,23 @@ export type TenantUncheckedUpdateWithoutAcademicTermsInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUncheckedUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUncheckedUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUncheckedUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedUpdateOneWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutDepartmentsInput = {
@@ -972,14 +1269,23 @@ export type TenantCreateWithoutDepartmentsInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigCreateNestedOneWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutDepartmentsInput = {
@@ -994,14 +1300,23 @@ export type TenantUncheckedCreateWithoutDepartmentsInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileUncheckedCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageUncheckedCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedCreateNestedOneWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutDepartmentsInput = {
@@ -1032,14 +1347,23 @@ export type TenantUpdateWithoutDepartmentsInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUpdateOneWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutDepartmentsInput = {
@@ -1054,14 +1378,23 @@ export type TenantUncheckedUpdateWithoutDepartmentsInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUncheckedUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUncheckedUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUncheckedUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedUpdateOneWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutClassesInput = {
@@ -1076,14 +1409,23 @@ export type TenantCreateWithoutClassesInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigCreateNestedOneWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutClassesInput = {
@@ -1098,14 +1440,23 @@ export type TenantUncheckedCreateWithoutClassesInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileUncheckedCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageUncheckedCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedCreateNestedOneWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutClassesInput = {
@@ -1136,14 +1487,23 @@ export type TenantUpdateWithoutClassesInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUpdateOneWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutClassesInput = {
@@ -1158,14 +1518,23 @@ export type TenantUncheckedUpdateWithoutClassesInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUncheckedUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUncheckedUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUncheckedUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedUpdateOneWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutSubjectsInput = {
@@ -1180,14 +1549,23 @@ export type TenantCreateWithoutSubjectsInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigCreateNestedOneWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutSubjectsInput = {
@@ -1202,14 +1580,23 @@ export type TenantUncheckedCreateWithoutSubjectsInput = {
   status?: $Enums.TenantStatus
   plan?: string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Date | string
-  deletedAt?: Date | string | null
-  updatedAt?: Date | string
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  academicSessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
-  academicTerms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileUncheckedCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageUncheckedCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedCreateNestedOneWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutSubjectsInput = {
@@ -1240,14 +1627,23 @@ export type TenantUpdateWithoutSubjectsInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUpdateOneWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutSubjectsInput = {
@@ -1262,14 +1658,1283 @@ export type TenantUncheckedUpdateWithoutSubjectsInput = {
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  academicSessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
-  academicTerms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
   classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUncheckedUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUncheckedUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUncheckedUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedUpdateOneWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutTimetable_slotsInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigCreateNestedOneWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutTimetable_slotsInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileUncheckedCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageUncheckedCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedCreateNestedOneWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutTimetable_slotsInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutTimetable_slotsInput, Prisma.TenantUncheckedCreateWithoutTimetable_slotsInput>
+}
+
+export type TenantUpsertWithoutTimetable_slotsInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutTimetable_slotsInput, Prisma.TenantUncheckedUpdateWithoutTimetable_slotsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutTimetable_slotsInput, Prisma.TenantUncheckedCreateWithoutTimetable_slotsInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutTimetable_slotsInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutTimetable_slotsInput, Prisma.TenantUncheckedUpdateWithoutTimetable_slotsInput>
+}
+
+export type TenantUpdateWithoutTimetable_slotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUpdateOneWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutTimetable_slotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUncheckedUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUncheckedUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUncheckedUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedUpdateOneWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutTutorial_classesInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigCreateNestedOneWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutTutorial_classesInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileUncheckedCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageUncheckedCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedCreateNestedOneWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutTutorial_classesInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutTutorial_classesInput, Prisma.TenantUncheckedCreateWithoutTutorial_classesInput>
+}
+
+export type TenantUpsertWithoutTutorial_classesInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutTutorial_classesInput, Prisma.TenantUncheckedUpdateWithoutTutorial_classesInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutTutorial_classesInput, Prisma.TenantUncheckedCreateWithoutTutorial_classesInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutTutorial_classesInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutTutorial_classesInput, Prisma.TenantUncheckedUpdateWithoutTutorial_classesInput>
+}
+
+export type TenantUpdateWithoutTutorial_classesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUpdateOneWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutTutorial_classesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUncheckedUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUncheckedUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUncheckedUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedUpdateOneWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutLecturesInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigCreateNestedOneWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutLecturesInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileUncheckedCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageUncheckedCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedCreateNestedOneWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutLecturesInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutLecturesInput, Prisma.TenantUncheckedCreateWithoutLecturesInput>
+}
+
+export type TenantUpsertWithoutLecturesInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutLecturesInput, Prisma.TenantUncheckedUpdateWithoutLecturesInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutLecturesInput, Prisma.TenantUncheckedCreateWithoutLecturesInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutLecturesInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutLecturesInput, Prisma.TenantUncheckedUpdateWithoutLecturesInput>
+}
+
+export type TenantUpdateWithoutLecturesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUpdateOneWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutLecturesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUncheckedUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUncheckedUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedUpdateOneWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutRepository_foldersInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigCreateNestedOneWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutRepository_foldersInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileUncheckedCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageUncheckedCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedCreateNestedOneWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutRepository_foldersInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutRepository_foldersInput, Prisma.TenantUncheckedCreateWithoutRepository_foldersInput>
+}
+
+export type TenantUpsertWithoutRepository_foldersInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutRepository_foldersInput, Prisma.TenantUncheckedUpdateWithoutRepository_foldersInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutRepository_foldersInput, Prisma.TenantUncheckedCreateWithoutRepository_foldersInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutRepository_foldersInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutRepository_foldersInput, Prisma.TenantUncheckedUpdateWithoutRepository_foldersInput>
+}
+
+export type TenantUpdateWithoutRepository_foldersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUpdateOneWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutRepository_foldersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUncheckedUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUncheckedUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUncheckedUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedUpdateOneWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutRepository_filesInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigCreateNestedOneWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutRepository_filesInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageUncheckedCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedCreateNestedOneWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutRepository_filesInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutRepository_filesInput, Prisma.TenantUncheckedCreateWithoutRepository_filesInput>
+}
+
+export type TenantUpsertWithoutRepository_filesInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutRepository_filesInput, Prisma.TenantUncheckedUpdateWithoutRepository_filesInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutRepository_filesInput, Prisma.TenantUncheckedCreateWithoutRepository_filesInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutRepository_filesInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutRepository_filesInput, Prisma.TenantUncheckedUpdateWithoutRepository_filesInput>
+}
+
+export type TenantUpdateWithoutRepository_filesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUpdateOneWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutRepository_filesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUncheckedUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUncheckedUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedUpdateOneWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutTenant_storageInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileCreateNestedManyWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigCreateNestedOneWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutTenant_storageInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileUncheckedCreateNestedManyWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedCreateNestedOneWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutTenant_storageInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutTenant_storageInput, Prisma.TenantUncheckedCreateWithoutTenant_storageInput>
+}
+
+export type TenantUpsertWithoutTenant_storageInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutTenant_storageInput, Prisma.TenantUncheckedUpdateWithoutTenant_storageInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutTenant_storageInput, Prisma.TenantUncheckedCreateWithoutTenant_storageInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutTenant_storageInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutTenant_storageInput, Prisma.TenantUncheckedUpdateWithoutTenant_storageInput>
+}
+
+export type TenantUpdateWithoutTenant_storageInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUpdateManyWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUpdateOneWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutTenant_storageInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUncheckedUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUncheckedUpdateManyWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedUpdateOneWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutSchoolConfigsInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageCreateNestedOneWithoutTenantInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigCreateNestedOneWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutSchoolConfigsInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileUncheckedCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageUncheckedCreateNestedOneWithoutTenantInput
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedCreateNestedOneWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutSchoolConfigsInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutSchoolConfigsInput, Prisma.TenantUncheckedCreateWithoutSchoolConfigsInput>
+}
+
+export type TenantUpsertWithoutSchoolConfigsInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutSchoolConfigsInput, Prisma.TenantUncheckedUpdateWithoutSchoolConfigsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutSchoolConfigsInput, Prisma.TenantUncheckedCreateWithoutSchoolConfigsInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutSchoolConfigsInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutSchoolConfigsInput, Prisma.TenantUncheckedUpdateWithoutSchoolConfigsInput>
+}
+
+export type TenantUpdateWithoutSchoolConfigsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUpdateOneWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUpdateOneWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutSchoolConfigsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUncheckedUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUncheckedUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUncheckedUpdateOneWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedUpdateOneWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutAssessmentsInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigCreateNestedOneWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutAssessmentsInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileUncheckedCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageUncheckedCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedCreateNestedManyWithoutTenantInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedCreateNestedOneWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutAssessmentsInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutAssessmentsInput, Prisma.TenantUncheckedCreateWithoutAssessmentsInput>
+}
+
+export type TenantUpsertWithoutAssessmentsInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutAssessmentsInput, Prisma.TenantUncheckedUpdateWithoutAssessmentsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutAssessmentsInput, Prisma.TenantUncheckedCreateWithoutAssessmentsInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutAssessmentsInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutAssessmentsInput, Prisma.TenantUncheckedUpdateWithoutAssessmentsInput>
+}
+
+export type TenantUpdateWithoutAssessmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUpdateOneWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutAssessmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUncheckedUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUncheckedUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUncheckedUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedUpdateManyWithoutTenantNestedInput
+  paymentConfig?: Prisma.PaymentConfigUncheckedUpdateOneWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutPaymentConfigInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutPaymentConfigInput = {
+  id?: string
+  name: string
+  slug: string
+  initials?: string | null
+  email?: string | null
+  phone?: string | null
+  address?: string | null
+  logo?: string | null
+  status?: $Enums.TenantStatus
+  plan?: string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  deleted_at?: Date | string | null
+  updated_at?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedCreateNestedManyWithoutTenantInput
+  academic_terms?: Prisma.AcademicTermUncheckedCreateNestedManyWithoutTenantInput
+  departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutTenantInput
+  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedCreateNestedManyWithoutTenantInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedCreateNestedManyWithoutTenantInput
+  lectures?: Prisma.LectureUncheckedCreateNestedManyWithoutTenantInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedCreateNestedManyWithoutTenantInput
+  repository_files?: Prisma.RepositoryFileUncheckedCreateNestedManyWithoutTenantInput
+  tenant_storage?: Prisma.TenantStorageUncheckedCreateNestedOneWithoutTenantInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedCreateNestedManyWithoutTenantInput
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutPaymentConfigInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutPaymentConfigInput, Prisma.TenantUncheckedCreateWithoutPaymentConfigInput>
+}
+
+export type TenantUpsertWithoutPaymentConfigInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutPaymentConfigInput, Prisma.TenantUncheckedUpdateWithoutPaymentConfigInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutPaymentConfigInput, Prisma.TenantUncheckedCreateWithoutPaymentConfigInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutPaymentConfigInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutPaymentConfigInput, Prisma.TenantUncheckedUpdateWithoutPaymentConfigInput>
+}
+
+export type TenantUpdateWithoutPaymentConfigInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutPaymentConfigInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  initials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+  academic_sessions?: Prisma.AcademicSessionUncheckedUpdateManyWithoutTenantNestedInput
+  academic_terms?: Prisma.AcademicTermUncheckedUpdateManyWithoutTenantNestedInput
+  departments?: Prisma.DepartmentUncheckedUpdateManyWithoutTenantNestedInput
+  classes?: Prisma.ClassUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timetable_slots?: Prisma.TimeTableSlotUncheckedUpdateManyWithoutTenantNestedInput
+  tutorial_classes?: Prisma.TutorialClassUncheckedUpdateManyWithoutTenantNestedInput
+  lectures?: Prisma.LectureUncheckedUpdateManyWithoutTenantNestedInput
+  repository_folders?: Prisma.RepositoryFolderUncheckedUpdateManyWithoutTenantNestedInput
+  repository_files?: Prisma.RepositoryFileUncheckedUpdateManyWithoutTenantNestedInput
+  tenant_storage?: Prisma.TenantStorageUncheckedUpdateOneWithoutTenantNestedInput
+  schoolConfigs?: Prisma.SchoolConfigUncheckedUpdateManyWithoutTenantNestedInput
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 
@@ -1279,20 +2944,34 @@ export type TenantUncheckedUpdateWithoutSubjectsInput = {
 
 export type TenantCountOutputType = {
   users: number
-  academicSessions: number
-  academicTerms: number
+  academic_sessions: number
+  academic_terms: number
   departments: number
   classes: number
   subjects: number
+  timetable_slots: number
+  tutorial_classes: number
+  lectures: number
+  repository_folders: number
+  repository_files: number
+  schoolConfigs: number
+  assessments: number
 }
 
 export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | TenantCountOutputTypeCountUsersArgs
-  academicSessions?: boolean | TenantCountOutputTypeCountAcademicSessionsArgs
-  academicTerms?: boolean | TenantCountOutputTypeCountAcademicTermsArgs
+  academic_sessions?: boolean | TenantCountOutputTypeCountAcademic_sessionsArgs
+  academic_terms?: boolean | TenantCountOutputTypeCountAcademic_termsArgs
   departments?: boolean | TenantCountOutputTypeCountDepartmentsArgs
   classes?: boolean | TenantCountOutputTypeCountClassesArgs
   subjects?: boolean | TenantCountOutputTypeCountSubjectsArgs
+  timetable_slots?: boolean | TenantCountOutputTypeCountTimetable_slotsArgs
+  tutorial_classes?: boolean | TenantCountOutputTypeCountTutorial_classesArgs
+  lectures?: boolean | TenantCountOutputTypeCountLecturesArgs
+  repository_folders?: boolean | TenantCountOutputTypeCountRepository_foldersArgs
+  repository_files?: boolean | TenantCountOutputTypeCountRepository_filesArgs
+  schoolConfigs?: boolean | TenantCountOutputTypeCountSchoolConfigsArgs
+  assessments?: boolean | TenantCountOutputTypeCountAssessmentsArgs
 }
 
 /**
@@ -1315,14 +2994,14 @@ export type TenantCountOutputTypeCountUsersArgs<ExtArgs extends runtime.Types.Ex
 /**
  * TenantCountOutputType without action
  */
-export type TenantCountOutputTypeCountAcademicSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TenantCountOutputTypeCountAcademic_sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AcademicSessionWhereInput
 }
 
 /**
  * TenantCountOutputType without action
  */
-export type TenantCountOutputTypeCountAcademicTermsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TenantCountOutputTypeCountAcademic_termsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AcademicTermWhereInput
 }
 
@@ -1347,6 +3026,55 @@ export type TenantCountOutputTypeCountSubjectsArgs<ExtArgs extends runtime.Types
   where?: Prisma.SubjectWhereInput
 }
 
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountTimetable_slotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TimeTableSlotWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountTutorial_classesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TutorialClassWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountLecturesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LectureWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountRepository_foldersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RepositoryFolderWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountRepository_filesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RepositoryFileWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountSchoolConfigsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SchoolConfigWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountAssessmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AssessmentWhereInput
+}
+
 
 export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1360,15 +3088,24 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   status?: boolean
   plan?: boolean
   config?: boolean
-  createdAt?: boolean
-  deletedAt?: boolean
-  updatedAt?: boolean
+  created_at?: boolean
+  deleted_at?: boolean
+  updated_at?: boolean
   users?: boolean | Prisma.Tenant$usersArgs<ExtArgs>
-  academicSessions?: boolean | Prisma.Tenant$academicSessionsArgs<ExtArgs>
-  academicTerms?: boolean | Prisma.Tenant$academicTermsArgs<ExtArgs>
+  academic_sessions?: boolean | Prisma.Tenant$academic_sessionsArgs<ExtArgs>
+  academic_terms?: boolean | Prisma.Tenant$academic_termsArgs<ExtArgs>
   departments?: boolean | Prisma.Tenant$departmentsArgs<ExtArgs>
   classes?: boolean | Prisma.Tenant$classesArgs<ExtArgs>
   subjects?: boolean | Prisma.Tenant$subjectsArgs<ExtArgs>
+  timetable_slots?: boolean | Prisma.Tenant$timetable_slotsArgs<ExtArgs>
+  tutorial_classes?: boolean | Prisma.Tenant$tutorial_classesArgs<ExtArgs>
+  lectures?: boolean | Prisma.Tenant$lecturesArgs<ExtArgs>
+  repository_folders?: boolean | Prisma.Tenant$repository_foldersArgs<ExtArgs>
+  repository_files?: boolean | Prisma.Tenant$repository_filesArgs<ExtArgs>
+  tenant_storage?: boolean | Prisma.Tenant$tenant_storageArgs<ExtArgs>
+  schoolConfigs?: boolean | Prisma.Tenant$schoolConfigsArgs<ExtArgs>
+  assessments?: boolean | Prisma.Tenant$assessmentsArgs<ExtArgs>
+  paymentConfig?: boolean | Prisma.Tenant$paymentConfigArgs<ExtArgs>
   _count?: boolean | Prisma.TenantCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenant"]>
 
@@ -1384,9 +3121,9 @@ export type TenantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   status?: boolean
   plan?: boolean
   config?: boolean
-  createdAt?: boolean
-  deletedAt?: boolean
-  updatedAt?: boolean
+  created_at?: boolean
+  deleted_at?: boolean
+  updated_at?: boolean
 }, ExtArgs["result"]["tenant"]>
 
 export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1401,9 +3138,9 @@ export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   status?: boolean
   plan?: boolean
   config?: boolean
-  createdAt?: boolean
-  deletedAt?: boolean
-  updatedAt?: boolean
+  created_at?: boolean
+  deleted_at?: boolean
+  updated_at?: boolean
 }, ExtArgs["result"]["tenant"]>
 
 export type TenantSelectScalar = {
@@ -1418,19 +3155,28 @@ export type TenantSelectScalar = {
   status?: boolean
   plan?: boolean
   config?: boolean
-  createdAt?: boolean
-  deletedAt?: boolean
-  updatedAt?: boolean
+  created_at?: boolean
+  deleted_at?: boolean
+  updated_at?: boolean
 }
 
-export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "initials" | "email" | "phone" | "address" | "logo" | "status" | "plan" | "config" | "createdAt" | "deletedAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "initials" | "email" | "phone" | "address" | "logo" | "status" | "plan" | "config" | "created_at" | "deleted_at" | "updated_at", ExtArgs["result"]["tenant"]>
 export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | Prisma.Tenant$usersArgs<ExtArgs>
-  academicSessions?: boolean | Prisma.Tenant$academicSessionsArgs<ExtArgs>
-  academicTerms?: boolean | Prisma.Tenant$academicTermsArgs<ExtArgs>
+  academic_sessions?: boolean | Prisma.Tenant$academic_sessionsArgs<ExtArgs>
+  academic_terms?: boolean | Prisma.Tenant$academic_termsArgs<ExtArgs>
   departments?: boolean | Prisma.Tenant$departmentsArgs<ExtArgs>
   classes?: boolean | Prisma.Tenant$classesArgs<ExtArgs>
   subjects?: boolean | Prisma.Tenant$subjectsArgs<ExtArgs>
+  timetable_slots?: boolean | Prisma.Tenant$timetable_slotsArgs<ExtArgs>
+  tutorial_classes?: boolean | Prisma.Tenant$tutorial_classesArgs<ExtArgs>
+  lectures?: boolean | Prisma.Tenant$lecturesArgs<ExtArgs>
+  repository_folders?: boolean | Prisma.Tenant$repository_foldersArgs<ExtArgs>
+  repository_files?: boolean | Prisma.Tenant$repository_filesArgs<ExtArgs>
+  tenant_storage?: boolean | Prisma.Tenant$tenant_storageArgs<ExtArgs>
+  schoolConfigs?: boolean | Prisma.Tenant$schoolConfigsArgs<ExtArgs>
+  assessments?: boolean | Prisma.Tenant$assessmentsArgs<ExtArgs>
+  paymentConfig?: boolean | Prisma.Tenant$paymentConfigArgs<ExtArgs>
   _count?: boolean | Prisma.TenantCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TenantIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1440,11 +3186,20 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "Tenant"
   objects: {
     users: Prisma.$UserPayload<ExtArgs>[]
-    academicSessions: Prisma.$AcademicSessionPayload<ExtArgs>[]
-    academicTerms: Prisma.$AcademicTermPayload<ExtArgs>[]
+    academic_sessions: Prisma.$AcademicSessionPayload<ExtArgs>[]
+    academic_terms: Prisma.$AcademicTermPayload<ExtArgs>[]
     departments: Prisma.$DepartmentPayload<ExtArgs>[]
     classes: Prisma.$ClassPayload<ExtArgs>[]
     subjects: Prisma.$SubjectPayload<ExtArgs>[]
+    timetable_slots: Prisma.$TimeTableSlotPayload<ExtArgs>[]
+    tutorial_classes: Prisma.$TutorialClassPayload<ExtArgs>[]
+    lectures: Prisma.$LecturePayload<ExtArgs>[]
+    repository_folders: Prisma.$RepositoryFolderPayload<ExtArgs>[]
+    repository_files: Prisma.$RepositoryFilePayload<ExtArgs>[]
+    tenant_storage: Prisma.$TenantStoragePayload<ExtArgs> | null
+    schoolConfigs: Prisma.$SchoolConfigPayload<ExtArgs>[]
+    assessments: Prisma.$AssessmentPayload<ExtArgs>[]
+    paymentConfig: Prisma.$PaymentConfigPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1461,9 +3216,9 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     status: $Enums.TenantStatus
     plan: string
     config: runtime.JsonValue
-    createdAt: Date
-    deletedAt: Date | null
-    updatedAt: Date
+    created_at: Date
+    deleted_at: Date | null
+    updated_at: Date
   }, ExtArgs["result"]["tenant"]>
   composites: {}
 }
@@ -1859,11 +3614,20 @@ readonly fields: TenantFieldRefs;
 export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   users<T extends Prisma.Tenant$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  academicSessions<T extends Prisma.Tenant$academicSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$academicSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AcademicSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  academicTerms<T extends Prisma.Tenant$academicTermsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$academicTermsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AcademicTermPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  academic_sessions<T extends Prisma.Tenant$academic_sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$academic_sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AcademicSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  academic_terms<T extends Prisma.Tenant$academic_termsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$academic_termsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AcademicTermPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   departments<T extends Prisma.Tenant$departmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$departmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   classes<T extends Prisma.Tenant$classesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$classesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subjects<T extends Prisma.Tenant$subjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  timetable_slots<T extends Prisma.Tenant$timetable_slotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$timetable_slotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TimeTableSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tutorial_classes<T extends Prisma.Tenant$tutorial_classesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$tutorial_classesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TutorialClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  lectures<T extends Prisma.Tenant$lecturesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$lecturesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LecturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  repository_folders<T extends Prisma.Tenant$repository_foldersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$repository_foldersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RepositoryFolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  repository_files<T extends Prisma.Tenant$repository_filesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$repository_filesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RepositoryFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tenant_storage<T extends Prisma.Tenant$tenant_storageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$tenant_storageArgs<ExtArgs>>): Prisma.Prisma__TenantStorageClient<runtime.Types.Result.GetResult<Prisma.$TenantStoragePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  schoolConfigs<T extends Prisma.Tenant$schoolConfigsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$schoolConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SchoolConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assessments<T extends Prisma.Tenant$assessmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$assessmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssessmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  paymentConfig<T extends Prisma.Tenant$paymentConfigArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$paymentConfigArgs<ExtArgs>>): Prisma.Prisma__PaymentConfigClient<runtime.Types.Result.GetResult<Prisma.$PaymentConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1904,9 +3668,9 @@ export interface TenantFieldRefs {
   readonly status: Prisma.FieldRef<"Tenant", 'TenantStatus'>
   readonly plan: Prisma.FieldRef<"Tenant", 'String'>
   readonly config: Prisma.FieldRef<"Tenant", 'Json'>
-  readonly createdAt: Prisma.FieldRef<"Tenant", 'DateTime'>
-  readonly deletedAt: Prisma.FieldRef<"Tenant", 'DateTime'>
-  readonly updatedAt: Prisma.FieldRef<"Tenant", 'DateTime'>
+  readonly created_at: Prisma.FieldRef<"Tenant", 'DateTime'>
+  readonly deleted_at: Prisma.FieldRef<"Tenant", 'DateTime'>
+  readonly updated_at: Prisma.FieldRef<"Tenant", 'DateTime'>
 }
     
 
@@ -2324,9 +4088,9 @@ export type Tenant$usersArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 }
 
 /**
- * Tenant.academicSessions
+ * Tenant.academic_sessions
  */
-export type Tenant$academicSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Tenant$academic_sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the AcademicSession
    */
@@ -2348,9 +4112,9 @@ export type Tenant$academicSessionsArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * Tenant.academicTerms
+ * Tenant.academic_terms
  */
-export type Tenant$academicTermsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Tenant$academic_termsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the AcademicTerm
    */
@@ -2441,6 +4205,212 @@ export type Tenant$subjectsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.SubjectScalarFieldEnum | Prisma.SubjectScalarFieldEnum[]
+}
+
+/**
+ * Tenant.timetable_slots
+ */
+export type Tenant$timetable_slotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TimeTableSlot
+   */
+  select?: Prisma.TimeTableSlotSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TimeTableSlot
+   */
+  omit?: Prisma.TimeTableSlotOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeTableSlotInclude<ExtArgs> | null
+  where?: Prisma.TimeTableSlotWhereInput
+  orderBy?: Prisma.TimeTableSlotOrderByWithRelationInput | Prisma.TimeTableSlotOrderByWithRelationInput[]
+  cursor?: Prisma.TimeTableSlotWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TimeTableSlotScalarFieldEnum | Prisma.TimeTableSlotScalarFieldEnum[]
+}
+
+/**
+ * Tenant.tutorial_classes
+ */
+export type Tenant$tutorial_classesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TutorialClass
+   */
+  select?: Prisma.TutorialClassSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TutorialClass
+   */
+  omit?: Prisma.TutorialClassOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TutorialClassInclude<ExtArgs> | null
+  where?: Prisma.TutorialClassWhereInput
+  orderBy?: Prisma.TutorialClassOrderByWithRelationInput | Prisma.TutorialClassOrderByWithRelationInput[]
+  cursor?: Prisma.TutorialClassWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TutorialClassScalarFieldEnum | Prisma.TutorialClassScalarFieldEnum[]
+}
+
+/**
+ * Tenant.lectures
+ */
+export type Tenant$lecturesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Lecture
+   */
+  select?: Prisma.LectureSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Lecture
+   */
+  omit?: Prisma.LectureOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LectureInclude<ExtArgs> | null
+  where?: Prisma.LectureWhereInput
+  orderBy?: Prisma.LectureOrderByWithRelationInput | Prisma.LectureOrderByWithRelationInput[]
+  cursor?: Prisma.LectureWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LectureScalarFieldEnum | Prisma.LectureScalarFieldEnum[]
+}
+
+/**
+ * Tenant.repository_folders
+ */
+export type Tenant$repository_foldersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RepositoryFolder
+   */
+  select?: Prisma.RepositoryFolderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RepositoryFolder
+   */
+  omit?: Prisma.RepositoryFolderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RepositoryFolderInclude<ExtArgs> | null
+  where?: Prisma.RepositoryFolderWhereInput
+  orderBy?: Prisma.RepositoryFolderOrderByWithRelationInput | Prisma.RepositoryFolderOrderByWithRelationInput[]
+  cursor?: Prisma.RepositoryFolderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RepositoryFolderScalarFieldEnum | Prisma.RepositoryFolderScalarFieldEnum[]
+}
+
+/**
+ * Tenant.repository_files
+ */
+export type Tenant$repository_filesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RepositoryFile
+   */
+  select?: Prisma.RepositoryFileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RepositoryFile
+   */
+  omit?: Prisma.RepositoryFileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RepositoryFileInclude<ExtArgs> | null
+  where?: Prisma.RepositoryFileWhereInput
+  orderBy?: Prisma.RepositoryFileOrderByWithRelationInput | Prisma.RepositoryFileOrderByWithRelationInput[]
+  cursor?: Prisma.RepositoryFileWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RepositoryFileScalarFieldEnum | Prisma.RepositoryFileScalarFieldEnum[]
+}
+
+/**
+ * Tenant.tenant_storage
+ */
+export type Tenant$tenant_storageArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TenantStorage
+   */
+  select?: Prisma.TenantStorageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TenantStorage
+   */
+  omit?: Prisma.TenantStorageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TenantStorageInclude<ExtArgs> | null
+  where?: Prisma.TenantStorageWhereInput
+}
+
+/**
+ * Tenant.schoolConfigs
+ */
+export type Tenant$schoolConfigsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SchoolConfig
+   */
+  select?: Prisma.SchoolConfigSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SchoolConfig
+   */
+  omit?: Prisma.SchoolConfigOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SchoolConfigInclude<ExtArgs> | null
+  where?: Prisma.SchoolConfigWhereInput
+  orderBy?: Prisma.SchoolConfigOrderByWithRelationInput | Prisma.SchoolConfigOrderByWithRelationInput[]
+  cursor?: Prisma.SchoolConfigWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SchoolConfigScalarFieldEnum | Prisma.SchoolConfigScalarFieldEnum[]
+}
+
+/**
+ * Tenant.assessments
+ */
+export type Tenant$assessmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Assessment
+   */
+  select?: Prisma.AssessmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Assessment
+   */
+  omit?: Prisma.AssessmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssessmentInclude<ExtArgs> | null
+  where?: Prisma.AssessmentWhereInput
+  orderBy?: Prisma.AssessmentOrderByWithRelationInput | Prisma.AssessmentOrderByWithRelationInput[]
+  cursor?: Prisma.AssessmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AssessmentScalarFieldEnum | Prisma.AssessmentScalarFieldEnum[]
+}
+
+/**
+ * Tenant.paymentConfig
+ */
+export type Tenant$paymentConfigArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PaymentConfig
+   */
+  select?: Prisma.PaymentConfigSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PaymentConfig
+   */
+  omit?: Prisma.PaymentConfigOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaymentConfigInclude<ExtArgs> | null
+  where?: Prisma.PaymentConfigWhereInput
 }
 
 /**

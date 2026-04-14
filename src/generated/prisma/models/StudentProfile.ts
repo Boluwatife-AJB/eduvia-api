@@ -26,66 +26,74 @@ export type AggregateStudentProfile = {
 
 export type StudentProfileMinAggregateOutputType = {
   id: string | null
-  userId: string | null
-  tenantId: string | null
-  matricNumber: string | null
-  classId: string | null
-  admissionDate: Date | null
-  dateOfBirth: Date | null
+  user_id: string | null
+  tenant_id: string | null
+  gender: $Enums.Gender | null
+  matric_number: string | null
+  class_id: string | null
+  admission_date: Date | null
+  date_of_birth: Date | null
 }
 
 export type StudentProfileMaxAggregateOutputType = {
   id: string | null
-  userId: string | null
-  tenantId: string | null
-  matricNumber: string | null
-  classId: string | null
-  admissionDate: Date | null
-  dateOfBirth: Date | null
+  user_id: string | null
+  tenant_id: string | null
+  gender: $Enums.Gender | null
+  matric_number: string | null
+  class_id: string | null
+  admission_date: Date | null
+  date_of_birth: Date | null
 }
 
 export type StudentProfileCountAggregateOutputType = {
   id: number
-  userId: number
-  tenantId: number
-  matricNumber: number
-  classId: number
-  admissionDate: number
-  dateOfBirth: number
-  guardianIds: number
+  user_id: number
+  tenant_id: number
+  gender: number
+  matric_number: number
+  class_id: number
+  admission_date: number
+  date_of_birth: number
+  guardian_ids: number
+  registered_subject_ids: number
   _all: number
 }
 
 
 export type StudentProfileMinAggregateInputType = {
   id?: true
-  userId?: true
-  tenantId?: true
-  matricNumber?: true
-  classId?: true
-  admissionDate?: true
-  dateOfBirth?: true
+  user_id?: true
+  tenant_id?: true
+  gender?: true
+  matric_number?: true
+  class_id?: true
+  admission_date?: true
+  date_of_birth?: true
 }
 
 export type StudentProfileMaxAggregateInputType = {
   id?: true
-  userId?: true
-  tenantId?: true
-  matricNumber?: true
-  classId?: true
-  admissionDate?: true
-  dateOfBirth?: true
+  user_id?: true
+  tenant_id?: true
+  gender?: true
+  matric_number?: true
+  class_id?: true
+  admission_date?: true
+  date_of_birth?: true
 }
 
 export type StudentProfileCountAggregateInputType = {
   id?: true
-  userId?: true
-  tenantId?: true
-  matricNumber?: true
-  classId?: true
-  admissionDate?: true
-  dateOfBirth?: true
-  guardianIds?: true
+  user_id?: true
+  tenant_id?: true
+  gender?: true
+  matric_number?: true
+  class_id?: true
+  admission_date?: true
+  date_of_birth?: true
+  guardian_ids?: true
+  registered_subject_ids?: true
   _all?: true
 }
 
@@ -163,13 +171,15 @@ export type StudentProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 
 export type StudentProfileGroupByOutputType = {
   id: string
-  userId: string
-  tenantId: string
-  matricNumber: string
-  classId: string
-  admissionDate: Date | null
-  dateOfBirth: Date | null
-  guardianIds: string[]
+  user_id: string
+  tenant_id: string
+  gender: $Enums.Gender
+  matric_number: string
+  class_id: string | null
+  admission_date: Date | null
+  date_of_birth: Date | null
+  guardian_ids: string[]
+  registered_subject_ids: string[]
   _count: StudentProfileCountAggregateOutputType | null
   _min: StudentProfileMinAggregateOutputType | null
   _max: StudentProfileMaxAggregateOutputType | null
@@ -195,55 +205,66 @@ export type StudentProfileWhereInput = {
   OR?: Prisma.StudentProfileWhereInput[]
   NOT?: Prisma.StudentProfileWhereInput | Prisma.StudentProfileWhereInput[]
   id?: Prisma.StringFilter<"StudentProfile"> | string
-  userId?: Prisma.StringFilter<"StudentProfile"> | string
-  tenantId?: Prisma.StringFilter<"StudentProfile"> | string
-  matricNumber?: Prisma.StringFilter<"StudentProfile"> | string
-  classId?: Prisma.StringFilter<"StudentProfile"> | string
-  admissionDate?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
-  dateOfBirth?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
-  guardianIds?: Prisma.StringNullableListFilter<"StudentProfile">
+  user_id?: Prisma.StringFilter<"StudentProfile"> | string
+  tenant_id?: Prisma.StringFilter<"StudentProfile"> | string
+  gender?: Prisma.EnumGenderFilter<"StudentProfile"> | $Enums.Gender
+  matric_number?: Prisma.StringFilter<"StudentProfile"> | string
+  class_id?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
+  admission_date?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
+  date_of_birth?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
+  guardian_ids?: Prisma.StringNullableListFilter<"StudentProfile">
+  registered_subject_ids?: Prisma.StringNullableListFilter<"StudentProfile">
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationListRelationFilter
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   class?: Prisma.XOR<Prisma.ClassNullableScalarRelationFilter, Prisma.ClassWhereInput> | null
 }
 
 export type StudentProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  matricNumber?: Prisma.SortOrder
-  classId?: Prisma.SortOrder
-  admissionDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
-  guardianIds?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
+  matric_number?: Prisma.SortOrder
+  class_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  admission_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  date_of_birth?: Prisma.SortOrderInput | Prisma.SortOrder
+  guardian_ids?: Prisma.SortOrder
+  registered_subject_ids?: Prisma.SortOrder
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationOrderByRelationAggregateInput
   user?: Prisma.UserOrderByWithRelationInput
   class?: Prisma.ClassOrderByWithRelationInput
 }
 
 export type StudentProfileWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  userId?: string
-  matricNumber?: string
+  user_id?: string
+  matric_number?: string
   AND?: Prisma.StudentProfileWhereInput | Prisma.StudentProfileWhereInput[]
   OR?: Prisma.StudentProfileWhereInput[]
   NOT?: Prisma.StudentProfileWhereInput | Prisma.StudentProfileWhereInput[]
-  tenantId?: Prisma.StringFilter<"StudentProfile"> | string
-  classId?: Prisma.StringFilter<"StudentProfile"> | string
-  admissionDate?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
-  dateOfBirth?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
-  guardianIds?: Prisma.StringNullableListFilter<"StudentProfile">
+  tenant_id?: Prisma.StringFilter<"StudentProfile"> | string
+  gender?: Prisma.EnumGenderFilter<"StudentProfile"> | $Enums.Gender
+  class_id?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
+  admission_date?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
+  date_of_birth?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
+  guardian_ids?: Prisma.StringNullableListFilter<"StudentProfile">
+  registered_subject_ids?: Prisma.StringNullableListFilter<"StudentProfile">
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationListRelationFilter
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   class?: Prisma.XOR<Prisma.ClassNullableScalarRelationFilter, Prisma.ClassWhereInput> | null
-}, "id" | "userId" | "matricNumber">
+}, "id" | "user_id" | "matric_number">
 
 export type StudentProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  matricNumber?: Prisma.SortOrder
-  classId?: Prisma.SortOrder
-  admissionDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
-  guardianIds?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
+  matric_number?: Prisma.SortOrder
+  class_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  admission_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  date_of_birth?: Prisma.SortOrderInput | Prisma.SortOrder
+  guardian_ids?: Prisma.SortOrder
+  registered_subject_ids?: Prisma.SortOrder
   _count?: Prisma.StudentProfileCountOrderByAggregateInput
   _max?: Prisma.StudentProfileMaxOrderByAggregateInput
   _min?: Prisma.StudentProfileMinOrderByAggregateInput
@@ -254,88 +275,108 @@ export type StudentProfileScalarWhereWithAggregatesInput = {
   OR?: Prisma.StudentProfileScalarWhereWithAggregatesInput[]
   NOT?: Prisma.StudentProfileScalarWhereWithAggregatesInput | Prisma.StudentProfileScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"StudentProfile"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"StudentProfile"> | string
-  tenantId?: Prisma.StringWithAggregatesFilter<"StudentProfile"> | string
-  matricNumber?: Prisma.StringWithAggregatesFilter<"StudentProfile"> | string
-  classId?: Prisma.StringWithAggregatesFilter<"StudentProfile"> | string
-  admissionDate?: Prisma.DateTimeNullableWithAggregatesFilter<"StudentProfile"> | Date | string | null
-  dateOfBirth?: Prisma.DateTimeNullableWithAggregatesFilter<"StudentProfile"> | Date | string | null
-  guardianIds?: Prisma.StringNullableListFilter<"StudentProfile">
+  user_id?: Prisma.StringWithAggregatesFilter<"StudentProfile"> | string
+  tenant_id?: Prisma.StringWithAggregatesFilter<"StudentProfile"> | string
+  gender?: Prisma.EnumGenderWithAggregatesFilter<"StudentProfile"> | $Enums.Gender
+  matric_number?: Prisma.StringWithAggregatesFilter<"StudentProfile"> | string
+  class_id?: Prisma.StringNullableWithAggregatesFilter<"StudentProfile"> | string | null
+  admission_date?: Prisma.DateTimeNullableWithAggregatesFilter<"StudentProfile"> | Date | string | null
+  date_of_birth?: Prisma.DateTimeNullableWithAggregatesFilter<"StudentProfile"> | Date | string | null
+  guardian_ids?: Prisma.StringNullableListFilter<"StudentProfile">
+  registered_subject_ids?: Prisma.StringNullableListFilter<"StudentProfile">
 }
 
 export type StudentProfileCreateInput = {
   id?: string
-  tenantId: string
-  matricNumber: string
-  admissionDate?: Date | string | null
-  dateOfBirth?: Date | string | null
-  guardianIds?: Prisma.StudentProfileCreateguardianIdsInput | string[]
-  user: Prisma.UserCreateNestedOneWithoutStudentProfileInput
+  tenant_id: string
+  gender?: $Enums.Gender
+  matric_number: string
+  admission_date?: Date | string | null
+  date_of_birth?: Date | string | null
+  guardian_ids?: Prisma.StudentProfileCreateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileCreateregistered_subject_idsInput | string[]
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationCreateNestedManyWithoutStudentInput
+  user: Prisma.UserCreateNestedOneWithoutStudent_profileInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
 }
 
 export type StudentProfileUncheckedCreateInput = {
   id?: string
-  userId: string
-  tenantId: string
-  matricNumber: string
-  classId: string
-  admissionDate?: Date | string | null
-  dateOfBirth?: Date | string | null
-  guardianIds?: Prisma.StudentProfileCreateguardianIdsInput | string[]
+  user_id: string
+  tenant_id: string
+  gender?: $Enums.Gender
+  matric_number: string
+  class_id?: string | null
+  admission_date?: Date | string | null
+  date_of_birth?: Date | string | null
+  guardian_ids?: Prisma.StudentProfileCreateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileCreateregistered_subject_idsInput | string[]
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedCreateNestedManyWithoutStudentInput
 }
 
 export type StudentProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  matricNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  guardianIds?: Prisma.StudentProfileUpdateguardianIdsInput | string[]
-  user?: Prisma.UserUpdateOneRequiredWithoutStudentProfileNestedInput
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  matric_number?: Prisma.StringFieldUpdateOperationsInput | string
+  admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  guardian_ids?: Prisma.StudentProfileUpdateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileUpdateregistered_subject_idsInput | string[]
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUpdateManyWithoutStudentNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutStudent_profileNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
 }
 
 export type StudentProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  matricNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  classId?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  guardianIds?: Prisma.StudentProfileUpdateguardianIdsInput | string[]
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  matric_number?: Prisma.StringFieldUpdateOperationsInput | string
+  class_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  guardian_ids?: Prisma.StudentProfileUpdateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileUpdateregistered_subject_idsInput | string[]
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentProfileCreateManyInput = {
   id?: string
-  userId: string
-  tenantId: string
-  matricNumber: string
-  classId: string
-  admissionDate?: Date | string | null
-  dateOfBirth?: Date | string | null
-  guardianIds?: Prisma.StudentProfileCreateguardianIdsInput | string[]
+  user_id: string
+  tenant_id: string
+  gender?: $Enums.Gender
+  matric_number: string
+  class_id?: string | null
+  admission_date?: Date | string | null
+  date_of_birth?: Date | string | null
+  guardian_ids?: Prisma.StudentProfileCreateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileCreateregistered_subject_idsInput | string[]
 }
 
 export type StudentProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  matricNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  guardianIds?: Prisma.StudentProfileUpdateguardianIdsInput | string[]
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  matric_number?: Prisma.StringFieldUpdateOperationsInput | string
+  admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  guardian_ids?: Prisma.StudentProfileUpdateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileUpdateregistered_subject_idsInput | string[]
 }
 
 export type StudentProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  matricNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  classId?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  guardianIds?: Prisma.StudentProfileUpdateguardianIdsInput | string[]
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  matric_number?: Prisma.StringFieldUpdateOperationsInput | string
+  class_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  guardian_ids?: Prisma.StudentProfileUpdateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileUpdateregistered_subject_idsInput | string[]
 }
 
 export type StudentProfileNullableScalarRelationFilter = {
@@ -353,33 +394,37 @@ export type StringNullableListFilter<$PrismaModel = never> = {
 
 export type StudentProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  matricNumber?: Prisma.SortOrder
-  classId?: Prisma.SortOrder
-  admissionDate?: Prisma.SortOrder
-  dateOfBirth?: Prisma.SortOrder
-  guardianIds?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
+  matric_number?: Prisma.SortOrder
+  class_id?: Prisma.SortOrder
+  admission_date?: Prisma.SortOrder
+  date_of_birth?: Prisma.SortOrder
+  guardian_ids?: Prisma.SortOrder
+  registered_subject_ids?: Prisma.SortOrder
 }
 
 export type StudentProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  matricNumber?: Prisma.SortOrder
-  classId?: Prisma.SortOrder
-  admissionDate?: Prisma.SortOrder
-  dateOfBirth?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
+  matric_number?: Prisma.SortOrder
+  class_id?: Prisma.SortOrder
+  admission_date?: Prisma.SortOrder
+  date_of_birth?: Prisma.SortOrder
 }
 
 export type StudentProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  tenantId?: Prisma.SortOrder
-  matricNumber?: Prisma.SortOrder
-  classId?: Prisma.SortOrder
-  admissionDate?: Prisma.SortOrder
-  dateOfBirth?: Prisma.SortOrder
+  user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
+  matric_number?: Prisma.SortOrder
+  class_id?: Prisma.SortOrder
+  admission_date?: Prisma.SortOrder
+  date_of_birth?: Prisma.SortOrder
 }
 
 export type StudentProfileListRelationFilter = {
@@ -390,6 +435,11 @@ export type StudentProfileListRelationFilter = {
 
 export type StudentProfileOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type StudentProfileScalarRelationFilter = {
+  is?: Prisma.StudentProfileWhereInput
+  isNot?: Prisma.StudentProfileWhereInput
 }
 
 export type StudentProfileCreateNestedOneWithoutUserInput = {
@@ -424,11 +474,20 @@ export type StudentProfileUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StudentProfileUpdateToOneWithWhereWithoutUserInput, Prisma.StudentProfileUpdateWithoutUserInput>, Prisma.StudentProfileUncheckedUpdateWithoutUserInput>
 }
 
-export type StudentProfileCreateguardianIdsInput = {
+export type StudentProfileCreateguardian_idsInput = {
   set: string[]
 }
 
-export type StudentProfileUpdateguardianIdsInput = {
+export type StudentProfileCreateregistered_subject_idsInput = {
+  set: string[]
+}
+
+export type StudentProfileUpdateguardian_idsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type StudentProfileUpdateregistered_subject_idsInput = {
   set?: string[]
   push?: string | string[]
 }
@@ -475,24 +534,44 @@ export type StudentProfileUncheckedUpdateManyWithoutClassNestedInput = {
   deleteMany?: Prisma.StudentProfileScalarWhereInput | Prisma.StudentProfileScalarWhereInput[]
 }
 
+export type StudentProfileCreateNestedOneWithoutStudent_subject_registrationsInput = {
+  create?: Prisma.XOR<Prisma.StudentProfileCreateWithoutStudent_subject_registrationsInput, Prisma.StudentProfileUncheckedCreateWithoutStudent_subject_registrationsInput>
+  connectOrCreate?: Prisma.StudentProfileCreateOrConnectWithoutStudent_subject_registrationsInput
+  connect?: Prisma.StudentProfileWhereUniqueInput
+}
+
+export type StudentProfileUpdateOneRequiredWithoutStudent_subject_registrationsNestedInput = {
+  create?: Prisma.XOR<Prisma.StudentProfileCreateWithoutStudent_subject_registrationsInput, Prisma.StudentProfileUncheckedCreateWithoutStudent_subject_registrationsInput>
+  connectOrCreate?: Prisma.StudentProfileCreateOrConnectWithoutStudent_subject_registrationsInput
+  upsert?: Prisma.StudentProfileUpsertWithoutStudent_subject_registrationsInput
+  connect?: Prisma.StudentProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StudentProfileUpdateToOneWithWhereWithoutStudent_subject_registrationsInput, Prisma.StudentProfileUpdateWithoutStudent_subject_registrationsInput>, Prisma.StudentProfileUncheckedUpdateWithoutStudent_subject_registrationsInput>
+}
+
 export type StudentProfileCreateWithoutUserInput = {
   id?: string
-  tenantId: string
-  matricNumber: string
-  admissionDate?: Date | string | null
-  dateOfBirth?: Date | string | null
-  guardianIds?: Prisma.StudentProfileCreateguardianIdsInput | string[]
+  tenant_id: string
+  gender?: $Enums.Gender
+  matric_number: string
+  admission_date?: Date | string | null
+  date_of_birth?: Date | string | null
+  guardian_ids?: Prisma.StudentProfileCreateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileCreateregistered_subject_idsInput | string[]
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationCreateNestedManyWithoutStudentInput
   class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
 }
 
 export type StudentProfileUncheckedCreateWithoutUserInput = {
   id?: string
-  tenantId: string
-  matricNumber: string
-  classId: string
-  admissionDate?: Date | string | null
-  dateOfBirth?: Date | string | null
-  guardianIds?: Prisma.StudentProfileCreateguardianIdsInput | string[]
+  tenant_id: string
+  gender?: $Enums.Gender
+  matric_number: string
+  class_id?: string | null
+  admission_date?: Date | string | null
+  date_of_birth?: Date | string | null
+  guardian_ids?: Prisma.StudentProfileCreateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileCreateregistered_subject_idsInput | string[]
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedCreateNestedManyWithoutStudentInput
 }
 
 export type StudentProfileCreateOrConnectWithoutUserInput = {
@@ -513,42 +592,54 @@ export type StudentProfileUpdateToOneWithWhereWithoutUserInput = {
 
 export type StudentProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  matricNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  guardianIds?: Prisma.StudentProfileUpdateguardianIdsInput | string[]
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  matric_number?: Prisma.StringFieldUpdateOperationsInput | string
+  admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  guardian_ids?: Prisma.StudentProfileUpdateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileUpdateregistered_subject_idsInput | string[]
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUpdateManyWithoutStudentNestedInput
   class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
 }
 
 export type StudentProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  matricNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  classId?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  guardianIds?: Prisma.StudentProfileUpdateguardianIdsInput | string[]
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  matric_number?: Prisma.StringFieldUpdateOperationsInput | string
+  class_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  guardian_ids?: Prisma.StudentProfileUpdateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileUpdateregistered_subject_idsInput | string[]
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentProfileCreateWithoutClassInput = {
   id?: string
-  tenantId: string
-  matricNumber: string
-  admissionDate?: Date | string | null
-  dateOfBirth?: Date | string | null
-  guardianIds?: Prisma.StudentProfileCreateguardianIdsInput | string[]
-  user: Prisma.UserCreateNestedOneWithoutStudentProfileInput
+  tenant_id: string
+  gender?: $Enums.Gender
+  matric_number: string
+  admission_date?: Date | string | null
+  date_of_birth?: Date | string | null
+  guardian_ids?: Prisma.StudentProfileCreateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileCreateregistered_subject_idsInput | string[]
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationCreateNestedManyWithoutStudentInput
+  user: Prisma.UserCreateNestedOneWithoutStudent_profileInput
 }
 
 export type StudentProfileUncheckedCreateWithoutClassInput = {
   id?: string
-  userId: string
-  tenantId: string
-  matricNumber: string
-  admissionDate?: Date | string | null
-  dateOfBirth?: Date | string | null
-  guardianIds?: Prisma.StudentProfileCreateguardianIdsInput | string[]
+  user_id: string
+  tenant_id: string
+  gender?: $Enums.Gender
+  matric_number: string
+  admission_date?: Date | string | null
+  date_of_birth?: Date | string | null
+  guardian_ids?: Prisma.StudentProfileCreateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileCreateregistered_subject_idsInput | string[]
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedCreateNestedManyWithoutStudentInput
 }
 
 export type StudentProfileCreateOrConnectWithoutClassInput = {
@@ -582,111 +673,232 @@ export type StudentProfileScalarWhereInput = {
   OR?: Prisma.StudentProfileScalarWhereInput[]
   NOT?: Prisma.StudentProfileScalarWhereInput | Prisma.StudentProfileScalarWhereInput[]
   id?: Prisma.StringFilter<"StudentProfile"> | string
-  userId?: Prisma.StringFilter<"StudentProfile"> | string
-  tenantId?: Prisma.StringFilter<"StudentProfile"> | string
-  matricNumber?: Prisma.StringFilter<"StudentProfile"> | string
-  classId?: Prisma.StringFilter<"StudentProfile"> | string
-  admissionDate?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
-  dateOfBirth?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
-  guardianIds?: Prisma.StringNullableListFilter<"StudentProfile">
+  user_id?: Prisma.StringFilter<"StudentProfile"> | string
+  tenant_id?: Prisma.StringFilter<"StudentProfile"> | string
+  gender?: Prisma.EnumGenderFilter<"StudentProfile"> | $Enums.Gender
+  matric_number?: Prisma.StringFilter<"StudentProfile"> | string
+  class_id?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
+  admission_date?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
+  date_of_birth?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
+  guardian_ids?: Prisma.StringNullableListFilter<"StudentProfile">
+  registered_subject_ids?: Prisma.StringNullableListFilter<"StudentProfile">
+}
+
+export type StudentProfileCreateWithoutStudent_subject_registrationsInput = {
+  id?: string
+  tenant_id: string
+  gender?: $Enums.Gender
+  matric_number: string
+  admission_date?: Date | string | null
+  date_of_birth?: Date | string | null
+  guardian_ids?: Prisma.StudentProfileCreateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileCreateregistered_subject_idsInput | string[]
+  user: Prisma.UserCreateNestedOneWithoutStudent_profileInput
+  class?: Prisma.ClassCreateNestedOneWithoutStudentsInput
+}
+
+export type StudentProfileUncheckedCreateWithoutStudent_subject_registrationsInput = {
+  id?: string
+  user_id: string
+  tenant_id: string
+  gender?: $Enums.Gender
+  matric_number: string
+  class_id?: string | null
+  admission_date?: Date | string | null
+  date_of_birth?: Date | string | null
+  guardian_ids?: Prisma.StudentProfileCreateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileCreateregistered_subject_idsInput | string[]
+}
+
+export type StudentProfileCreateOrConnectWithoutStudent_subject_registrationsInput = {
+  where: Prisma.StudentProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.StudentProfileCreateWithoutStudent_subject_registrationsInput, Prisma.StudentProfileUncheckedCreateWithoutStudent_subject_registrationsInput>
+}
+
+export type StudentProfileUpsertWithoutStudent_subject_registrationsInput = {
+  update: Prisma.XOR<Prisma.StudentProfileUpdateWithoutStudent_subject_registrationsInput, Prisma.StudentProfileUncheckedUpdateWithoutStudent_subject_registrationsInput>
+  create: Prisma.XOR<Prisma.StudentProfileCreateWithoutStudent_subject_registrationsInput, Prisma.StudentProfileUncheckedCreateWithoutStudent_subject_registrationsInput>
+  where?: Prisma.StudentProfileWhereInput
+}
+
+export type StudentProfileUpdateToOneWithWhereWithoutStudent_subject_registrationsInput = {
+  where?: Prisma.StudentProfileWhereInput
+  data: Prisma.XOR<Prisma.StudentProfileUpdateWithoutStudent_subject_registrationsInput, Prisma.StudentProfileUncheckedUpdateWithoutStudent_subject_registrationsInput>
+}
+
+export type StudentProfileUpdateWithoutStudent_subject_registrationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  matric_number?: Prisma.StringFieldUpdateOperationsInput | string
+  admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  guardian_ids?: Prisma.StudentProfileUpdateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileUpdateregistered_subject_idsInput | string[]
+  user?: Prisma.UserUpdateOneRequiredWithoutStudent_profileNestedInput
+  class?: Prisma.ClassUpdateOneWithoutStudentsNestedInput
+}
+
+export type StudentProfileUncheckedUpdateWithoutStudent_subject_registrationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  matric_number?: Prisma.StringFieldUpdateOperationsInput | string
+  class_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  guardian_ids?: Prisma.StudentProfileUpdateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileUpdateregistered_subject_idsInput | string[]
 }
 
 export type StudentProfileCreateManyClassInput = {
   id?: string
-  userId: string
-  tenantId: string
-  matricNumber: string
-  admissionDate?: Date | string | null
-  dateOfBirth?: Date | string | null
-  guardianIds?: Prisma.StudentProfileCreateguardianIdsInput | string[]
+  user_id: string
+  tenant_id: string
+  gender?: $Enums.Gender
+  matric_number: string
+  admission_date?: Date | string | null
+  date_of_birth?: Date | string | null
+  guardian_ids?: Prisma.StudentProfileCreateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileCreateregistered_subject_idsInput | string[]
 }
 
 export type StudentProfileUpdateWithoutClassInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  matricNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  guardianIds?: Prisma.StudentProfileUpdateguardianIdsInput | string[]
-  user?: Prisma.UserUpdateOneRequiredWithoutStudentProfileNestedInput
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  matric_number?: Prisma.StringFieldUpdateOperationsInput | string
+  admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  guardian_ids?: Prisma.StudentProfileUpdateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileUpdateregistered_subject_idsInput | string[]
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUpdateManyWithoutStudentNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutStudent_profileNestedInput
 }
 
 export type StudentProfileUncheckedUpdateWithoutClassInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  matricNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  guardianIds?: Prisma.StudentProfileUpdateguardianIdsInput | string[]
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  matric_number?: Prisma.StringFieldUpdateOperationsInput | string
+  admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  guardian_ids?: Prisma.StudentProfileUpdateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileUpdateregistered_subject_idsInput | string[]
+  student_subject_registrations?: Prisma.StudentSubjectRegistrationUncheckedUpdateManyWithoutStudentNestedInput
 }
 
 export type StudentProfileUncheckedUpdateManyWithoutClassInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  matricNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  guardianIds?: Prisma.StudentProfileUpdateguardianIdsInput | string[]
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  matric_number?: Prisma.StringFieldUpdateOperationsInput | string
+  admission_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_of_birth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  guardian_ids?: Prisma.StudentProfileUpdateguardian_idsInput | string[]
+  registered_subject_ids?: Prisma.StudentProfileUpdateregistered_subject_idsInput | string[]
 }
 
+
+/**
+ * Count Type StudentProfileCountOutputType
+ */
+
+export type StudentProfileCountOutputType = {
+  student_subject_registrations: number
+}
+
+export type StudentProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  student_subject_registrations?: boolean | StudentProfileCountOutputTypeCountStudent_subject_registrationsArgs
+}
+
+/**
+ * StudentProfileCountOutputType without action
+ */
+export type StudentProfileCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudentProfileCountOutputType
+   */
+  select?: Prisma.StudentProfileCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * StudentProfileCountOutputType without action
+ */
+export type StudentProfileCountOutputTypeCountStudent_subject_registrationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudentSubjectRegistrationWhereInput
+}
 
 
 export type StudentProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
-  tenantId?: boolean
-  matricNumber?: boolean
-  classId?: boolean
-  admissionDate?: boolean
-  dateOfBirth?: boolean
-  guardianIds?: boolean
+  user_id?: boolean
+  tenant_id?: boolean
+  gender?: boolean
+  matric_number?: boolean
+  class_id?: boolean
+  admission_date?: boolean
+  date_of_birth?: boolean
+  guardian_ids?: boolean
+  registered_subject_ids?: boolean
+  student_subject_registrations?: boolean | Prisma.StudentProfile$student_subject_registrationsArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   class?: boolean | Prisma.StudentProfile$classArgs<ExtArgs>
+  _count?: boolean | Prisma.StudentProfileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studentProfile"]>
 
 export type StudentProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
-  tenantId?: boolean
-  matricNumber?: boolean
-  classId?: boolean
-  admissionDate?: boolean
-  dateOfBirth?: boolean
-  guardianIds?: boolean
+  user_id?: boolean
+  tenant_id?: boolean
+  gender?: boolean
+  matric_number?: boolean
+  class_id?: boolean
+  admission_date?: boolean
+  date_of_birth?: boolean
+  guardian_ids?: boolean
+  registered_subject_ids?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   class?: boolean | Prisma.StudentProfile$classArgs<ExtArgs>
 }, ExtArgs["result"]["studentProfile"]>
 
 export type StudentProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
-  tenantId?: boolean
-  matricNumber?: boolean
-  classId?: boolean
-  admissionDate?: boolean
-  dateOfBirth?: boolean
-  guardianIds?: boolean
+  user_id?: boolean
+  tenant_id?: boolean
+  gender?: boolean
+  matric_number?: boolean
+  class_id?: boolean
+  admission_date?: boolean
+  date_of_birth?: boolean
+  guardian_ids?: boolean
+  registered_subject_ids?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   class?: boolean | Prisma.StudentProfile$classArgs<ExtArgs>
 }, ExtArgs["result"]["studentProfile"]>
 
 export type StudentProfileSelectScalar = {
   id?: boolean
-  userId?: boolean
-  tenantId?: boolean
-  matricNumber?: boolean
-  classId?: boolean
-  admissionDate?: boolean
-  dateOfBirth?: boolean
-  guardianIds?: boolean
+  user_id?: boolean
+  tenant_id?: boolean
+  gender?: boolean
+  matric_number?: boolean
+  class_id?: boolean
+  admission_date?: boolean
+  date_of_birth?: boolean
+  guardian_ids?: boolean
+  registered_subject_ids?: boolean
 }
 
-export type StudentProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tenantId" | "matricNumber" | "classId" | "admissionDate" | "dateOfBirth" | "guardianIds", ExtArgs["result"]["studentProfile"]>
+export type StudentProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "tenant_id" | "gender" | "matric_number" | "class_id" | "admission_date" | "date_of_birth" | "guardian_ids" | "registered_subject_ids", ExtArgs["result"]["studentProfile"]>
 export type StudentProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  student_subject_registrations?: boolean | Prisma.StudentProfile$student_subject_registrationsArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   class?: boolean | Prisma.StudentProfile$classArgs<ExtArgs>
+  _count?: boolean | Prisma.StudentProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StudentProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -700,18 +912,24 @@ export type StudentProfileIncludeUpdateManyAndReturn<ExtArgs extends runtime.Typ
 export type $StudentProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "StudentProfile"
   objects: {
+    student_subject_registrations: Prisma.$StudentSubjectRegistrationPayload<ExtArgs>[]
     user: Prisma.$UserPayload<ExtArgs>
     class: Prisma.$ClassPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    userId: string
-    tenantId: string
-    matricNumber: string
-    classId: string
-    admissionDate: Date | null
-    dateOfBirth: Date | null
-    guardianIds: string[]
+    user_id: string
+    tenant_id: string
+    gender: $Enums.Gender
+    matric_number: string
+    class_id: string | null
+    admission_date: Date | null
+    date_of_birth: Date | null
+    guardian_ids: string[]
+    /**
+     * Denormalized Subject.id list; keep in sync with StudentSubjectRegistration or derive via query.
+     */
+    registered_subject_ids: string[]
   }, ExtArgs["result"]["studentProfile"]>
   composites: {}
 }
@@ -1106,6 +1324,7 @@ readonly fields: StudentProfileFieldRefs;
  */
 export interface Prisma__StudentProfileClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  student_subject_registrations<T extends Prisma.StudentProfile$student_subject_registrationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentProfile$student_subject_registrationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentSubjectRegistrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   class<T extends Prisma.StudentProfile$classArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentProfile$classArgs<ExtArgs>>): Prisma.Prisma__ClassClient<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1138,13 +1357,15 @@ export interface Prisma__StudentProfileClient<T, Null = never, ExtArgs extends r
  */
 export interface StudentProfileFieldRefs {
   readonly id: Prisma.FieldRef<"StudentProfile", 'String'>
-  readonly userId: Prisma.FieldRef<"StudentProfile", 'String'>
-  readonly tenantId: Prisma.FieldRef<"StudentProfile", 'String'>
-  readonly matricNumber: Prisma.FieldRef<"StudentProfile", 'String'>
-  readonly classId: Prisma.FieldRef<"StudentProfile", 'String'>
-  readonly admissionDate: Prisma.FieldRef<"StudentProfile", 'DateTime'>
-  readonly dateOfBirth: Prisma.FieldRef<"StudentProfile", 'DateTime'>
-  readonly guardianIds: Prisma.FieldRef<"StudentProfile", 'String[]'>
+  readonly user_id: Prisma.FieldRef<"StudentProfile", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"StudentProfile", 'String'>
+  readonly gender: Prisma.FieldRef<"StudentProfile", 'Gender'>
+  readonly matric_number: Prisma.FieldRef<"StudentProfile", 'String'>
+  readonly class_id: Prisma.FieldRef<"StudentProfile", 'String'>
+  readonly admission_date: Prisma.FieldRef<"StudentProfile", 'DateTime'>
+  readonly date_of_birth: Prisma.FieldRef<"StudentProfile", 'DateTime'>
+  readonly guardian_ids: Prisma.FieldRef<"StudentProfile", 'String[]'>
+  readonly registered_subject_ids: Prisma.FieldRef<"StudentProfile", 'String[]'>
 }
     
 
@@ -1543,6 +1764,30 @@ export type StudentProfileDeleteManyArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many StudentProfiles to delete.
    */
   limit?: number
+}
+
+/**
+ * StudentProfile.student_subject_registrations
+ */
+export type StudentProfile$student_subject_registrationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudentSubjectRegistration
+   */
+  select?: Prisma.StudentSubjectRegistrationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudentSubjectRegistration
+   */
+  omit?: Prisma.StudentSubjectRegistrationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentSubjectRegistrationInclude<ExtArgs> | null
+  where?: Prisma.StudentSubjectRegistrationWhereInput
+  orderBy?: Prisma.StudentSubjectRegistrationOrderByWithRelationInput | Prisma.StudentSubjectRegistrationOrderByWithRelationInput[]
+  cursor?: Prisma.StudentSubjectRegistrationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudentSubjectRegistrationScalarFieldEnum | Prisma.StudentSubjectRegistrationScalarFieldEnum[]
 }
 
 /**

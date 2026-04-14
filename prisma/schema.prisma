@@ -9,100 +9,129 @@ datasource db {
 }
 
 model Tenant {
-  id               String            @id @default(uuid())
-  name             String
-  slug             String            @unique
+  id                 String             @id @default(uuid())
+  name               String
+  slug               String             @unique
   /// Short code used in matric/employee IDs (e.g. GFA for Greenfield Academy). Falls back to slug if not set.
-  initials         String?           @map("initials")
-  email            String?
-  phone            String?
-  address          String?
-  logo             String?
-  status           TenantStatus      @default(ACTIVE)
-  plan             String            @default("free")
-  config           Json              @default("{}")
-  createdAt        DateTime          @default(now()) @map("created_at")
-  deletedAt        DateTime?         @map("deleted_at")
-  updatedAt        DateTime          @updatedAt @map("updated_at")
-  users            User[]
-  academicSessions AcademicSession[]
-  academicTerms    AcademicTerm[]
-  departments      Department[]
-  classes          Class[]
-  subjects         Subject[]
+  initials           String?
+  email              String?
+  phone              String?
+  address            String?
+  logo               String?
+  status             TenantStatus       @default(ACTIVE)
+  plan               String             @default("free")
+  config             Json               @default("{}")
+  created_at         DateTime           @default(now())
+  deleted_at         DateTime?
+  updated_at         DateTime           @updatedAt
+  users              User[]
+  academic_sessions  AcademicSession[]
+  academic_terms     AcademicTerm[]
+  departments        Department[]
+  classes            Class[]
+  subjects           Subject[]
+  timetable_slots    TimeTableSlot[]
+  tutorial_classes   TutorialClass[]
+  lectures           Lecture[]
+  repository_folders RepositoryFolder[]
+  repository_files   RepositoryFile[]
+  tenant_storage     TenantStorage?
+  schoolConfigs      SchoolConfig[]
+  assessments        Assessment[]
+  paymentConfig      PaymentConfig?
 
   @@map("tenants")
 }
 
 model User {
-  id              String           @id @default(uuid())
-  role            UserRole
+  id                      String           @id @default(uuid())
+  role                    UserRole
   /// Human-readable login ID: students = matricNumber, teachers/staff = employeeId, guardians = custom ID. Unique per tenant.
-  identifier      String           @unique
-  email           String?
-  phone           String?
-  avatar          String?
-  status          UserStatus       @default(PENDING)
-  firstName       String           @map("first_name")
-  lastName        String           @map("last_name")
-  mfaEnabled      Boolean          @default(false)
-  mfaSecret       String?          @map("mfa_secret")
-  passwordHash    String           @map("password_hash")
-  relationship    String?
-  createdAt       DateTime         @default(now()) @map("created_at")
-  lastLoginAt     DateTime?        @map("last_login_at")
-  tenantId        String           @map("tenant_id")
-  updatedAt       DateTime         @updatedAt @map("updated_at")
-  guardianProfile GuardianProfile?
-  refreshTokens   RefreshToken[]
-  staffProfile    StaffProfile?
-  studentProfile  StudentProfile?
-  teacherProfile  TeacherProfile?
-  tenant          Tenant           @relation(fields: [tenantId], references: [id])
+  identifier              String           @unique
+  email                   String?
+  phone                   String?
+  avatar                  String?
+  status                  UserStatus       @default(PENDING)
+  first_name              String
+  last_name               String
+  gender                  Gender           @default(MALE)
+  mfa_enabled             Boolean          @default(false)
+  mfa_secret              String?
+  password_hash           String
+  relationship            String?
+  enforce_password_change Boolean          @default(true)
+  created_at              DateTime         @default(now())
+  last_login_at           DateTime?
+  tenant_id               String
+  updated_at              DateTime         @updatedAt
+  guardian_profile        GuardianProfile?
+  refresh_tokens          RefreshToken[]
+  staff_profile           StaffProfile?
+  student_profile         StudentProfile?
+  teacher_profile         TeacherProfile?
+  tenant                  Tenant           @relation(fields: [tenant_id], references: [id])
+  notifications           Notification[]
 
-  @@unique([tenantId, identifier])
-  @@unique([tenantId, email])
+  @@unique([tenant_id, identifier])
+  @@unique([tenant_id, email])
   @@map("users")
 }
 
 model RefreshToken {
-  id        String   @id @default(uuid())
-  token     String   @unique
-  createdAt DateTime @default(now()) @map("created_at")
-  expiresAt DateTime @map("expires_at")
-  userId    String   @map("user_id")
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String   @id @default(uuid())
+  token      String   @unique
+  created_at DateTime @default(now())
+  expires_at DateTime
+  user_id    String
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("refresh_tokens")
 }
 
 /// id = internal UUID. userId = FK to User. matricNumber = display ID (e.g. GFA/2026/0001), same as User.identifier for students.
 model StudentProfile {
-  id            String    @id @default(uuid())
-  userId        String    @unique @map("user_id")
-  tenantId      String    @map("tenant_id")
-  matricNumber  String    @unique @map("matric_number")
-  classId       String    @map("class_id")
-  admissionDate DateTime? @map("admission_date")
-  dateOfBirth   DateTime? @map("date_of_birth")
-  guardianIds   String[]  @default([]) @map("guardian_ids")
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  class         Class?    @relation(fields: [classId], references: [id])
+  id                            String                       @id @default(uuid())
+  user_id                       String                       @unique
+  tenant_id                     String
+  gender                        Gender                       @default(MALE)
+  matric_number                 String                       @unique
+  class_id                      String?
+  admission_date                DateTime?
+  date_of_birth                 DateTime?
+  guardian_ids                  String[]                     @default([])
+  /// Denormalized Subject.id list; keep in sync with StudentSubjectRegistration or derive via query.
+  registered_subject_ids        String[]                     @default([])
+  student_subject_registrations StudentSubjectRegistration[]
+
+  user  User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  class Class? @relation(fields: [class_id], references: [id])
 
   @@map("student_profiles")
 }
 
 /// id = internal UUID. userId = FK to User. employeeId = display ID (e.g. GFA/TCH/001), same as User.identifier for teachers.
 model TeacherProfile {
-  id            String    @id @default(uuid())
-  userId        String    @unique @map("user_id")
-  tenantId      String    @map("tenant_id")
-  employeeId    String    @unique @map("employee_id")
-  departmentId  String?   @map("department_id")
-  qualification String?   @map("qualification")
-  dateJoined    DateTime? @map("date_joined")
-  subjectIds    String[]  @default([]) @map("subject_ids")
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                   String    @id @default(uuid())
+  user_id              String    @unique
+  tenant_id            String
+  gender               Gender    @default(MALE)
+  employee_id          String    @unique
+  department_id        String?
+  qualification        String?
+  course_of_study      String?
+  class_of_degree      String?
+  year_of_graduation   String?
+  // TODO: Upload certificate
+  // certificate_url      String?
+  // additional_certifications
+  // affiliations
+  date_joined          DateTime?
+  /// Denormalized Subject.id list; keep in sync with SubjectTeacher → ClassSubject or derive via query.
+  assigned_subject_ids String[]  @default([])
+
+  user             User            @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  tutorial_classes TutorialClass[]
+  lectures         Lecture[]
 
   @@map("teacher_profiles")
 }
@@ -110,131 +139,904 @@ model TeacherProfile {
 /// id = internal UUID. userId = FK to User. Guardians use User.identifier (no separate employee/matric field).
 model GuardianProfile {
   id           String   @id @default(uuid())
-  userId       String   @unique @map("user_id")
-  tenantId     String   @map("tenant_id")
-  occupation   String?  @map("occupation")
-  relationship String?  @map("relationship")
-  wardIds      String[] @default([]) @map("ward_ids")
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user_id      String   @unique
+  tenant_id    String
+  occupation   String?
+  relationship String?
+  ward_ids     String[] @default([])
+  user         User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("guardian_profiles")
 }
 
 /// id = internal UUID. userId = FK to User. employeeId = display ID (e.g. GFA/EMP/001), same as User.identifier for staff.
 model StaffProfile {
-  id           String    @id @default(uuid())
-  userId       String    @unique @map("user_id")
-  tenantId     String    @map("tenant_id")
-  employeeId   String    @unique @map("employee_id")
-  staffType    String    @map("staff_type")
-  departmentId String?   @map("department_id")
-  dateJoined   DateTime? @map("date_joined")
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                 String               @id @default(uuid())
+  user_id            String               @unique
+  tenant_id          String
+  gender             Gender               @default(MALE)
+  staff_role         NonTeachingStaffRole
+  qualification      String?
+  course_of_study    String?
+  class_of_degree    String?
+  year_of_graduation String?
+  employee_id        String               @unique
+  // staff_type         String
+  // department_id      String?
+  date_joined        DateTime?
+  user               User                 @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("staff_profiles")
 }
 
 model AcademicSession {
-  id        String   @id @default(uuid())
-  tenantId  String   @map("tenant_id")
-  name      String   @map("name")
-  startDate DateTime @map("start_date")
-  endDate   DateTime @map("end_date")
-  isCurrent Boolean  @default(false) @map("is_current")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id         String   @id @default(uuid())
+  tenant_id  String
+  name       String
+  start_date DateTime
+  end_date   DateTime
+  is_current Boolean  @default(false)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  tenant Tenant         @relation(fields: [tenantId], references: [id])
+  tenant Tenant         @relation(fields: [tenant_id], references: [id])
   // semesters        AcademicSemester[] // For uni
   terms  AcademicTerm[] // For secondary
 
-  @@unique([tenantId, name]) // can't have two sessions with same name in one school
+  @@unique([tenant_id, name]) // can't have two sessions with same name in one school
   @@map("academic_sessions")
 }
 
 model AcademicTerm {
-  id                String   @id @default(uuid())
-  tenantId          String   @map("tenant_id")
-  academicSessionId String   @map("academic_session_id")
-  name              String   @map("name")
-  startDate         DateTime @map("start_date")
-  endDate           DateTime @map("end_date")
-  isCurrent         Boolean  @default(false) @map("is_current")
-  createdAt         DateTime @default(now()) @map("created_at")
-  updatedAt         DateTime @updatedAt @map("updated_at")
+  id                    String                       @id @default(uuid())
+  tenant_id             String
+  academic_session_id   String
+  name                  String
+  start_date            DateTime
+  end_date              DateTime
+  is_current            Boolean                      @default(false)
+  created_at            DateTime                     @default(now())
+  updated_at            DateTime                     @updatedAt
+  subject_registrations StudentSubjectRegistration[]
 
-  tenant          Tenant          @relation(fields: [tenantId], references: [id])
-  academicSession AcademicSession @relation(fields: [academicSessionId], references: [id], onDelete: Cascade)
+  tenant           Tenant          @relation(fields: [tenant_id], references: [id])
+  academicSession  AcademicSession @relation(fields: [academic_session_id], references: [id], onDelete: Cascade)
+  timetable_slots  TimeTableSlot[]
+  tutorial_classes TutorialClass[]
+  lectures         Lecture[]
+  assessments      Assessment[]
 
-  @@unique([academicSessionId, name]) // can't have two terms with same name in one session
+  @@unique([academic_session_id, name]) // can't have two terms with same name in one session
   @@map("academic_terms")
 }
 
 model Department {
   id          String  @id @default(uuid())
-  tenantId    String  @map("tenant_id")
-  name        String  @map("name")
-  description String? @map("description")
-  hodId       String? @map("hod_id")
+  tenant_id   String
+  name        String
+  description String?
+  hod_id      String?
 
   subjects Subject[]
   classes  Class[]
 
-  tenant Tenant @relation(fields: [tenantId], references: [id])
+  tenant Tenant @relation(fields: [tenant_id], references: [id])
 
-  @@unique([tenantId, name])
+  @@unique([tenant_id, name])
   @@map("departments")
 }
 
 model Class {
-  id             String  @id @default(uuid())
-  tenantId       String  @map("tenant_id")
-  name           String
-  level          String
-  capacity       Int     @default(40)
-  departmentId   String? @map("department_id")
-  classTeacherId String? @map("class_teacher_id") // the teacher responsible for this class
+  id               String   @id @default(uuid())
+  tenant_id        String
+  name             String
+  level            String
+  capacity         Int      @default(40)
+  department_id    String?
+  class_teacher_id String? // the teacher responsible for this class
+  /// Denormalized Subject.id list; keep in sync with ClassSubject or derive via query.
+  subject_ids      String[] @default([])
 
-  tenant        Tenant           @relation(fields: [tenantId], references: [id])
-  department    Department?      @relation(fields: [departmentId], references: [id])
-  students      StudentProfile[]
-  classSubjects ClassSubject[] // subjects offered in this class
+  tenant     Tenant           @relation(fields: [tenant_id], references: [id])
+  department Department?      @relation(fields: [department_id], references: [id])
+  students   StudentProfile[]
 
-  @@unique([tenantId, name])
+  class_subjects  ClassSubject[] // subjects offered in this class
+  timetable_slots TimeTableSlot[]
+  lectures        Lecture[]
+  assessments     Assessment[]
+
+  @@unique([tenant_id, name])
   @@map("classes")
 }
 
 model Subject {
-  id           String  @id @default(uuid())
-  tenantId     String  @map("tenant_id")
-  name         String
-  code         String
-  title String
-  description  String?
-  departmentId String? @map("department_id")
+  id            String  @id @default(uuid())
+  tenant_id     String
+  name          String
+  code          String
+  title         String
+  description   String?
+  department_id String?
 
-  tenant        Tenant         @relation(fields: [tenantId], references: [id])
-  department    Department?    @relation(fields: [departmentId], references: [id])
-  classSubjects ClassSubject[] // which classes offer this subject
+  tenant           Tenant          @relation(fields: [tenant_id], references: [id])
+  department       Department?     @relation(fields: [department_id], references: [id])
+  class_subjects   ClassSubject[] // which classes offer this subject
+  timetable_slots  TimeTableSlot[]
+  tutorial_classes TutorialClass[]
+  lectures         Lecture[]
+  assessments      Assessment[]
 
-  @@unique([tenantId, code])
+  @@unique([tenant_id, code, department_id])
   @@map("subjects")
 }
 
 model ClassSubject {
-  id        String   @id @default(uuid())
-  tenantId  String   @map("tenant_id")
-  classId   String   @map("class_id")
-  subjectId String   @map("subject_id")
-  teacherId String?  @map("teacher_id")
-  // createdAt DateTime @default(now()) @map("created_at")
-  // updatedAt DateTime @updatedAt @map("updated_at")
+  id           String      @id @default(uuid())
+  tenant_id    String
+  class_id     String
+  subject_id   String
+  subject_type SubjectType @default(COMPULSORY)
 
-  class   Class   @relation(fields: [classId], references: [id], onDelete: Cascade)
-  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  
-  @@unique([tenantId, classId, subjectId])
+  class                         Class                        @relation(fields: [class_id], references: [id], onDelete: Cascade)
+  subject                       Subject                      @relation(fields: [subject_id], references: [id], onDelete: Cascade)
+  teachers                      SubjectTeacher[]
+  student_subject_registrations StudentSubjectRegistration[]
+
+  @@unique([tenant_id, class_id, subject_id])
   @@map("class_subjects")
+}
+
+model SubjectTeacher {
+  id               String @id @default(uuid())
+  tenant_id        String
+  class_subject_id String
+  teacher_id       String
+
+  class_subject ClassSubject @relation(fields: [class_subject_id], references: [id], onDelete: Cascade)
+
+  @@unique([tenant_id, class_subject_id, teacher_id])
+  @@map("subject_teachers")
+}
+
+model StudentSubjectRegistration {
+  id                String   @id @default(uuid())
+  tenant_id         String
+  student_id        String
+  class_subject_id  String
+  term_id           String
+  registration_date DateTime @default(now())
+
+  student       StudentProfile @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  class_subject ClassSubject   @relation(fields: [class_subject_id], references: [id])
+  term          AcademicTerm   @relation(fields: [term_id], references: [id])
+
+  @@unique([tenant_id, student_id, class_subject_id, term_id])
+  @@map("student_subject_registrations")
+}
+
+model SubjectRegistration {
+  id         String @id @default(uuid())
+  tenant_id  String
+  student_id String
+  subject_id String
+  class_id   String
+  term_id    String
+  session_id String
+
+  credit_units Int @default(3)
+
+  ca1_score      Float?
+  ca2_score      Float?
+  ca3_score      Float?
+  ca4_score      Float?
+  ca5_score      Float?
+  ca_total_score Float?
+
+  exam_score  Float?
+  // CA + Exam
+  total_score Float?
+
+  grade        String?
+  grade_points Float?
+  remark       String?
+  is_passed    Boolean?
+
+  is_approval Boolean   @default(false)
+  approved_by String?
+  approved_at DateTime?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([student_id, subject_id, term_id, session_id])
+  @@map("subject_registrations")
+}
+
+model TermResult {
+  id         String @id @default(uuid())
+  tenant_id  String
+  student_id String
+  class_id   String
+  term_id    String
+  session_id String
+
+  // Aggregate scores
+  total_score        Float? // sum of all subject final scores
+  average            Float? // total_score / subjectCount
+  total_credit_units Int?
+
+  // GPA for this term
+  term_gpa Float?
+
+  // Position in class
+  position Int?
+  out_of   Int?
+
+  // Status
+  is_published Boolean   @default(false)
+  published_at DateTime?
+  is_approved  Boolean   @default(false)
+  approved_by  String?
+  approved_at  DateTime?
+
+  // PDF
+  pdf_key          String? // R2 file key once generated
+  pdf_url          String?
+  pdf_generated_at DateTime?
+
+  principal_comment String?
+  teacher_comment   String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([student_id, term_id])
+  @@map("term_results")
+}
+
+model CumulativeResult {
+  id         String @id @default(uuid())
+  tenant_id  String
+  student_id String
+  session_id String
+
+  // CGPA across all terms in this session
+  session_cgpa Float?
+
+  // Lifetime CGPA (across all sessions)
+  lifetime_cgpa Float?
+
+  total_credit_units_earned    Int?
+  total_credit_units_attempted Int?
+
+  updated_at DateTime @updatedAt
+
+  @@unique([student_id, session_id])
+  @@map("cumulative_results")
+}
+
+model TimeTableSlot {
+  id               String    @id @default(uuid())
+  tenant_id        String
+  class_id         String
+  subject_id       String
+  teacher_id       String
+  academic_term_id String
+  day_of_week      DayOfWeek
+  start_time       String // HH:MM
+  end_time         String
+  venue            String?
+  color            String?
+  is_active        Boolean   @default(true)
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+
+  tenant  Tenant       @relation(fields: [tenant_id], references: [id])
+  class   Class        @relation(fields: [class_id], references: [id], onDelete: Cascade)
+  subject Subject      @relation(fields: [subject_id], references: [id])
+  term    AcademicTerm @relation(fields: [academic_term_id], references: [id])
+
+  // @@unique([tenant_id, class_id, subject_id, teacher_id, academic_term_id, day_of_week, start_time, end_time])
+  @@map("timetable_slots")
+}
+
+// Extra classes created by teachers outside of the regular timetable
+model TutorialClass {
+  id               String     @id @default(uuid())
+  tenant_id        String
+  teacher_id       String
+  class_id         String?
+  subject_id       String
+  academic_term_id String
+  title            String
+  description      String?
+  venue            String?
+  start_time       DateTime
+  end_time         DateTime
+  is_recurring     Boolean    @default(false)
+  recurring_day    DayOfWeek?
+  max_students     Int?
+  created_at       DateTime   @default(now())
+  updated_at       DateTime   @updatedAt
+
+  tenant             Tenant          @relation(fields: [tenant_id], references: [id])
+  subject            Subject         @relation(fields: [subject_id], references: [id])
+  term               AcademicTerm    @relation(fields: [academic_term_id], references: [id])
+  teacher_profile    TeacherProfile? @relation(fields: [teacher_profile_id], references: [id])
+  teacher_profile_id String?
+
+  @@map("tutorial_classes")
+}
+
+model Lecture {
+  id               String             @id @default(uuid())
+  tenant_id        String
+  teacher_id       String
+  subject_id       String
+  class_id         String
+  academic_term_id String
+  title            String
+  description      String?
+  content_type     LectureContentType
+  status           LectureStatus
+  file_key         String?
+  file_url         String?
+  external_url     String?
+  text_content     String?
+  duration_mins    Int?
+  file_size        Int?
+  order            Int                @default(0)
+  published_at     DateTime?
+  created_at       DateTime           @default(now())
+  updated_at       DateTime           @updatedAt
+
+  tenant  Tenant         @relation(fields: [tenant_id], references: [id])
+  subject Subject        @relation(fields: [subject_id], references: [id])
+  class   Class          @relation(fields: [class_id], references: [id])
+  teacher TeacherProfile @relation(fields: [teacher_id], references: [id])
+  term    AcademicTerm   @relation(fields: [academic_term_id], references: [id])
+  views   LectureView[]
+
+  @@map("lectures")
+}
+
+model LectureView {
+  id                  String   @id @default(uuid())
+  tenant_id           String
+  lecture_id          String
+  student_id          String
+  viewed_at           DateTime @default(now())
+  progress_percentage Int      @default(0)
+
+  lecture Lecture? @relation(fields: [lecture_id], references: [id], onDelete: Cascade)
+
+  @@unique([lecture_id, student_id])
+  @@map("lecture_views")
+}
+
+model RepositoryFolder {
+  id               String          @id @default(uuid())
+  tenant_id        String
+  name             String
+  scope            RepositoryScope
+  scope_id         String?
+  parent_folder_id String?
+  depth            Int             @default(0)
+  status           FileStatus      @default(ACTIVE)
+  created_by       String
+  created_at       DateTime        @default(now())
+  updated_at       DateTime        @updatedAt
+
+  tenant   Tenant             @relation(fields: [tenant_id], references: [id])
+  parent   RepositoryFolder?  @relation("FolderChildren", fields: [parent_folder_id], references: [id])
+  children RepositoryFolder[] @relation("FolderChildren")
+  files    RepositoryFile[]
+
+  @@unique([tenant_id, name, parent_folder_id, scope_id, scope])
+  @@map("repository_folders")
+}
+
+model RepositoryFile {
+  id                 String          @id @default(uuid())
+  tenant_id          String
+  folder_id          String
+  scope_id           String?
+  scope              RepositoryScope
+  name               String
+  description        String?
+  tags               String[]        @default([])
+  current_version_id String?
+  total_versions     Int             @default(0)
+  status             FileStatus      @default(ACTIVE)
+  is_global_search   Boolean         @default(false)
+  expires_at         DateTime?
+  retention_until    DateTime?
+  uploaded_by        String
+  link_record_type   String?
+  link_record_id     String?
+  created_at         DateTime        @default(now())
+  updated_at         DateTime        @updatedAt
+
+  tenant      Tenant                    @relation(fields: [tenant_id], references: [id])
+  folder      RepositoryFolder          @relation(fields: [folder_id], references: [id])
+  versions    RepositoryFileVersion[]
+  share_links RepositoryShareLink[]
+  access_logs RepositoryFileAccessLog[]
+
+  @@map("repository_files")
+}
+
+model RepositoryFileVersion {
+  id              String   @id @default(uuid())
+  tenant_id       String
+  file_id         String
+  version_number  Int
+  file_key        String
+  file_url        String
+  mime_type       String
+  file_size_bytes BigInt
+  uploaded_by     String
+  change_note     String?
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  file RepositoryFile @relation(fields: [file_id], references: [id], onDelete: Cascade)
+
+  @@unique([file_id, version_number])
+  @@map("repository_file_versions")
+}
+
+model RepositoryShareLink {
+  id               String    @id @default(uuid())
+  tenant_id        String
+  file_id          String
+  token            String    @unique
+  created_by       String
+  expires_at       DateTime?
+  access_count     Int       @default(0)
+  max_access_count Int?
+  created_at       DateTime  @default(now())
+
+  file RepositoryFile @relation(fields: [file_id], references: [id], onDelete: Cascade)
+
+  @@map("repository_share_links")
+}
+
+model RepositoryFileAccessLog {
+  id          String   @id @default(uuid())
+  tenant_id   String
+  file_id     String
+  user_id     String?
+  share_token String?
+  action      String
+  accessed_at DateTime @default(now())
+  ip_address  String?
+  user_agent  String
+
+  file RepositoryFile @relation(fields: [file_id], references: [id], onDelete: Cascade)
+
+  @@map("repository_file_access_logs")
+}
+
+model TenantStorage {
+  id          String            @id @default(uuid())
+  tenant_id   String            @unique
+  used_bytes  BigInt            @default(0)
+  quota_bytes BigInt
+  plan        TenantStoragePlan @default(FREE)
+  updated_at  DateTime          @updatedAt
+
+  tenant Tenant @relation(fields: [tenant_id], references: [id])
+
+  @@map("tenant_storage")
+}
+
+model SchoolRegistration {
+  id                       String           @id @default(uuid())
+  school_name              String
+  slug                     String           @unique
+  owner_first_name         String
+  owner_last_name          String
+  owner_email              String
+  owner_phone              String
+  address                  String
+  city                     String
+  state                    String
+  zip                      String
+  country                  String
+  student_count            String
+  plan                     TenantPlan       @default(BASIC)
+  status                   OnboardingStatus @default(PENDING_VERIFICATION)
+  email_verification_token String?
+  email_verified_at        DateTime?
+  payment_ref              String?
+  paid_at                  DateTime?
+  tenant_id                String?
+  rejected_reason          String?
+  reviewed_by              String?
+  reviewed_at              DateTime?
+  created_at               DateTime         @default(now())
+  updated_at               DateTime         @updatedAt
+
+  @@unique([school_name, slug])
+  @@map("school_registrations")
+}
+
+model SchoolConfig {
+  id          String     @id @default(uuid())
+  tenant_id   String     @unique
+  school_type SchoolType @default(PRIVATE)
+  ca_weight   Int        @default(40)
+  exam_weight Int        @default(60)
+
+  grading_scale           Json
+  gpa_scale               Float   @default(5.0)
+  pass_mark               Int     @default(40)
+  require_result_approval Boolean @default(true)
+  require_exam_approval   Boolean @default(true)
+  email_sender_name       String?
+
+  // Operating hours
+  start_time DateTime
+  end_time   DateTime
+
+  // Currency
+  currency_code   String  @default("NGN")
+  currency_symbol String? @default("₦")
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenant_id], references: [id])
+
+  @@map("school_configs")
+}
+
+model Assessment {
+  id           String           @id @default(uuid())
+  tenant_id    String
+  title        String
+  instructions String?
+  type         AssessmentType
+  status       AssessmentStatus @default(DRAFT)
+
+  // Academic Context
+  class_id   String
+  subject_id String
+  teacher_id String[]
+  term_id    String
+
+  // Timing
+  start_time    DateTime?
+  end_time      DateTime?
+  duration_mins Int?
+
+  // Scoring
+  total_marks Float
+  pass_mark   Float?
+
+  is_exam_component Boolean      @default(false)
+  ca_component      CAComponent?
+
+  // Attempt control
+  max_attempts      Int?    @default(1)
+  shuffle_questions Boolean @default(false)
+  shuffle_options   Boolean @default(false)
+
+  // Anti-cheating
+  prevent_tab_switch Boolean @default(false)
+  prevent_screenshot Boolean @default(false)
+  require_camera     Boolean @default(false)
+
+  // Approval
+  submitted_for_approval DateTime?
+  approved_by            String?
+  approved_at            DateTime?
+  rejected_by            String?
+  rejected_at            DateTime?
+  rejected_reason        String?
+
+  // Result generation
+  result_generated_at DateTime?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  tenant                Tenant                 @relation(fields: [tenant_id], references: [id])
+  class                 Class                  @relation(fields: [class_id], references: [id])
+  subject               Subject                @relation(fields: [subject_id], references: [id])
+  term                  AcademicTerm           @relation(fields: [term_id], references: [id])
+  assessmentQuestions   AssessmentQuestion[]
+  assessmentSubmissions AssessmentSubmission[]
+  approvalLogs          ApprovalLog[]
+
+  @@map("assessments")
+}
+
+model AssessmentQuestion {
+  id             String       @id @default(uuid())
+  assessment_id  String
+  tenant_id      String
+  type           QuestionType
+  question_text  String
+  question_image String?
+  marks          Float
+  order          Int
+
+  // For Multiple Choice and True/False
+  options Json?
+
+  // For Fill in the Blank
+  correct_answer   String?
+  accepted_answers Json?
+
+  // For Essay and Short Answer no correct answer, teacher grades manually
+  marking_guide  String?
+  max_word_count Int?
+
+  // Auto gradable
+  is_auto_gradable Boolean @default(false)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  assessment        Assessment         @relation(fields: [assessment_id], references: [id], onDelete: Cascade)
+  submissionAnswers SubmissionAnswer[]
+
+  @@map("assessment_questions")
+}
+
+model AssessmentSubmission {
+  id             String @id @default(uuid())
+  tenant_id      String
+  assessment_id  String
+  student_id     String
+  attempt_number Int    @default(1)
+
+  // Timing
+  started_at      DateTime  @default(now())
+  submitted_at    DateTime?
+  time_spent_mins Int?
+
+  // Status
+  is_submitted Boolean @default(false)
+  is_late      Boolean @default(false)
+
+  // Scores
+  auto_scores      Float?
+  manual_scores    Float?
+  total_scores     Float?
+  percentage_score Float?
+  grade            String?
+  grade_points     Float?
+  is_passed        Boolean?
+
+  // Grading
+  graded_by String?
+  graded_at DateTime?
+  feedback  String?
+
+  // Anti-cheating log
+  tab_switch_count Int       @default(0)
+  screenshot_count Int       @default(0)
+  camera_count     Int       @default(0)
+  flagged_at       DateTime?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  assessment Assessment @relation(fields: [assessment_id], references: [id])
+
+  answers SubmissionAnswer[]
+
+  @@unique([assessment_id, student_id, attempt_number])
+  @@map("assessment_submissions")
+}
+
+model SubmissionAnswer {
+  id            String @id @default(uuid())
+  submission_id String
+  question_id   String
+  tenant_id     String
+
+  // Student Answer
+  selected_option_id String?
+  text_answer        String?
+
+  // Scoring
+  marks_awarded   Float?
+  is_correct      Boolean?
+  teacher_comment String?
+
+  graded_by String?
+  graded_at DateTime?
+
+  submission AssessmentSubmission @relation(fields: [submission_id], references: [id], onDelete: Cascade)
+  question   AssessmentQuestion   @relation(fields: [question_id], references: [id])
+
+  @@unique([submission_id, question_id])
+  @@map("submission_answers")
+}
+
+model PaymentConfig {
+  id        String @id @default(uuid())
+  tenant_id String @unique
+
+  // Payment gateway
+  paystack_secret_key    String? // encrypted at rest
+  flutterwave_secret_key String? // encrypted at rest
+  active_gateway         String  @default("paystack")
+
+  // Late payment penalty
+  enable_late_fee     Boolean @default(false)
+  late_fee_percent    Float   @default(0)
+  late_fee_grace_days Int     @default(7)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenant_id], references: [id])
+
+  @@map("payment_configs")
+}
+
+model StudentPayment {
+  id               String          @id @default(uuid())
+  tenant_id        String
+  student_id       String
+  fee_item_id      String
+  category         PaymentCategory
+  amount           Float
+  amount_paid      Float           @default(0)
+  balance          Float
+  currency         String          @default("NGN")
+  reference        String          @unique
+  gateway_ref      String?
+  gateway          String?
+  status           PaymentStatus   @default(PENDING)
+  paid_at          DateTime?
+  due_date         DateTime?
+  is_late_pay      Boolean         @default(false)
+  late_fee_applied Float           @default(0)
+
+  // Receipt
+  receipt_number  String? @unique
+  receipt_pdf_key String?
+  receipt_pdf_url String?
+
+  // For public schools — auto-waived
+  is_waived     Boolean @default(false)
+  waived_by     String?
+  waived_reason String?
+
+  metadata Json?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("student_payments")
+}
+
+model FeeItem {
+  id          String          @id @default(uuid())
+  tenant_id   String
+  name        String // "First Term Tuition 2024/2025"
+  category    PaymentCategory
+  amount      Float
+  class_id    String? // null means school-wide
+  term_id     String?
+  session_id  String?
+  due_date    DateTime?
+  is_optional Boolean         @default(false)
+
+  created_at DateTime @default(now())
+
+  @@map("fee_items")
+}
+
+model StaffSalary {
+  id        String @id @default(uuid())
+  tenant_id String
+  staff_id  String // User ID
+  month     String // "2025-01"
+
+  basic_salary Float
+  allowances   Json // [{ label, amount }]
+  gross_salary Float
+
+  deductions       Json // [{ label, amount, type: "tax|pension|loan" }]
+  total_deductions Float
+
+  net_salary Float
+
+  // Loan deductions reference
+  loan_deduction_ids String[]
+
+  status         SalaryStatus @default(SCHEDULED)
+  scheduled_date DateTime
+  processed_at   DateTime?
+
+  // Payslip
+  payslip_pdf_key String?
+  payslip_pdf_url String?
+
+  reference   String  @unique
+  gateway     String?
+  gateway_ref String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  bonuses StaffBonus[]
+
+  @@unique([staff_id, month])
+  @@map("staff_salaries")
+}
+
+model StaffBonus {
+  id        String       @id @default(uuid())
+  tenant_id String
+  staff_id  String
+  salary_id String?
+  amount    Float
+  reason    String
+  paid_at   DateTime?
+  status    SalaryStatus @default(SCHEDULED)
+
+  salary StaffSalary? @relation(fields: [salary_id], references: [id])
+
+  @@map("staff_bonuses")
+}
+
+model ApprovalLog {
+  id            String         @id @default(uuid())
+  tenant_id     String
+  resource_type String // "assessment" | "result"
+  resource_id   String
+  action        ApprovalAction
+  actor_id      String // who performed this action
+  comment       String?
+  timestamp     DateTime       @default(now())
+
+  assessment Assessment? @relation(fields: [resource_id], references: [id])
+
+  @@map("approval_logs")
+}
+
+model EmailLog {
+  id              String      @id @default(uuid())
+  tenant_id       String? // null for platform-level emails
+  to              String[]
+  subject         String
+  template        String // template name e.g. "fee-receipt"
+  payload         Json // data passed to template
+  status          EmailStatus @default(QUEUED)
+  attempts        Int         @default(0)
+  last_attempt_at DateTime?
+  sent_at         DateTime?
+  error_log       Json? // last error details
+  message_id      String? // Resend message ID on success
+  job_id          String? // BullMQ job ID
+  timestamp       DateTime    @default(now())
+
+  @@map("email_logs")
+}
+
+model Notification {
+  id         String           @id @default(uuid())
+  tenant_id  String
+  user_id    String
+  type       NotificationType
+  title      String
+  body       String
+  data       Json?
+  is_read    Boolean          @default(false)
+  created_at DateTime         @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
 }
 
 enum UserRole {
@@ -255,9 +1057,41 @@ enum UserRole {
   BURSAR
   SUPPORT_STAFF
   SECURITY_OFFICER
+  JANITOR
+  CLEANER
+  GARDENER
+  MAINTENANCE_STAFF
+  CLERK
+  RECEPTIONIST
+  SECRETARY
+  ADMINISTRATIVE_ASSISTANT
+  ADMINISTRATIVE_STAFF
   SUPER_ADMIN
   GUARDIAN
   OTHER
+}
+
+enum StaffType {
+  TEACHING_STAFF
+  NON_TEACHING_STAFF
+}
+
+enum NonTeachingStaffRole {
+  BURSAR
+  COUNSELOR
+  LAB_ATTENDANT
+  NURSE
+  LIBRARIAN
+  JANITOR
+  CLEANER
+  GARDENER
+  MAINTENANCE_STAFF
+  CLERK
+  RECEPTIONIST
+  SECRETARY
+  ADMINISTRATIVE_ASSISTANT
+  ADMINISTRATIVE_STAFF
+  SECURITY_OFFICER
 }
 
 enum UserStatus {
@@ -273,4 +1107,198 @@ enum TenantStatus {
   ACTIVE
   SUSPENDED
   DELETED
+}
+
+enum SubjectType {
+  COMPULSORY
+  ELECTIVE
+  OPTIONAL
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum LectureContentType {
+  VIDEO
+  AUDIO
+  PDF
+  SLIDES
+  IMAGE
+  TEXT
+  LINK
+}
+
+enum LectureStatus {
+  DRAFT
+  PUBLISHED
+  UNPUBLISHED
+  ARCHIVED
+}
+
+enum RepositoryScope {
+  CLASS_DOCUMENTS
+  SUBJECT_DOCUMENTS
+  PAST_QUESTIONS
+  DEPARTMENT_DOCUMENTS
+  SCHOOL_DOCUMENTS
+  STAFF_RECORDS
+  TUITION_PAYMENTS
+  STAFF_SALARY
+  SCHOOL_EXPENSES
+  HEALTH_RECORDS
+  COUNSELING_RECORDS
+  DISCIPLINARY_RECORDS
+  LIBRARY_RECORDS
+  LABORATORY_RECORDS
+  INVENTORY_RECORDS
+  MAINTENANCE_RECORDS
+  VISITOR_LOGS
+  PTA_MEETINGS
+  STAFF_MEETINGS
+  SCHOOL_EVENTS
+  EXTRACURRICULAR
+  SPORT_RECORDS
+  OTHER
+}
+
+enum FileStatus {
+  ACTIVE
+  ARCHIVED
+  DELETED
+}
+
+enum TenantStoragePlan {
+  FREE
+  BASIC
+  PRO
+  ENTERPRISE
+}
+
+enum OnboardingStatus {
+  PENDING_VERIFICATION
+  PENDING_PAYMENT
+  PENDING_APPROVAL
+  APPROVED
+  REJECTED
+}
+
+enum TenantPlan {
+  BASIC
+  STANDARD
+  PREMIUM
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum SchoolType {
+  PRIVATE
+  PUBLIC
+  MIXED
+}
+
+enum AssessmentType {
+  TEST
+  EXAM
+  ASSIGNMENT
+  POP_QUIZ
+  CLASSWORK
+  PROJECT
+  PRESENTATION
+}
+
+enum AssessmentStatus {
+  DRAFT // draft assessment visible to teacher only
+  PENDING_APPROVAL // only used for EXAM type
+  APPROVED // only used for EXAM type
+  REJECTED // only used for EXAM type
+  PUBLISHED // visible to students
+  ONGOING // student currently taking the assessment
+  ENDED // submission window closed
+  GRADED // teacher has graded the assessment
+  UNPUBLISHED // unpublished assessment
+  ARCHIVED // archived assessment
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  TRUE_FALSE
+  FILL_IN_THE_BLANK
+  ESSAY
+  SHORT_ANSWER
+}
+
+enum CAComponent {
+  CA1
+  CA2
+  CA3
+  CA4
+  CA5
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+  WAIVED
+}
+
+enum PaymentCategory {
+  TUITION
+  MATERIALS
+  FIELD_TRIP
+  EXAM_FEE
+  LIBRARY_FEE
+  SPORTS_FEE
+  OTHER
+}
+
+enum SalaryStatus {
+  SCHEDULED
+  PROCESSING
+  PAID
+  FAILED
+}
+
+enum ApprovalAction {
+  SUBMITTED_FOR_REVIEW
+  APPROVED
+  REJECTED
+  REVISION_REQUESTED
+  RECALLED // teacher withdraws before review
+  REPUBLISHED // after being rejected and revised
+}
+
+enum EmailStatus {
+  QUEUED
+  PROCESSING
+  SENT
+  FAILED
+  CANCELLED
+}
+
+enum NotificationType {
+  CLASS
+  EXAM
+  ASSIGNMENT
+  FEE
+  MESSAGE
+  MEETING
+  ANNOUNCEMENT
+  DISCIPLINARY
+  RESULT
+  ATTENDANCE
+  LEAVE
+  EVENT
+  OTHER
 }

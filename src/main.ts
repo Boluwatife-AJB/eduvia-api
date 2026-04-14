@@ -16,8 +16,13 @@ async function bootstrap() {
   // app.use(compression());
 
   // CORS: Allows requests from other domains.
+  const corsOrigins = (process.env.CORS_ORIGINS ?? '')
+    .split(',')
+    .map((o) => o.trim())
+    .filter(Boolean);
+
   app.enableCors({
-    origin: '*path',
+    origin: corsOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   });
@@ -69,11 +74,19 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
 
   // Make x-tenant-slug appear in every endpoint automatically
-  Object.values(document.paths).forEach((path: any) => {
-    Object.values(path).forEach((method: any) => {
-      if (typeof method === 'object' && method !== null) {
-        method.security = [
-          ...(method.security ?? []),
+  Object.values(document.paths).forEach((path: Record<string, unknown>) => {
+    Object.values(path).forEach((method: unknown) => {
+      if (
+        typeof method === 'object' &&
+        method !== null &&
+        'security' in method
+      ) {
+        const methodObj = method as Record<string, unknown>;
+        const existingSecurity = Array.isArray(methodObj.security)
+          ? (methodObj.security as unknown[])
+          : [];
+        methodObj.security = [
+          ...existingSecurity,
           {
             'x-tenant-slug': [],
           },

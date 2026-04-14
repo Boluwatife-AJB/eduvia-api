@@ -1,7 +1,33 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiPropertyOptional, OmitType } from '@nestjs/swagger';
 import { IsEnum, IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
 import { Type } from 'class-transformer';
-import { UserRole, UserStatus } from '../../generated/prisma/client';
+import { Gender, UserRole, UserStatus } from '../../generated/prisma/client';
+
+/**
+ * Mirrors Prisma `NonTeachingStaffRole` for validation and OpenAPI.
+ * Prisma's generated client is `@ts-nocheck`, which makes type-aware ESLint
+ * treat re-exports as unsafe/error-typed when used in decorators.
+ */
+export const NonTeachingStaffRoleQuery = {
+  BURSAR: 'BURSAR',
+  COUNSELOR: 'COUNSELOR',
+  LAB_ATTENDANT: 'LAB_ATTENDANT',
+  NURSE: 'NURSE',
+  LIBRARIAN: 'LIBRARIAN',
+  JANITOR: 'JANITOR',
+  CLEANER: 'CLEANER',
+  GARDENER: 'GARDENER',
+  MAINTENANCE_STAFF: 'MAINTENANCE_STAFF',
+  CLERK: 'CLERK',
+  RECEPTIONIST: 'RECEPTIONIST',
+  SECRETARY: 'SECRETARY',
+  ADMINISTRATIVE_ASSISTANT: 'ADMINISTRATIVE_ASSISTANT',
+  ADMINISTRATIVE_STAFF: 'ADMINISTRATIVE_STAFF',
+  SECURITY_OFFICER: 'SECURITY_OFFICER',
+} as const;
+
+export type NonTeachingStaffRoleQuery =
+  (typeof NonTeachingStaffRoleQuery)[keyof typeof NonTeachingStaffRoleQuery];
 
 export class QueryUsersDto {
   @ApiPropertyOptional({ default: 1 })
@@ -36,8 +62,88 @@ export class QueryUsersDto {
   @IsOptional()
   search?: string;
 
-  @ApiPropertyOptional({ description: 'Filter by class ID(for students)' })
+  @ApiPropertyOptional({ description: 'Filter by gender' })
+  @IsEnum(Gender)
+  @IsOptional()
+  gender?: Gender;
+
+  @ApiPropertyOptional({ description: 'Filter by class ID' })
   @IsString()
   @IsOptional()
   class_id?: string;
+
+  // @ApiPropertyOptional({ description: 'Filter by qualification' })
+  // @IsString()
+  // @IsOptional()
+  // qualification?: string;
+
+  // @ApiPropertyOptional({ description: 'Filter by course of study' })
+  // @IsString()
+  // @IsOptional()
+  // course_of_study?: string;
+
+  // @ApiPropertyOptional({ description: 'Filter by class of degree' })
+  // @IsString()
+  // @IsOptional()
+  // class_of_degree?: string;
+
+  // @ApiPropertyOptional({ description: 'Filter by year of graduation' })
+  // @IsString()
+  // @IsOptional()
+  // year_of_graduation?: string;
+}
+
+export class QueryParentsDto extends OmitType(QueryUsersDto, [
+  'role',
+  'class_id',
+] as const) {
+  @ApiPropertyOptional({
+    description: 'Filter by guardian occupation (contains)',
+  })
+  @IsString()
+  @IsOptional()
+  occupation?: string;
+
+  @ApiPropertyOptional({
+    description:
+      'Filter by relationship to ward (contains), e.g. father, mother',
+  })
+  @IsString()
+  @IsOptional()
+  relationship?: string;
+}
+
+export class QueryTeachersDto extends OmitType(QueryUsersDto, [
+  'role',
+  'class_id',
+] as const) {
+  @ApiPropertyOptional({ description: 'Filter by qualification' })
+  @IsString()
+  @IsOptional()
+  qualification?: string;
+
+  @ApiPropertyOptional({ description: 'Filter by course of study' })
+  @IsString()
+  @IsOptional()
+  course_of_study?: string;
+
+  @ApiPropertyOptional({ description: 'Filter by class of degree' })
+  @IsString()
+  @IsOptional()
+  class_of_degree?: string;
+
+  @ApiPropertyOptional({ description: 'Filter by year of graduation' })
+  @IsString()
+  @IsOptional()
+  year_of_graduation?: string;
+}
+
+export class QueryStaffDto extends QueryTeachersDto {
+  @ApiPropertyOptional({
+    description: 'Filter by staff role',
+    enum: NonTeachingStaffRoleQuery,
+  })
+  @IsEnum(NonTeachingStaffRoleQuery)
+  @IsOptional()
+  staff_role?: NonTeachingStaffRoleQuery;
 }

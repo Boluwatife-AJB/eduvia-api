@@ -27,12 +27,50 @@ export const UserRole = {
   BURSAR: 'BURSAR',
   SUPPORT_STAFF: 'SUPPORT_STAFF',
   SECURITY_OFFICER: 'SECURITY_OFFICER',
+  JANITOR: 'JANITOR',
+  CLEANER: 'CLEANER',
+  GARDENER: 'GARDENER',
+  MAINTENANCE_STAFF: 'MAINTENANCE_STAFF',
+  CLERK: 'CLERK',
+  RECEPTIONIST: 'RECEPTIONIST',
+  SECRETARY: 'SECRETARY',
+  ADMINISTRATIVE_ASSISTANT: 'ADMINISTRATIVE_ASSISTANT',
+  ADMINISTRATIVE_STAFF: 'ADMINISTRATIVE_STAFF',
   SUPER_ADMIN: 'SUPER_ADMIN',
   GUARDIAN: 'GUARDIAN',
   OTHER: 'OTHER'
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+
+export const StaffType = {
+  TEACHING_STAFF: 'TEACHING_STAFF',
+  NON_TEACHING_STAFF: 'NON_TEACHING_STAFF'
+} as const
+
+export type StaffType = (typeof StaffType)[keyof typeof StaffType]
+
+
+export const NonTeachingStaffRole = {
+  BURSAR: 'BURSAR',
+  COUNSELOR: 'COUNSELOR',
+  LAB_ATTENDANT: 'LAB_ATTENDANT',
+  NURSE: 'NURSE',
+  LIBRARIAN: 'LIBRARIAN',
+  JANITOR: 'JANITOR',
+  CLEANER: 'CLEANER',
+  GARDENER: 'GARDENER',
+  MAINTENANCE_STAFF: 'MAINTENANCE_STAFF',
+  CLERK: 'CLERK',
+  RECEPTIONIST: 'RECEPTIONIST',
+  SECRETARY: 'SECRETARY',
+  ADMINISTRATIVE_ASSISTANT: 'ADMINISTRATIVE_ASSISTANT',
+  ADMINISTRATIVE_STAFF: 'ADMINISTRATIVE_STAFF',
+  SECURITY_OFFICER: 'SECURITY_OFFICER'
+} as const
+
+export type NonTeachingStaffRole = (typeof NonTeachingStaffRole)[keyof typeof NonTeachingStaffRole]
 
 
 export const UserStatus = {
@@ -54,3 +92,260 @@ export const TenantStatus = {
 } as const
 
 export type TenantStatus = (typeof TenantStatus)[keyof typeof TenantStatus]
+
+
+export const SubjectType = {
+  COMPULSORY: 'COMPULSORY',
+  ELECTIVE: 'ELECTIVE',
+  OPTIONAL: 'OPTIONAL'
+} as const
+
+export type SubjectType = (typeof SubjectType)[keyof typeof SubjectType]
+
+
+export const DayOfWeek = {
+  MONDAY: 'MONDAY',
+  TUESDAY: 'TUESDAY',
+  WEDNESDAY: 'WEDNESDAY',
+  THURSDAY: 'THURSDAY',
+  FRIDAY: 'FRIDAY',
+  SATURDAY: 'SATURDAY',
+  SUNDAY: 'SUNDAY'
+} as const
+
+export type DayOfWeek = (typeof DayOfWeek)[keyof typeof DayOfWeek]
+
+
+export const LectureContentType = {
+  VIDEO: 'VIDEO',
+  AUDIO: 'AUDIO',
+  PDF: 'PDF',
+  SLIDES: 'SLIDES',
+  IMAGE: 'IMAGE',
+  TEXT: 'TEXT',
+  LINK: 'LINK'
+} as const
+
+export type LectureContentType = (typeof LectureContentType)[keyof typeof LectureContentType]
+
+
+export const LectureStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  UNPUBLISHED: 'UNPUBLISHED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type LectureStatus = (typeof LectureStatus)[keyof typeof LectureStatus]
+
+
+export const RepositoryScope = {
+  CLASS_DOCUMENTS: 'CLASS_DOCUMENTS',
+  SUBJECT_DOCUMENTS: 'SUBJECT_DOCUMENTS',
+  PAST_QUESTIONS: 'PAST_QUESTIONS',
+  DEPARTMENT_DOCUMENTS: 'DEPARTMENT_DOCUMENTS',
+  SCHOOL_DOCUMENTS: 'SCHOOL_DOCUMENTS',
+  STAFF_RECORDS: 'STAFF_RECORDS',
+  TUITION_PAYMENTS: 'TUITION_PAYMENTS',
+  STAFF_SALARY: 'STAFF_SALARY',
+  SCHOOL_EXPENSES: 'SCHOOL_EXPENSES',
+  HEALTH_RECORDS: 'HEALTH_RECORDS',
+  COUNSELING_RECORDS: 'COUNSELING_RECORDS',
+  DISCIPLINARY_RECORDS: 'DISCIPLINARY_RECORDS',
+  LIBRARY_RECORDS: 'LIBRARY_RECORDS',
+  LABORATORY_RECORDS: 'LABORATORY_RECORDS',
+  INVENTORY_RECORDS: 'INVENTORY_RECORDS',
+  MAINTENANCE_RECORDS: 'MAINTENANCE_RECORDS',
+  VISITOR_LOGS: 'VISITOR_LOGS',
+  PTA_MEETINGS: 'PTA_MEETINGS',
+  STAFF_MEETINGS: 'STAFF_MEETINGS',
+  SCHOOL_EVENTS: 'SCHOOL_EVENTS',
+  EXTRACURRICULAR: 'EXTRACURRICULAR',
+  SPORT_RECORDS: 'SPORT_RECORDS',
+  OTHER: 'OTHER'
+} as const
+
+export type RepositoryScope = (typeof RepositoryScope)[keyof typeof RepositoryScope]
+
+
+export const FileStatus = {
+  ACTIVE: 'ACTIVE',
+  ARCHIVED: 'ARCHIVED',
+  DELETED: 'DELETED'
+} as const
+
+export type FileStatus = (typeof FileStatus)[keyof typeof FileStatus]
+
+
+export const TenantStoragePlan = {
+  FREE: 'FREE',
+  BASIC: 'BASIC',
+  PRO: 'PRO',
+  ENTERPRISE: 'ENTERPRISE'
+} as const
+
+export type TenantStoragePlan = (typeof TenantStoragePlan)[keyof typeof TenantStoragePlan]
+
+
+export const OnboardingStatus = {
+  PENDING_VERIFICATION: 'PENDING_VERIFICATION',
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
+  PENDING_APPROVAL: 'PENDING_APPROVAL',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type OnboardingStatus = (typeof OnboardingStatus)[keyof typeof OnboardingStatus]
+
+
+export const TenantPlan = {
+  BASIC: 'BASIC',
+  STANDARD: 'STANDARD',
+  PREMIUM: 'PREMIUM'
+} as const
+
+export type TenantPlan = (typeof TenantPlan)[keyof typeof TenantPlan]
+
+
+export const Gender = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE'
+} as const
+
+export type Gender = (typeof Gender)[keyof typeof Gender]
+
+
+export const SchoolType = {
+  PRIVATE: 'PRIVATE',
+  PUBLIC: 'PUBLIC',
+  MIXED: 'MIXED'
+} as const
+
+export type SchoolType = (typeof SchoolType)[keyof typeof SchoolType]
+
+
+export const AssessmentType = {
+  TEST: 'TEST',
+  EXAM: 'EXAM',
+  ASSIGNMENT: 'ASSIGNMENT',
+  POP_QUIZ: 'POP_QUIZ',
+  CLASSWORK: 'CLASSWORK',
+  PROJECT: 'PROJECT',
+  PRESENTATION: 'PRESENTATION'
+} as const
+
+export type AssessmentType = (typeof AssessmentType)[keyof typeof AssessmentType]
+
+
+export const AssessmentStatus = {
+  DRAFT: 'DRAFT',
+  PENDING_APPROVAL: 'PENDING_APPROVAL',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  PUBLISHED: 'PUBLISHED',
+  ONGOING: 'ONGOING',
+  ENDED: 'ENDED',
+  GRADED: 'GRADED',
+  UNPUBLISHED: 'UNPUBLISHED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type AssessmentStatus = (typeof AssessmentStatus)[keyof typeof AssessmentStatus]
+
+
+export const QuestionType = {
+  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE',
+  TRUE_FALSE: 'TRUE_FALSE',
+  FILL_IN_THE_BLANK: 'FILL_IN_THE_BLANK',
+  ESSAY: 'ESSAY',
+  SHORT_ANSWER: 'SHORT_ANSWER'
+} as const
+
+export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType]
+
+
+export const CAComponent = {
+  CA1: 'CA1',
+  CA2: 'CA2',
+  CA3: 'CA3',
+  CA4: 'CA4',
+  CA5: 'CA5'
+} as const
+
+export type CAComponent = (typeof CAComponent)[keyof typeof CAComponent]
+
+
+export const PaymentStatus = {
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED',
+  WAIVED: 'WAIVED'
+} as const
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
+export const PaymentCategory = {
+  TUITION: 'TUITION',
+  MATERIALS: 'MATERIALS',
+  FIELD_TRIP: 'FIELD_TRIP',
+  EXAM_FEE: 'EXAM_FEE',
+  LIBRARY_FEE: 'LIBRARY_FEE',
+  SPORTS_FEE: 'SPORTS_FEE',
+  OTHER: 'OTHER'
+} as const
+
+export type PaymentCategory = (typeof PaymentCategory)[keyof typeof PaymentCategory]
+
+
+export const SalaryStatus = {
+  SCHEDULED: 'SCHEDULED',
+  PROCESSING: 'PROCESSING',
+  PAID: 'PAID',
+  FAILED: 'FAILED'
+} as const
+
+export type SalaryStatus = (typeof SalaryStatus)[keyof typeof SalaryStatus]
+
+
+export const ApprovalAction = {
+  SUBMITTED_FOR_REVIEW: 'SUBMITTED_FOR_REVIEW',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  REVISION_REQUESTED: 'REVISION_REQUESTED',
+  RECALLED: 'RECALLED',
+  REPUBLISHED: 'REPUBLISHED'
+} as const
+
+export type ApprovalAction = (typeof ApprovalAction)[keyof typeof ApprovalAction]
+
+
+export const EmailStatus = {
+  QUEUED: 'QUEUED',
+  PROCESSING: 'PROCESSING',
+  SENT: 'SENT',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type EmailStatus = (typeof EmailStatus)[keyof typeof EmailStatus]
+
+
+export const NotificationType = {
+  CLASS: 'CLASS',
+  EXAM: 'EXAM',
+  ASSIGNMENT: 'ASSIGNMENT',
+  FEE: 'FEE',
+  MESSAGE: 'MESSAGE',
+  MEETING: 'MEETING',
+  ANNOUNCEMENT: 'ANNOUNCEMENT',
+  DISCIPLINARY: 'DISCIPLINARY',
+  RESULT: 'RESULT',
+  ATTENDANCE: 'ATTENDANCE',
+  LEAVE: 'LEAVE',
+  EVENT: 'EVENT',
+  OTHER: 'OTHER'
+} as const
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]

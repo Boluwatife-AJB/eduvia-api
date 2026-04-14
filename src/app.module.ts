@@ -11,12 +11,47 @@ import { RolesGuard } from './auth/guards/roles.guard';
 import { validationSchema } from './config/env.validation';
 import { DatabaseModule } from './database/database.module';
 import { ErrorsModule } from './errors/errors.module';
+import { LecturesController } from './lectures/lectures.controller';
+import { LecturesModule } from './lectures/lectures.module';
+import { LecturesService } from './lectures/lectures.service';
+import { RepositoryController } from './repository/repository.controller';
 import { SchoolSetupController } from './school-setup/school-setup.controller';
 import { SchoolSetupModule } from './school-setup/school-setup.module';
 import { TenantModule } from './tenant/tenant.module';
+import { TimetableController } from './timetable/timetable.controller';
+import { TimetableModule } from './timetable/timetable.module';
+import { TimetableService } from './timetable/timetable.service';
+import { UploadController } from './upload/upload.controller';
+import { UploadModule } from './upload/upload.module';
+import { UploadService } from './upload/upload.service';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
 import { UsersService } from './users/users.service';
+import { OnboardingController } from './onboarding/onboarding.controller';
+import { OnboardingModule } from './onboarding/onboarding.module';
+import { OnboardingService } from './onboarding/onboarding.service';
+import { RepositoryAccessService } from './repository/repository-access.service';
+import { RepositoryFileService } from './repository/repository-file.service';
+import { RepositoryFolderService } from './repository/repository-folder.service';
+import { RepositoryQuotaService } from './repository/repository-quota.service';
+import { RepositoryModule } from './repository/repository.module';
+import { TenantGuard } from './tenant/tenant.guard';
+import { AssessmentService } from './assessment/assessment.service';
+import { QueueModule } from './queue/queue.module';
+import { EmailService } from './email/email.service';
+import { GradingService } from './assessment/grading.service';
+import { NotificationsService } from './notifications/notifications.service';
+import { NotificationsController } from './notifications/notifications.controller';
+import { SchoolConfigService } from './school-config/school-config.service';
+import { SchoolConfigController } from './school-config/school-config.controller';
+import { ApprovalModule } from './approval/approval.module';
+import { ResultEngineService } from './result-engine/result-engine.service';
+import { AssessmentController } from './assessment/assessment.controller';
+import { GpaCalculatorService } from './assessment/gpa-calculator.service';
+import { SchoolConfigModule } from './school-config/school-config.module';
+import { AssessmentModule } from './assessment/assessment.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -41,12 +76,31 @@ import { UsersService } from './users/users.service';
     TenantModule, // JWT auth, login, refresh, logout, etc.
     UsersModule, // Users module
     SchoolSetupModule, // School setup module
+    TimetableModule,
+    LecturesModule,
+    UploadModule,
+    RepositoryModule,
+    OnboardingModule,
+    QueueModule,
+    ApprovalModule,
+    SchoolConfigModule,
+    AssessmentModule,
+    NotificationsModule,
+    EmailModule,
   ],
   controllers: [
     AppController,
     AuthController,
     UsersController,
     SchoolSetupController,
+    TimetableController,
+    LecturesController,
+    UploadController,
+    RepositoryController,
+    OnboardingController,
+    NotificationsController,
+    SchoolConfigController,
+    AssessmentController,
   ],
   providers: [
     AppService,
@@ -68,7 +122,42 @@ import { UsersService } from './users/users.service';
       useClass: RolesGuard,
     },
 
+    {
+      provide: APP_GUARD,
+      useClass: TenantGuard,
+    },
+
     UsersService,
+
+    TimetableService,
+
+    LecturesService,
+
+    UploadService,
+
+    RepositoryAccessService,
+
+    RepositoryQuotaService,
+
+    RepositoryFileService,
+
+    RepositoryFolderService,
+
+    OnboardingService,
+
+    AssessmentService,
+
+    EmailService,
+
+    GradingService,
+
+    NotificationsService,
+
+    SchoolConfigService,
+
+    ResultEngineService,
+
+    GpaCalculatorService,
 
     // SchoolSetupService,
   ],

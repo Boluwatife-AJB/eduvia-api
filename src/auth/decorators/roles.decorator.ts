@@ -1,5 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
-import { UserRole } from '@prisma/client';
+import { UserRole } from 'src/generated/prisma/enums';
 
 // Marks a route as requiring specific roles
 // Usage: @Roles(UserRole.PRINCIPAL, UserRole.SCHOOL_OWNER)

@@ -27,7 +27,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   }
 
   // Override the handleRequest method to return the user
-  handleRequest(err: Error, user: any) {
+  override handleRequest(err: any, user: any): any {
     if (err || !user) {
       if (err && err instanceof UnauthorizedException) {
         throw err;

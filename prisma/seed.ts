@@ -25,7 +25,7 @@ async function main() {
   const tenant = await prisma.tenant.upsert({
     where: { slug: 'greenfield-academy' },
     update: { initials: 'GFA' },
-    create: {
+    create: { 
       name: 'Greenfield Academy',
       slug: 'greenfield-academy',
       initials: 'GFA',
@@ -45,20 +45,20 @@ async function main() {
   // Create a principal - School admin
   await prisma.user.upsert({
     where: {
-      tenantId_identifier: {
-        tenantId: tenant.id,
+      tenant_id_identifier: {
+        tenant_id: tenant.id,
         identifier: 'PRIN/001',
       },
     },
-    update: { passwordHash },
+    update: { password_hash: passwordHash },
     create: {
-      tenantId: tenant.id,
+      tenant_id: tenant.id,
       role: 'PRINCIPAL',
       identifier: 'PRIN/001',
-      firstName: 'Tony',
-      lastName: 'Stark',
+      first_name: 'Tony',
+      last_name: 'Stark',
       email: 'tony.stark@greenfieldacademy.com',
-      passwordHash: passwordHash,
+      password_hash: passwordHash,
       status: 'ACTIVE',
     },
   });
@@ -71,11 +71,11 @@ async function main() {
     update: {},
     create: {
       id: 'academic-session-1',
-      tenantId: tenant.id,
+      tenant_id: tenant.id,
       name: '2026/2027',
-      startDate: new Date('2026-09-01'),
-      endDate: new Date('2027-07-31'),
-      isCurrent: true,
+      start_date: new Date('2026-09-01'),
+      end_date: new Date('2027-07-31'),
+      is_current: true,
     },
   });
 
@@ -87,12 +87,12 @@ async function main() {
     update: {},
     create: {
       id: 'seed-term-1',
-      tenantId: tenant.id,
-      academicSessionId: academicSession.id,
+      tenant_id: tenant.id,
+      academic_session_id: academicSession.id,
       name: 'First Term',
-      startDate: new Date('2026-09-01'),
-      endDate: new Date('2026-12-31'),
-      isCurrent: true,
+      start_date: new Date('2026-09-01'),
+      end_date: new Date('2026-12-31'),
+      is_current: true,
     },
   });
 
@@ -102,7 +102,7 @@ async function main() {
     update: {},
     create: {
       id: 'seed-dept-sciences',
-      tenantId: tenant.id,
+      tenant_id: tenant.id,
       name: 'Sciences',
     },
   });
@@ -112,7 +112,7 @@ async function main() {
     update: {},
     create: {
       id: 'seed-dept-arts',
-      tenantId: tenant.id,
+      tenant_id: tenant.id,
       name: 'Arts',
     },
   });
@@ -123,7 +123,7 @@ async function main() {
     update: {},
     create: {
       id: 'seed-class-jss1-onyx',
-      tenantId: tenant.id,
+      tenant_id: tenant.id,
       name: 'JSS 1 Onyx',
       level: 'JSS',
       capacity: 40,
@@ -135,7 +135,7 @@ async function main() {
     update: {},
     create: {
       id: 'seed-class-jss1-sapphire',
-      tenantId: tenant.id,
+      tenant_id: tenant.id,
       name: 'JSS 1 Sapphire',
       level: 'JSS',
       capacity: 40,
@@ -147,7 +147,7 @@ async function main() {
     update: {},
     create: {
       id: 'seed-class-jss2-emerald',
-      tenantId: tenant.id,
+      tenant_id: tenant.id,
       name: 'JSS 2 Emerald',
       level: 'JSS',
       capacity: 40,
@@ -160,10 +160,11 @@ async function main() {
     update: {},
     create: {
       id: 'seed-subject-maths',
-      tenantId: tenant.id,
+      tenant_id: tenant.id,
       name: 'Mathematics',
       code: 'MTS',
-      departmentId: sciencesDept.id,
+      title: 'Algebra',
+      department_id: sciencesDept.id,
     },
   });
 
@@ -172,10 +173,11 @@ async function main() {
     update: {},
     create: {
       id: 'seed-subject-english',
-      tenantId: tenant.id,
+      tenant_id: tenant.id,
       name: 'English Language',
       code: 'ENG',
-      departmentId: artsDept.id,
+      title: 'English Language',
+      department_id: artsDept.id,
     },
   });
 
@@ -186,9 +188,9 @@ async function main() {
       update: {},
       create: {
         id: `seed-cs-${subject.id}`,
-        tenantId: tenant.id,
-        classId: jss1Onyx.id,
-        subjectId: subject.id,
+        tenant_id: tenant.id,
+        class_id: jss1Onyx.id,
+        subject_id: subject.id,
       },
     });
   }
@@ -198,22 +200,22 @@ async function main() {
   const teacherData = [
     {
       identifier: 'GFA/TCH/001',
-      firstName: 'Roxy',
-      lastName: 'Roxanne',
+      first_name: 'Roxy',
+      last_name: 'Roxanne',
       email: 'roxy.roxanne@greenfieldacademy.com',
       qualification: 'B.Sc Mathematics',
     },
     {
       identifier: 'GFA/TCH/002',
-      firstName: 'James',
-      lastName: 'Okonkwo',
+      first_name: 'James',
+      last_name: 'Okonkwo',
       email: 'james.okonkwo@greenfieldacademy.com',
       qualification: 'M.Ed Physics',
     },
     {
       identifier: 'GFA/TCH/003',
-      firstName: 'Amina',
-      lastName: 'Hassan',
+      first_name: 'Amina',
+      last_name: 'Hassan',
       email: 'amina.hassan@greenfieldacademy.com',
       qualification: 'B.A English',
     },
@@ -222,27 +224,30 @@ async function main() {
   for (const t of teacherData) {
     const user = await prisma.user.upsert({
       where: {
-        tenantId_identifier: { tenantId: tenant.id, identifier: t.identifier },
+        tenant_id_identifier: {
+          tenant_id: tenant.id,
+          identifier: t.identifier,
+        },
       },
-      update: { passwordHash },
+      update: { password_hash: passwordHash },
       create: {
-        tenantId: tenant.id,
+        tenant_id: tenant.id,
         role: 'TEACHER',
         identifier: t.identifier,
-        firstName: t.firstName,
-        lastName: t.lastName,
+        first_name: t.first_name,
+        last_name: t.last_name,
         email: t.email,
-        passwordHash,
+        password_hash: passwordHash,
         status: 'ACTIVE',
       },
     });
     await prisma.teacherProfile.upsert({
-      where: { userId: user.id },
+      where: { user_id: user.id },
       update: {},
       create: {
-        userId: user.id,
-        tenantId: tenant.id,
-        employeeId: t.identifier,
+        user_id: user.id,
+        tenant_id: tenant.id,
+        employee_id: t.identifier,
         qualification: t.qualification,
       },
     });
@@ -252,22 +257,22 @@ async function main() {
   const studentData = [
     {
       identifier: 'GFA/2026/0001',
-      firstName: 'Benny',
-      lastName: 'Graham',
+      first_name: 'Benny',
+      last_name: 'Graham',
       email: 'benny.graham@greenfieldacademy.com',
       classKey: jss1Onyx.id,
     },
     {
       identifier: 'GFA/2026/0002',
-      firstName: 'Chioma',
-      lastName: 'Nwosu',
+      first_name: 'Chioma',
+      last_name: 'Nwosu',
       email: 'chioma.nwosu@greenfieldacademy.com',
       classKey: jss1Sapphire.id,
     },
     {
       identifier: 'GFA/2026/0003',
-      firstName: 'David',
-      lastName: 'Adeyemi',
+      first_name: 'David',
+      last_name: 'Adeyemi',
       email: 'david.adeyemi@greenfieldacademy.com',
       classKey: jss2Emerald.id,
     },
@@ -276,28 +281,31 @@ async function main() {
   for (const s of studentData) {
     const user = await prisma.user.upsert({
       where: {
-        tenantId_identifier: { tenantId: tenant.id, identifier: s.identifier },
+        tenant_id_identifier: {
+          tenant_id: tenant.id,
+          identifier: s.identifier,
+        },
       },
-      update: { passwordHash },
+      update: { password_hash: passwordHash },
       create: {
-        tenantId: tenant.id,
+        tenant_id: tenant.id,
         role: 'STUDENT',
         identifier: s.identifier,
-        firstName: s.firstName,
-        lastName: s.lastName,
+        first_name: s.first_name,
+        last_name: s.last_name,
         email: s.email,
-        passwordHash,
+        password_hash: passwordHash,
         status: 'ACTIVE',
       },
     });
     await prisma.studentProfile.upsert({
-      where: { userId: user.id },
+      where: { user_id: user.id },
       update: {},
       create: {
-        userId: user.id,
-        tenantId: tenant.id,
-        matricNumber: s.identifier,
-        classId: s.classKey,
+        user_id: user.id,
+        tenant_id: tenant.id,
+        matric_number: s.identifier,
+        class_id: s.classKey,
       },
     });
   }
@@ -306,22 +314,22 @@ async function main() {
   const guardianData = [
     {
       identifier: 'GRD/2026/001',
-      firstName: 'Grace',
-      lastName: 'Graham',
+      first_name: 'Grace',
+      last_name: 'Graham',
       email: 'grace.graham@greenfieldacademy.com',
       relationship: 'Mother',
     },
     {
       identifier: 'GRD/2026/002',
-      firstName: 'Ibrahim',
-      lastName: 'Nwosu',
+      first_name: 'Ibrahim',
+      last_name: 'Nwosu',
       email: 'ibrahim.nwosu@greenfieldacademy.com',
       relationship: 'Father',
     },
     {
       identifier: 'GRD/2026/003',
-      firstName: 'Funke',
-      lastName: 'Adeyemi',
+      first_name: 'Funke',
+      last_name: 'Adeyemi',
       email: 'funke.adeyemi@greenfieldacademy.com',
       relationship: 'Guardian',
     },
@@ -330,26 +338,29 @@ async function main() {
   for (const g of guardianData) {
     const user = await prisma.user.upsert({
       where: {
-        tenantId_identifier: { tenantId: tenant.id, identifier: g.identifier },
+        tenant_id_identifier: {
+          tenant_id: tenant.id,
+          identifier: g.identifier,
+        },
       },
-      update: { passwordHash },
+      update: { password_hash: passwordHash },
       create: {
-        tenantId: tenant.id,
+        tenant_id: tenant.id,
         role: 'PARENT',
         identifier: g.identifier,
-        firstName: g.firstName,
-        lastName: g.lastName,
+        first_name: g.first_name,
+        last_name: g.last_name,
         email: g.email,
-        passwordHash,
+        password_hash: passwordHash,
         status: 'ACTIVE',
       },
     });
     await prisma.guardianProfile.upsert({
-      where: { userId: user.id },
+      where: { user_id: user.id },
       update: {},
       create: {
-        userId: user.id,
-        tenantId: tenant.id,
+        user_id: user.id,
+        tenant_id: tenant.id,
         relationship: g.relationship,
       },
     });

@@ -6,13 +6,14 @@ export interface SuccessResponse<T = unknown> {
   meta?: PaginationMeta;
 }
 
+// TODO: Remove status_code and code in production
 export interface ErrorResponse {
   success: false;
+  code: string;
+  message: string;
+  action?: string;
   status_code: number;
-  code: string; // Machine-readable error code
-  message: string; // Human-readable error message
-  action?: string; // Action to take to resolve the error
-  errors?: FieldError[]; // Validation errors
+  errors?: FieldError[];
 
   // Dev only
   stack?: string;

@@ -104,3 +104,148 @@ export type Subject = Prisma.SubjectModel
  * 
  */
 export type ClassSubject = Prisma.ClassSubjectModel
+/**
+ * Model SubjectTeacher
+ * 
+ */
+export type SubjectTeacher = Prisma.SubjectTeacherModel
+/**
+ * Model StudentSubjectRegistration
+ * 
+ */
+export type StudentSubjectRegistration = Prisma.StudentSubjectRegistrationModel
+/**
+ * Model SubjectRegistration
+ * 
+ */
+export type SubjectRegistration = Prisma.SubjectRegistrationModel
+/**
+ * Model TermResult
+ * 
+ */
+export type TermResult = Prisma.TermResultModel
+/**
+ * Model CumulativeResult
+ * 
+ */
+export type CumulativeResult = Prisma.CumulativeResultModel
+/**
+ * Model TimeTableSlot
+ * 
+ */
+export type TimeTableSlot = Prisma.TimeTableSlotModel
+/**
+ * Model TutorialClass
+ * 
+ */
+export type TutorialClass = Prisma.TutorialClassModel
+/**
+ * Model Lecture
+ * 
+ */
+export type Lecture = Prisma.LectureModel
+/**
+ * Model LectureView
+ * 
+ */
+export type LectureView = Prisma.LectureViewModel
+/**
+ * Model RepositoryFolder
+ * 
+ */
+export type RepositoryFolder = Prisma.RepositoryFolderModel
+/**
+ * Model RepositoryFile
+ * 
+ */
+export type RepositoryFile = Prisma.RepositoryFileModel
+/**
+ * Model RepositoryFileVersion
+ * 
+ */
+export type RepositoryFileVersion = Prisma.RepositoryFileVersionModel
+/**
+ * Model RepositoryShareLink
+ * 
+ */
+export type RepositoryShareLink = Prisma.RepositoryShareLinkModel
+/**
+ * Model RepositoryFileAccessLog
+ * 
+ */
+export type RepositoryFileAccessLog = Prisma.RepositoryFileAccessLogModel
+/**
+ * Model TenantStorage
+ * 
+ */
+export type TenantStorage = Prisma.TenantStorageModel
+/**
+ * Model SchoolRegistration
+ * 
+ */
+export type SchoolRegistration = Prisma.SchoolRegistrationModel
+/**
+ * Model SchoolConfig
+ * 
+ */
+export type SchoolConfig = Prisma.SchoolConfigModel
+/**
+ * Model Assessment
+ * 
+ */
+export type Assessment = Prisma.AssessmentModel
+/**
+ * Model AssessmentQuestion
+ * 
+ */
+export type AssessmentQuestion = Prisma.AssessmentQuestionModel
+/**
+ * Model AssessmentSubmission
+ * 
+ */
+export type AssessmentSubmission = Prisma.AssessmentSubmissionModel
+/**
+ * Model SubmissionAnswer
+ * 
+ */
+export type SubmissionAnswer = Prisma.SubmissionAnswerModel
+/**
+ * Model PaymentConfig
+ * 
+ */
+export type PaymentConfig = Prisma.PaymentConfigModel
+/**
+ * Model StudentPayment
+ * 
+ */
+export type StudentPayment = Prisma.StudentPaymentModel
+/**
+ * Model FeeItem
+ * 
+ */
+export type FeeItem = Prisma.FeeItemModel
+/**
+ * Model StaffSalary
+ * 
+ */
+export type StaffSalary = Prisma.StaffSalaryModel
+/**
+ * Model StaffBonus
+ * 
+ */
+export type StaffBonus = Prisma.StaffBonusModel
+/**
+ * Model ApprovalLog
+ * 
+ */
+export type ApprovalLog = Prisma.ApprovalLogModel
+/**
+ * Model EmailLog
+ * 
+ */
+export type EmailLog = Prisma.EmailLogModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel

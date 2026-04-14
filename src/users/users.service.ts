@@ -23,24 +23,32 @@ import { Prisma, UserRole, UserStatus } from '../generated/prisma/client';
 import { AdminResetPasswordDto } from './dto/admin-reset-password.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import { QueryUsersDto } from './dto/query-users.dto';
+import {
+  QueryParentsDto,
+  QueryStaffDto,
+  QueryTeachersDto,
+  QueryUsersDto,
+} from './dto/query-users.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { assertCanAssignUserRole } from './policies/user-role-assignment.policy';
 
 const USER_SELECT = {
   id: true,
-  tenantId: true,
+  tenant_id: true,
   role: true,
   identifier: true,
-  firstName: true,
-  lastName: true,
+  first_name: true,
+  last_name: true,
+  gender: true,
   email: true,
   phone: true,
   avatar: true,
   status: true,
-  mfaEnabled: true,
-  lastLoginAt: true,
-  createdAt: true,
-  updatedAt: true,
+  mfa_enabled: true,
+  last_login_at: true,
+  created_at: true,
+  updated_at: true,
+
   // studentProfile: true,
   // teacherProfile: true,
   // guardianProfile: true,
@@ -50,11 +58,88 @@ const USER_SELECT = {
 type UserWithProfiles = Prisma.UserGetPayload<{ select: typeof USER_SELECT }>;
 
 const PROFILE_KEYS = [
-  'studentProfile',
-  'teacherProfile',
-  'guardianProfile',
-  'staffProfile',
+  'student_profile',
+  'teacher_profile',
+  'guardian_profile',
+  'staff_profile',
 ] as const;
+
+/** Extra fields when listing users who may be students (keeps teacher/guardian lists lean). */
+const USER_LIST_STUDENT_PROFILE_SELECT = {
+  matric_number: true,
+  class_id: true,
+
+  class: {
+    select: {
+      id: true,
+      name: true,
+      level: true,
+      department_id: true,
+    },
+  },
+} satisfies Prisma.StudentProfileSelect;
+
+const USER_LIST_WITH_STUDENT_DETAILS = {
+  ...USER_SELECT,
+  student_profile: { select: USER_LIST_STUDENT_PROFILE_SELECT },
+} satisfies Prisma.UserSelect;
+
+type UserListRowWithStudent = Prisma.UserGetPayload<{
+  select: typeof USER_LIST_WITH_STUDENT_DETAILS;
+}>;
+
+const USER_LIST_TEACHER_PROFILE_SELECT = {
+  employee_id: true,
+  qualification: true,
+  class_of_degree: true,
+  course_of_study: true,
+  year_of_graduation: true,
+} satisfies Prisma.TeacherProfileSelect;
+
+const USER_LIST_WITH_TEACHER_DETAILS = {
+  ...USER_SELECT,
+  teacher_profile: { select: USER_LIST_TEACHER_PROFILE_SELECT },
+} satisfies Prisma.UserSelect;
+
+type UserListRowWithTeacher = Prisma.UserGetPayload<{
+  select: typeof USER_LIST_WITH_TEACHER_DETAILS;
+}>;
+
+const USER_LIST_GUARDIAN_PROFILE_SELECT = {
+  occupation: true,
+  relationship: true,
+  ward_ids: true,
+} satisfies Prisma.GuardianProfileSelect;
+
+const USER_LIST_WITH_GUARDIAN_DETAILS = {
+  ...USER_SELECT,
+  relationship: true,
+  guardian_profile: { select: USER_LIST_GUARDIAN_PROFILE_SELECT },
+} satisfies Prisma.UserSelect;
+
+type UserListRowWithGuardian = Prisma.UserGetPayload<{
+  select: typeof USER_LIST_WITH_GUARDIAN_DETAILS;
+}>;
+
+const USER_LIST_STAFF_PROFILE_SELECT = {
+  employee_id: true,
+  staff_role: true,
+  qualification: true,
+  course_of_study: true,
+  class_of_degree: true,
+  year_of_graduation: true,
+  gender: true,
+  date_joined: true,
+} satisfies Prisma.StaffProfileSelect;
+
+const USER_LIST_WITH_STAFF_DETAILS = {
+  ...USER_SELECT,
+  staff_profile: { select: USER_LIST_STAFF_PROFILE_SELECT },
+} satisfies Prisma.UserSelect;
+
+type UserListRowWithStaff = Prisma.UserGetPayload<{
+  select: typeof USER_LIST_WITH_STAFF_DETAILS;
+}>;
 
 /** Returns user without nested profile objects to avoid duplicating id, tenantId, identifier, etc. */
 function shapeUserByRole(user: UserWithProfiles): Record<string, unknown> {
@@ -62,6 +147,102 @@ function shapeUserByRole(user: UserWithProfiles): Record<string, unknown> {
   const base = { ...rest };
   PROFILE_KEYS.forEach((key) => delete base[key]);
   return base as Record<string, unknown>;
+}
+
+function shouldIncludeStudentListDetails(role: UserRole | undefined): boolean {
+  return role == null || role === UserRole.STUDENT;
+}
+
+function isNonTeachingStaffRole(role: UserRole): boolean {
+  switch (role) {
+    case UserRole.COUNSELOR:
+    case UserRole.LAB_ATTENDANT:
+    case UserRole.NURSE:
+    case UserRole.LIBRARIAN:
+    case UserRole.BURSAR:
+    case UserRole.SECURITY_OFFICER:
+    case UserRole.SUPPORT_STAFF:
+    case UserRole.ADMINISTRATIVE_ASSISTANT:
+    case UserRole.ADMINISTRATIVE_STAFF:
+    case UserRole.OTHER:
+      return true;
+    default:
+      return false;
+  }
+}
+
+type StaffRoleValue =
+  | 'BURSAR'
+  | 'COUNSELOR'
+  | 'LAB_ATTENDANT'
+  | 'NURSE'
+  | 'LIBRARIAN'
+  | 'JANITOR'
+  | 'CLEANER'
+  | 'GARDENER'
+  | 'MAINTENANCE_STAFF'
+  | 'CLERK'
+  | 'RECEPTIONIST'
+  | 'SECRETARY'
+  | 'ADMINISTRATIVE_ASSISTANT'
+  | 'ADMINISTRATIVE_STAFF'
+  | 'SECURITY_OFFICER';
+
+function toNonTeachingStaffRole(role: UserRole): StaffRoleValue {
+  switch (role) {
+    case UserRole.COUNSELOR:
+      return 'COUNSELOR';
+    case UserRole.LAB_ATTENDANT:
+      return 'LAB_ATTENDANT';
+    case UserRole.NURSE:
+      return 'NURSE';
+    case UserRole.LIBRARIAN:
+      return 'LIBRARIAN';
+    case UserRole.BURSAR:
+      return 'BURSAR';
+    case UserRole.SECURITY_OFFICER:
+      return 'SECURITY_OFFICER';
+    case UserRole.ADMINISTRATIVE_ASSISTANT:
+      return 'ADMINISTRATIVE_ASSISTANT';
+    case UserRole.ADMINISTRATIVE_STAFF:
+      return 'ADMINISTRATIVE_STAFF';
+    case UserRole.SUPPORT_STAFF:
+    case UserRole.OTHER:
+    default:
+      return 'ADMINISTRATIVE_STAFF';
+  }
+}
+
+function parseStaffDateJoined(dto: CreateUserDto): Date | null {
+  const year = dto.year_of_graduation?.trim();
+  if (year) {
+    const y = parseInt(year, 10);
+    if (!Number.isNaN(y)) return new Date(Date.UTC(y, 0, 1));
+  }
+  const graduationDate = dto.graduation_date?.trim();
+  if (graduationDate) {
+    const parsed = new Date(graduationDate);
+    if (!Number.isNaN(parsed.getTime())) return parsed;
+  }
+  return null;
+}
+
+/** List row when student_profile (+ class) was loaded for students. */
+function shapeUserListRowWithStudent(
+  user: UserListRowWithStudent,
+): Record<string, unknown> {
+  const { student_profile, ...rest } = user;
+  const base = shapeUserByRole(rest as UserWithProfiles);
+  return {
+    ...base,
+    student_profile: student_profile
+      ? {
+          matric_number: student_profile.matric_number,
+          class_id: student_profile.class_id,
+          class: student_profile.class,
+        }
+      : null,
+  };
 }
 
 @Injectable()
@@ -74,19 +255,31 @@ export class UsersService {
   ) {}
 
   // CREATE USER
-  async create(dto: CreateUserDto, createdBy?: string) {
+  // TODO: Add enforce_password_change to the create user dto
+  async create(dto: CreateUserDto, createdBy: { id: string; role: UserRole }) {
     const tenantId = this.cls.get<string>('tenantId');
 
-    // Guardians must provide identifier
-    if (dto.role === UserRole.GUARDIAN && !dto.identifier?.trim()) {
-      throw new BadRequestException('identifier is required for guardians');
+    assertCanAssignUserRole(createdBy.role, dto.role);
+
+    // Guardians and parents must provide identifier
+    if (
+      (dto.role === UserRole.GUARDIAN || dto.role === UserRole.PARENT) &&
+      !dto.identifier?.trim()
+    ) {
+      throw new BadRequestException(
+        'identifier is required for guardians and parents',
+      );
+    }
+
+    if (dto.role === UserRole.GUARDIAN && !dto.relationship?.trim()) {
+      throw new BadRequestException('relationship is required for guardians');
     }
 
     // Check the email is not already taken within this school (only when email is provided)
     const emailProvided = dto.email != null && dto.email.trim() !== '';
     if (emailProvided) {
       const existingEmail = await this.prisma.user.findFirst({
-        where: { tenantId, email: dto.email!.trim() },
+        where: { tenant_id: tenantId, email: dto.email!.trim() },
       });
       if (existingEmail) {
         throw new ConflictException(
@@ -109,7 +302,7 @@ export class UsersService {
 
       // Check the identifier is not already taken within this school
       const existingUser = await tx.user.findFirst({
-        where: { tenantId, identifier },
+        where: { tenant_id: tenantId, identifier },
       });
       if (existingUser) {
         throw new IdentifierTakenException(identifier);
@@ -118,15 +311,20 @@ export class UsersService {
       // Create the base user
       const newUser = await tx.user.create({
         data: {
-          tenantId,
+          tenant_id: tenantId,
           role: dto.role,
           identifier,
-          firstName: dto.first_name,
-          lastName: dto.last_name,
+          first_name: dto.first_name,
+          last_name: dto.last_name,
           email: dto.email,
           phone: dto.phone,
-          passwordHash,
+          gender: dto.gender,
+          password_hash: passwordHash,
           status: 'ACTIVE',
+          enforce_password_change: dto.enforce_password_change,
+          ...(dto.role === UserRole.PARENT || dto.role === UserRole.GUARDIAN
+            ? { relationship: dto.relationship?.trim() ?? null }
+            : {}),
         },
       });
 
@@ -139,11 +337,20 @@ export class UsersService {
         resolved,
       );
 
+      if (dto.role === UserRole.PARENT || dto.role === UserRole.GUARDIAN) {
+        await this.linkParentToStudentWards(
+          tx,
+          tenantId,
+          newUser.id,
+          dto.ward_ids,
+        );
+      }
+
       return newUser;
     });
 
     this.logger.log(
-      `User '${user.identifier}' (${user.role}) created in school '${tenantId}' by '${createdBy ?? 'system'}'`,
+      `User '${user.identifier}' (${user.role}) created in school '${tenantId}' by '${createdBy.id}'`,
     );
 
     const created = await this.prisma.user.findUnique({
@@ -160,41 +367,50 @@ export class UsersService {
 
     // Build the user where clause dynamically based on the search, status, role, and classId provided
     const where: Prisma.UserWhereInput = {
-      tenantId,
+      tenant_id: tenantId,
       ...(role && { role }),
       ...(status && { status }),
       // Search across name, email, matric number, employee ID, guardian ID, or identifier
       ...(search && {
         OR: [
-          { firstName: { contains: search, mode: 'insensitive' } },
-          { lastName: { contains: search, mode: 'insensitive' } },
+          { first_name: { contains: search, mode: 'insensitive' } },
+          { last_name: { contains: search, mode: 'insensitive' } },
           { email: { contains: search, mode: 'insensitive' } },
           { identifier: { contains: search, mode: 'insensitive' } },
           {
-            studentProfile: {
-              matricNumber: { contains: search, mode: 'insensitive' },
+            student_profile: {
+              is: {
+                matric_number: { contains: search, mode: 'insensitive' },
+              },
             },
           },
           {
-            teacherProfile: {
-              employeeId: { contains: search, mode: 'insensitive' },
+            teacher_profile: {
+              is: {
+                employee_id: { contains: search, mode: 'insensitive' },
+              },
             },
           },
           {
-            guardianProfile: {
-              userId: { contains: search, mode: 'insensitive' },
+            guardian_profile: {
+              is: {
+                user_id: { contains: search, mode: 'insensitive' },
+              },
             },
           },
         ],
       }),
-
-      // Filter students by classId when class_id is provided (only when role is not set or role is STUDENT)
-      ...(class_id &&
-        (!role || role === UserRole.STUDENT) && {
-          role: UserRole.STUDENT,
-          studentProfile: { classId: class_id },
-        }),
     };
+
+    // Filter students by classId when class_id is provided (only when role is not set or role is STUDENT)
+    if (class_id && (!role || role === UserRole.STUDENT)) {
+      where.role = UserRole.STUDENT;
+      where.student_profile = { is: { class_id } };
+    }
+
+    const listSelect = shouldIncludeStudentListDetails(role)
+      ? USER_LIST_WITH_STUDENT_DETAILS
+      : USER_SELECT;
 
     // Run count and data fetch in parallel using Promise.all
     const [total, users] = await Promise.all([
@@ -203,20 +419,444 @@ export class UsersService {
         where,
         skip: (page - 1) * limit,
         take: limit,
-        select: USER_SELECT,
-        orderBy: { createdAt: 'desc' },
+        select: listSelect,
+        orderBy: { created_at: 'desc' },
       }),
     ]);
 
     return {
-      data: users.map((u) => shapeUserByRole(u)),
+      data: shouldIncludeStudentListDetails(role)
+        ? (users as UserListRowWithStudent[]).map((u) =>
+            shapeUserListRowWithStudent(u),
+          )
+        : users.map((u) => shapeUserByRole(u)),
       meta: {
         total,
         page,
         limit,
-        totalPages: Math.ceil(total / limit),
-        hasNextPage: page < Math.ceil(total / limit),
-        hasPreviousPage: page > 1,
+        total_pages: Math.ceil(total / limit),
+        has_next_page: page < Math.ceil(total / limit),
+        has_previous_page: page > 1,
+      },
+    };
+  }
+
+  // Find all students
+  async findAllStudents(dto: QueryUsersDto) {
+    const tenantId = this.cls.get<string>('tenantId');
+    const { page = 1, limit = 20, search, status, class_id } = dto;
+
+    const where: Prisma.UserWhereInput = {
+      tenant_id: tenantId,
+      role: UserRole.STUDENT,
+      ...(status && { status }),
+      ...(search && {
+        OR: [
+          { first_name: { contains: search, mode: 'insensitive' } },
+          { last_name: { contains: search, mode: 'insensitive' } },
+          { email: { contains: search, mode: 'insensitive' } },
+          { identifier: { contains: search, mode: 'insensitive' } },
+          {
+            student_profile: {
+              matric_number: { contains: search, mode: 'insensitive' },
+            },
+          },
+        ],
+      }),
+      ...(class_id && {
+        student_profile: { class_id },
+      }),
+    };
+
+    const [total, users] = await Promise.all([
+      this.prisma.user.count({ where }),
+      this.prisma.user.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { created_at: 'desc' },
+        select: {
+          ...USER_SELECT,
+          student_profile: {
+            select: {
+              matric_number: true,
+              class_id: true,
+              class: {
+                select: {
+                  id: true,
+                  name: true,
+                  level: true,
+                  department_id: true,
+                },
+              },
+            },
+          },
+        },
+      }),
+    ]);
+
+    return {
+      data: users.map((user) => ({
+        ...shapeUserByRole(user as UserWithProfiles),
+        student_profile: user.student_profile
+          ? {
+              matric_number: user.student_profile.matric_number,
+              class_id: user.student_profile.class_id,
+              class: user.student_profile.class,
+            }
+          : null,
+      })),
+      meta: {
+        total,
+        page,
+        limit,
+        total_pages: Math.ceil(total / limit),
+        has_next_page: page < Math.ceil(total / limit),
+        has_previous_page: page > 1,
+      },
+    };
+  }
+
+  // Find all teachers
+  async findAllTeachers(dto: QueryTeachersDto) {
+    const tenantId = this.cls.get<string>('tenantId');
+    const {
+      page = 1,
+      limit = 20,
+      search,
+      status,
+      qualification,
+      class_of_degree,
+      course_of_study,
+      year_of_graduation,
+    } = dto;
+
+    const where: Prisma.UserWhereInput = {
+      tenant_id: tenantId,
+      role: UserRole.TEACHER,
+      ...(status && { status }),
+      ...(search && {
+        OR: [
+          { first_name: { contains: search, mode: 'insensitive' } },
+          { last_name: { contains: search, mode: 'insensitive' } },
+          { email: { contains: search, mode: 'insensitive' } },
+          { identifier: { contains: search, mode: 'insensitive' } },
+          {
+            teacher_profile: {
+              employee_id: { contains: search, mode: 'insensitive' },
+            },
+          },
+        ],
+      }),
+      teacher_profile: {
+        ...(qualification && {
+          qualification: { contains: qualification, mode: 'insensitive' },
+        }),
+        ...(class_of_degree && {
+          class_of_degree: { contains: class_of_degree, mode: 'insensitive' },
+        }),
+        ...(course_of_study && {
+          course_of_study: { contains: course_of_study, mode: 'insensitive' },
+        }),
+        ...(year_of_graduation && {
+          year_of_graduation: {
+            contains: year_of_graduation,
+            mode: 'insensitive',
+          },
+        }),
+      },
+    };
+
+    const [total, users] = await Promise.all([
+      this.prisma.user.count({ where }),
+      this.prisma.user.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { created_at: 'desc' },
+        select: USER_LIST_WITH_TEACHER_DETAILS,
+      }),
+    ]);
+
+    return {
+      data: (users as UserListRowWithTeacher[]).map((user) => ({
+        ...shapeUserByRole(user as UserWithProfiles),
+        identifier: user.identifier,
+        teacher_profile: user.teacher_profile
+          ? {
+              staff_id: user.teacher_profile.employee_id ?? user.identifier,
+              qualification: user.teacher_profile.qualification,
+              class_of_degree: user.teacher_profile.class_of_degree,
+              course_of_study: user.teacher_profile.course_of_study,
+              graduation_year: user.teacher_profile.year_of_graduation,
+            }
+          : null,
+      })),
+      meta: {
+        total,
+        page,
+        limit,
+        total_pages: Math.ceil(total / limit),
+        has_next_page: page < Math.ceil(total / limit),
+        has_previous_page: page > 1,
+      },
+    };
+  }
+
+  // Parents / guardians (PARENT or GUARDIAN role)
+  async findAllParents(dto: QueryParentsDto) {
+    const tenantId = this.cls.get<string>('tenantId');
+    const {
+      page = 1,
+      limit = 20,
+      search,
+      status,
+      gender,
+      occupation,
+      relationship,
+    } = dto;
+
+    const guardianFilters: Prisma.GuardianProfileWhereInput = {
+      ...(occupation && {
+        occupation: { contains: occupation, mode: 'insensitive' },
+      }),
+      ...(relationship && {
+        relationship: { contains: relationship, mode: 'insensitive' },
+      }),
+    };
+
+    const hasGuardianFieldFilters = occupation != null || relationship != null;
+
+    const where: Prisma.UserWhereInput = {
+      tenant_id: tenantId,
+      role: { in: [UserRole.PARENT, UserRole.GUARDIAN] },
+      ...(status && { status }),
+      ...(gender && { gender }),
+      ...(hasGuardianFieldFilters && {
+        guardian_profile: { is: guardianFilters },
+      }),
+      ...(search && {
+        OR: [
+          { first_name: { contains: search, mode: 'insensitive' } },
+          { last_name: { contains: search, mode: 'insensitive' } },
+          { email: { contains: search, mode: 'insensitive' } },
+          { identifier: { contains: search, mode: 'insensitive' } },
+          {
+            relationship: { contains: search, mode: 'insensitive' },
+          },
+          {
+            guardian_profile: {
+              is: {
+                occupation: { contains: search, mode: 'insensitive' },
+              },
+            },
+          },
+          {
+            guardian_profile: {
+              is: {
+                relationship: { contains: search, mode: 'insensitive' },
+              },
+            },
+          },
+        ],
+      }),
+    };
+
+    const [total, users] = await Promise.all([
+      this.prisma.user.count({ where }),
+      this.prisma.user.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { created_at: 'desc' },
+        select: USER_LIST_WITH_GUARDIAN_DETAILS,
+      }),
+    ]);
+
+    const wardIdSet = new Set<string>();
+    for (const u of users as UserListRowWithGuardian[]) {
+      for (const id of u.guardian_profile?.ward_ids ?? []) {
+        if (id?.trim()) wardIdSet.add(id.trim());
+      }
+    }
+
+    const wardUsers =
+      wardIdSet.size > 0
+        ? await this.prisma.user.findMany({
+            where: {
+              tenant_id: tenantId,
+              role: UserRole.STUDENT,
+              id: { in: [...wardIdSet] },
+            },
+            select: { id: true, first_name: true, last_name: true },
+          })
+        : [];
+
+    const wardById = new Map(
+      wardUsers.map((w) => [
+        w.id,
+        { id: w.id, first_name: w.first_name, last_name: w.last_name },
+      ]),
+    );
+
+    const resolveWards = (wardIds: string[]) =>
+      wardIds.map((wardUserId) => {
+        const row = wardById.get(wardUserId);
+        if (row) return row;
+        return {
+          id: wardUserId,
+          first_name: null,
+          last_name: null,
+        };
+      });
+
+    return {
+      data: (users as UserListRowWithGuardian[]).map((user) => ({
+        ...shapeUserByRole(user as UserWithProfiles),
+        guardian_profile: user.guardian_profile
+          ? {
+              occupation: user.guardian_profile.occupation,
+              relationship:
+                user.guardian_profile.relationship ?? user.relationship,
+              wards: resolveWards(user.guardian_profile.ward_ids ?? []),
+            }
+          : null,
+      })),
+      meta: {
+        total,
+        page,
+        limit,
+        total_pages: Math.ceil(total / limit),
+        has_next_page: page < Math.ceil(total / limit),
+        has_previous_page: page > 1,
+      },
+    };
+  }
+
+  /**
+   * Non-teaching staff: users with a staff_profile and role !== TEACHER.
+   * Query params mirror teacher fields and now map directly to StaffProfile columns.
+   */
+  async findAllStaffExcludingTeachers(dto: QueryStaffDto) {
+    const tenantId = this.cls.get<string>('tenantId');
+    const {
+      page = 1,
+      limit = 20,
+      search,
+      status,
+      gender,
+      qualification,
+      class_of_degree,
+      course_of_study,
+      year_of_graduation,
+      staff_role,
+    } = dto;
+
+    const staffParts: Prisma.StaffProfileWhereInput[] = [];
+
+    if (qualification?.trim()) {
+      staffParts.push({
+        qualification: {
+          contains: qualification.trim(),
+          mode: 'insensitive',
+        },
+      });
+    }
+    if (class_of_degree?.trim()) {
+      staffParts.push({
+        class_of_degree: {
+          contains: class_of_degree.trim(),
+          mode: 'insensitive',
+        },
+      });
+    }
+    if (course_of_study?.trim()) {
+      staffParts.push({
+        course_of_study: {
+          contains: course_of_study.trim(),
+          mode: 'insensitive',
+        },
+      });
+    }
+    if (year_of_graduation?.trim()) {
+      staffParts.push({ year_of_graduation: year_of_graduation.trim() });
+    }
+    if (staff_role) {
+      staffParts.push({ staff_role: { equals: staff_role as never } });
+    }
+
+    const staffProfileIs: Prisma.StaffProfileWhereInput =
+      staffParts.length > 0 ? { AND: staffParts } : {};
+
+    const searchClauses: Prisma.UserWhereInput[] = [
+      { first_name: { contains: search, mode: 'insensitive' } },
+      { last_name: { contains: search, mode: 'insensitive' } },
+      { email: { contains: search, mode: 'insensitive' } },
+      { identifier: { contains: search, mode: 'insensitive' } },
+      {
+        staff_profile: {
+          is: {
+            employee_id: { contains: search, mode: 'insensitive' },
+          },
+        },
+      },
+    ];
+    if (staff_role) {
+      searchClauses.push({
+        staff_profile: {
+          is: {
+            staff_role: { equals: staff_role as never },
+          },
+        },
+      });
+    }
+
+    const where: Prisma.UserWhereInput = {
+      tenant_id: tenantId,
+      role: { not: UserRole.TEACHER },
+      ...(status && { status }),
+      ...(gender && { gender }),
+      staff_profile: { is: staffProfileIs },
+      ...(search && {
+        OR: searchClauses,
+      }),
+    };
+
+    const [total, users] = await Promise.all([
+      this.prisma.user.count({ where }),
+      this.prisma.user.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { created_at: 'desc' },
+        select: USER_LIST_WITH_STAFF_DETAILS,
+      }),
+    ]);
+
+    return {
+      data: (users as UserListRowWithStaff[]).map((user) => ({
+        ...shapeUserByRole(user as UserWithProfiles),
+        identifier: user.identifier,
+        staff_profile: user.staff_profile
+          ? {
+              staff_id: user.staff_profile.employee_id ?? user.identifier,
+              staff_role: user.staff_profile.staff_role,
+              qualification: user.staff_profile.qualification,
+              class_of_degree: user.staff_profile.class_of_degree,
+              course_of_study: user.staff_profile.course_of_study,
+              year_of_graduation: user.staff_profile.year_of_graduation,
+              gender: user.staff_profile.gender,
+              date_joined: user.staff_profile.date_joined,
+            }
+          : null,
+      })),
+      meta: {
+        total,
+        page,
+        limit,
+        total_pages: Math.ceil(total / limit),
+        has_next_page: page < Math.ceil(total / limit),
+        has_previous_page: page > 1,
       },
     };
   }
@@ -225,7 +865,7 @@ export class UsersService {
   private async getOneOrThrow(id: string): Promise<UserWithProfiles> {
     const tenantId = this.cls.get<string>('tenantId');
     const user = await this.prisma.user.findUnique({
-      where: { id, tenantId },
+      where: { id, tenant_id: tenantId },
       select: USER_SELECT,
     });
     // console.log(user);
@@ -249,7 +889,7 @@ export class UsersService {
     // If email is being changed, check it's not already taken by another user in the tenant
     if (dto.email) {
       const existingEmail = await this.prisma.user.findFirst({
-        where: { tenantId, email: dto.email, NOT: { id } },
+        where: { tenant_id: tenantId, email: dto.email, NOT: { id } },
       });
       if (existingEmail) {
         throw new EmailTakenException(dto.email);
@@ -259,6 +899,9 @@ export class UsersService {
     // Split profile-only fields; map DTO snake_case to Prisma camelCase for base user
     const {
       qualification,
+      course_of_study,
+      class_of_degree,
+      year_of_graduation,
       subject_ids,
       department_id,
       class_id,
@@ -268,9 +911,17 @@ export class UsersService {
       ...rest
     } = dto;
 
+    if (department_id !== undefined) {
+      await this.assertTeacherDepartmentUpdateAllowed(
+        id,
+        tenantId,
+        department_id ?? null,
+      );
+    }
+
     const baseUserData: Prisma.UserUpdateInput = {
-      ...(first_name !== undefined && { firstName: first_name }),
-      ...(last_name !== undefined && { lastName: last_name }),
+      ...(first_name !== undefined && { first_name: first_name }),
+      ...(last_name !== undefined && { last_name: last_name }),
       ...(phone_number !== undefined && { phone: phone_number }),
       ...(rest.email !== undefined && { email: rest.email }),
       ...(rest.avatar !== undefined && { avatar: rest.avatar }),
@@ -278,25 +929,37 @@ export class UsersService {
 
     await this.prisma.$transaction(async (tx) => {
       await tx.user.update({
-        where: { id, tenantId },
+        where: { id, tenant_id: tenantId },
         data: baseUserData,
       });
 
-      if (qualification || subject_ids || department_id) {
+      if (
+        qualification ||
+        subject_ids ||
+        department_id ||
+        course_of_study ||
+        class_of_degree ||
+        year_of_graduation
+      ) {
         await tx.teacherProfile.updateMany({
-          where: { userId: id },
+          where: { user_id: id },
           data: {
             ...(qualification !== undefined && { qualification }),
-            ...(subject_ids !== undefined && { subjectIds: subject_ids }),
-            ...(department_id !== undefined && { departmentId: department_id }),
+            ...(subject_ids !== undefined && { subject_ids: subject_ids }),
+            ...(department_id !== undefined && {
+              department_id: department_id,
+            }),
+            ...(course_of_study !== undefined && { course_of_study }),
+            ...(class_of_degree !== undefined && { class_of_degree }),
+            ...(year_of_graduation !== undefined && { year_of_graduation }),
           },
         });
       }
 
       if (class_id !== undefined) {
         await tx.studentProfile.updateMany({
-          where: { userId: id },
-          data: { classId: class_id },
+          where: { user_id: id },
+          data: { class_id: class_id },
         });
       }
     });
@@ -327,13 +990,13 @@ export class UsersService {
     }
 
     await this.prisma.user.update({
-      where: { id, tenantId },
+      where: { id, tenant_id: tenantId },
       data: { status: UserStatus.SUSPENDED },
     });
 
     // Invalidate all their refresh tokens and revoke all their tokens
     await this.prisma.refreshToken.deleteMany({
-      where: { userId: id },
+      where: { user_id: id },
     });
 
     this.logger.log(
@@ -370,7 +1033,7 @@ export class UsersService {
 
     // Cascade deletes the profile and refresh tokens automatically
     await this.prisma.user.delete({
-      where: { id, tenantId },
+      where: { id, tenant_id: tenantId },
     });
 
     this.logger.log(
@@ -384,12 +1047,12 @@ export class UsersService {
   async changePassword(userId: string, dto: ChangePasswordDto) {
     const tenantId = this.cls.get<string>('tenantId');
     const user = await this.prisma.user.findUnique({
-      where: { id: userId, tenantId },
+      where: { id: userId, tenant_id: tenantId },
     });
 
     const isCurrentPasswordValid = await bcrypt.compare(
       dto.current_password,
-      user?.passwordHash ?? '',
+      user?.password_hash ?? '',
     );
 
     if (!isCurrentPasswordValid) {
@@ -403,12 +1066,12 @@ export class UsersService {
     const newHash = await bcrypt.hash(dto.new_password, 12);
 
     await this.prisma.user.update({
-      where: { id: userId, tenantId },
-      data: { passwordHash: newHash },
+      where: { id: userId, tenant_id: tenantId },
+      data: { password_hash: newHash },
     });
 
     await this.prisma.refreshToken.deleteMany({
-      where: { userId },
+      where: { user_id: userId },
     });
 
     return { message: 'Password changed successfully. Please login again.' };
@@ -426,11 +1089,11 @@ export class UsersService {
 
     await this.prisma.user.update({
       where: { id: targetUserId },
-      data: { passwordHash: newHash },
+      data: { password_hash: newHash },
     });
 
     await this.prisma.refreshToken.deleteMany({
-      where: { userId: targetUserId },
+      where: { user_id: targetUserId },
     });
 
     this.logger.log(
@@ -441,8 +1104,10 @@ export class UsersService {
   }
 
   // Bulk Upload Users from CSV
-  async bulkImport(fileBuffer: Buffer, role: UserRole) {
+  async bulkImport(fileBuffer: Buffer, role: UserRole, creatorRole: UserRole) {
     const tenantId = this.cls.get<string>('tenantId');
+
+    assertCanAssignUserRole(creatorRole, role);
     const results: {
       success: { identifier: string; role: UserRole }[];
       failed: { row: number; reason: string }[];
@@ -467,7 +1132,7 @@ export class UsersService {
         }
 
         const existing = await this.prisma.user.findFirst({
-          where: { tenantId, identifier: row.identifier },
+          where: { tenant_id: tenantId, identifier: row.identifier },
         });
         if (existing) {
           results.failed.push({
@@ -482,23 +1147,13 @@ export class UsersService {
 
         await this.prisma.$transaction(async (tx) => {
           const identifier = row.identifier;
-          const staffRoles: UserRole[] = [
-            UserRole.COUNSELOR,
-            UserRole.LAB_ATTENDANT,
-            UserRole.NURSE,
-            UserRole.LIBRARIAN,
-            UserRole.BURSAR,
-            UserRole.SECURITY_OFFICER,
-            UserRole.SUPPORT_STAFF,
-            UserRole.OTHER,
-          ];
           const resolved =
             role === UserRole.STUDENT
               ? {
                   identifier,
                   matricNumber: row.matricNumber ?? identifier,
                 }
-              : role === UserRole.TEACHER || staffRoles.includes(role)
+              : role === UserRole.TEACHER || isNonTeachingStaffRole(role)
                 ? {
                     identifier,
                     employeeId: row.employeeId ?? identifier,
@@ -507,14 +1162,14 @@ export class UsersService {
 
           const user = await tx.user.create({
             data: {
-              tenantId: tenantId,
+              tenant_id: tenantId,
               role,
               identifier,
-              firstName: row.firstName,
-              lastName: row.lastName,
+              first_name: row.first_name,
+              last_name: row.last_name,
               email: row.email || null,
               phone: row.phone || null,
-              passwordHash: password,
+              password_hash: password,
               status: 'ACTIVE',
             },
           });
@@ -553,22 +1208,30 @@ export class UsersService {
   async getSchoolStats() {
     const tenantId = this.cls.get<string>('tenantId');
 
+    // TODO: Add performance metrics for each query
     // Count all roles in parallel
     const [
       studentCount,
       teacherCount,
       guardianCount,
       staffCount,
-      activeCount,
-      suspendedCount,
-      deletedCount,
+      classCount,
+      // activeCount,
+      // suspendedCount,
+      // deletedCount,
     ] = await Promise.all([
-      this.prisma.user.count({ where: { tenantId, role: UserRole.STUDENT } }),
-      this.prisma.user.count({ where: { tenantId, role: UserRole.TEACHER } }),
-      this.prisma.user.count({ where: { tenantId, role: UserRole.GUARDIAN } }),
+      this.prisma.user.count({
+        where: { tenant_id: tenantId, role: UserRole.STUDENT },
+      }),
+      this.prisma.user.count({
+        where: { tenant_id: tenantId, role: UserRole.TEACHER },
+      }),
+      this.prisma.user.count({
+        where: { tenant_id: tenantId, role: UserRole.GUARDIAN },
+      }),
       this.prisma.user.count({
         where: {
-          tenantId,
+          tenant_id: tenantId,
           role: {
             in: [
               UserRole.COUNSELOR,
@@ -578,19 +1241,24 @@ export class UsersService {
               UserRole.BURSAR,
               UserRole.SECURITY_OFFICER,
               UserRole.SUPPORT_STAFF,
+              UserRole.ADMINISTRATIVE_ASSISTANT,
+              UserRole.ADMINISTRATIVE_STAFF,
             ],
           },
         },
       }),
-      this.prisma.user.count({
-        where: { tenantId, status: UserStatus.ACTIVE },
+      this.prisma.class.count({
+        where: { tenant_id: tenantId },
       }),
-      this.prisma.user.count({
-        where: { tenantId, status: UserStatus.SUSPENDED },
-      }),
-      this.prisma.user.count({
-        where: { tenantId, status: UserStatus.DELETED },
-      }),
+      // this.prisma.user.count({
+      //   where: { tenant_id: tenantId, status: UserStatus.ACTIVE },
+      // }),
+      // this.prisma.user.count({
+      //   where: { tenant_id: tenantId, status: UserStatus.SUSPENDED },
+      // }),
+      // this.prisma.user.count({
+      //   where: { tenant_id: tenantId, status: UserStatus.DELETED },
+      // }),
     ]);
 
     return {
@@ -598,12 +1266,27 @@ export class UsersService {
       total_teachers: teacherCount,
       total_parents: guardianCount,
       total_staff: staffCount,
-      total_active: activeCount,
-      total_suspended: suspendedCount,
-      total_deleted: deletedCount,
-      total: studentCount + teacherCount + guardianCount + staffCount,
+      total_classes: classCount,
+      // total_active: activeCount,
+      // total_suspended: suspendedCount,
+      // total_deleted: deletedCount,
+      // total: studentCount + teacherCount + guardianCount + staffCount,
     };
   }
+
+  // // Get Class Distribution Statistics by Level
+  // async getClassDistributionStats() {
+  //   const tenantId = this.cls.get<string>('tenantId');
+  //   const [classCount, studentCount] = await Promise.all([
+  //     this.prisma.class.count({
+  //       where: { tenant_id: tenantId },
+  //     }),
+  //     this.prisma.studentProfile.count({
+  //       where: { tenant_id: tenantId },
+  //     }),
+  //   ]);
+  //   return { total_classes: classCount, total_students: studentCount };
+  // }
 
   /** Resolves User.identifier and optional matricNumber/employeeId; auto-generates when not provided (students/teachers/staff). */
   private async resolveIdentifierAndProfileCodes(
@@ -633,17 +1316,7 @@ export class UsersService {
       return { identifier: employeeId, employeeId };
     }
 
-    const staffRoles: UserRole[] = [
-      UserRole.COUNSELOR,
-      UserRole.LAB_ATTENDANT,
-      UserRole.NURSE,
-      UserRole.LIBRARIAN,
-      UserRole.BURSAR,
-      UserRole.SECURITY_OFFICER,
-      UserRole.SUPPORT_STAFF,
-      UserRole.OTHER,
-    ];
-    if (staffRoles.includes(dto.role)) {
+    if (isNonTeachingStaffRole(dto.role)) {
       const employeeId =
         dto.employee_id?.trim() ||
         dto.identifier?.trim() ||
@@ -651,12 +1324,23 @@ export class UsersService {
       return { identifier: employeeId, employeeId };
     }
 
-    // GUARDIAN: identifier required (validated in create())
-    const identifier = dto.identifier?.trim();
-    if (!identifier) {
-      throw new BadRequestException('identifier is required for guardians');
+    // GUARDIAN / PARENT: identifier required (validated in create())
+    if (dto.role === UserRole.GUARDIAN || dto.role === UserRole.PARENT) {
+      const identifier = dto.identifier?.trim();
+      if (!identifier) {
+        throw new BadRequestException(
+          'identifier is required for guardians and parents',
+        );
+      }
+      return { identifier };
     }
-    return { identifier };
+
+    // Other roles (e.g. school admin): require explicit identifier
+    const fallbackIdentifier = dto.identifier?.trim();
+    if (!fallbackIdentifier) {
+      throw new BadRequestException('identifier is required');
+    }
+    return { identifier: fallbackIdentifier };
   }
 
   /** Returns tenant initials (e.g. GFA) or slug when initials not set. Used for matric/employee ID prefixes. */
@@ -679,12 +1363,15 @@ export class UsersService {
     const year = new Date().getFullYear();
     const matricPrefix = `${prefix}/${year}/`;
     const last = await tx.studentProfile.findFirst({
-      where: { tenantId, matricNumber: { startsWith: matricPrefix } },
-      orderBy: { matricNumber: 'desc' },
-      select: { matricNumber: true },
+      where: {
+        tenant_id: tenantId,
+        matric_number: { startsWith: matricPrefix },
+      },
+      orderBy: { matric_number: 'desc' },
+      select: { matric_number: true },
     });
     const numPart = last
-      ? String(last.matricNumber).slice(matricPrefix.length)
+      ? String(last.matric_number).slice(matricPrefix.length)
       : '';
     const nextNum = numPart ? parseInt(numPart, 10) + 1 : 1;
     return `${matricPrefix}${String(nextNum).padStart(4, '0')}`;
@@ -698,11 +1385,13 @@ export class UsersService {
   ): Promise<string> {
     const empPrefix = `${prefix}/TCH/`;
     const last = await tx.teacherProfile.findFirst({
-      where: { tenantId, employeeId: { startsWith: empPrefix } },
-      orderBy: { employeeId: 'desc' },
-      select: { employeeId: true },
+      where: { tenant_id: tenantId, employee_id: { startsWith: empPrefix } },
+      orderBy: { employee_id: 'desc' },
+      select: { employee_id: true },
     });
-    const numPart = last ? String(last.employeeId).slice(empPrefix.length) : '';
+    const numPart = last
+      ? String(last.employee_id).slice(empPrefix.length)
+      : '';
     const nextNum = numPart ? parseInt(numPart, 10) + 1 : 1;
     return `${empPrefix}${String(nextNum).padStart(3, '0')}`;
   }
@@ -715,13 +1404,95 @@ export class UsersService {
   ): Promise<string> {
     const empPrefix = `${prefix}/EMP/`;
     const last = await tx.staffProfile.findFirst({
-      where: { tenantId, employeeId: { startsWith: empPrefix } },
-      orderBy: { employeeId: 'desc' },
-      select: { employeeId: true },
+      where: { tenant_id: tenantId, employee_id: { startsWith: empPrefix } },
+      orderBy: { employee_id: 'desc' },
+      select: { employee_id: true },
     });
-    const numPart = last ? String(last.employeeId).slice(empPrefix.length) : '';
+    const numPart = last
+      ? String(last.employee_id).slice(empPrefix.length)
+      : '';
     const nextNum = numPart ? parseInt(numPart, 10) + 1 : 1;
     return `${empPrefix}${String(nextNum).padStart(3, '0')}`;
+  }
+
+  /**
+   * Writes each student’s guardian_ids to this parent’s user id.
+   * At most one parent/guardian per student; throws if the student is already linked to someone else.
+   */
+  /**
+   * One department per teacher via `teacher_profiles.department_id`.
+   * HODs must keep their profile aligned with the department they head.
+   */
+  private async assertTeacherDepartmentUpdateAllowed(
+    userId: string,
+    tenantId: string,
+    newDepartmentId: string | null,
+  ): Promise<void> {
+    const hodDept = await this.prisma.department.findFirst({
+      where: { tenant_id: tenantId, hod_id: userId },
+      select: { id: true, name: true },
+    });
+
+    if (hodDept && newDepartmentId !== hodDept.id) {
+      throw new ConflictException(
+        `This user is head of department "${hodDept.name}". Their teacher profile must stay in that department, or remove them as HOD before changing department.`,
+      );
+    }
+  }
+
+  private async linkParentToStudentWards(
+    tx: Prisma.TransactionClient,
+    tenantId: string,
+    parentUserId: string,
+    wardIds: string[] | undefined,
+  ): Promise<void> {
+    if (!wardIds?.length) return;
+
+    const uniqueWardIds = [
+      ...new Set(wardIds.map((id) => id?.trim()).filter(Boolean)),
+    ] as string[];
+
+    for (const studentUserId of uniqueWardIds) {
+      const studentUser = await tx.user.findFirst({
+        where: {
+          id: studentUserId,
+          tenant_id: tenantId,
+          role: UserRole.STUDENT,
+        },
+        select: { id: true },
+      });
+      if (!studentUser) {
+        throw new BadRequestException(
+          `Ward "${studentUserId}" is not a student in this school.`,
+        );
+      }
+
+      const profile = await tx.studentProfile.findUnique({
+        where: { user_id: studentUserId },
+        select: { guardian_ids: true },
+      });
+      if (!profile) {
+        throw new BadRequestException(
+          `Student profile is missing for ward "${studentUserId}".`,
+        );
+      }
+
+      const current = profile.guardian_ids ?? [];
+      if (current.length === 0) {
+        await tx.studentProfile.update({
+          where: { user_id: studentUserId },
+          data: { guardian_ids: [parentUserId] },
+        });
+        continue;
+      }
+      if (current.length === 1 && current[0] === parentUserId) {
+        continue;
+      }
+
+      throw new ConflictException(
+        'Each student may have only one parent/guardian account; this student is already linked to another parent.',
+      );
+    }
   }
 
   // Creates the role-specific profile after creating the base user
@@ -740,14 +1511,17 @@ export class UsersService {
       case UserRole.STUDENT:
         await tx.studentProfile.create({
           data: {
-            userId,
-            tenantId,
-            matricNumber: resolved.matricNumber ?? resolved.identifier,
-            classId: dto.class_id ?? '',
-            admissionDate: dto.admission_date
+            user_id: userId,
+            tenant_id: tenantId,
+            matric_number: resolved.matricNumber ?? resolved.identifier,
+            class_id: dto.class_id ?? '',
+            admission_date: dto.admission_date
               ? new Date(dto.admission_date)
               : null,
-            dateOfBirth: dto.date_of_birth ? new Date(dto.date_of_birth) : null,
+            date_of_birth: dto.date_of_birth
+              ? new Date(dto.date_of_birth)
+              : null,
+            gender: dto.gender,
           },
         });
         break;
@@ -755,23 +1529,28 @@ export class UsersService {
       case UserRole.TEACHER:
         await tx.teacherProfile.create({
           data: {
-            userId,
-            tenantId,
-            employeeId: resolved.employeeId ?? resolved.identifier,
+            user_id: userId,
+            tenant_id: tenantId,
+            employee_id: resolved.employeeId ?? resolved.identifier,
             qualification: dto.qualification ?? null,
-            subjectIds: dto.subject_ids ?? [],
+            course_of_study: dto.course_of_study ?? null,
+            class_of_degree: dto.class_of_degree ?? null,
+            year_of_graduation:
+              dto.year_of_graduation ?? dto.graduation_date ?? null,
+            assigned_subject_ids: dto.subject_ids ?? [],
           },
         });
         break;
 
+      case UserRole.PARENT:
       case UserRole.GUARDIAN:
         await tx.guardianProfile.create({
           data: {
-            userId,
-            tenantId,
-            occupation: dto.occupation ?? '',
-            relationship: dto.relationship ?? '',
-            wardIds: dto.ward_ids ?? [],
+            user_id: userId,
+            tenant_id: tenantId,
+            occupation: dto.occupation?.trim() || null,
+            relationship: dto.relationship?.trim() || null,
+            ward_ids: dto.ward_ids ?? [],
           },
         });
         break;
@@ -783,13 +1562,22 @@ export class UsersService {
       case UserRole.BURSAR:
       case UserRole.SECURITY_OFFICER:
       case UserRole.SUPPORT_STAFF:
+      case UserRole.ADMINISTRATIVE_ASSISTANT:
+      case UserRole.ADMINISTRATIVE_STAFF:
       case UserRole.OTHER:
         await tx.staffProfile.create({
           data: {
-            userId,
-            tenantId,
-            employeeId: resolved.employeeId ?? resolved.identifier,
-            staffType: dto.staff_type ?? dto.role.toLowerCase(),
+            user_id: userId,
+            tenant_id: tenantId,
+            employee_id: resolved.employeeId ?? resolved.identifier,
+            staff_role: toNonTeachingStaffRole(dto.role),
+            qualification: dto.qualification ?? null,
+            course_of_study: dto.course_of_study ?? null,
+            class_of_degree: dto.class_of_degree ?? null,
+            year_of_graduation:
+              dto.year_of_graduation ?? dto.graduation_date ?? null,
+            date_joined: parseStaffDateJoined(dto),
+            gender: dto.gender,
           },
         });
         break;
