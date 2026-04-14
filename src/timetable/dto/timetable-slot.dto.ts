@@ -111,4 +111,14 @@ export class QueryTimetableDto {
   @IsEnum(DayOfWeek)
   @IsOptional()
   day_of_week?: DayOfWeek;
+
+  @ApiPropertyOptional({ description: 'Filter by term ID' })
+  @IsString()
+  @IsOptional()
+  term_id?: string;
+
+  @ApiPropertyOptional({ description: 'Filter by academic session ID' })
+  @IsString()
+  @IsOptional()
+  academic_session_id?: string;
 }

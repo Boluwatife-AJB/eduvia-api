@@ -263,20 +263,86 @@ export class TimetableService {
     return this.groupByDay(slots);
   }
 
-  // Get Entire timetable for a school
+  // Get entire timetable for a school
   async getSchoolTimetable(query: QueryTimetableDto) {
-    const tenantId = this.cls.get<string>('tenantId');
+    const tenantIdValue: unknown = this.cls.get('tenantId');
+    if (typeof tenantIdValue !== 'string' || !tenantIdValue) {
+      throw new BadRequestException('Tenant context is missing.');
+    }
+    const tenantId = tenantIdValue;
+    const queryFilters = query as Record<string, unknown>;
+    const requestedSessionId =
+      typeof queryFilters.academic_session_id === 'string'
+        ? queryFilters.academic_session_id
+        : undefined;
+    const requestedTermId =
+      typeof queryFilters.term_id === 'string'
+        ? queryFilters.term_id
+        : undefined;
+    const whereClause: {
+      tenant_id: string;
+      is_active: boolean;
+      academic_term_id?: string;
+      class_id?: string;
+      teacher_id?: string;
+      day_of_week?: DayOfWeek;
+      term?: {
+        academic_session_id: string;
+      };
+    } = {
+      tenant_id: tenantId,
+      is_active: true,
+    };
 
-    const currentTerm = await this.prisma.academicTerm.findFirst({
-      where: { tenant_id: tenantId, is_current: true },
-    });
-    if (!currentTerm) throw new ActiveTermRequiredException();
+    if (requestedTermId) {
+      const termWhere: {
+        id: string;
+        tenant_id: string;
+        academic_session_id?: string;
+      } = {
+        id: requestedTermId,
+        tenant_id: tenantId,
+      };
+      if (requestedSessionId) {
+        termWhere.academic_session_id = requestedSessionId;
+      }
+
+      const selectedTerm = await this.prisma.academicTerm.findFirst({
+        where: termWhere,
+        select: { id: true },
+      });
+
+      if (!selectedTerm) {
+        throw new BadRequestException(
+          'Invalid term_id or it does not belong to this school/session.',
+        );
+      }
+
+      whereClause.academic_term_id = selectedTerm.id;
+    } else if (requestedSessionId) {
+      const sessionExists = await this.prisma.academicSession.findFirst({
+        where: { id: requestedSessionId, tenant_id: tenantId },
+        select: { id: true },
+      });
+
+      if (!sessionExists) {
+        throw new BadRequestException(
+          'Invalid academic_session_id or it does not belong to this school.',
+        );
+      }
+
+      whereClause.term = { academic_session_id: requestedSessionId };
+    } else {
+      const currentTerm = await this.prisma.academicTerm.findFirst({
+        where: { tenant_id: tenantId, is_current: true },
+      });
+      if (!currentTerm) throw new ActiveTermRequiredException();
+      whereClause.academic_term_id = currentTerm.id;
+    }
 
     const slots = await this.prisma.timeTableSlot.findMany({
       where: {
-        tenant_id: tenantId,
-        academic_term_id: currentTerm.id,
-        is_active: true,
+        ...whereClause,
         ...(query.class_id && { class_id: query.class_id }),
         ...(query.teacher_id && { teacher_id: query.teacher_id }),
         ...(query.day_of_week && { day_of_week: query.day_of_week }),

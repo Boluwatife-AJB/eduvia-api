@@ -181,8 +181,8 @@ export class SchoolSetupService {
       where: { id: sessionId },
       data: {
         ...(dto.name && { name: dto.name }),
-        ...(dto.start_date && { startDate: new Date(dto.start_date) }),
-        ...(dto.end_date && { endDate: new Date(dto.end_date) }),
+        ...(dto.start_date && { start_date: new Date(dto.start_date) }),
+        ...(dto.end_date && { end_date: new Date(dto.end_date) }),
       },
       include: { terms: true },
     });
