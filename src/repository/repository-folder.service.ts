@@ -88,7 +88,7 @@ export class RepositoryFolderService {
         tenant_id: tenantId,
         scope: dto.scope,
         scope_id: dto.scope_id,
-        parent_folder_id: dto.parent_folder_id,
+        parent_folder_id: dto.parent_folder_id ?? null,
       },
       include: {
         children: {
