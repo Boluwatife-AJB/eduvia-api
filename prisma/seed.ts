@@ -37,10 +37,10 @@ async function main() {
     },
   });
 
-  console.log(`Tenant: ${tenant.name}`);
-  console.log(`ID: ${tenant.id}`);
-  console.log(`Slug: ${tenant.slug}`);
-  console.log(`Initials: ${tenant.initials ?? '(none)'}\n`);
+  // console.log(`Tenant: ${tenant.name}`);
+  // console.log(`ID: ${tenant.id}`);
+  // console.log(`Slug: ${tenant.slug}`);
+  // console.log(`Initials: ${tenant.initials ?? '(none)'}\n`);
 
   // Create a principal - School admin
   await prisma.user.upsert({

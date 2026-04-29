@@ -148,11 +148,17 @@ export class RepositoryFolderService {
       }),
     ]);
 
-    return {
-      folder,
-      subFolders,
+    const filesWithUploader = await this.hydrateUploadedByUsers(
       files,
-    };
+      tenantId,
+    );
+
+    return this.serializeBigInts({
+      folder,
+      sub_folders: subFolders,
+      // Include the mime_type to the file details instead of the version
+      files: filesWithUploader,
+    });
   }
 
   // Rename folder
@@ -192,7 +198,7 @@ export class RepositoryFolderService {
 
     return this.prisma.repositoryFolder.update({
       where: { id: folderId },
-      data: { name: dto.name },
+      data: { name: dto.name, updated_at: new Date() },
     });
   }
 
@@ -225,5 +231,152 @@ export class RepositoryFolderService {
     });
 
     return { message: 'Folder deleted successfully' };
+  }
+
+  private serializeBigInts<T>(value: T): T {
+    if (typeof value === 'bigint') {
+      return value.toString() as T;
+    }
+
+    if (value instanceof Date) {
+      return value.toISOString() as T;
+    }
+
+    if (Array.isArray(value)) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      return value.map((item) => this.serializeBigInts(item)) as T;
+    }
+
+    if (value && typeof value === 'object') {
+      const serialized = Object.entries(
+        value as Record<string, unknown>,
+      ).reduce(
+        (acc, [key, val]) => {
+          acc[key] = this.serializeBigInts(val);
+          return acc;
+        },
+        {} as Record<string, unknown>,
+      );
+
+      return serialized as T;
+    }
+
+    return value;
+  }
+
+  private async hydrateUploadedByUsers(
+    files: Array<{
+      uploaded_by: string;
+      versions?: Array<{ uploaded_by: string }>;
+      [key: string]: unknown;
+    }>,
+    tenantId: string,
+  ) {
+    const uploaderIds = new Set<string>();
+
+    files.forEach((file) => {
+      if (file.uploaded_by) uploaderIds.add(file.uploaded_by);
+      file.versions?.forEach((version) => {
+        if (version.uploaded_by) uploaderIds.add(version.uploaded_by);
+      });
+    });
+
+    if (uploaderIds.size === 0) return files;
+
+    const users = await this.prisma.user.findMany({
+      where: { tenant_id: tenantId, id: { in: [...uploaderIds] } },
+      select: {
+        id: true,
+        first_name: true,
+        last_name: true,
+        avatar: true,
+        student_profile: { select: { matric_number: true } },
+        teacher_profile: { select: { employee_id: true } },
+        staff_profile: { select: { employee_id: true } },
+      },
+    });
+
+    const userById = new Map(
+      users.map((entry) => [entry.id, this.formatUploadedBy(entry)]),
+    );
+
+    return files.map((file) => ({
+      ...file,
+      uploaded_by: this.fallbackUploadedBy(
+        userById.get(file.uploaded_by),
+        file.uploaded_by,
+      ),
+      versions: file.versions?.map((version) => ({
+        ...version,
+        uploaded_by: this.fallbackUploadedBy(
+          userById.get(version.uploaded_by),
+          version.uploaded_by,
+        ),
+      })),
+    }));
+  }
+
+  private fallbackUploadedBy(
+    uploadedBy:
+      | {
+          profile_img: string;
+          first_name: string;
+          last_name: string;
+          uuid: string;
+          matric_number?: string;
+          teacher_id?: string;
+          staff_id?: string;
+        }
+      | undefined,
+    uuid: string,
+  ) {
+    return (
+      uploadedBy ?? {
+        profile_img: '',
+        first_name: '',
+        last_name: '',
+        uuid,
+      }
+    );
+  }
+
+  private formatUploadedBy(user: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    avatar: string | null;
+    student_profile: { matric_number: string } | null;
+    teacher_profile: { employee_id: string } | null;
+    staff_profile: { employee_id: string } | null;
+  }) {
+    const base = {
+      profile_img: user.avatar ?? '',
+      first_name: user.first_name ?? '',
+      last_name: user.last_name ?? '',
+      uuid: user.id,
+    };
+
+    if (user.student_profile?.matric_number) {
+      return {
+        ...base,
+        matric_number: user.student_profile.matric_number,
+      };
+    }
+
+    if (user.teacher_profile?.employee_id) {
+      return {
+        ...base,
+        teacher_id: user.teacher_profile.employee_id,
+      };
+    }
+
+    if (user.staff_profile?.employee_id) {
+      return {
+        ...base,
+        staff_id: user.staff_profile.employee_id,
+      };
+    }
+
+    return base;
   }
 }

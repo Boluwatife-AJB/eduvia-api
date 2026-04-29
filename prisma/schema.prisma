@@ -543,6 +543,7 @@ model RepositoryFile {
   folder_id          String
   scope_id           String?
   scope              RepositoryScope
+  
   name               String
   description        String?
   tags               String[]        @default([])
@@ -597,6 +598,7 @@ model RepositoryShareLink {
   access_count     Int       @default(0)
   max_access_count Int?
   created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
 
   file RepositoryFile @relation(fields: [file_id], references: [id], onDelete: Cascade)
 

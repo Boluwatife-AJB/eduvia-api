@@ -127,6 +127,8 @@ export interface BulkPresignedUrlResult {
   files: BulkPresignedUrlResultItem[];
 }
 
+// TODO: Upload images to cloudinary
+
 @Injectable()
 export class UploadService {
   private readonly s3: S3Client;

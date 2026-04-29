@@ -213,6 +213,7 @@ export class RepositoryFileService {
           file_url: dto.file_url,
           mime_type: mimeType,
           file_size_bytes: fileSizeBytes,
+          // TODO: Replace this with the user first_name, last_name and the user_id
           uploaded_by: user.id,
           change_note: dto.change_note ?? null,
         },
@@ -220,7 +221,11 @@ export class RepositoryFileService {
 
       await tx.repositoryFile.update({
         where: { id: file.id },
-        data: { total_versions: nextVersion, current_version_id: version.id },
+        data: {
+          total_versions: nextVersion,
+          current_version_id: version.id,
+          updated_at: new Date(),
+        },
       });
     });
 
@@ -271,7 +276,9 @@ export class RepositoryFileService {
       }),
     );
 
-    return accessibleFiles.filter((file) => file !== null);
+    return this.serializeBigInts(
+      accessibleFiles.filter((file) => file !== null),
+    );
   }
 
   // Get one file
@@ -307,7 +314,7 @@ export class RepositoryFileService {
       await this.logAccess(file.id, tenantId, user.id, 'VIEW', req);
     }
 
-    return file;
+    return this.serializeBigInts(file);
   }
 
   // Get version history
@@ -318,10 +325,12 @@ export class RepositoryFileService {
     const tenantId = this.cls.get<string>('tenantId');
     await this.findOne(fileId, user);
 
-    return this.prisma.repositoryFileVersion.findMany({
+    const versions = await this.prisma.repositoryFileVersion.findMany({
       where: { file_id: fileId, tenant_id: tenantId },
       orderBy: { version_number: 'desc' },
     });
+
+    return this.serializeBigInts(versions);
   }
 
   // Delete a specific old version
@@ -377,6 +386,7 @@ export class RepositoryFileService {
         ...(dto.expires_at !== undefined && {
           expires_at: new Date(dto.expires_at),
         }),
+        updated_at: new Date(),
       },
     });
   }
@@ -406,7 +416,7 @@ export class RepositoryFileService {
 
     await this.prisma.repositoryFile.update({
       where: { id: fileId },
-      data: { status: FileStatus.ARCHIVED },
+      data: { status: FileStatus.ARCHIVED, updated_at: new Date() },
     });
 
     await this.logAccess(fileId, tenantId, user.id, 'ARCHIVE');
@@ -488,6 +498,8 @@ export class RepositoryFileService {
         created_by: user.id,
         expires_at: expiresAt,
         max_access_count: dto.max_access ?? null,
+        created_at: new Date(),
+        // updated_at: new Date(),
       },
     });
 
@@ -511,6 +523,8 @@ export class RepositoryFileService {
           include: {
             versions: { orderBy: { version_number: 'desc' }, take: 1 },
           },
+          // created_at: true,
+          // updated_at: true,
         },
       },
     });
@@ -595,5 +609,36 @@ export class RepositoryFileService {
         user_agent: req?.headers['user-agent'] ?? '',
       },
     });
+  }
+
+  private serializeBigInts<T>(value: T): T {
+    if (typeof value === 'bigint') {
+      return value.toString() as T;
+    }
+
+    if (value instanceof Date) {
+      return value.toISOString() as T;
+    }
+
+    if (Array.isArray(value)) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      return value.map((item) => this.serializeBigInts(item)) as T;
+    }
+
+    if (value && typeof value === 'object') {
+      const serialized = Object.entries(
+        value as Record<string, unknown>,
+      ).reduce(
+        (acc, [key, val]) => {
+          acc[key] = this.serializeBigInts(val);
+          return acc;
+        },
+        {} as Record<string, unknown>,
+      );
+
+      return serialized as T;
+    }
+
+    return value;
   }
 }
