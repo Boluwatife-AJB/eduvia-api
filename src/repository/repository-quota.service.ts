@@ -75,15 +75,19 @@ export class RepositoryQuotaService {
     const usedGB = Number(storage.used_bytes) / (1024 * 1024 * 1024);
     const quotaGB = Number(storage.quota_bytes) / (1024 * 1024 * 1024);
 
+    // TODO: Ensure that the used_gb is not greater than the quota_gb or less than 0
+
+    // console.log(usedGB, quotaGB);
+
     return {
       plan: storage.plan,
       used_bytes: storage.used_bytes.toString(),
       quota_bytes: storage.quota_bytes.toString(),
-      usedGB: Math.round(usedGB * 100) / 100,
-      quotaGB: Math.round(quotaGB * 100) / 100,
-      usedPercent: Math.round((usedGB / quotaGB) * 100),
-      isWarning: usedGB / quotaGB >= WARNING_THRESHOLD,
-      isCritical: usedGB / quotaGB >= CRITICAL_THRESHOLD,
+      used_gb: Math.round(usedGB * 100) / 100,
+      quota_gb: Math.round(quotaGB * 100) / 100,
+      used_percent: Math.round((usedGB / quotaGB) * 100),
+      is_warning: usedGB / quotaGB >= WARNING_THRESHOLD,
+      is_critical: usedGB / quotaGB >= CRITICAL_THRESHOLD,
     };
   }
 
@@ -97,15 +101,15 @@ export class RepositoryQuotaService {
     const breakdown: Record<string, number> = {};
 
     for (const version of files) {
-      const scope = version.file.scope;
+      const scope = version.file?.scope || 'OTHER';
       breakdown[scope] =
         (breakdown[scope] ?? 0) + Number(version.file_size_bytes);
     }
 
     return Object.entries(breakdown).map(([scope, bytes]) => ({
       scope,
-      usedBytes: bytes.toString(),
-      usedMB: Math.round((bytes / (1024 * 1024)) * 100) / 100,
+      used_bytes: bytes.toString(),
+      used_mb: Math.round((bytes / (1024 * 1024)) * 100) / 100,
     }));
   }
 

@@ -213,8 +213,10 @@ export class RepositoryController {
   // STORAGE
   @Get('storage/usage')
   @ApiOperation({ summary: 'Get school storage quota and usage summary' })
-  getStorageUsage(@CurrentUser() user: { id: string; role: UserRole }) {
-    const tenantId = user.id; // CLS provides this in service
+  getStorageUsage(
+    @CurrentUser() user: { id: string; role: UserRole; tenant_id: string },
+  ) {
+    const tenantId = user.tenant_id;
     return this.quotaService.getUsageSummary(tenantId);
   }
 
@@ -222,8 +224,10 @@ export class RepositoryController {
   @ApiOperation({
     summary: 'Get storage usage broken down by repository scope',
   })
-  getStorageBreakdown(@CurrentUser() user: { id: string; role: UserRole }) {
-    const tenantId = user.id;
+  getStorageBreakdown(
+    @CurrentUser() user: { id: string; role: UserRole; tenant_id: string },
+  ) {
+    const tenantId = user.tenant_id;
     return this.quotaService.getUsageBreakdown(tenantId);
   }
 }
