@@ -129,7 +129,7 @@ export class CreateAssessmentDto {
   })
   @IsString()
   @IsOptional()
-  termId?: string;
+  term_id?: string;
 
   @ApiPropertyOptional({ example: '2025-06-10T09:00:00.000Z' })
   @IsDateString()

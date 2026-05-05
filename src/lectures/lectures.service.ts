@@ -52,6 +52,7 @@ export class LecturesService {
     private readonly uploadService: UploadService,
   ) {}
 
+  // TODO: When creating a lecture and a file is uploaded, the file should be stored in the repository (This should be placed in the class folder > lectures > subject folder)
   // Create lecture
   async createLecture(teacherUserId: string, dto: CreateLectureDto) {
     const tenantId = this.cls.get<string>('tenantId');

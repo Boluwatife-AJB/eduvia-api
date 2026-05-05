@@ -46,10 +46,15 @@ export class AssessmentService {
     const tenantId = this.cls.get<string>('tenantId');
     await this.schoolConfig.getConfig(tenantId);
 
-    const { questions, teacher_id, termId, ...assessmentFields } = dto;
+    const {
+      questions,
+      teacher_id,
+      term_id: dtoTermId,
+      ...assessmentFields
+    } = dto;
     void teacher_id;
 
-    let term_id = termId;
+    let term_id = dtoTermId;
     if (!term_id) {
       const currentTerm = await this.prisma.academicTerm.findFirst({
         where: { tenant_id: tenantId, is_current: true },
@@ -65,6 +70,7 @@ export class AssessmentService {
       await this.schoolConfig.validateExamWeightConfig(tenantId);
     }
 
+    // TODO: Teacher should be able to upload an image
     const assessment = await this.prisma.assessment.create({
       data: {
         ...assessmentFields,
