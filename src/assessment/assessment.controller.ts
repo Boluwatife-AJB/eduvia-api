@@ -11,7 +11,12 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { AssessmentService } from './assessment.service';
@@ -56,6 +61,21 @@ export class AssessmentController {
   @Get()
   @ApiOperation({
     summary: 'List assessments — teachers see their own, admins see all',
+  })
+  @ApiQuery({
+    name: 'classId',
+    required: false,
+    description: 'Optional class filter',
+  })
+  @ApiQuery({
+    name: 'subjectId',
+    required: false,
+    description: 'Optional subject filter',
+  })
+  @ApiQuery({
+    name: 'status',
+    required: false,
+    description: 'Optional assessment status filter',
   })
   findAll(
     @CurrentUser() user: { id: string; role: UserRole },

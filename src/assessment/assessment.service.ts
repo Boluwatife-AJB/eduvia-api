@@ -264,7 +264,7 @@ export class AssessmentService {
     const tenantId = this.cls.get<string>('tenantId');
     const isTeacher = user.role === UserRole.TEACHER;
 
-    return this.prisma.assessment.findMany({
+    const assessments = await this.prisma.assessment.findMany({
       where: {
         tenant_id: tenantId,
         ...(isTeacher && { teacher_id: { has: user.id } }),
@@ -283,6 +283,52 @@ export class AssessmentService {
         },
       },
       orderBy: { created_at: 'desc' },
+    });
+
+    // Convert Prisma's camelCase count keys and denormalized teacher_id (user id strings)
+    // into the response shape expected by the client.
+    if (assessments.length === 0) return assessments;
+
+    const teacherUserIds = [
+      ...new Set(assessments.flatMap((a) => a.teacher_id ?? [])),
+    ];
+
+    const teacherUsers = await this.prisma.user.findMany({
+      where: {
+        tenant_id: tenantId,
+        id: { in: teacherUserIds },
+      },
+      select: {
+        id: true,
+        first_name: true,
+        last_name: true,
+        avatar: true,
+      },
+    });
+
+    const teacherUserById = new Map(teacherUsers.map((u) => [u.id, u]));
+
+    return assessments.map((assessment) => {
+      const { _count, teacher_id, ...rest } = assessment;
+
+      const teacherProfiles = (teacher_id ?? [])
+        .map((userId) => teacherUserById.get(userId))
+        .filter((u): u is (typeof teacherUsers)[number] => Boolean(u))
+        .map((u) => ({
+          first_name: u.first_name,
+          last_name: u.last_name,
+          user_id: u.id,
+          profile_img: u.avatar,
+        }));
+
+      return {
+        ...rest,
+        teacher: teacherProfiles,
+        _count: {
+          assessment_questions: _count.assessmentQuestions,
+          assessment_submissions: _count.assessmentSubmissions,
+        },
+      };
     });
   }
 

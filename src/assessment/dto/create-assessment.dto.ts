@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   ArrayMinSize,
   IsArray,
@@ -73,6 +73,9 @@ export class CreateQuestionDto {
       'Required for fill in the blank questions. Array of accepted answers to the question',
     example: ['Abuja', 'abuja', 'aBuja'],
   })
+  @Transform(({ value }: { value: unknown }) =>
+    value === '' || value === null ? undefined : value,
+  )
   @IsArray()
   @IsOptional()
   accepted_answers?: string[];

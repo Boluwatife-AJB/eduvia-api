@@ -79,8 +79,11 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       };
     }
 
-    // Validation pipe error
-    if (exception instanceof HttpException && exception.getStatus() === 400) {
+    // Validation pipe error (Nest default uses 400; our pipe uses 422)
+    if (
+      exception instanceof HttpException &&
+      (exception.getStatus() === 400 || exception.getStatus() === 422)
+    ) {
       const response = exception.getResponse() as Record<string, unknown>;
 
       if (Array.isArray(response?.message)) {

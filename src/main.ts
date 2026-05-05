@@ -4,6 +4,17 @@ import helmet from 'helmet';
 // import * as compression from 'compression';
 import { HttpException, Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationError } from 'class-validator';
+
+function flattenValidationErrors(errors: ValidationError[]): string[] {
+  return errors.flatMap((e) => {
+    const own = Object.values(e.constraints ?? {});
+    if (e.children?.length) {
+      return [...own, ...flattenValidationErrors(e.children)];
+    }
+    return own;
+  });
+}
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
@@ -40,9 +51,7 @@ async function bootstrap() {
         enableImplicitConversion: true,
       },
       exceptionFactory: (errors) => {
-        const messages = errors.flatMap((e) =>
-          Object.values(e.constraints ?? {}),
-        );
+        const messages = flattenValidationErrors(errors);
         const err = new HttpException(
           { message: messages, error: 'Validation Error' },
           422,
