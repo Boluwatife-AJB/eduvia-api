@@ -93,8 +93,11 @@ export class AssessmentController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get assessment detail' })
-  findOne(@Param('id') id: string) {
-    return this.assessmentService.findOne(id);
+  findOne(
+    @Param('id') id: string,
+    @CurrentUser() user: { id: string; role: UserRole },
+  ) {
+    return this.assessmentService.findOne(id, user.role);
   }
 
   @Put(':id')

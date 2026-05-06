@@ -9,6 +9,7 @@ import { ApprovalWorkflowService } from 'src/approval/approval-workflow.service'
 import { PrismaService } from 'src/database/prisma.service';
 import {
   Assessment,
+  AssessmentQuestion,
   AssessmentStatus,
   AssessmentType,
   QuestionType,
@@ -85,6 +86,12 @@ export class AssessmentService {
       },
     });
 
+    const autoGradableTypes: QuestionType[] = [
+      QuestionType.MULTIPLE_CHOICE,
+      QuestionType.TRUE_FALSE,
+      QuestionType.FILL_IN_THE_BLANK,
+    ];
+
     // Create questions in bulk
     await this.prisma.assessmentQuestion.createMany({
       data: questions.map((question, index) => ({
@@ -93,15 +100,11 @@ export class AssessmentService {
         assessment_id: assessment.id,
         options: question.options?.map((opt) => ({ ...opt })),
         order: index + 1,
-        is_auto_gradable: [
-          QuestionType.MULTIPLE_CHOICE,
-          QuestionType.TRUE_FALSE,
-          QuestionType.FILL_IN_THE_BLANK,
-        ].includes(question.type as any),
+        is_auto_gradable: autoGradableTypes.includes(question.type),
       })),
     });
 
-    return this.findOne(assessment.id);
+    return this.findOne(assessment.id, UserRole.TEACHER);
   }
 
   // Publish assessment
@@ -470,7 +473,7 @@ export class AssessmentService {
     return assessment;
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, viewerRole?: UserRole) {
     const tenantId = this.cls.get<string>('tenantId');
     const assessment = await this.findOneInternal(id);
 
@@ -498,16 +501,52 @@ export class AssessmentService {
         profile_img: u.avatar,
       }));
 
-    const rest = { ...assessment };
-    delete (rest as { teacher_id?: string[] }).teacher_id;
+    const { teacher_id, assessmentQuestions, ...rest } = assessment;
+    void teacher_id;
+
+    const assessmentQuestionsForViewer =
+      viewerRole === UserRole.STUDENT
+        ? this.redactQuestionAnswersFromStudent(assessmentQuestions)
+        : assessmentQuestions;
 
     return {
       ...rest,
+      assessmentQuestions: assessmentQuestionsForViewer,
       teacher,
       _count: {
         assessment_submissions: assessment._count.assessmentSubmissions,
       },
     };
+  }
+
+  /** Omits keyed answers and correctness flags MCQ/T-F options carry. */
+  private redactQuestionAnswersFromStudent(questions: AssessmentQuestion[]) {
+    return questions.map((q) => {
+      const { correct_answer, accepted_answers, options, ...rest } = q;
+      void correct_answer;
+      void accepted_answers;
+
+      let safeOptions = options;
+      if (Array.isArray(options)) {
+        safeOptions = options.map((item) => {
+          if (
+            item !== null &&
+            typeof item === 'object' &&
+            !Array.isArray(item) &&
+            'is_correct' in item
+          ) {
+            const clone = {
+              ...(item as Record<string, unknown>),
+            } as Record<string, unknown>;
+            delete clone.is_correct;
+            return clone;
+          }
+          return item;
+        }) as AssessmentQuestion['options'];
+      }
+
+      return { ...rest, options: safeOptions };
+    });
   }
 
   // Auto-save for long exams
