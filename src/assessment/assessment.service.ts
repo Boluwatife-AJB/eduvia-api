@@ -91,6 +91,7 @@ export class AssessmentService {
         ...question,
         tenant_id: tenantId,
         assessment_id: assessment.id,
+        options: question.options?.map((opt) => ({ ...opt })),
         order: index + 1,
         is_auto_gradable: [
           QuestionType.MULTIPLE_CHOICE,
@@ -106,7 +107,7 @@ export class AssessmentService {
   // Publish assessment
   async publish(assessmentId: string, teacherUserId: string) {
     const tenantId = this.cls.get<string>('tenantId');
-    const assessment = await this.findOne(assessmentId);
+    const assessment = await this.findOneInternal(assessmentId);
     const schoolConfig = await this.schoolConfig.getConfig(tenantId);
 
     this.assertTeacherOwns(assessment, teacherUserId);
@@ -136,7 +137,7 @@ export class AssessmentService {
   // Start submission
   async startSubmission(assessmentId: string, studentId: string) {
     const tenantId = this.cls.get<string>('tenantId');
-    const assessment = await this.findOne(assessmentId);
+    const assessment = await this.findOneInternal(assessmentId);
 
     // Validate assessment is within its time window
     this.validateTimeWindow(assessment);
@@ -200,7 +201,7 @@ export class AssessmentService {
     answers: SubmitAnswerItemDto[],
   ) {
     const submission = await this.getActiveSubmission(submissionId, studentId);
-    const assessment = await this.findOne(submission.assessment_id);
+    const assessment = await this.findOneInternal(submission.assessment_id);
 
     // Check if submission is late
     const isLate = assessment.end_time
@@ -333,7 +334,7 @@ export class AssessmentService {
   }
 
   async update(id: string, dto: UpdateAssessmentDto, teacherUserId: string) {
-    const assessment = await this.findOne(id);
+    const assessment = await this.findOneInternal(id);
     this.assertTeacherOwns(assessment, teacherUserId);
     this.assertDraftStatus(assessment);
 
@@ -344,7 +345,7 @@ export class AssessmentService {
   }
 
   async remove(id: string, teacherUserId: string) {
-    const assessment = await this.findOne(id);
+    const assessment = await this.findOneInternal(id);
     this.assertTeacherOwns(assessment, teacherUserId);
     this.assertDraftStatus(assessment);
 
@@ -448,7 +449,7 @@ export class AssessmentService {
     return submission;
   }
 
-  async findOne(id: string) {
+  private async findOneInternal(id: string) {
     const tenantId = this.cls.get<string>('tenantId');
 
     const assessment = await this.prisma.assessment.findFirst({
@@ -467,6 +468,46 @@ export class AssessmentService {
     }
 
     return assessment;
+  }
+
+  async findOne(id: string) {
+    const tenantId = this.cls.get<string>('tenantId');
+    const assessment = await this.findOneInternal(id);
+
+    const teacherUsers = await this.prisma.user.findMany({
+      where: {
+        tenant_id: tenantId,
+        id: { in: assessment.teacher_id },
+      },
+      select: {
+        id: true,
+        first_name: true,
+        last_name: true,
+        avatar: true,
+      },
+    });
+
+    const teacherById = new Map(teacherUsers.map((u) => [u.id, u]));
+    const teacher = (assessment.teacher_id ?? [])
+      .map((teacherId) => teacherById.get(teacherId))
+      .filter((u): u is (typeof teacherUsers)[number] => Boolean(u))
+      .map((u) => ({
+        id: u.id,
+        first_name: u.first_name,
+        last_name: u.last_name,
+        profile_img: u.avatar,
+      }));
+
+    const rest = { ...assessment };
+    delete (rest as { teacher_id?: string[] }).teacher_id;
+
+    return {
+      ...rest,
+      teacher,
+      _count: {
+        assessment_submissions: assessment._count.assessmentSubmissions,
+      },
+    };
   }
 
   // Auto-save for long exams
